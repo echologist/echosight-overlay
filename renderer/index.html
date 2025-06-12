@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Echosight</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: rgba(0, 0, 0, 0.9);
+      color: #ffffff;
+      padding: 0;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    .overlay-container {
+      width: 100%;
+      height: 100vh;
+      border: 2px solid #d4af37;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .overlay-container.interactive {
+      border-color: #32cd32;
+      box-shadow: 0 0 10px rgba(50, 205, 50, 0.5);
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .overlay-container.click-through {
+      opacity: 0.25;
+      border-color: #666;
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .overlay-container.click-through .header {
+      background: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(160, 82, 45, 0.3));
+    }
+
+    .overlay-container.click-through .header {
+      display: none;
+    }
+
+    .overlay-container.click-through .template-section {
+      display: none;
+    }
+
+    .overlay-container.click-through .task-input-container {
+      display: none;
+    }
+
+    .overlay-container.click-through .header-buttons {
+      display: none;
+    }
+
+    .overlay-container.click-through .task-delete {
+      display: none;
+    }
+
+    .overlay-container.click-through .task-checkbox {
+      pointer-events: none;
+    }
+
+    .overlay-container.click-through {
+      border: none;
+      border-radius: 4px;
+    }
+
+    .overlay-container.click-through .tasks-section {
+      padding: 8px;
+      position: relative;
+    }
+
+    .overlay-container.click-through .tasks-section::before {
+      content: "Ctrl+Shift+I to edit";
+      position: absolute;
+      top: -2px;
+      right: 2px;
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.4);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .overlay-container.click-through:hover .tasks-section::before {
+      opacity: 1;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #8b4513, #a0522d);
+      padding: 12px;
+      border-bottom: 1px solid #d4af37;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h2 {
+      color: #d4af37;
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .header-btn {
+      background: rgba(212, 175, 55, 0.8);
+      border: none;
+      border-radius: 3px;
+      color: black;
+      font-size: 12px;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .header-btn:hover {
+      background: rgba(212, 175, 55, 1);
+    }
+
+    .header-btn.close {
+      background: rgba(220, 20, 60, 0.8);
+    }
+
+    .header-btn.close:hover {
+      background: rgba(220, 20, 60, 1);
+    }
+
+    .template-section {
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .template-controls {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .template-btn {
+      background: #4169e1;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .template-btn:hover {
+      background: #5179f1;
+    }
+
+    .template-btn.danger {
+      background: #dc143c;
+    }
+
+    .template-btn.danger:hover {
+      background: #e6244c;
+    }
+
+    .template-select {
+      background: #333;
+      border: 1px solid #555;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .tasks-section {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    .task-input-container {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+
+    .task-input {
+      flex: 1;
+      background: #333;
+      border: 1px solid #555;
+      color: white;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .task-input:focus {
+      outline: none;
+      border-color: #d4af37;
+    }
+
+    .add-btn {
+      background: #32cd32;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .add-btn:hover {
+      background: #3de63d;
+    }
+
+    .task-list {
+      list-style: none;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #333;
+      gap: 10px;
+    }
+
+    .task-item:last-child {
+      border-bottom: none;
+    }
+
+    .task-checkbox {
+      width: 16px;
+      height: 16px;
+      accent-color: #d4af37;
+      cursor: pointer;
+    }
+
+    .task-text {
+      flex: 1;
+      font-size: 13px;
+      line-height: 1.4;
+      transition: all 0.3s ease;
+    }
+
+    .task-text.completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+      color: #888;
+    }
+
+    .task-delete {
+      background: #dc143c;
+      border: none;
+      border-radius: 3px;
+      color: white;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 11px;
+      opacity: 0.7;
+    }
+
+    .task-delete:hover {
+      opacity: 1;
+    }
+
+    .progress-bar {
+      margin: 10px 0;
+      height: 6px;
+      background: #333;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #32cd32, #d4af37);
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      font-size: 12px;
+      text-align: center;
+      color: #ccc;
+      margin-top: 5px;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #222;
+      border: 2px solid #d4af37;
+      border-radius: 8px;
+      padding: 20px;
+      width: 90%;
+      max-width: 300px;
+    }
+
+    .modal-title {
+      color: #d4af37;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    .modal-input {
+      width: 100%;
+      background: #333;
+      border: 1px solid #555;
+      color: white;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .modal-btn.primary {
+      background: #4169e1;
+      color: white;
+    }
+
+    .modal-btn.secondary {
+      background: #666;
+      color: white;
+    }
+
+    .community-template {
+      border: 1px solid #555;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+      background: rgba(0,0,0,0.3);
+    }
+
+    .community-template h4 {
+      color: #d4af37;
+      margin: 0 0 8px 0;
+      font-size: 14px;
+    }
+
+    .community-template p {
+      margin: 0 0 8px 0;
+      font-size: 12px;
+    }
+
+    .community-template .description {
+      color: #ccc;
+      font-style: italic;
+    }
+
+    .community-template .task-count {
+      color: #aaa;
+      font-size: 11px;
+    }
+
+    /* Scrollbar styling */
+    .tasks-section::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .tasks-section::-webkit-scrollbar-track {
+      background: #333;
+    }
+
+    .tasks-section::-webkit-scrollbar-thumb {
+      background: #666;
+      border-radius: 3px;
+    }
+
+    .tasks-section::-webkit-scrollbar-thumb:hover {
+      background: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay-container" id="overlayContainer">
+    <!-- Header -->
+    <div class="header" id="header">
+      <h2>Echosight <span id="shortcut-hint" style="font-size: 10px; opacity: 0.7;">(Ctrl+Shift+I to interact)</span></h2>
+      <div class="header-buttons">
+        <button class="header-btn" onclick="showSettingsModal()" title="Settings">⚙</button>
+        <button class="header-btn" onclick="minimizeOverlay()" title="Hide overlay">−</button>
+        <button class="header-btn close" onclick="closeOverlay()" title="Quit application">×</button>
+      </div>
+    </div>
+
+    <!-- Template Section -->
+    <div class="template-section">
+      <div class="template-controls">
+        <select class="template-select" id="templateSelect">
+          <option value="">Select Template...</option>
+        </select>
+        <button class="template-btn" onclick="loadTemplate()">Load</button>
+        <button class="template-btn" onclick="showSaveTemplateModal()">Save</button>
+        <button class="template-btn" onclick="exportTemplate()">Export</button>
+        <button class="template-btn" onclick="showImportModal()">Import</button>
+        <button class="template-btn danger" onclick="deleteTemplate()">Delete</button>
+        <button class="template-btn danger" onclick="clearAllTasks()">Clear All</button>
+      </div>
+      <div class="template-controls">
+        <button class="template-btn" onclick="loadCommunityTemplates()" style="background: #32cd32;">Community Templates</button>
+        <button class="template-btn" onclick="toggleInteractiveMode()" id="interactiveToggle" style="background: #666;">Click-Through Mode</button>
+      </div>
+    </div>
+
+    <!-- Tasks Section -->
+    <div class="tasks-section">
+      <!-- Add Task Input -->
+      <div class="task-input-container">
+        <input type="text" class="task-input" id="taskInput" placeholder="Add new task..." maxlength="100">
+        <button class="add-btn" onclick="addTask()">Add</button>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+      <div class="progress-text" id="progressText">0 / 0 tasks completed</div>
+
+      <!-- Task List -->
+      <ul class="task-list" id="taskList">
+      </ul>
+    </div>
+  </div>
+
+  <!-- Save Template Modal -->
+  <div class="modal" id="saveTemplateModal">
+    <div class="modal-content">
+      <h3 class="modal-title">Save Template</h3>
+      <input type="text" class="modal-input" id="templateNameInput" placeholder="Template name..." maxlength="50">
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" onclick="closeSaveTemplateModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="saveTemplate()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Template Modal -->
+  <div class="modal" id="importTemplateModal">
+    <div class="modal-content" style="max-width: 400px;">
+      <h3 class="modal-title">Import Template</h3>
+      <textarea class="modal-input" id="importTemplateInput" placeholder="Paste template JSON or share code here..." rows="8" style="resize: vertical; font-family: monospace; font-size: 12px;"></textarea>
+      <div style="margin-bottom: 10px;">
+        <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+        <button class="modal-btn secondary" onclick="document.getElementById('importFileInput').click()">Choose File</button>
+        <span style="font-size: 12px; margin-left: 10px;">JSON file, JSON text, or share code</span>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" onclick="closeImportModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="importTemplate()">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Community Templates Modal -->
+  <div class="modal" id="communityTemplatesModal">
+    <div class="modal-content" style="max-width: 500px; max-height: 80vh; overflow-y: auto;">
+      <h3 class="modal-title">Community Templates</h3>
+      <div id="communityTemplatesList"></div>
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" onclick="closeCommunityModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal" id="settingsModal">
+    <div class="modal-content" style="max-width: 450px;">
+      <h3 class="modal-title">Settings</h3>
+      
+      <!-- Transparency Settings -->
+      <div style="margin-bottom: 20px;">
+        <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 14px;">Appearance</h4>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-size: 12px;">Click-Through Transparency:</label>
+          <input type="range" id="transparencySlider" min="10" max="70" value="25" 
+                 style="width: 100%;" oninput="updateTransparency(this.value)">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #aaa;">
+            <span>More Transparent</span>
+            <span id="transparencyValue">25% visible</span>
+            <span>More Solid</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+          <label style="display: block; margin-bottom: 5px; font-size: 12px;">Background Style:</label>
+          <select id="backgroundSelect" class="modal-input" style="margin-bottom: 0;" onchange="updateBackgroundColor(this.value)">
+            <option value="dark">Dark (Default)</option>
+            <option value="light">Light/White</option>
+            <option value="none">Transparent (Text Only)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Hotkey Settings -->
+      <div style="margin-bottom: 20px;">
+        <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 14px;">Hotkeys</h4>
+        
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; margin-bottom: 4px; font-size: 12px;">Toggle Overlay Visibility:</label>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="text" id="toggleVisibilityHotkey" class="modal-input" placeholder="Click Record and press keys" 
+                   style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
+            <button class="modal-btn secondary" onclick="recordHotkey('toggleVisibility')" id="recordBtn1" style="font-size: 11px; padding: 4px 8px;">
+              Record
+            </button>
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; margin-bottom: 4px; font-size: 12px;">Toggle Interactive Mode:</label>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="text" id="toggleInteractiveHotkey" class="modal-input" placeholder="Click Record and press keys" 
+                   style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
+            <button class="modal-btn secondary" onclick="recordHotkey('toggleInteractive')" id="recordBtn2" style="font-size: 11px; padding: 4px 8px;">
+              Record
+            </button>
+          </div>
+        </div>
+        
+        <div style="font-size: 11px; color: #aaa; margin-top: 8px;">
+          Click "Record" and press your desired key combination.<br>
+          <strong>Avoid single letter keys (like Shift+I) to prevent typing conflicts!</strong><br>
+          Good examples: Ctrl+F1, Alt+Q, Ctrl+Shift+T<br>
+          Changes take effect after restarting the overlay.<br>
+          <button class="modal-btn secondary" onclick="resetHotkeys()" style="font-size: 10px; padding: 3px 8px; margin-top: 5px;">
+            Reset to Defaults
+          </button>
+        </div>
+      </div>
+
+      <!-- Position Settings -->
+      <div style="margin-bottom: 20px;">
+        <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 14px;">Position</h4>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="modal-btn secondary" onclick="resetPosition()" style="font-size: 12px; padding: 6px 12px;">
+            Reset to Top-Right
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" onclick="closeSettingsModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="saveSettings()">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+    
+    let tasks = [];
+    let templates = [];
+    let currentTemplate = null;
+    let isInteractiveMode = false;
+    let settings = {
+      transparency: 60,
+      hotkeys: {
+        toggleVisibility: 'Ctrl+Shift+T',
+        toggleInteractive: 'Ctrl+Shift+I'
+      }
+    }
+
+    function resetHotkeys() {
+      if (confirm('Reset hotkeys to default values (Ctrl+Shift+T and Ctrl+Shift+I)?')) {
+        settings.hotkeys.toggleVisibility = 'Ctrl+Shift+T';
+        settings.hotkeys.toggleInteractive = 'Ctrl+Shift+I';
+        
+        // Update the input fields
+        document.getElementById('toggleVisibilityHotkey').value = 'Ctrl+Shift+T';
+        document.getElementById('toggleInteractiveHotkey').value = 'Ctrl+Shift+I';
+        
+        alert('Hotkeys reset to defaults. Click "Save Settings" to apply.');
+      }
+    }
+
+    // Settings Management
+    function showSettingsModal() {
+      document.getElementById('settingsModal').style.display = 'flex';
+      
+      // Load current settings into the modal
+      document.getElementById('transparencySlider').value = settings.transparency;
+      document.getElementById('transparencyValue').textContent = settings.transparency + '% visible';
+      document.getElementById('backgroundSelect').value = settings.backgroundColor;
+      document.getElementById('toggleVisibilityHotkey').value = settings.hotkeys.toggleVisibility;
+      document.getElementById('toggleInteractiveHotkey').value = settings.hotkeys.toggleInteractive;
+    }
+
+    function closeSettingsModal() {
+      // Stop any active hotkey recording safely
+      try {
+        stopRecording();
+      } catch (error) {
+        console.log('Error stopping recording:', error);
+      }
+      document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function updateTransparency(value) {
+      document.getElementById('transparencyValue').textContent = value + '% visible';
+      
+      // Apply transparency preview immediately
+      settings.transparency = parseInt(value);
+      applyTransparencySettings();
+    }
+
+    function updateBackgroundColor(value) {
+      console.log('Background color changed to:', value);
+      settings.backgroundColor = value;
+      applyBackgroundSettings();
+    }
+
+    function applyBackgroundSettings() {
+      console.log('Applying background settings:', settings.backgroundColor);
+      
+      const style = document.createElement('style');
+      style.id = 'background-style';
+      
+      // Remove existing background style
+      const existing = document.getElementById('background-style');
+      if (existing) existing.remove();
+      
+      let backgroundCSS = '';
+      
+      switch(settings.backgroundColor) {
+        case 'light':
+          backgroundCSS = `
+            .overlay-container.click-through {
+              background: rgba(255, 255, 255, 0.8) !important;
+              color: #333 !important;
+              border: 1px solid rgba(0, 0, 0, 0.2) !important;
+            }
+            .overlay-container.click-through .task-text {
+              color: #333 !important;
+            }
+            .overlay-container.click-through .task-text.completed {
+              color: #666 !important;
+            }
+            .overlay-container.click-through .progress-text {
+              color: #555 !important;
+            }
+            .overlay-container.click-through .progress-bar {
+              background: rgba(0, 0, 0, 0.2) !important;
+            }
+          `;
+          break;
+        case 'none':
+          backgroundCSS = `
+            .overlay-container.click-through {
+              background: none !important;
+              color: white !important;
+              border: none !important;
+            }
+            .overlay-container.click-through .tasks-section {
+              background: none !important;
+            }
+            .overlay-container.click-through .task-text {
+              text-shadow: 2px 2px 4px rgba(0,0,0,0.9) !important;
+              color: white !important;
+            }
+            .overlay-container.click-through .task-text.completed {
+              text-shadow: 2px 2px 4px rgba(0,0,0,0.9) !important;
+              color: #ccc !important;
+            }
+            .overlay-container.click-through .progress-text {
+              text-shadow: 2px 2px 4px rgba(0,0,0,0.9) !important;
+              color: white !important;
+            }
+            .overlay-container.click-through .progress-bar {
+              box-shadow: 0 0 6px rgba(0,0,0,0.9) !important;
+              border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            }
+          `;
+          break;
+        default: // dark
+          backgroundCSS = `
+            .overlay-container.click-through {
+              background: rgba(0, 0, 0, 0.6) !important;
+              color: white !important;
+              border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            }
+          `;
+      }
+      
+      style.textContent = backgroundCSS;
+      document.head.appendChild(style);
+    }
+
+    function applyTransparencySettings() {
+      const transparency = settings.transparency / 100;
+      const style = document.createElement('style');
+      style.id = 'transparency-style';
+      
+      // Remove existing transparency style
+      const existing = document.getElementById('transparency-style');
+      if (existing) existing.remove();
+      
+      style.textContent = `
+        .overlay-container.click-through {
+          opacity: ${transparency} !important;
+        }
+      `;
+      
+      document.head.appendChild(style);
+    }
+
+    async function saveSettings() {
+      try {
+        console.log('Saving settings...');
+        
+        // Stop any active recording first
+        if (typeof recordingHotkey !== 'undefined' && recordingHotkey) {
+          stopRecording();
+        }
+        
+        // Get all settings values
+        settings.transparency = parseInt(document.getElementById('transparencySlider').value);
+        settings.backgroundColor = document.getElementById('backgroundSelect').value;
+        
+        // Make sure hotkeys object exists
+        if (!settings.hotkeys) {
+          settings.hotkeys = {
+            toggleVisibility: 'Ctrl+Shift+T',
+            toggleInteractive: 'Ctrl+Shift+I'
+          };
+        }
+        
+        // Get current hotkey values from input fields (in case recording didn't update them)
+        const visibilityInput = document.getElementById('toggleVisibilityHotkey');
+        const interactiveInput = document.getElementById('toggleInteractiveHotkey');
+        
+        if (visibilityInput.value.trim()) {
+          settings.hotkeys.toggleVisibility = visibilityInput.value.trim();
+        }
+        if (interactiveInput.value.trim()) {
+          settings.hotkeys.toggleInteractive = interactiveInput.value.trim();
+        }
+        
+        console.log('Current settings:', settings);
+        
+        // Save to storage
+        const saveResult = await ipcRenderer.invoke('save-settings', settings);
+        console.log('Save result:', saveResult);
+        
+        if (!saveResult.success) {
+          throw new Error(saveResult.error || 'Unknown save error');
+        }
+        
+        // Send hotkey changes to main process
+        console.log('Updating hotkeys:', settings.hotkeys);
+        ipcRenderer.send('update-hotkeys', settings.hotkeys);
+        
+        closeSettingsModal();
+        alert('Settings saved successfully! Hotkey changes will take effect after restarting the overlay.');
+        
+      } catch (error) {
+        console.error('Error saving settings:', error);
+        alert(`Error saving settings: ${error.message}. Please try again.`);
+      }
+    }
+
+    async function loadSettings() {
+      try {
+        console.log('Loading settings...');
+        const loadedSettings = await ipcRenderer.invoke('load-settings');
+        console.log('Loaded settings:', loadedSettings);
+        
+        if (loadedSettings) {
+          // Merge loaded settings with defaults
+          settings = { 
+            ...settings, 
+            ...loadedSettings,
+            // Ensure hotkeys object exists
+            hotkeys: { 
+              ...settings.hotkeys,
+              ...loadedSettings.hotkeys 
+            }
+          };
+        }
+        console.log('Final settings:', settings);
+      } catch (error) {
+        console.error('Failed to load settings:', error);
+        // Use defaults if loading fails
+      }
+    }
+
+    function resetPosition() {
+      ipcRenderer.send('reset-window-position');
+      alert('Window position reset! The overlay will move to the top-right corner.');
+    }
+
+    // Hotkey recording system
+    function recordHotkey(hotkeyType) {
+      recordingHotkey = hotkeyType;
+      const input = document.getElementById(hotkeyType + 'Hotkey');
+      const button = document.getElementById(hotkeyType === 'toggleVisibility' ? 'recordBtn1' : 'recordBtn2');
+      
+      input.value = 'Press keys now...';
+      input.style.background = '#444';
+      button.textContent = 'Recording...';
+      button.style.background = '#dc143c';
+      button.disabled = true;
+      
+      // Focus on the input to capture keys
+      input.focus();
+    }
+
+    function stopRecording() {
+      if (typeof recordingHotkey !== 'undefined' && recordingHotkey) {
+        const button = document.getElementById(recordingHotkey === 'toggleVisibility' ? 'recordBtn1' : 'recordBtn2');
+        const input = document.getElementById(recordingHotkey + 'Hotkey');
+        
+        if (input) {
+          input.style.background = '#333';
+        }
+        if (button) {
+          button.textContent = 'Record';
+          button.style.background = '#666';
+          button.disabled = false;
+        }
+        recordingHotkey = null;
+      }
+    }
+
+    function handleHotkeyRecording(event) {
+      if (!recordingHotkey) return;
+      
+      event.preventDefault();
+      event.stopPropagation();
+      
+      const keys = [];
+      
+      // Collect modifier keys
+      if (event.ctrlKey || event.metaKey) keys.push('Ctrl');
+      if (event.altKey) keys.push('Alt');
+      if (event.shiftKey) keys.push('Shift');
+      
+      // Add the main key (if it's not a modifier)
+      if (!['Control', 'Alt', 'Shift', 'Meta'].includes(event.key)) {
+        let mainKey = event.key;
+        
+        // Convert some keys to more readable format
+        switch(event.key) {
+          case ' ': mainKey = 'Space'; break;
+          case 'ArrowUp': mainKey = 'Up'; break;
+          case 'ArrowDown': mainKey = 'Down'; break;
+          case 'ArrowLeft': mainKey = 'Left'; break;
+          case 'ArrowRight': mainKey = 'Right'; break;
+          default:
+            if (mainKey.length === 1) {
+              mainKey = mainKey.toUpperCase();
+            }
+        }
+        
+        keys.push(mainKey);
+        
+        // Validate the key combination to prevent typing conflicts
+        const hasRequiredModifier = keys.includes('Ctrl') || keys.includes('Alt') || 
+                                  ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'].includes(mainKey);
+        
+        // Warn about problematic combinations
+        if (keys.length === 2 && keys.includes('Shift') && mainKey.length === 1) {
+          alert(`Warning: "${keys.join('+')}" may interfere with typing. Consider using Ctrl+${mainKey} or Alt+${mainKey} instead.`);
+        }
+        
+        // Only save if we have a complete key combination
+        if (hasRequiredModifier) {
+          const hotkeyString = keys.join('+');
+          const input = document.getElementById(recordingHotkey + 'Hotkey');
+          input.value = hotkeyString;
+          
+          // Update settings
+          settings.hotkeys[recordingHotkey] = hotkeyString;
+          
+          // Stop recording after a short delay
+          setTimeout(() => {
+            stopRecording();
+          }, 200);
+        } else if (keys.length >= 2) {
+          // Show warning for insufficient modifiers
+          alert('Please use Ctrl+Key, Alt+Key, or Function keys to avoid conflicts with normal typing.');
+        }
+      }
+    }
+
+    function previewBackground() {
+      // Temporarily switch to read-only mode to preview background
+      const wasInteractive = isInteractiveMode;
+      if (wasInteractive) {
+        // Temporarily switch to click-through mode
+        updateInteractiveVisuals(false);
+        setTimeout(() => {
+          // Switch back after preview
+          updateInteractiveVisuals(true);
+        }, 3000);
+        alert('Switched to read-only mode for 3 seconds to preview background style.');
+      } else {
+        alert('Background style is already visible in read-only mode.');
+      }
+    };
+
+    // Initialize app
+    async function initializeApp() {
+      try {
+        console.log('Initializing app...');
+        await loadTasks();
+        await loadTemplates();
+        await loadSettings();
+        updateTemplateSelect();
+        renderTasks();
+        updateProgress();
+        setupInteractiveModeListener();
+        applyTransparencySettings();
+        applyBackgroundSettings();
+        console.log('App initialized successfully');
+      } catch (error) {
+        console.error('Error initializing app:', error);
+        alert('Error initializing app. Check console for details.');
+      }
+    }
+
+    // Handle interactive mode changes from main process
+    function setupInteractiveModeListener() {
+      ipcRenderer.on('interactive-mode-changed', (event, interactive) => {
+        console.log('Interactive mode changed:', interactive);
+        isInteractiveMode = interactive;
+        updateInteractiveVisuals(interactive);
+      });
+    }
+
+    function updateInteractiveVisuals(interactive) {
+      const container = document.getElementById('overlayContainer');
+      const hint = document.getElementById('shortcut-hint');
+      const toggleBtn = document.getElementById('interactiveToggle');
+      
+      if (interactive) {
+        container.classList.add('interactive');
+        container.classList.remove('click-through');
+        if (hint) {
+          hint.textContent = '(Interactive Mode - Ctrl+Shift+I to exit)';
+          hint.style.color = '#ffffff';
+        }
+        if (toggleBtn) {
+          toggleBtn.textContent = 'Interactive Mode';
+          toggleBtn.style.background = '#32cd32';
+        }
+      } else {
+        container.classList.remove('interactive');
+        container.classList.add('click-through');
+        // No need to update hint since header is hidden in click-through mode
+        if (toggleBtn) {
+          toggleBtn.textContent = 'Click-Through Mode';
+          toggleBtn.style.background = '#666';
+        }
+      }
+    }
+
+    // Task management
+    function addTask() {
+      try {
+        console.log('addTask called');
+        const input = document.getElementById('taskInput');
+        const text = input.value.trim();
+        console.log('Task text:', text);
+        
+        if (text) {
+          const task = {
+            id: Date.now(),
+            text: text,
+            completed: false,
+            createdAt: new Date().toISOString()
+          };
+          
+          tasks.push(task);
+          input.value = '';
+          renderTasks();
+          updateProgress();
+          saveTasks();
+          console.log('Task added successfully');
+        } else {
+          console.log('No text entered');
+        }
+      } catch (error) {
+        console.error('Error adding task:', error);
+        alert('Error adding task. Please try again.');
+      }
+    }
+
+    function toggleTask(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (task) {
+        task.completed = !task.completed;
+        renderTasks();
+        updateProgress();
+        saveTasks();
+      }
+    }
+
+    function deleteTask(taskId) {
+      tasks = tasks.filter(t => t.id !== taskId);
+      renderTasks();
+      updateProgress();
+      saveTasks();
+    }
+
+    function clearAllTasks() {
+      if (confirm('Are you sure you want to clear all tasks?')) {
+        tasks = [];
+        renderTasks();
+        updateProgress();
+        saveTasks();
+      }
+    }
+
+    // Template management
+    function showSaveTemplateModal() {
+      if (tasks.length === 0) {
+        alert('No tasks to save as template!');
+        return;
+      }
+      document.getElementById('saveTemplateModal').style.display = 'flex';
+      document.getElementById('templateNameInput').focus();
+    }
+
+    function closeSaveTemplateModal() {
+      document.getElementById('saveTemplateModal').style.display = 'none';
+      document.getElementById('templateNameInput').value = '';
+    }
+
+    async function saveTemplate() {
+      const nameInput = document.getElementById('templateNameInput');
+      const name = nameInput.value.trim();
+      
+      if (!name) {
+        alert('Please enter a template name!');
+        return;
+      }
+
+      if (tasks.length === 0) {
+        alert('No tasks to save!');
+        return;
+      }
+
+      const template = {
+        id: Date.now(),
+        name: name,
+        tasks: tasks.filter(t => !t.completed).map(t => ({
+          text: t.text
+        })),
+        createdAt: new Date().toISOString()
+      };
+
+      // Remove existing template with same name
+      templates = templates.filter(t => t.name !== name);
+      templates.push(template);
+
+      await saveTemplates();
+      updateTemplateSelect();
+      closeSaveTemplateModal();
+      
+      alert(`Template "${name}" saved successfully!`);
+    }
+
+    async function loadTemplate() {
+      const select = document.getElementById('templateSelect');
+      const templateId = parseInt(select.value);
+      
+      if (!templateId) return;
+
+      const template = templates.find(t => t.id === templateId);
+      if (!template) return;
+
+      if (tasks.some(t => !t.completed) && !confirm('This will replace your current tasks. Continue?')) {
+        return;
+      }
+
+      // Clear current tasks and load template
+      tasks = template.tasks.map((t, index) => ({
+        id: Date.now() + index,
+        text: t.text,
+        completed: false,
+        createdAt: new Date().toISOString()
+      }));
+
+      currentTemplate = template.name;
+      renderTasks();
+      updateProgress();
+      saveTasks();
+    }
+
+    async function deleteTemplate() {
+      const select = document.getElementById('templateSelect');
+      const templateId = parseInt(select.value);
+      
+      if (!templateId) {
+        alert('Please select a template to delete!');
+        return;
+      }
+
+      const template = templates.find(t => t.id === templateId);
+      if (!template) return;
+
+      if (confirm(`Are you sure you want to delete the template "${template.name}"? This cannot be undone.`)) {
+        // Remove template from array
+        templates = templates.filter(t => t.id !== templateId);
+        
+        // Save updated templates
+        await saveTemplates();
+        
+        // Update dropdown
+        updateTemplateSelect();
+        
+        alert(`Template "${template.name}" deleted successfully!`);
+      }
+    }
+
+    // Export/Import functionality
+    function exportTemplate() {
+      try {
+        console.log('Export template called');
+        const select = document.getElementById('templateSelect');
+        const templateId = parseInt(select.value);
+        
+        if (!templateId) {
+          alert('Please select a template to export!');
+          return;
+        }
+
+        const template = templates.find(t => t.id === templateId);
+        if (!template) return;
+
+        // Create exportable template data
+        const exportData = {
+          name: template.name,
+          tasks: template.tasks,
+          version: "1.0",
+          exportedAt: new Date().toISOString(),
+          description: `PoE2 Task Template: ${template.name}`,
+          taskCount: template.tasks.length
+        };
+
+        // Create and download file
+        const dataStr = JSON.stringify(exportData, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(dataBlob);
+        link.download = `poe2-template-${template.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        alert(`Template "${template.name}" exported successfully!`);
+      } catch (error) {
+        console.error('Export error:', error);
+        alert('Error exporting template. Please try again.');
+      }
+    }
+
+    function showImportModal() {
+      document.getElementById('importTemplateModal').style.display = 'flex';
+      document.getElementById('importTemplateInput').placeholder = 'Paste template JSON or share code here...';
+      document.getElementById('importTemplateInput').focus();
+    }
+
+    function closeImportModal() {
+      try {
+        document.getElementById('importTemplateModal').style.display = 'none';
+        document.getElementById('importTemplateInput').value = '';
+      } catch (error) {
+        console.error('Error closing import modal:', error);
+      }
+    }
+
+    function handleFileImport(event) {
+      try {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('importTemplateInput').value = e.target.result;
+        };
+        reader.readAsText(file);
+      } catch (error) {
+        console.error('Error handling file import:', error);
+        alert('Error reading file. Please try again.');
+      }
+    }
+
+    async function importTemplate() {
+      const input = document.getElementById('importTemplateInput');
+      const inputData = input.value.trim();
+      
+      if (!inputData) {
+        alert('Please paste template JSON, share code, or select a file!');
+        return;
+      }
+
+      let templateData;
+      
+      try {
+        // Try to parse as JSON first
+        if (inputData.startsWith('{')) {
+          // It's JSON
+          templateData = JSON.parse(inputData);
+          
+          // Validate JSON template structure
+          if (!templateData.name || !templateData.tasks || !Array.isArray(templateData.tasks)) {
+            throw new Error('Invalid JSON template format');
+          }
+        } else {
+          // It might be a share code, but we'll just try JSON parsing
+          templateData = JSON.parse(inputData);
+        }
+
+        // Check if template with same name exists
+        const existingTemplate = templates.find(t => t.name === templateData.name);
+        if (existingTemplate && !confirm(`Template "${templateData.name}" already exists. Replace it?`)) {
+          return;
+        }
+
+        // Create new template
+        const newTemplate = {
+          id: Date.now(),
+          name: templateData.name,
+          tasks: templateData.tasks.map(task => ({
+            text: typeof task === 'string' ? task : task.text
+          })),
+          createdAt: new Date().toISOString(),
+          imported: true
+        };
+
+        // Remove existing template with same name
+        templates = templates.filter(t => t.name !== templateData.name);
+        templates.push(newTemplate);
+
+        await saveTemplates();
+        updateTemplateSelect();
+        closeImportModal();
+        
+        alert(`Template "${templateData.name}" imported successfully! (${newTemplate.tasks.length} tasks)`);
+        
+      } catch (error) {
+        alert('Invalid template format! Please check the JSON data.');
+        console.error('Import error:', error);
+      }
+    }
+
+    function updateTemplateSelect() {
+      const select = document.getElementById('templateSelect');
+      select.innerHTML = '<option value="">Select Template...</option>';
+      
+      templates.forEach(template => {
+        const option = document.createElement('option');
+        option.value = template.id;
+        option.textContent = `${template.name} (${template.tasks.length} tasks)`;
+        select.appendChild(option);
+      });
+    }
+
+    // Community Templates
+    function getCommunityTemplates() {
+      return [
+        {
+          name: "League Start Essentials",
+          description: "Core objectives for starting a new league",
+          tasks: [
+            "Reach Act 6 for resistance penalty",
+            "Complete Normal Labyrinth",
+            "Get life/ES nodes on passive tree", 
+            "Cap resistances (75%+)",
+            "Find/buy movement skill gem",
+            "Set up basic currency stash tabs",
+            "Get weapon with linked sockets",
+            "Reach level 68 for endgame content"
+          ]
+        },
+        {
+          name: "Endgame Progression",
+          description: "Late game goals and pinnacle content",
+          tasks: [
+            "Complete Atlas progression",
+            "Defeat Shaper",
+            "Defeat Elder", 
+            "Complete all Pinnacle bosses",
+            "Reach level 90+",
+            "Get 6-link main skill",
+            "Accumulate 10+ Divine Orbs",
+            "Complete Uber Lab trials",
+            "Max out important flasks"
+          ]
+        },
+        {
+          name: "New Character Setup",
+          description: "Essential steps when creating a new character",
+          tasks: [
+            "Plan passive tree route (PoB)",
+            "Identify skill gem progression",
+            "Set up loot filter",
+            "Transfer currency from main",
+            "Get leveling uniques if available",
+            "Join guild/find party",
+            "Research build guide thoroughly",
+            "Prepare gems for later levels"
+          ]
+        },
+        {
+          name: "Currency Goals",
+          description: "Economic milestones for league",
+          tasks: [
+            "Save 1 Divine Orb",
+            "Save 5 Divine Orbs",
+            "Save 20 Divine Orbs", 
+            "Save 50 Divine Orbs",
+            "Get premium stash tab",
+            "Set up efficient farming strategy",
+            "Learn market prices for key items",
+            "Build up crafting materials"
+          ]
+        },
+        {
+          name: "HC/SSF Priorities", 
+          description: "Hardcore and Solo Self-Found specific goals",
+          tasks: [
+            "Over-cap resistances (85%+)",
+            "Get fortify/defensive layers",
+            "Level backup gems",
+            "Hoard life flasks",
+            "Get movement skills early",
+            "Plan escape routes",
+            "Avoid risky content until geared",
+            "Build defensive passive tree first"
+          ]
+        },
+        {
+          name: "Crafting Checklist",
+          description: "Steps for crafting progression",
+          tasks: [
+            "Learn basic crafting recipes",
+            "Stockpile crafting orbs",
+            "Get good base items",
+            "Practice on cheaper items first",
+            "Research craft of exile",
+            "Set up crafting bench",
+            "Learn advanced techniques",
+            "Plan expensive crafts carefully"
+          ]
+        }
+      ];
+    }
+
+    function loadCommunityTemplates() {
+      try {
+        console.log('Loading community templates');
+        const modal = document.getElementById('communityTemplatesModal');
+        const list = document.getElementById('communityTemplatesList');
+        
+        const communityTemplates = getCommunityTemplates();
+        
+        list.innerHTML = '';
+        communityTemplates.forEach((template, index) => {
+          const div = document.createElement('div');
+          div.style.cssText = `
+            border: 1px solid #555;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 12px;
+            background: rgba(0,0,0,0.3);
+          `;
+          
+          div.innerHTML = `
+            <h4 style="color: #d4af37; margin: 0 0 8px 0; font-size: 14px;">${escapeHtml(template.name)}</h4>
+            <p style="color: #ccc; margin: 0 0 8px 0; font-size: 12px; font-style: italic;">${escapeHtml(template.description)}</p>
+            <p style="color: #aaa; margin: 0 0 10px 0; font-size: 11px;">${template.tasks.length} tasks</p>
+            <div style="display: flex; gap: 8px;">
+              <button class="modal-btn primary" onclick="importCommunityTemplate(${index})" style="font-size: 12px; padding: 6px 12px;">
+                Add to My Templates
+              </button>
+              <button class="modal-btn secondary" onclick="previewCommunityTemplate(${index})" style="font-size: 12px; padding: 6px 12px;">
+                Preview Tasks
+              </button>
+            </div>
+          `;
+          
+          list.appendChild(div);
+        });
+        
+        modal.style.display = 'flex';
+      } catch (error) {
+        console.error('Error loading community templates:', error);
+        alert('Error loading community templates. Please try again.');
+      }
+    }
+
+    function closeCommunityModal() {
+      try {
+        document.getElementById('communityTemplatesModal').style.display = 'none';
+      } catch (error) {
+        console.error('Error closing community modal:', error);
+      }
+    }
+
+    async function importCommunityTemplate(index) {
+      try {
+        const communityTemplates = getCommunityTemplates();
+        const template = communityTemplates[index];
+        
+        // Check if template already exists
+        const existingTemplate = templates.find(t => t.name === template.name);
+        if (existingTemplate && !confirm(`Template "${template.name}" already exists. Replace it?`)) {
+          return;
+        }
+
+        // Create new template
+        const newTemplate = {
+          id: Date.now(),
+          name: template.name,
+          tasks: template.tasks.map(task => ({ text: task })),
+          createdAt: new Date().toISOString(),
+          community: true
+        };
+
+        // Remove existing template with same name
+        templates = templates.filter(t => t.name !== template.name);
+        templates.push(newTemplate);
+
+        await saveTemplates();
+        updateTemplateSelect();
+        
+        alert(`Community template "${template.name}" added to your templates!`);
+      } catch (error) {
+        console.error('Error importing community template:', error);
+        alert('Error importing template. Please try again.');
+      }
+    }
+
+    function previewCommunityTemplate(index) {
+      try {
+        const communityTemplates = getCommunityTemplates();
+        const template = communityTemplates[index];
+        
+        const taskList = template.tasks.map((task, i) => `${i + 1}. ${task}`).join('\n');
+        alert(`${template.name} Tasks:\n\n${taskList}`);
+      } catch (error) {
+        console.error('Error previewing template:', error);
+        alert('Error previewing template.');
+      }
+    }
+
+    // Rendering
+    function renderTasks() {
+      const taskList = document.getElementById('taskList');
+      taskList.innerHTML = '';
+
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.className = 'task-item';
+        li.innerHTML = `
+          <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
+                 onchange="toggleTask(${task.id})">
+          <span class="task-text ${task.completed ? 'completed' : ''}">${escapeHtml(task.text)}</span>
+          <button class="task-delete" onclick="deleteTask(${task.id})">×</button>
+        `;
+        taskList.appendChild(li);
+      });
+    }
+
+    function updateProgress() {
+      const completed = tasks.filter(t => t.completed).length;
+      const total = tasks.length;
+      const percentage = total > 0 ? (completed / total) * 100 : 0;
+
+      document.getElementById('progressFill').style.width = percentage + '%';
+      document.getElementById('progressText').textContent = `${completed} / ${total} tasks completed`;
+    }
+
+    // Data persistence
+    async function loadTasks() {
+      try {
+        const data = await ipcRenderer.invoke('load-tasks');
+        tasks = data.tasks || [];
+        currentTemplate = data.currentTemplate;
+      } catch (error) {
+        console.error('Failed to load tasks:', error);
+      }
+    }
+
+    async function saveTasks() {
+      try {
+        await ipcRenderer.invoke('save-tasks', {
+          tasks: tasks,
+          currentTemplate: currentTemplate
+        });
+      } catch (error) {
+        console.error('Failed to save tasks:', error);
+      }
+    }
+
+    async function loadTemplates() {
+      try {
+        templates = await ipcRenderer.invoke('load-templates');
+      } catch (error) {
+        console.error('Failed to load templates:', error);
+        templates = [];
+      }
+    }
+
+    async function saveTemplates() {
+      try {
+        await ipcRenderer.invoke('save-templates', templates);
+      } catch (error) {
+        console.error('Failed to save templates:', error);
+      }
+    }
+
+    // Settings persistence
+    async function saveSettingsData() {
+      try {
+        await ipcRenderer.invoke('save-settings', settings);
+      } catch (error) {
+        console.error('Failed to save settings:', error);
+      }
+    }
+
+    // Utility functions
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function toggleOverlay() {
+      try {
+        console.log('toggleOverlay called');
+        ipcRenderer.send('toggle-overlay');
+      } catch (error) {
+        console.error('Error toggling overlay:', error);
+      }
+    }
+
+    function minimizeOverlay() {
+      try {
+        console.log('minimizeOverlay called');
+        ipcRenderer.send('minimize-overlay');
+      } catch (error) {
+        console.error('Error minimizing overlay:', error);
+      }
+    }
+
+    function closeOverlay() {
+      try {
+        console.log('closeOverlay called - quitting application');
+        if (confirm('Close Echosight Overlay completely?')) {
+          ipcRenderer.send('quit-application');
+        }
+      } catch (error) {
+        console.error('Error closing overlay:', error);
+      }
+    }
+
+    function toggleInteractiveMode() {
+      try {
+        console.log('toggleInteractiveMode called');
+        ipcRenderer.send('toggle-interactive-mode');
+      } catch (error) {
+        console.error('Error toggling interactive mode:', error);
+      }
+    }
+
+    // Event listeners
+    document.getElementById('taskInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        addTask();
+      }
+    });
+
+    document.getElementById('taskInput').addEventListener('focus', function() {
+      console.log('Task input gained focus');
+    });
+
+    document.getElementById('taskInput').addEventListener('blur', function() {
+      console.log('Task input lost focus');
+    });
+
+    document.getElementById('templateNameInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        saveTemplate();
+      }
+    });
+
+    document.getElementById('importTemplateInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && e.ctrlKey) {
+        importTemplate();
+      }
+    });
+
+    // Global keydown listener for hotkey recording
+    document.addEventListener('keydown', handleHotkeyRecording);
+
+    // Click outside modal to stop recording
+    document.addEventListener('click', function(e) {
+      if (recordingHotkey && !e.target.closest('.modal-content')) {
+        stopRecording();
+      }
+    });
+
+    // Make header draggable
+    const header = document.getElementById('header');
+    let isDragging = false;
+    let dragOffset = { x: 0, y: 0 };
+
+    header.addEventListener('mousedown', (e) => {
+      try {
+        console.log('Header mousedown');
+        isDragging = true;
+        const rect = header.getBoundingClientRect();
+        dragOffset.x = e.clientX - rect.left;
+        dragOffset.y = e.clientY - rect.top;
+      } catch (error) {
+        console.error('Error in mousedown:', error);
+      }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      try {
+        if (isDragging) {
+          const newX = e.screenX - dragOffset.x;
+          const newY = e.screenY - dragOffset.y;
+          
+          // Send move request to main process
+          ipcRenderer.send('move-window', { x: newX, y: newY });
+        }
+      } catch (error) {
+        console.error('Error in mousemove:', error);
+        isDragging = false;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      try {
+        isDragging = false;
+      } catch (error) {
+        console.error('Error in mouseup:', error);
+      }
+    });
+
+    // Debug: Log when overlay gets focus/blur
+    window.addEventListener('focus', () => {
+      console.log('Overlay gained focus');
+    });
+
+    window.addEventListener('blur', () => {
+      console.log('Overlay lost focus');
+    });
+
+    // Debug function - call from console to test input
+    window.testInput = function() {
+      const input = document.getElementById('taskInput');
+      input.focus();
+      input.value = 'Test task';
+      console.log('Test input set. Try typing or clicking Add.');
+    };
+
+    // Debug function - call from console to test buttons
+    window.testMinimize = function() {
+      console.log('Testing minimize...');
+      minimizeOverlay();
+    };
+
+    // Global error handler
+    window.addEventListener('error', function(e) {
+      console.error('Global error:', e.error);
+      console.error('Error message:', e.message);
+      console.error('Error location:', e.filename, e.lineno, e.colno);
+    });
+
+    window.addEventListener('unhandledrejection', function(e) {
+      console.error('Unhandled promise rejection:', e.reason);
+    });
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  </script>
+</body>
+</html>

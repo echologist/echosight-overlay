@@ -1,0 +1,8 @@
+{
+  "transparency": 26,
+  "hotkeys": {
+    "toggleVisibility": "Ctrl+Shift+T",
+    "toggleInteractive": "Ctrl+Shift+I"
+  },
+  "backgroundColor": "light"
+}
