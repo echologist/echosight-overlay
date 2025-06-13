@@ -11,11 +11,15 @@ let manuallyHidden = false; // Track if user manually hid the overlay
 let isInteractive = false; // Track if overlay is interactive or click-through
 let currentHotkeys = {
   toggleVisibility: 'CommandOrControl+Shift+T',
-  toggleInteractive: 'CommandOrControl+Shift+I'
+  toggleInteractive: 'CommandOrControl+Shift+I',
+  completeNextTask: 'CommandOrControl+Shift+N'
 };
 
-// Data storage paths
-const DATA_DIR = path.join(__dirname, 'data');
+// Data storage paths - Use proper user data directory
+const DATA_DIR = app.isPackaged 
+  ? path.join(app.getPath('userData'), 'data')
+  : path.join(__dirname, 'data');
+
 const TASKS_FILE = path.join(DATA_DIR, 'current_tasks.json');
 const TEMPLATES_FILE = path.join(DATA_DIR, 'templates.json');
 const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
@@ -27,7 +31,9 @@ class PoE2TaskOverlay {
 
   async initializeDataDirectory() {
     try {
+      console.log('Creating data directory at:', DATA_DIR);
       await fs.mkdir(DATA_DIR, { recursive: true });
+      console.log('Data directory created successfully');
     } catch (error) {
       console.error('Failed to create data directory:', error);
     }
@@ -54,6 +60,7 @@ class PoE2TaskOverlay {
         console.log('Updating hotkeys from settings:', settings.hotkeys);
         currentHotkeys.toggleVisibility = this.convertHotkeyFormat(settings.hotkeys.toggleVisibility);
         currentHotkeys.toggleInteractive = this.convertHotkeyFormat(settings.hotkeys.toggleInteractive);
+        currentHotkeys.completeNextTask = this.convertHotkeyFormat(settings.hotkeys.completeNextTask);
         console.log('Updated currentHotkeys:', currentHotkeys);
       }
     } catch (error) {
@@ -66,9 +73,11 @@ class PoE2TaskOverlay {
     const { width, height } = primaryDisplay.workAreaSize;
 
     overlayWindow = new BrowserWindow({
-      width: 350,
-      height: 500,
-      x: width - 370,
+      width: 500,        // Much larger width
+      height: 700,       // Much larger height  
+      minWidth: 450,     // Larger minimum width
+      minHeight: 600,    // Larger minimum height
+      x: width - 520,    // Adjusted for new width
       y: 20,
       transparent: true,
       frame: false,
@@ -133,6 +142,15 @@ class PoE2TaskOverlay {
               }
             }
           },
+          {
+            label: 'Complete Next Task',
+            accelerator: currentHotkeys.completeNextTask.replace('CommandOrControl', 'Ctrl'),
+            click: () => {
+              if (overlayWindow && overlayWindow.isVisible()) {
+                overlayWindow.webContents.send('complete-next-task');
+              }
+            }
+          },
           { type: 'separator' },
           { role: 'quit' }
         ]
@@ -181,6 +199,15 @@ class PoE2TaskOverlay {
         }
       });
 
+      // Complete next task
+      const nextTaskRet = globalShortcut.register(currentHotkeys.completeNextTask, () => {
+        console.log('Complete next task shortcut triggered!');
+        if (overlayWindow && overlayWindow.isVisible()) {
+          // Send command to renderer to complete next task
+          overlayWindow.webContents.send('complete-next-task');
+        }
+      });
+
       if (!toggleRet) {
         console.log('Failed to register toggle shortcut');
       } else {
@@ -191,6 +218,12 @@ class PoE2TaskOverlay {
         console.log('Failed to register interactive shortcut');
       } else {
         console.log('Interactive shortcut registered successfully:', currentHotkeys.toggleInteractive);
+      }
+
+      if (!nextTaskRet) {
+        console.log('Failed to register complete next task shortcut');
+      } else {
+        console.log('Complete next task shortcut registered successfully:', currentHotkeys.completeNextTask);
       }
 
     } catch (error) {
@@ -279,11 +312,14 @@ class PoE2TaskOverlay {
         console.log('Attempting to save settings:', settings);
         console.log('Settings file path:', SETTINGS_FILE);
         
+        // Ensure directory exists
+        await fs.mkdir(DATA_DIR, { recursive: true });
+        
         const settingsJson = JSON.stringify(settings, null, 2);
         console.log('Settings JSON:', settingsJson);
         
         await fs.writeFile(SETTINGS_FILE, settingsJson);
-        console.log('Settings saved successfully');
+        console.log('Settings saved successfully to:', SETTINGS_FILE);
         
         return { success: true };
       } catch (error) {
@@ -313,18 +349,22 @@ class PoE2TaskOverlay {
       // Convert hotkeys to Electron format
       const newToggleVisibility = this.convertHotkeyFormat(hotkeys.toggleVisibility);
       const newToggleInteractive = this.convertHotkeyFormat(hotkeys.toggleInteractive);
+      const newCompleteNextTask = this.convertHotkeyFormat(hotkeys.completeNextTask);
       
       console.log('Converted hotkeys:', {
         visibility: newToggleVisibility,
-        interactive: newToggleInteractive
+        interactive: newToggleInteractive,
+        completeNextTask: newCompleteNextTask
       });
       
       // Only update if they're different
       if (newToggleVisibility !== currentHotkeys.toggleVisibility || 
-          newToggleInteractive !== currentHotkeys.toggleInteractive) {
+          newToggleInteractive !== currentHotkeys.toggleInteractive ||
+          newCompleteNextTask !== currentHotkeys.completeNextTask) {
         
         currentHotkeys.toggleVisibility = newToggleVisibility;
         currentHotkeys.toggleInteractive = newToggleInteractive;
+        currentHotkeys.completeNextTask = newCompleteNextTask;
         
         // Re-register hotkeys with new bindings
         this.registerHotkeys();
@@ -336,7 +376,7 @@ class PoE2TaskOverlay {
       if (overlayWindow) {
         const primaryDisplay = screen.getPrimaryDisplay();
         const { width } = primaryDisplay.workAreaSize;
-        overlayWindow.setPosition(width - 370, 20);
+        overlayWindow.setPosition(width - 520, 20);
       }
     });
 
