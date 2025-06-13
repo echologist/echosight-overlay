@@ -45,8 +45,8 @@ A lightweight, customizable task management overlay designed specifically for Pa
 ### Build from Source
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/poe2-task-overlay.git
-cd poe2-task-overlay
+git clone https://github.com/yourusername/echoesight-overlay.git
+cd echoesight-overlay
 
 # Install dependencies
 yarn install
