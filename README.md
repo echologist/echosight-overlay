@@ -45,7 +45,7 @@ A lightweight, customizable task management overlay designed specifically for Pa
 ### Build from Source
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/echoesight-overlay.git
+git clone https://github.com/echologist/echoesight-overlay.git
 cd echoesight-overlay
 
 # Install dependencies
