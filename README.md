@@ -1,4 +1,4 @@
-# PoE2 Task Overlay
+# Echoesight - PoE 2 Task Overlay
 
 A lightweight, customizable task management overlay designed specifically for Path of Exile 2 players. Keep track of your league start goals, character progression, and endgame objectives without ever leaving the game!
 
