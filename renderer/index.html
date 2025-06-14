@@ -80,15 +80,15 @@
       display: none;
     }
 
+    .overlay-container.click-through .header-buttons {
+      display: none;
+    }
+
     .overlay-container.click-through .template-section {
       display: none;
     }
 
     .overlay-container.click-through .task-input-container {
-      display: none;
-    }
-
-    .overlay-container.click-through .header-buttons {
       display: none;
     }
 
@@ -157,6 +157,12 @@
       justify-content: space-between;
       align-items: center;
     }
+
+    .overlay-container.click-through .header,
+    .overlay-container.click-through .header-buttons {
+      visibility: hidden;
+    }
+
 
     .header h2 {
       color: #d4af37;
@@ -459,6 +465,8 @@
     .tasks-section::-webkit-scrollbar-thumb:hover {
       background: #888;
     }
+
+
   </style>
 </head>
 <body>

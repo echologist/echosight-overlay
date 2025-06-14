@@ -83,6 +83,7 @@ class PoE2TaskOverlay {
       frame: false,
       alwaysOnTop: true,
       skipTaskbar: true,
+      focusable: false, // Start unfocusable to avoid OS drawing it's own title bar
       resizable: true,
       webSecurity: false,
       minimizable: false,
