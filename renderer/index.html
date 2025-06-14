@@ -12,7 +12,7 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: rgba(0, 0, 0, 0.9);
+      background: transparent !important;
       color: #ffffff;
       padding: 0;
       user-select: none;
@@ -35,9 +35,41 @@
       background: rgba(0, 0, 0, 0.9);
     }
 
+    .overlay-container.interactive.glass-mode {
+      background: rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(15px) !important;
+      -webkit-backdrop-filter: blur(15px) !important;
+      border: 2px solid rgba(50, 205, 50, 0.6) !important;
+      border-radius: 12px !important;
+      box-shadow: 
+        0 0 20px rgba(50, 205, 50, 0.3),
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    }
+
+    .overlay-container.interactive.glass-mode .header {
+      background: rgba(255, 255, 255, 0.1) !important;
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .overlay-container.interactive.glass-mode .template-section {
+      background: rgba(255, 255, 255, 0.05) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .overlay-container.interactive.glass-mode .tasks-section {
+      background: rgba(255, 255, 255, 0.03) !important;
+      backdrop-filter: blur(5px) !important;
+      -webkit-backdrop-filter: blur(5px) !important;
+    }
+
     .overlay-container.click-through {
       border-color: #666;
-      background: rgba(0, 0, 0, 0.15);
+      background: none !important; /* Ensure no background color */
     }
 
     .overlay-container.click-through .header {
@@ -530,11 +562,11 @@
         <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 14px;">Appearance</h4>
         <div style="margin-bottom: 15px;">
           <label style="display: block; margin-bottom: 5px; font-size: 12px;">Click-Through Transparency:</label>
-          <input type="range" id="transparencySlider" min="10" max="70" value="25" 
+          <input type="range" id="transparencySlider" min="0" max="100" value="15" 
                  style="width: 100%;" oninput="updateTransparency(this.value)">
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: #aaa;">
             <span>More Transparent</span>
-            <span id="transparencyValue">25% visible</span>
+            <span id="transparencyValue">15% visible</span>
             <span>More Solid</span>
           </div>
         </div>
@@ -544,6 +576,7 @@
           <select id="backgroundSelect" class="modal-input" style="margin-bottom: 0;" onchange="updateBackgroundColor(this.value)">
             <option value="dark">Dark (Default)</option>
             <option value="light">Light/White</option>
+            <option value="glass">Glassmorphism</option>
             <option value="none">No Background (Text Only)</option>
           </select>
         </div>
@@ -623,6 +656,7 @@
     let isInteractiveMode = true;
     let settings = {
       transparency: 25,
+      backgroundColor: 'dark',
       hotkeys: {
         toggleVisibility: 'Ctrl+Shift+T',
         toggleInteractive: 'Ctrl+Shift+I',
@@ -680,6 +714,11 @@
       console.log('Background color changed to:', value);
       settings.backgroundColor = value;
       applyBackgroundSettings();
+      
+      // Update interactive visuals if currently in interactive mode
+      if (isInteractiveMode) {
+        updateInteractiveVisuals(true);
+      }
     }
 
     function applyBackgroundSettings() {
@@ -718,29 +757,125 @@
             }
           `;
           break;
-        case 'none':
+        case 'glass':
           backgroundCSS = `
             .overlay-container.click-through {
-              background: transparent !important;
-              border: none !important;
+              background: rgba(255, 255, 255, 0.05) !important;
+              backdrop-filter: blur(10px) !important;
+              -webkit-backdrop-filter: blur(10px) !important;
+              border: 1px solid rgba(255, 255, 255, 0.3) !important;
+              border-radius: 12px !important;
+              box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
+              position: relative !important;
+              overflow: hidden !important;
+            }
+            .overlay-container.click-through::before {
+              content: '' !important;
+              position: absolute !important;
+              top: 0 !important;
+              left: 0 !important;
+              right: 0 !important;
+              height: 1px !important;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.8),
+                transparent
+              ) !important;
+            }
+            .overlay-container.click-through::after {
+              content: '' !important;
+              position: absolute !important;
+              top: 0 !important;
+              left: 0 !important;
+              width: 1px !important;
+              height: 100% !important;
+              background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.8),
+                transparent,
+                rgba(255, 255, 255, 0.3)
+              ) !important;
             }
             .overlay-container.click-through .tasks-section {
-              background: transparent !important;
+              background: rgba(255, 255, 255, 0.03) !important;
+              backdrop-filter: blur(5px) !important;
+              -webkit-backdrop-filter: blur(5px) !important;
+              border-radius: 8px !important;
+              border: 1px solid rgba(255, 255, 255, 0.1) !important;
             }
             .overlay-container.click-through .task-text {
               color: white !important;
-              text-shadow: 2px 2px 4px black, -1px -1px 2px black !important;
-              font-weight: bold !important;
+              font-weight: 600 !important;
+              text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+            }
+            .overlay-container.click-through .task-text.completed {
+              color: #ccc !important;
             }
             .overlay-container.click-through .progress-text {
               color: white !important;
-              text-shadow: 2px 2px 4px black, -1px -1px 2px black !important;
               font-weight: bold !important;
+              text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
             }
             .overlay-container.click-through .progress-bar {
-              background: transparent !important;
+              background: rgba(255, 255, 255, 0.1) !important;
+              border: 1px solid rgba(255, 255, 255, 0.2) !important;
+              backdrop-filter: blur(5px) !important;
+              -webkit-backdrop-filter: blur(5px) !important;
+            }
+          `;
+          break;
+        case 'none':
+          backgroundCSS = `
+            .overlay-container.click-through {
+              background: none !important;
+              border: none !important;
+            }
+            .overlay-container.click-through .tasks-section {
+              background: none !important;
+            }
+            .overlay-container.click-through .progress-bar {
+              background: none !important;
               border: 2px solid white !important;
               box-shadow: 0 0 4px black !important;
+            }
+            .overlay-container.click-through .task-text {
+              color: white !important;
+              text-shadow: 
+                2px 2px 4px rgba(0,0,0,1), 
+                -2px -2px 4px rgba(0,0,0,1),
+                2px -2px 4px rgba(0,0,0,1),
+                -2px 2px 4px rgba(0,0,0,1),
+                0 0 8px rgba(0,0,0,1) !important;
+              font-weight: bold !important;
+            }
+            .overlay-container.click-through .task-text.completed {
+              color: #ccc !important;
+              text-shadow: 
+                2px 2px 4px rgba(0,0,0,1), 
+                -2px -2px 4px rgba(0,0,0,1),
+                2px -2px 4px rgba(0,0,0,1),
+                -2px 2px 4px rgba(0,0,0,1),
+                0 0 8px rgba(0,0,0,1) !important;
+            }
+            .overlay-container.click-through .progress-text {
+              color: white !important;
+              text-shadow: 
+                2px 2px 4px rgba(0,0,0,1), 
+                -2px -2px 4px rgba(0,0,0,1),
+                2px -2px 4px rgba(0,0,0,1),
+                -2px 2px 4px rgba(0,0,0,1),
+                0 0 8px rgba(0,0,0,1) !important;
+              font-weight: bold !important;
+            }
+            .overlay-container.click-through .task-checkbox {
+              filter: 
+                drop-shadow(2px 2px 4px rgba(0,0,0,1)) 
+                drop-shadow(-2px -2px 4px rgba(0,0,0,1))
+                drop-shadow(0 0 4px rgba(0,0,0,1)) !important;
             }
           `;
           break;
@@ -1069,6 +1204,14 @@
       if (interactive) {
         container.classList.add('interactive');
         container.classList.remove('click-through');
+        
+        // Add glassmorphism class if using glass background
+        if (settings.backgroundColor === 'glass') {
+          container.classList.add('glass-mode');
+        } else {
+          container.classList.remove('glass-mode');
+        }
+        
         if (hint) {
           hint.textContent = '(Interactive Mode - Ctrl+Shift+I to exit)';
           hint.style.color = '#ffffff';
@@ -1079,6 +1222,7 @@
         }
       } else {
         container.classList.remove('interactive');
+        container.classList.remove('glass-mode');
         container.classList.add('click-through');
         // No need to update hint since header is hidden in click-through mode
         if (toggleBtn) {

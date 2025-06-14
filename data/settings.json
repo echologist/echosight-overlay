@@ -1,9 +1,9 @@
 {
-  "transparency": 15,
+  "transparency": 0,
+  "backgroundColor": "light",
   "hotkeys": {
     "toggleVisibility": "Ctrl+Shift+T",
     "toggleInteractive": "Ctrl+Shift+I",
     "completeNextTask": "Ctrl+Shift+N"
-  },
-  "backgroundColor": "dark"
+  }
 }
