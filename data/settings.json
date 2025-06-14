@@ -1,5 +1,5 @@
 {
-  "transparency": 6,
+  "transparency": 0,
   "backgroundColor": "dark",
   "hotkeys": {
     "toggleVisibility": "Ctrl+Shift+T",

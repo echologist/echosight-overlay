@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Echoesight</title>
@@ -41,7 +42,7 @@
       -webkit-backdrop-filter: blur(15px) !important;
       border: 2px solid rgba(50, 205, 50, 0.6) !important;
       border-radius: 12px !important;
-      box-shadow: 
+      box-shadow:
         0 0 20px rgba(50, 205, 50, 0.3),
         0 8px 32px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
@@ -70,10 +71,14 @@
     .overlay-container.click-through {
       border-color: #666;
       background: none !important;
+      /* Ensure no background color */
     }
 
     .overlay-container.click-through .header {
       background: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(160, 82, 45, 0.3));
+    }
+
+    .overlay-container.click-through .header {
       display: none;
     }
 
@@ -86,10 +91,6 @@
     }
 
     .overlay-container.click-through .task-input-container {
-      display: none;
-    }
-
-    .overlay-container.click-through .task-help {
       display: none;
     }
 
@@ -114,11 +115,11 @@
     }
 
     .overlay-container.click-through .tasks-section::before {
-      content: "Ctrl+Shift+I to edit • Ctrl+Shift+N to complete next";
+      content: "Ctrl+Shift+I to edit";
       position: absolute;
       top: -2px;
       right: 2px;
-      font-size: 9px;
+      font-size: 10px;
       color: rgba(255, 255, 255, 0.4);
       opacity: 0;
       transition: opacity 0.3s ease;
@@ -158,6 +159,12 @@
       justify-content: space-between;
       align-items: center;
     }
+
+    .overlay-container.click-through .header,
+    .overlay-container.click-through .header-buttons {
+      visibility: hidden;
+    }
+
 
     .header h2 {
       color: #d4af37;
@@ -245,23 +252,6 @@
       overflow-y: auto;
     }
 
-    .task-help {
-      font-size: 11px;
-      color: #aaa;
-      margin-bottom: 10px;
-      padding: 8px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 4px;
-      border-left: 3px solid #4169e1;
-    }
-
-    .task-help code {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 2px 4px;
-      border-radius: 2px;
-      font-family: monospace;
-    }
-
     .task-input-container {
       display: flex;
       gap: 5px;
@@ -307,26 +297,10 @@
       padding: 8px 0;
       border-bottom: 1px solid #333;
       gap: 10px;
-      transition: all 0.3s ease;
     }
 
     .task-item:last-child {
       border-bottom: none;
-    }
-
-    .task-item.task-locked {
-      opacity: 0.5;
-      background: rgba(100, 0, 0, 0.1);
-    }
-
-    .task-item.task-sync {
-      border-left: 3px solid #d4af37;
-      padding-left: 7px;
-    }
-
-    .task-item.task-async {
-      border-left: 3px solid #32cd32;
-      padding-left: 7px;
     }
 
     .task-checkbox {
@@ -334,20 +308,6 @@
       height: 16px;
       accent-color: #d4af37;
       cursor: pointer;
-    }
-
-    .task-checkbox:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .task-indicators {
-      font-size: 11px;
-      margin-right: 8px;
-      min-width: 50px;
-      display: inline-block;
-      color: #aaa;
-      text-align: center;
     }
 
     .task-text {
@@ -361,11 +321,6 @@
       text-decoration: line-through;
       opacity: 0.6;
       color: #888;
-    }
-
-    .task-text.locked {
-      color: #666;
-      font-style: italic;
     }
 
     .task-delete {
@@ -471,7 +426,7 @@
       border-radius: 6px;
       padding: 12px;
       margin-bottom: 12px;
-      background: rgba(0,0,0,0.3);
+      background: rgba(0, 0, 0, 0.3);
     }
 
     .community-template h4 {
@@ -495,21 +450,6 @@
       font-size: 11px;
     }
 
-    .notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #32cd32, #228b22);
-      color: white;
-      padding: 12px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      z-index: 2000;
-      animation: slideIn 0.3s ease-out;
-      max-width: 300px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
     /* Scrollbar styling */
     .tasks-section::-webkit-scrollbar {
       width: 6px;
@@ -527,24 +467,15 @@
     .tasks-section::-webkit-scrollbar-thumb:hover {
       background: #888;
     }
-
-    @keyframes slideIn {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
   </style>
 </head>
+
 <body>
   <div class="overlay-container interactive" id="overlayContainer">
     <!-- Header -->
     <div class="header" id="header">
-      <h2>Echoesight <span id="shortcut-hint" style="font-size: 10px; opacity: 0.7;">(Interactive Mode - Ctrl+Shift+I to exit)</span></h2>
+      <h2>Echoesight <span id="shortcut-hint" style="font-size: 10px; opacity: 0.7;">(Interactive Mode - Ctrl+Shift+I to
+          exit)</span></h2>
       <div class="header-buttons">
         <button class="header-btn" onclick="showSettingsModal()" title="Settings">⚙</button>
         <button class="header-btn" onclick="minimizeOverlay()" title="Hide overlay">−</button>
@@ -566,21 +497,18 @@
         <button class="template-btn danger" onclick="clearAllTasks()">Clear All</button>
       </div>
       <div class="template-controls">
-        <button class="template-btn" onclick="loadCommunityTemplates()" style="background: #32cd32;">Community Templates</button>
-        <button class="template-btn" onclick="toggleInteractiveMode()" id="interactiveToggle" style="background: #32cd32;">Interactive Mode</button>
+        <button class="template-btn" onclick="loadCommunityTemplates()" style="background: #32cd32;">Community
+          Templates</button>
+        <button class="template-btn" onclick="toggleInteractiveMode()" id="interactiveToggle"
+          style="background: #32cd32;">Interactive Mode</button>
       </div>
     </div>
 
     <!-- Tasks Section -->
     <div class="tasks-section">
-      <!-- Task Help -->
-      <div class="task-help">
-        <strong>Enhanced Tasks:</strong> Use <code>[SYNC]</code> for ordered tasks or <code>[AFTER:123]</code> for dependencies. <strong>Ctrl+Shift+N</strong> completes next task.
-      </div>
-
       <!-- Add Task Input -->
       <div class="task-input-container">
-        <input type="text" class="task-input" id="taskInput" placeholder="Add new task... (try [SYNC] or [AFTER:123])" maxlength="150">
+        <input type="text" class="task-input" id="taskInput" placeholder="Add new task..." maxlength="100">
         <button class="add-btn" onclick="addTask()">Add</button>
       </div>
 
@@ -612,11 +540,14 @@
   <div class="modal" id="importTemplateModal">
     <div class="modal-content" style="max-width: 400px;">
       <h3 class="modal-title">Import Template</h3>
-      <textarea class="modal-input" id="importTemplateInput" placeholder="Paste template JSON here..." rows="8" style="resize: vertical; font-family: monospace; font-size: 12px;"></textarea>
+      <textarea class="modal-input" id="importTemplateInput" placeholder="Paste template JSON or share code here..."
+        rows="8" style="resize: vertical; font-family: monospace; font-size: 12px;"></textarea>
       <div style="margin-bottom: 10px;">
-        <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="handleFileImport(event)">
-        <button class="modal-btn secondary" onclick="document.getElementById('importFileInput').click()">Choose File</button>
-        <span style="font-size: 12px; margin-left: 10px;">JSON file or text</span>
+        <input type="file" id="importFileInput" accept=".json" style="display: none;"
+          onchange="handleFileImport(event)">
+        <button class="modal-btn secondary" onclick="document.getElementById('importFileInput').click()">Choose
+          File</button>
+        <span style="font-size: 12px; margin-left: 10px;">JSON file, JSON text, or share code</span>
       </div>
       <div class="modal-buttons">
         <button class="modal-btn secondary" onclick="closeImportModal()">Cancel</button>
@@ -640,14 +571,14 @@
   <div class="modal" id="settingsModal">
     <div class="modal-content" style="max-width: 450px;">
       <h3 class="modal-title">Settings</h3>
-      
+
       <!-- Transparency Settings -->
       <div style="margin-bottom: 20px;">
         <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 14px;">Appearance</h4>
         <div style="margin-bottom: 15px;">
           <label style="display: block; margin-bottom: 5px; font-size: 12px;">Click-Through Transparency:</label>
-          <input type="range" id="transparencySlider" min="0" max="100" value="15" 
-                 style="width: 100%;" oninput="updateTransparency(this.value)">
+          <input type="range" id="transparencySlider" min="0" max="100" value="15" style="width: 100%;"
+            oninput="updateTransparency(this.value)">
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: #aaa;">
             <span>More Transparent</span>
             <span id="transparencyValue">15% visible</span>
@@ -657,7 +588,8 @@
 
         <div style="margin-bottom: 10px;">
           <label style="display: block; margin-bottom: 5px; font-size: 12px;">Background Style:</label>
-          <select id="backgroundSelect" class="modal-input" style="margin-bottom: 0;" onchange="updateBackgroundColor(this.value)">
+          <select id="backgroundSelect" class="modal-input" style="margin-bottom: 0;"
+            onchange="updateBackgroundColor(this.value)">
             <option value="dark">Dark (Default)</option>
             <option value="light">Light/White</option>
             <option value="glass">Glassmorphism</option>
@@ -669,46 +601,51 @@
       <!-- Hotkey Settings -->
       <div style="margin-bottom: 20px;">
         <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 14px;">Hotkeys</h4>
-        
+
         <div style="margin-bottom: 12px;">
           <label style="display: block; margin-bottom: 4px; font-size: 12px;">Toggle Overlay Visibility:</label>
           <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="text" id="toggleVisibilityHotkey" class="modal-input" placeholder="Click Record and press keys" 
-                   style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
-            <button class="modal-btn secondary" onclick="recordHotkey('toggleVisibility')" id="recordBtn1" style="font-size: 11px; padding: 4px 8px;">
+            <input type="text" id="toggleVisibilityHotkey" class="modal-input" placeholder="Click Record and press keys"
+              style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
+            <button class="modal-btn secondary" onclick="recordHotkey('toggleVisibility')" id="recordBtn1"
+              style="font-size: 11px; padding: 4px 8px;">
               Record
             </button>
           </div>
         </div>
-        
+
         <div style="margin-bottom: 12px;">
           <label style="display: block; margin-bottom: 4px; font-size: 12px;">Toggle Interactive Mode:</label>
           <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="text" id="toggleInteractiveHotkey" class="modal-input" placeholder="Click Record and press keys" 
-                   style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
-            <button class="modal-btn secondary" onclick="recordHotkey('toggleInteractive')" id="recordBtn2" style="font-size: 11px; padding: 4px 8px;">
+            <input type="text" id="toggleInteractiveHotkey" class="modal-input"
+              placeholder="Click Record and press keys"
+              style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
+            <button class="modal-btn secondary" onclick="recordHotkey('toggleInteractive')" id="recordBtn2"
+              style="font-size: 11px; padding: 4px 8px;">
               Record
             </button>
           </div>
         </div>
-        
+
         <div style="margin-bottom: 12px;">
           <label style="display: block; margin-bottom: 4px; font-size: 12px;">Complete Next Task:</label>
           <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="text" id="completeNextTaskHotkey" class="modal-input" placeholder="Click Record and press keys" 
-                   style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
-            <button class="modal-btn secondary" onclick="recordHotkey('completeNextTask')" id="recordBtn3" style="font-size: 11px; padding: 4px 8px;">
+            <input type="text" id="completeNextTaskHotkey" class="modal-input" placeholder="Click Record and press keys"
+              style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
+            <button class="modal-btn secondary" onclick="recordHotkey('completeNextTask')" id="recordBtn3"
+              style="font-size: 11px; padding: 4px 8px;">
               Record
             </button>
           </div>
         </div>
-        
+
         <div style="font-size: 11px; color: #aaa; margin-top: 8px;">
           Click "Record" and press your desired key combination.<br>
           <strong>Avoid single letter keys (like Shift+I) to prevent typing conflicts!</strong><br>
           Good examples: Ctrl+F1, Alt+Q, Ctrl+Shift+T<br>
           Changes take effect after restarting the overlay.<br>
-          <button class="modal-btn secondary" onclick="resetHotkeys()" style="font-size: 10px; padding: 3px 8px; margin-top: 5px;">
+          <button class="modal-btn secondary" onclick="resetHotkeys()"
+            style="font-size: 10px; padding: 3px 8px; margin-top: 5px;">
             Reset to Defaults
           </button>
         </div>
@@ -733,13 +670,13 @@
 
   <script>
     const { ipcRenderer } = require('electron');
-    
+
     let tasks = [];
     let templates = [];
     let currentTemplate = null;
     let isInteractiveMode = true;
     let settings = {
-      transparency: 15,
+      transparency: 25,
       backgroundColor: 'dark',
       hotkeys: {
         toggleVisibility: 'Ctrl+Shift+T',
@@ -748,373 +685,26 @@
       }
     }
 
-    // Enhanced task structure with dependencies (optional)
-    function createTask(text, type = "async", dependencies = [], order = null) {
-      const task = {
-        id: Date.now() + Math.random(),
-        text: text,
-        completed: false,
-        createdAt: new Date().toISOString()
-      };
-      
-      // Add dependency features only if used
-      if (type !== "async" || dependencies.length > 0 || order !== null) {
-        task.type = type;
-        task.dependencies = dependencies;
-        task.order = order;
-        task.unlocked = false;
-      }
-      
-      return task;
-    }
-
-    // Task dependency logic (only runs if dependencies exist)
-    function updateTaskAvailability() {
-      const hasDependencies = tasks.some(t => t.dependencies && t.dependencies.length > 0);
-      const hasSyncTasks = tasks.some(t => t.type === "sync");
-      
-      if (!hasDependencies && !hasSyncTasks) return; // Skip if no dependencies
-
-      tasks.forEach(task => {
-        if (task.completed || !task.hasOwnProperty('unlocked')) {
-          if (task.hasOwnProperty('unlocked')) task.unlocked = true;
-          return;
-        }
-
-        let shouldBeUnlocked = true;
-
-        // Check dependencies
-        if (task.dependencies && task.dependencies.length > 0) {
-          const dependenciesMet = task.dependencies.every(depId => {
-            const depTask = tasks.find(t => t.id === depId);
-            return depTask && depTask.completed;
-          });
-          if (!dependenciesMet) shouldBeUnlocked = false;
-        }
-
-        // Check sync order
-        if (task.type === "sync" && shouldBeUnlocked) {
-          const syncTasks = tasks
-            .filter(t => t.type === "sync")
-            .sort((a, b) => (a.order || 0) - (b.order || 0));
-          
-          const currentIndex = syncTasks.findIndex(t => t.id === task.id);
-          if (currentIndex > 0) {
-            const previousTasks = syncTasks.slice(0, currentIndex);
-            shouldBeUnlocked = previousTasks.every(t => t.completed);
-          }
-        }
-
-        // Update unlock status
-        if (shouldBeUnlocked && !task.unlocked) {
-          task.unlocked = true;
-          showNotification(`🔓 New task unlocked: ${task.text}`);
-        } else if (!shouldBeUnlocked) {
-          task.unlocked = false;
-        }
-      });
-    }
-
-    function showNotification(message, type = 'success') {
-      const notification = document.createElement('div');
-      notification.className = 'notification';
-      notification.textContent = message;
-      
-      if (type === 'error') {
-        notification.style.background = 'linear-gradient(135deg, #dc143c, #8b0000)';
-      }
-      
-      document.body.appendChild(notification);
-      setTimeout(() => {
-        notification.remove();
-      }, 3000);
-    }
-
-    // Enhanced addTask function (supports both simple and dependency syntax)
-    function addTask() {
-      try {
-        console.log('addTask called');
-        const input = document.getElementById('taskInput');
-        let originalText = input.value.trim();
-        console.log('Task text:', originalText);
-        
-        if (!originalText) {
-          console.log('No text entered');
-          return;
-        }
-
-        // Parse enhanced syntax if present
-        let taskType = "async";
-        let taskOrder = null;
-        let dependencies = [];
-        let finalText = originalText;
-        
-        // Check for [SYNC] syntax
-        if (originalText.includes('[SYNC]')) {
-          taskType = "sync";
-          finalText = originalText.replace(/\[SYNC\]\s*/i, '').trim();
-          const maxOrder = Math.max(0, ...tasks.filter(t => t.type === "sync").map(t => t.order || 0));
-          taskOrder = maxOrder + 1;
-        }
-        
-        // Check for [AFTER:123] syntax
-        const depMatch = finalText.match(/\[AFTER:([\d,]+)\]\s*(.+)/i);
-        if (depMatch) {
-          const depIdStrings = depMatch[1].split(',');
-          dependencies = [];
-          
-          depIdStrings.forEach(depStr => {
-            const depValue = parseInt(depStr.trim());
-            if (!isNaN(depValue)) {
-              if (depValue < 1000) {
-                // Task index (1-based)
-                const taskIndex = depValue - 1;
-                if (taskIndex >= 0 && taskIndex < tasks.length) {
-                  dependencies.push(tasks[taskIndex].id);
-                }
-              } else {
-                // Task ID
-                if (tasks.find(t => t.id === depValue)) {
-                  dependencies.push(depValue);
-                }
-              }
-            }
-          });
-          
-          finalText = depMatch[2].trim();
-        }
-        
-        // Create task (enhanced if needed, simple otherwise)
-        const task = createTask(finalText, taskType, dependencies, taskOrder);
-        
-        // Set initial unlock status for enhanced tasks
-        if (task.hasOwnProperty('unlocked')) {
-          if (taskType === "async" && dependencies.length === 0) {
-            task.unlocked = true;
-          } else if (taskType === "sync" && taskOrder === 1 && dependencies.length === 0) {
-            task.unlocked = true;
-          }
-        }
-        
-        tasks.push(task);
-        input.value = '';
-        updateTaskAvailability();
-        renderTasks();
-        updateProgress();
-        saveTasks();
-        console.log('Task added successfully');
-      } catch (error) {
-        console.error('Error adding task:', error);
-        showNotification('Error adding task. Please try again.', 'error');
-      }
-    }
-
-    // Enhanced toggleTask function
-    function toggleTask(taskId) {
-      const task = tasks.find(t => t.id === taskId);
-      if (!task) return;
-      
-      // Check if task is locked (only for enhanced tasks)
-      if (task.hasOwnProperty('unlocked') && !task.unlocked && !task.completed) {
-        showNotification('This task is not yet available. Complete its dependencies first.', 'error');
-        return;
-      }
-      
-      // Check sync order (only for sync tasks)
-      if (task.type === "sync" && !task.completed) {
-        const nextSyncTask = tasks
-          .filter(t => t.type === "sync" && !t.completed && (t.unlocked || !t.hasOwnProperty('unlocked')))
-          .sort((a, b) => (a.order || 0) - (b.order || 0))[0];
-        
-        if (nextSyncTask && nextSyncTask.id !== task.id) {
-          showNotification(`Please complete sync tasks in order. Next task: "${nextSyncTask.text}"`, 'error');
-          return;
-        }
-      }
-      
-      task.completed = !task.completed;
-      
-      if (task.completed) {
-        showNotification(`✅ Completed: ${task.text}`);
-      }
-      
-      updateTaskAvailability();
-      renderTasks();
-      updateProgress();
-      saveTasks();
-    }
-
-    function deleteTask(taskId) {
-      // Check if any other tasks depend on this one
-      const dependentTasks = tasks.filter(t => t.dependencies && t.dependencies.includes(taskId));
-      if (dependentTasks.length > 0) {
-        const dependentNames = dependentTasks.map(t => t.text).join(', ');
-        if (!confirm(`Warning: These tasks depend on this one: ${dependentNames}\n\nDelete anyway?`)) {
-          return;
-        }
-        
-        // Remove dependencies
-        dependentTasks.forEach(t => {
-          t.dependencies = t.dependencies.filter(id => id !== taskId);
-        });
-      }
-      
-      tasks = tasks.filter(t => t.id !== taskId);
-      updateTaskAvailability();
-      renderTasks();
-      updateProgress();
-      saveTasks();
-    }
-
-    function clearAllTasks() {
-      if (confirm('Are you sure you want to clear all tasks?')) {
-        tasks = [];
-        renderTasks();
-        updateProgress();
-        saveTasks();
-      }
-    }
-
-    // Enhanced rendering
-    function renderTasks() {
-      const taskList = document.getElementById('taskList');
-      taskList.innerHTML = '';
-
-      // Sort tasks: sync tasks first (by order), then async/regular tasks
-      const sortedTasks = [...tasks].sort((a, b) => {
-        if (a.type === "sync" && b.type === "sync") {
-          return (a.order || 0) - (b.order || 0);
-        }
-        if (a.type === "sync" && (!b.type || b.type === "async")) return -1;
-        if ((!a.type || a.type === "async") && b.type === "sync") return 1;
-        return 0;
-      });
-
-      sortedTasks.forEach((task, index) => {
-        const li = document.createElement('li');
-        let className = 'task-item';
-        
-        // Add enhanced styling for dependency tasks
-        if (task.hasOwnProperty('unlocked')) {
-          if (!task.unlocked) className += ' task-locked';
-          if (task.type === 'sync') className += ' task-sync';
-          else if (task.type === 'async') className += ' task-async';
-        }
-        
-        li.className = className;
-        
-        // Create indicators for enhanced tasks
-        let indicators = '';
-        if (task.type === "sync") {
-          indicators += `🔢${task.order || '?'}`;
-        } else if (task.type === "async") {
-          indicators += `🔄`;
-        }
-        
-        if (task.hasOwnProperty('unlocked') && !task.unlocked) {
-          indicators += `🔒`;
-        }
-        
-        if (task.dependencies?.length > 0) {
-          indicators += `🔗${task.dependencies.length}`;
-        }
-        
-        // Create dependency info for tooltip
-        let dependencyInfo = '';
-        if (task.dependencies?.length > 0) {
-          const depNames = task.dependencies.map(depId => {
-            const depTask = tasks.find(t => t.id === depId);
-            return depTask ? depTask.text.substring(0, 20) : 'Unknown';
-          }).join(', ');
-          dependencyInfo = ` title="Depends on: ${depNames}"`;
-        }
-        
-        const indicatorSpan = indicators ? `<span class="task-indicators" title="Task #${index + 1}">${indicators}</span>` : '';
-        
-        li.innerHTML = `
-          <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
-                 ${task.hasOwnProperty('unlocked') && !task.unlocked ? 'disabled' : ''}
-                 onchange="toggleTask(${task.id})">
-          ${indicatorSpan}
-          <span class="task-text ${task.completed ? 'completed' : ''} ${task.hasOwnProperty('unlocked') && !task.unlocked ? 'locked' : ''}"${dependencyInfo}>${escapeHtml(task.text)}</span>
-          <button class="task-delete" onclick="deleteTask(${task.id})" title="Delete task">×</button>
-        `;
-        taskList.appendChild(li);
-      });
-    }
-
-    function updateProgress() {
-      const completed = tasks.filter(t => t.completed).length;
-      const total = tasks.length;
-      const available = tasks.filter(t => !t.hasOwnProperty('unlocked') || t.unlocked).length;
-      const percentage = total > 0 ? (completed / total) * 100 : 0;
-
-      document.getElementById('progressFill').style.width = percentage + '%';
-      
-      let progressText = `${completed} / ${total} tasks completed`;
-      if (available < total) {
-        progressText += ` • ${available} available`;
-      }
-      
-      document.getElementById('progressText').textContent = progressText;
-    }
-
-    // Complete the next uncompleted task (your original working function)
-    function completeNextTask() {
-      try {
-        // For enhanced tasks, find next available task
-        let nextTask = tasks.find(t => !t.completed && (!t.hasOwnProperty('unlocked') || t.unlocked));
-        
-        // If no enhanced tasks available, find any uncompleted task
-        if (!nextTask) {
-          nextTask = tasks.find(t => !t.completed);
-        }
-        
-        if (nextTask) {
-          nextTask.completed = true;
-          updateTaskAvailability();
-          renderTasks();
-          updateProgress();
-          saveTasks();
-          console.log('Completed task:', nextTask.text);
-          
-          // Visual feedback
-          if (isInteractiveMode) {
-            const progressText = document.getElementById('progressText');
-            const originalText = progressText.textContent;
-            progressText.textContent = `✓ Completed: ${nextTask.text}`;
-            progressText.style.color = '#32cd32';
-            setTimeout(() => {
-              progressText.textContent = originalText;
-              progressText.style.color = '';
-            }, 2000);
-          }
-        } else {
-          console.log('No uncompleted tasks found');
-        }
-      } catch (error) {
-        console.error('Error completing next task:', error);
-      }
-    }
-
-    // Keep all your working settings functions exactly as they were
     function resetHotkeys() {
       if (confirm('Reset hotkeys to default values (Ctrl+Shift+T, Ctrl+Shift+I, and Ctrl+Shift+N)?')) {
         settings.hotkeys.toggleVisibility = 'Ctrl+Shift+T';
         settings.hotkeys.toggleInteractive = 'Ctrl+Shift+I';
         settings.hotkeys.completeNextTask = 'Ctrl+Shift+N';
-        
+
+        // Update the input fields
         document.getElementById('toggleVisibilityHotkey').value = 'Ctrl+Shift+T';
         document.getElementById('toggleInteractiveHotkey').value = 'Ctrl+Shift+I';
         document.getElementById('completeNextTaskHotkey').value = 'Ctrl+Shift+N';
-        
+
         alert('Hotkeys reset to defaults. Click "Save Settings" to apply.');
       }
     }
 
+    // Settings Management
     function showSettingsModal() {
       document.getElementById('settingsModal').style.display = 'flex';
-      
+
+      // Load current settings into the modal
       document.getElementById('transparencySlider').value = settings.transparency;
       document.getElementById('transparencyValue').textContent = settings.transparency + '% visible';
       document.getElementById('backgroundSelect').value = settings.backgroundColor;
@@ -1124,6 +714,7 @@
     }
 
     function closeSettingsModal() {
+      // Stop any active hotkey recording safely
       try {
         stopRecording();
       } catch (error) {
@@ -1134,6 +725,8 @@
 
     function updateTransparency(value) {
       document.getElementById('transparencyValue').textContent = value + '% visible';
+
+      // Apply transparency preview immediately
       settings.transparency = parseInt(value);
       applyTransparencySettings();
     }
@@ -1142,7 +735,8 @@
       console.log('Background color changed to:', value);
       settings.backgroundColor = value;
       applyBackgroundSettings();
-      
+
+      // Update interactive visuals if currently in interactive mode
       if (isInteractiveMode) {
         updateInteractiveVisuals(true);
       }
@@ -1150,17 +744,18 @@
 
     function applyBackgroundSettings() {
       console.log('Applying background settings:', settings.backgroundColor);
-      
+
       const style = document.createElement('style');
       style.id = 'background-style';
-      
+
+      // Remove existing background style
       const existing = document.getElementById('background-style');
       if (existing) existing.remove();
-      
+
       let backgroundCSS = '';
       const transparency = settings.transparency / 100;
-      
-      switch(settings.backgroundColor) {
+
+      switch (settings.backgroundColor) {
         case 'light':
           backgroundCSS = `
             .overlay-container.click-through {
@@ -1305,7 +900,7 @@
             }
           `;
           break;
-        default:
+        default: // dark
           backgroundCSS = `
             .overlay-container.click-through .task-text,
             .overlay-container.click-through .progress-text {
@@ -1313,7 +908,7 @@
             }
           `;
       }
-      
+
       style.textContent = backgroundCSS;
       document.head.appendChild(style);
     }
@@ -1322,10 +917,12 @@
       const transparency = settings.transparency / 100;
       const style = document.createElement('style');
       style.id = 'transparency-style';
-      
+
+      // Remove existing transparency style
       const existing = document.getElementById('transparency-style');
       if (existing) existing.remove();
-      
+
+      // Simple transparency - just change the main background
       style.textContent = `
         .overlay-container.click-through {
           background: rgba(0, 0, 0, ${transparency}) !important;
@@ -1335,21 +932,24 @@
           background: rgba(0, 0, 0, ${transparency * 0.8}) !important;
         }
       `;
-      
+
       document.head.appendChild(style);
     }
 
     async function saveSettings() {
       try {
         console.log('Saving settings...');
-        
+
+        // Stop any active recording first
         if (typeof recordingHotkey !== 'undefined' && recordingHotkey) {
           stopRecording();
         }
-        
+
+        // Get all settings values
         settings.transparency = parseInt(document.getElementById('transparencySlider').value);
         settings.backgroundColor = document.getElementById('backgroundSelect').value;
-        
+
+        // Make sure hotkeys object exists
         if (!settings.hotkeys) {
           settings.hotkeys = {
             toggleVisibility: 'Ctrl+Shift+T',
@@ -1357,11 +957,12 @@
             completeNextTask: 'Ctrl+Shift+N'
           };
         }
-        
+
+        // Get current hotkey values from input fields (in case recording didn't update them)
         const visibilityInput = document.getElementById('toggleVisibilityHotkey');
         const interactiveInput = document.getElementById('toggleInteractiveHotkey');
         const completeTaskInput = document.getElementById('completeNextTaskHotkey');
-        
+
         if (visibilityInput.value.trim()) {
           settings.hotkeys.toggleVisibility = visibilityInput.value.trim();
         }
@@ -1371,22 +972,24 @@
         if (completeTaskInput.value.trim()) {
           settings.hotkeys.completeNextTask = completeTaskInput.value.trim();
         }
-        
+
         console.log('Current settings:', settings);
-        
+
+        // Save to storage
         const saveResult = await ipcRenderer.invoke('save-settings', settings);
         console.log('Save result:', saveResult);
-        
+
         if (!saveResult.success) {
           throw new Error(saveResult.error || 'Unknown save error');
         }
-        
+
+        // Send hotkey changes to main process
         console.log('Updating hotkeys:', settings.hotkeys);
         ipcRenderer.send('update-hotkeys', settings.hotkeys);
-        
+
         closeSettingsModal();
         alert('Settings saved successfully! Hotkey changes will take effect after restarting the overlay.');
-        
+
       } catch (error) {
         console.error('Error saving settings:', error);
         alert(`Error saving settings: ${error.message}. Please try again.`);
@@ -1398,20 +1001,23 @@
         console.log('Loading settings...');
         const loadedSettings = await ipcRenderer.invoke('load-settings');
         console.log('Loaded settings:', loadedSettings);
-        
+
         if (loadedSettings) {
-          settings = { 
-            ...settings, 
+          // Merge loaded settings with defaults
+          settings = {
+            ...settings,
             ...loadedSettings,
-            hotkeys: { 
+            // Ensure hotkeys object exists
+            hotkeys: {
               ...settings.hotkeys,
-              ...loadedSettings.hotkeys 
+              ...loadedSettings.hotkeys
             }
           };
         }
         console.log('Final settings:', settings);
       } catch (error) {
         console.error('Failed to load settings:', error);
+        // Use defaults if loading fails
       }
     }
 
@@ -1420,12 +1026,12 @@
       alert('Window position reset! The overlay will move to the top-right corner.');
     }
 
-    // Keep all your working hotkey recording functions
+    // Hotkey recording system
     function recordHotkey(hotkeyType) {
       recordingHotkey = hotkeyType;
       const input = document.getElementById(hotkeyType + 'Hotkey');
       let button;
-      
+
       if (hotkeyType === 'toggleVisibility') {
         button = document.getElementById('recordBtn1');
       } else if (hotkeyType === 'toggleInteractive') {
@@ -1433,13 +1039,14 @@
       } else if (hotkeyType === 'completeNextTask') {
         button = document.getElementById('recordBtn3');
       }
-      
+
       input.value = 'Press keys now...';
       input.style.background = '#444';
       button.textContent = 'Recording...';
       button.style.background = '#dc143c';
       button.disabled = true;
-      
+
+      // Focus on the input to capture keys
       input.focus();
     }
 
@@ -1453,9 +1060,9 @@
         } else if (recordingHotkey === 'completeNextTask') {
           button = document.getElementById('recordBtn3');
         }
-        
+
         const input = document.getElementById(recordingHotkey + 'Hotkey');
-        
+
         if (input) {
           input.style.background = '#333';
         }
@@ -1470,20 +1077,23 @@
 
     function handleHotkeyRecording(event) {
       if (!recordingHotkey) return;
-      
+
       event.preventDefault();
       event.stopPropagation();
-      
+
       const keys = [];
-      
+
+      // Collect modifier keys
       if (event.ctrlKey || event.metaKey) keys.push('Ctrl');
       if (event.altKey) keys.push('Alt');
       if (event.shiftKey) keys.push('Shift');
-      
+
+      // Add the main key (if it's not a modifier)
       if (!['Control', 'Alt', 'Shift', 'Meta'].includes(event.key)) {
         let mainKey = event.key;
-        
-        switch(event.key) {
+
+        // Convert some keys to more readable format
+        switch (event.key) {
           case ' ': mainKey = 'Space'; break;
           case 'ArrowUp': mainKey = 'Up'; break;
           case 'ArrowDown': mainKey = 'Down'; break;
@@ -1494,65 +1104,53 @@
               mainKey = mainKey.toUpperCase();
             }
         }
-        
+
         keys.push(mainKey);
-        
-        const hasRequiredModifier = keys.includes('Ctrl') || keys.includes('Alt') || 
-                                  ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'].includes(mainKey);
-        
+
+        // Validate the key combination to prevent typing conflicts
+        const hasRequiredModifier = keys.includes('Ctrl') || keys.includes('Alt') ||
+          ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'].includes(mainKey);
+
+        // Warn about problematic combinations
         if (keys.length === 2 && keys.includes('Shift') && mainKey.length === 1) {
           alert(`Warning: "${keys.join('+')}" may interfere with typing. Consider using Ctrl+${mainKey} or Alt+${mainKey} instead.`);
         }
-        
+
+        // Only save if we have a complete key combination
         if (hasRequiredModifier) {
           const hotkeyString = keys.join('+');
           const input = document.getElementById(recordingHotkey + 'Hotkey');
           input.value = hotkeyString;
-          
+
+          // Update settings
           settings.hotkeys[recordingHotkey] = hotkeyString;
-          
+
+          // Stop recording after a short delay
           setTimeout(() => {
             stopRecording();
           }, 200);
         } else if (keys.length >= 2) {
+          // Show warning for insufficient modifiers
           alert('Please use Ctrl+Key, Alt+Key, or Function keys to avoid conflicts with normal typing.');
         }
       }
     }
 
-    function updateInteractiveVisuals(interactive) {
-      const container = document.getElementById('overlayContainer');
-      const hint = document.getElementById('shortcut-hint');
-      const toggleBtn = document.getElementById('interactiveToggle');
-      
-      if (interactive) {
-        container.classList.add('interactive');
-        container.classList.remove('click-through');
-        
-        if (settings.backgroundColor === 'glass') {
-          container.classList.add('glass-mode');
-        } else {
-          container.classList.remove('glass-mode');
-        }
-        
-        if (hint) {
-          hint.textContent = '(Interactive Mode - Ctrl+Shift+I to exit)';
-          hint.style.color = '#ffffff';
-        }
-        if (toggleBtn) {
-          toggleBtn.textContent = 'Interactive Mode';
-          toggleBtn.style.background = '#32cd32';
-        }
+    function previewBackground() {
+      // Temporarily switch to read-only mode to preview background
+      const wasInteractive = isInteractiveMode;
+      if (wasInteractive) {
+        // Temporarily switch to click-through mode
+        updateInteractiveVisuals(false);
+        setTimeout(() => {
+          // Switch back after preview
+          updateInteractiveVisuals(true);
+        }, 3000);
+        alert('Switched to read-only mode for 3 seconds to preview background style.');
       } else {
-        container.classList.remove('interactive');
-        container.classList.remove('glass-mode');
-        container.classList.add('click-through');
-        if (toggleBtn) {
-          toggleBtn.textContent = 'Click-Through Mode';
-          toggleBtn.style.background = '#666';
-        }
+        alert('Background style is already visible in read-only mode.');
       }
-    }
+    };
 
     // Initialize app
     async function initializeApp() {
@@ -1574,22 +1172,145 @@
       }
     }
 
+    // Handle interactive mode changes from main process
     function setupInteractiveModeListener() {
       ipcRenderer.on('interactive-mode-changed', (event, interactive) => {
         console.log('Interactive mode changed:', interactive);
         isInteractiveMode = interactive;
         updateInteractiveVisuals(interactive);
       });
-      
-      // Your working complete next task handler
+
+      // Handle complete next task from main process
       ipcRenderer.on('complete-next-task', () => {
         console.log('Complete next task triggered');
         completeNextTask();
       });
     }
 
-    // Keep all your other working functions (templates, data persistence, etc.)
-    // Template management functions
+    // Complete the next uncompleted task
+    function completeNextTask() {
+      try {
+        const nextTask = tasks.find(t => !t.completed);
+        if (nextTask) {
+          nextTask.completed = true;
+          renderTasks();
+          updateProgress();
+          saveTasks();
+          console.log('Completed task:', nextTask.text);
+
+          // Optional: Show a brief visual feedback
+          if (isInteractiveMode) {
+            const progressText = document.getElementById('progressText');
+            const originalText = progressText.textContent;
+            progressText.textContent = `✓ Completed: ${nextTask.text}`;
+            progressText.style.color = '#32cd32';
+            setTimeout(() => {
+              progressText.textContent = originalText;
+              progressText.style.color = '';
+            }, 2000);
+          }
+        } else {
+          console.log('No uncompleted tasks found');
+        }
+      } catch (error) {
+        console.error('Error completing next task:', error);
+      }
+    }
+
+    function updateInteractiveVisuals(interactive) {
+      const container = document.getElementById('overlayContainer');
+      const hint = document.getElementById('shortcut-hint');
+      const toggleBtn = document.getElementById('interactiveToggle');
+
+      if (interactive) {
+        container.classList.add('interactive');
+        container.classList.remove('click-through');
+
+        // Add glassmorphism class if using glass background
+        if (settings.backgroundColor === 'glass') {
+          container.classList.add('glass-mode');
+        } else {
+          container.classList.remove('glass-mode');
+        }
+
+        if (hint) {
+          hint.textContent = '(Interactive Mode - Ctrl+Shift+I to exit)';
+          hint.style.color = '#ffffff';
+        }
+        if (toggleBtn) {
+          toggleBtn.textContent = 'Interactive Mode';
+          toggleBtn.style.background = '#32cd32';
+        }
+      } else {
+        container.classList.remove('interactive');
+        container.classList.remove('glass-mode');
+        container.classList.add('click-through');
+        // No need to update hint since header is hidden in click-through mode
+        if (toggleBtn) {
+          toggleBtn.textContent = 'Click-Through Mode';
+          toggleBtn.style.background = '#666';
+        }
+      }
+    }
+
+    // Task management
+    function addTask() {
+      try {
+        console.log('addTask called');
+        const input = document.getElementById('taskInput');
+        const text = input.value.trim();
+        console.log('Task text:', text);
+
+        if (text) {
+          const task = {
+            id: Date.now(),
+            text: text,
+            completed: false,
+            createdAt: new Date().toISOString()
+          };
+
+          tasks.push(task);
+          input.value = '';
+          renderTasks();
+          updateProgress();
+          saveTasks();
+          console.log('Task added successfully');
+        } else {
+          console.log('No text entered');
+        }
+      } catch (error) {
+        console.error('Error adding task:', error);
+        alert('Error adding task. Please try again.');
+      }
+    }
+
+    function toggleTask(taskId) {
+      const task = tasks.find(t => t.id === taskId);
+      if (task) {
+        task.completed = !task.completed;
+        renderTasks();
+        updateProgress();
+        saveTasks();
+      }
+    }
+
+    function deleteTask(taskId) {
+      tasks = tasks.filter(t => t.id !== taskId);
+      renderTasks();
+      updateProgress();
+      saveTasks();
+    }
+
+    function clearAllTasks() {
+      if (confirm('Are you sure you want to clear all tasks?')) {
+        tasks = [];
+        renderTasks();
+        updateProgress();
+        saveTasks();
+      }
+    }
+
+    // Template management
     function showSaveTemplateModal() {
       if (tasks.length === 0) {
         alert('No tasks to save as template!');
@@ -1607,7 +1328,7 @@
     async function saveTemplate() {
       const nameInput = document.getElementById('templateNameInput');
       const name = nameInput.value.trim();
-      
+
       if (!name) {
         alert('Please enter a template name!');
         return;
@@ -1621,32 +1342,27 @@
       const template = {
         id: Date.now(),
         name: name,
-        tasks: tasks.filter(t => !t.completed).map(t => {
-          const taskData = { text: t.text };
-          // Save enhanced features if present
-          if (t.type) taskData.type = t.type;
-          if (t.order) taskData.order = t.order;
-          if (t.dependencies) taskData.dependencies = t.dependencies;
-          return taskData;
-        }),
-        createdAt: new Date().toISOString(),
-        version: "2.0"
+        tasks: tasks.filter(t => !t.completed).map(t => ({
+          text: t.text
+        })),
+        createdAt: new Date().toISOString()
       };
 
+      // Remove existing template with same name
       templates = templates.filter(t => t.name !== name);
       templates.push(template);
 
       await saveTemplates();
       updateTemplateSelect();
       closeSaveTemplateModal();
-      
+
       alert(`Template "${name}" saved successfully!`);
     }
 
     async function loadTemplate() {
       const select = document.getElementById('templateSelect');
       const templateId = parseInt(select.value);
-      
+
       if (!templateId) return;
 
       const template = templates.find(t => t.id === templateId);
@@ -1656,30 +1372,15 @@
         return;
       }
 
-      tasks = [];
-      
-      template.tasks.forEach((templateTask, index) => {
-        const task = createTask(
-          templateTask.text,
-          templateTask.type || "async",
-          templateTask.dependencies || [],
-          templateTask.order
-        );
-        
-        // Set initial unlock status
-        if (task.hasOwnProperty('unlocked')) {
-          if (task.type === "async" && (!task.dependencies || task.dependencies.length === 0)) {
-            task.unlocked = true;
-          } else if (task.type === "sync" && task.order === 1 && (!task.dependencies || task.dependencies.length === 0)) {
-            task.unlocked = true;
-          }
-        }
-        
-        tasks.push(task);
-      });
+      // Clear current tasks and load template
+      tasks = template.tasks.map((t, index) => ({
+        id: Date.now() + index,
+        text: t.text,
+        completed: false,
+        createdAt: new Date().toISOString()
+      }));
 
       currentTemplate = template.name;
-      updateTaskAvailability();
       renderTasks();
       updateProgress();
       saveTasks();
@@ -1688,7 +1389,7 @@
     async function deleteTemplate() {
       const select = document.getElementById('templateSelect');
       const templateId = parseInt(select.value);
-      
+
       if (!templateId) {
         alert('Please select a template to delete!');
         return;
@@ -1698,19 +1399,26 @@
       if (!template) return;
 
       if (confirm(`Are you sure you want to delete the template "${template.name}"? This cannot be undone.`)) {
+        // Remove template from array
         templates = templates.filter(t => t.id !== templateId);
+
+        // Save updated templates
         await saveTemplates();
+
+        // Update dropdown
         updateTemplateSelect();
+
         alert(`Template "${template.name}" deleted successfully!`);
       }
     }
 
+    // Export/Import functionality
     function exportTemplate() {
       try {
         console.log('Export template called');
         const select = document.getElementById('templateSelect');
         const templateId = parseInt(select.value);
-        
+
         if (!templateId) {
           alert('Please select a template to export!');
           return;
@@ -1719,25 +1427,27 @@
         const template = templates.find(t => t.id === templateId);
         if (!template) return;
 
+        // Create exportable template data
         const exportData = {
           name: template.name,
           tasks: template.tasks,
-          version: "2.0",
+          version: "1.0",
           exportedAt: new Date().toISOString(),
           description: `PoE2 Task Template: ${template.name}`,
           taskCount: template.tasks.length
         };
 
+        // Create and download file
         const dataStr = JSON.stringify(exportData, null, 2);
-        const dataBlob = new Blob([dataStr], {type: 'application/json'});
-        
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+
         const link = document.createElement('a');
         link.href = URL.createObjectURL(dataBlob);
         link.download = `poe2-template-${template.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.json`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
+
         alert(`Template "${template.name}" exported successfully!`);
       } catch (error) {
         console.error('Export error:', error);
@@ -1747,6 +1457,7 @@
 
     function showImportModal() {
       document.getElementById('importTemplateModal').style.display = 'flex';
+      document.getElementById('importTemplateInput').placeholder = 'Paste template JSON or share code here...';
       document.getElementById('importTemplateInput').focus();
     }
 
@@ -1765,7 +1476,7 @@
         if (!file) return;
 
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
           document.getElementById('importTemplateInput').value = e.target.result;
         };
         reader.readAsText(file);
@@ -1778,53 +1489,56 @@
     async function importTemplate() {
       const input = document.getElementById('importTemplateInput');
       const inputData = input.value.trim();
-      
+
       if (!inputData) {
-        alert('Please paste template JSON or select a file!');
+        alert('Please paste template JSON, share code, or select a file!');
         return;
       }
 
+      let templateData;
+
       try {
-        const templateData = JSON.parse(inputData);
-        
-        if (!templateData.name || !templateData.tasks || !Array.isArray(templateData.tasks)) {
-          throw new Error('Invalid template format');
+        // Try to parse as JSON first
+        if (inputData.startsWith('{')) {
+          // It's JSON
+          templateData = JSON.parse(inputData);
+
+          // Validate JSON template structure
+          if (!templateData.name || !templateData.tasks || !Array.isArray(templateData.tasks)) {
+            throw new Error('Invalid JSON template format');
+          }
+        } else {
+          // It might be a share code, but we'll just try JSON parsing
+          templateData = JSON.parse(inputData);
         }
 
+        // Check if template with same name exists
         const existingTemplate = templates.find(t => t.name === templateData.name);
         if (existingTemplate && !confirm(`Template "${templateData.name}" already exists. Replace it?`)) {
           return;
         }
 
+        // Create new template
         const newTemplate = {
           id: Date.now(),
           name: templateData.name,
-          tasks: templateData.tasks.map(task => {
-            if (typeof task === 'string') {
-              return { text: task };
-            } else {
-              return {
-                text: task.text,
-                type: task.type,
-                order: task.order,
-                dependencies: task.dependencies
-              };
-            }
-          }),
+          tasks: templateData.tasks.map(task => ({
+            text: typeof task === 'string' ? task : task.text
+          })),
           createdAt: new Date().toISOString(),
-          imported: true,
-          version: templateData.version || "1.0"
+          imported: true
         };
 
+        // Remove existing template with same name
         templates = templates.filter(t => t.name !== templateData.name);
         templates.push(newTemplate);
 
         await saveTemplates();
         updateTemplateSelect();
         closeImportModal();
-        
+
         alert(`Template "${templateData.name}" imported successfully! (${newTemplate.tasks.length} tasks)`);
-        
+
       } catch (error) {
         alert('Invalid template format! Please check the JSON data.');
         console.error('Import error:', error);
@@ -1834,15 +1548,11 @@
     function updateTemplateSelect() {
       const select = document.getElementById('templateSelect');
       select.innerHTML = '<option value="">Select Template...</option>';
-      
+
       templates.forEach(template => {
         const option = document.createElement('option');
         option.value = template.id;
-        const hasAdvanced = template.tasks && template.tasks.some(t => 
-          t.type === 'sync' || (t.dependencies && t.dependencies.length > 0)
-        );
-        const advancedMarker = hasAdvanced ? " 🔗" : "";
-        option.textContent = `${template.name} (${template.tasks ? template.tasks.length : 0} tasks)${advancedMarker}`;
+        option.textContent = `${template.name} (${template.tasks.length} tasks)`;
         select.appendChild(option);
       });
     }
@@ -1856,7 +1566,7 @@
           tasks: [
             "Reach Act 6 for resistance penalty",
             "Complete Normal Labyrinth",
-            "Get life/ES nodes on passive tree", 
+            "Get life/ES nodes on passive tree",
             "Cap resistances (75%+)",
             "Find/buy movement skill gem",
             "Set up basic currency stash tabs",
@@ -1870,7 +1580,7 @@
           tasks: [
             "Complete Atlas progression",
             "Defeat Shaper",
-            "Defeat Elder", 
+            "Defeat Elder",
             "Complete all Pinnacle bosses",
             "Reach level 90+",
             "Get 6-link main skill",
@@ -1880,17 +1590,59 @@
           ]
         },
         {
+          name: "New Character Setup",
+          description: "Essential steps when creating a new character",
+          tasks: [
+            "Plan passive tree route (PoB)",
+            "Identify skill gem progression",
+            "Set up loot filter",
+            "Transfer currency from main",
+            "Get leveling uniques if available",
+            "Join guild/find party",
+            "Research build guide thoroughly",
+            "Prepare gems for later levels"
+          ]
+        },
+        {
           name: "Currency Goals",
           description: "Economic milestones for league",
           tasks: [
             "Save 1 Divine Orb",
             "Save 5 Divine Orbs",
-            "Save 20 Divine Orbs", 
+            "Save 20 Divine Orbs",
             "Save 50 Divine Orbs",
             "Get premium stash tab",
             "Set up efficient farming strategy",
             "Learn market prices for key items",
             "Build up crafting materials"
+          ]
+        },
+        {
+          name: "HC/SSF Priorities",
+          description: "Hardcore and Solo Self-Found specific goals",
+          tasks: [
+            "Over-cap resistances (85%+)",
+            "Get fortify/defensive layers",
+            "Level backup gems",
+            "Hoard life flasks",
+            "Get movement skills early",
+            "Plan escape routes",
+            "Avoid risky content until geared",
+            "Build defensive passive tree first"
+          ]
+        },
+        {
+          name: "Crafting Checklist",
+          description: "Steps for crafting progression",
+          tasks: [
+            "Learn basic crafting recipes",
+            "Stockpile crafting orbs",
+            "Get good base items",
+            "Practice on cheaper items first",
+            "Research craft of exile",
+            "Set up crafting bench",
+            "Learn advanced techniques",
+            "Plan expensive crafts carefully"
           ]
         }
       ];
@@ -1901,18 +1653,24 @@
         console.log('Loading community templates');
         const modal = document.getElementById('communityTemplatesModal');
         const list = document.getElementById('communityTemplatesList');
-        
+
         const communityTemplates = getCommunityTemplates();
-        
+
         list.innerHTML = '';
         communityTemplates.forEach((template, index) => {
           const div = document.createElement('div');
-          div.className = 'community-template';
-          
+          div.style.cssText = `
+            border: 1px solid #555;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 12px;
+            background: rgba(0,0,0,0.3);
+          `;
+
           div.innerHTML = `
-            <h4>${escapeHtml(template.name)}</h4>
-            <p class="description">${escapeHtml(template.description)}</p>
-            <p class="task-count">${template.tasks.length} tasks</p>
+            <h4 style="color: #d4af37; margin: 0 0 8px 0; font-size: 14px;">${escapeHtml(template.name)}</h4>
+            <p style="color: #ccc; margin: 0 0 8px 0; font-size: 12px; font-style: italic;">${escapeHtml(template.description)}</p>
+            <p style="color: #aaa; margin: 0 0 10px 0; font-size: 11px;">${template.tasks.length} tasks</p>
             <div style="display: flex; gap: 8px;">
               <button class="modal-btn primary" onclick="importCommunityTemplate(${index})" style="font-size: 12px; padding: 6px 12px;">
                 Add to My Templates
@@ -1922,10 +1680,10 @@
               </button>
             </div>
           `;
-          
+
           list.appendChild(div);
         });
-        
+
         modal.style.display = 'flex';
       } catch (error) {
         console.error('Error loading community templates:', error);
@@ -1945,12 +1703,14 @@
       try {
         const communityTemplates = getCommunityTemplates();
         const template = communityTemplates[index];
-        
+
+        // Check if template already exists
         const existingTemplate = templates.find(t => t.name === template.name);
         if (existingTemplate && !confirm(`Template "${template.name}" already exists. Replace it?`)) {
           return;
         }
 
+        // Create new template
         const newTemplate = {
           id: Date.now(),
           name: template.name,
@@ -1959,12 +1719,13 @@
           community: true
         };
 
+        // Remove existing template with same name
         templates = templates.filter(t => t.name !== template.name);
         templates.push(newTemplate);
 
         await saveTemplates();
         updateTemplateSelect();
-        
+
         alert(`Community template "${template.name}" added to your templates!`);
       } catch (error) {
         console.error('Error importing community template:', error);
@@ -1976,7 +1737,7 @@
       try {
         const communityTemplates = getCommunityTemplates();
         const template = communityTemplates[index];
-        
+
         const taskList = template.tasks.map((task, i) => `${i + 1}. ${task}`).join('\n');
         alert(`${template.name} Tasks:\n\n${taskList}`);
       } catch (error) {
@@ -1985,21 +1746,39 @@
       }
     }
 
+    // Rendering
+    function renderTasks() {
+      const taskList = document.getElementById('taskList');
+      taskList.innerHTML = '';
+
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.className = 'task-item';
+        li.innerHTML = `
+          <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
+                 onchange="toggleTask(${task.id})">
+          <span class="task-text ${task.completed ? 'completed' : ''}">${escapeHtml(task.text)}</span>
+          <button class="task-delete" onclick="deleteTask(${task.id})">×</button>
+        `;
+        taskList.appendChild(li);
+      });
+    }
+
+    function updateProgress() {
+      const completed = tasks.filter(t => t.completed).length;
+      const total = tasks.length;
+      const percentage = total > 0 ? (completed / total) * 100 : 0;
+
+      document.getElementById('progressFill').style.width = percentage + '%';
+      document.getElementById('progressText').textContent = `${completed} / ${total} tasks completed`;
+    }
+
     // Data persistence
     async function loadTasks() {
       try {
         const data = await ipcRenderer.invoke('load-tasks');
         tasks = data.tasks || [];
         currentTemplate = data.currentTemplate;
-        
-        // Ensure backwards compatibility for enhanced features
-        tasks.forEach(task => {
-          if (task.hasOwnProperty('unlocked') && typeof task.unlocked === 'undefined') {
-            task.unlocked = true;
-          }
-        });
-        
-        updateTaskAvailability();
       } catch (error) {
         console.error('Failed to load tasks:', error);
       }
@@ -2030,6 +1809,15 @@
         await ipcRenderer.invoke('save-templates', templates);
       } catch (error) {
         console.error('Failed to save templates:', error);
+      }
+    }
+
+    // Settings persistence
+    async function saveSettingsData() {
+      try {
+        await ipcRenderer.invoke('save-settings', settings);
+      } catch (error) {
+        console.error('Failed to save settings:', error);
       }
     }
 
@@ -2079,54 +1867,37 @@
     }
 
     // Event listeners
-    document.addEventListener('DOMContentLoaded', function() {
-      const taskInput = document.getElementById('taskInput');
-      const templateNameInput = document.getElementById('templateNameInput');
-      const importTemplateInput = document.getElementById('importTemplateInput');
-      
-      if (taskInput) {
-        taskInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            addTask();
-          }
-        });
-        
-        // Ensure the input is not readonly or disabled
-        taskInput.removeAttribute('readonly');
-        taskInput.removeAttribute('disabled');
-      }
-
-      if (templateNameInput) {
-        templateNameInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            saveTemplate();
-          }
-        });
-      }
-
-      if (importTemplateInput) {
-        importTemplateInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter' && e.ctrlKey) {
-            e.preventDefault();
-            importTemplate();
-          }
-        });
+    document.getElementById('taskInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        addTask();
       }
     });
 
-    // Global keydown listener for hotkey recording (but not for regular inputs)
-    document.addEventListener('keydown', function(e) {
-      // Only handle hotkey recording if we're not in a regular input field
-      if (e.target.tagName === 'INPUT' && !e.target.id.includes('Hotkey')) {
-        return; // Let normal input work
-      }
-      handleHotkeyRecording(e);
+    document.getElementById('taskInput').addEventListener('focus', function () {
+      console.log('Task input gained focus');
     });
+
+    document.getElementById('taskInput').addEventListener('blur', function () {
+      console.log('Task input lost focus');
+    });
+
+    document.getElementById('templateNameInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        saveTemplate();
+      }
+    });
+
+    document.getElementById('importTemplateInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter' && e.ctrlKey) {
+        importTemplate();
+      }
+    });
+
+    // Global keydown listener for hotkey recording
+    document.addEventListener('keydown', handleHotkeyRecording);
 
     // Click outside modal to stop recording
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (recordingHotkey && !e.target.closest('.modal-content')) {
         stopRecording();
       }
@@ -2154,7 +1925,8 @@
         if (isDragging) {
           const newX = e.screenX - dragOffset.x;
           const newY = e.screenY - dragOffset.y;
-          
+
+          // Send move request to main process
           ipcRenderer.send('move-window', { x: newX, y: newY });
         }
       } catch (error) {
@@ -2171,12 +1943,37 @@
       }
     });
 
-    // Global error handlers
-    window.addEventListener('error', function(e) {
-      console.error('Global error:', e.error);
+    // Debug: Log when overlay gets focus/blur
+    window.addEventListener('focus', () => {
+      console.log('Overlay gained focus');
     });
 
-    window.addEventListener('unhandledrejection', function(e) {
+    window.addEventListener('blur', () => {
+      console.log('Overlay lost focus');
+    });
+
+    // Debug function - call from console to test input
+    window.testInput = function () {
+      const input = document.getElementById('taskInput');
+      input.focus();
+      input.value = 'Test task';
+      console.log('Test input set. Try typing or clicking Add.');
+    };
+
+    // Debug function - call from console to test buttons
+    window.testMinimize = function () {
+      console.log('Testing minimize...');
+      minimizeOverlay();
+    };
+
+    // Global error handler
+    window.addEventListener('error', function (e) {
+      console.error('Global error:', e.error);
+      console.error('Error message:', e.message);
+      console.error('Error location:', e.filename, e.lineno, e.colno);
+    });
+
+    window.addEventListener('unhandledrejection', function (e) {
       console.error('Unhandled promise rejection:', e.reason);
     });
 
@@ -2184,4 +1981,5 @@
     document.addEventListener('DOMContentLoaded', initializeApp);
   </script>
 </body>
+
 </html>
