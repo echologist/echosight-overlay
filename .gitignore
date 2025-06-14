@@ -2,3 +2,4 @@ dist/
 node_modules/
 *.exe
 "main_copy.js"
+renderer/backup/
