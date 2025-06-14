@@ -1,4 +1,4 @@
-// main.js - Main Electron process for PoE2 Task Overlay
+// Main Electron process for Task Overlay
 const { app, BrowserWindow, screen, ipcMain, Menu, globalShortcut } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
