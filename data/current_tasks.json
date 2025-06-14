@@ -1,22 +1,10 @@
 {
   "tasks": [
     {
-      "id": 1749818228432,
-      "text": "12654",
-      "completed": true,
-      "createdAt": "2025-06-13T12:37:08.432Z"
-    },
-    {
-      "id": 1749818231088,
-      "text": "59484",
-      "completed": true,
-      "createdAt": "2025-06-13T12:37:11.088Z"
-    },
-    {
-      "id": 1749818806118,
-      "text": "Add HTML table",
+      "id": 1749903053501,
+      "text": "Hello there :)",
       "completed": false,
-      "createdAt": "2025-06-13T12:46:46.118Z"
+      "createdAt": "2025-06-14T12:10:53.501Z"
     }
   ],
   "currentTemplate": "Currency Goals"

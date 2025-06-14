@@ -26,18 +26,16 @@
       border-radius: 8px;
       display: flex;
       flex-direction: column;
-      transition: border-color 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .overlay-container.interactive {
       border-color: #32cd32;
       box-shadow: 0 0 10px rgba(50, 205, 50, 0.5);
-      opacity: 1;
       background: rgba(0, 0, 0, 0.9);
     }
 
     .overlay-container.click-through {
-      opacity: 0.25;
       border-color: #666;
       background: rgba(0, 0, 0, 0.15);
     }
@@ -68,6 +66,7 @@
 
     .overlay-container.click-through .task-checkbox {
       pointer-events: none;
+      opacity: 1 !important;
     }
 
     .overlay-container.click-through {
@@ -78,6 +77,7 @@
     .overlay-container.click-through .tasks-section {
       padding: 8px;
       position: relative;
+      background: rgba(0, 0, 0, 0.2);
     }
 
     .overlay-container.click-through .tasks-section::before {
@@ -94,6 +94,26 @@
 
     .overlay-container.click-through:hover .tasks-section::before {
       opacity: 1;
+    }
+
+    /* Ensure all text elements remain fully opaque */
+    .overlay-container.click-through .task-text {
+      opacity: 1 !important;
+      color: #ffffff;
+    }
+
+    .overlay-container.click-through .task-text.completed {
+      opacity: 1 !important;
+      color: #888;
+    }
+
+    .overlay-container.click-through .progress-text {
+      opacity: 1 !important;
+      color: #ccc;
+    }
+
+    .overlay-container.click-through .progress-fill {
+      opacity: 1 !important;
     }
 
     .header {
@@ -299,7 +319,6 @@
       margin-top: 5px;
     }
 
-    /* Fix modal sizing issues */
     .modal {
       position: fixed;
       top: 0;
@@ -311,7 +330,6 @@
       align-items: center;
       justify-content: center;
       z-index: 1000;
-      overflow-y: auto; /* Add scrolling if needed */
     }
 
     .modal-content {
@@ -320,29 +338,7 @@
       border-radius: 8px;
       padding: 20px;
       width: 90%;
-      max-width: 480px; /* Increased from 450px */
-      max-height: 90vh; /* Prevent modal from being taller than viewport */
-      overflow-y: auto; /* Add scrolling to modal content if needed */
-      margin: 20px; /* Add margin for spacing */
-    }
-
-    /* Ensure settings modal has enough space */
-    #settingsModal .modal-content {
-      max-width: 520px; /* Even larger for settings */
-      min-height: 500px; /* Minimum height */
-    }
-
-    /* Fix modal buttons to always be visible */
-    .modal-buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      margin-top: 20px;
-      padding-top: 15px;
-      border-top: 1px solid #444;
-      position: sticky; /* Make buttons stick to bottom */
-      bottom: 0;
-      background: #222; /* Match modal background */
+      max-width: 300px;
     }
 
     .modal-title {
@@ -359,6 +355,12 @@
       padding: 8px;
       border-radius: 4px;
       margin-bottom: 15px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
     }
 
     .modal-btn {
@@ -428,10 +430,10 @@
   </style>
 </head>
 <body>
-  <div class="overlay-container" id="overlayContainer">
+  <div class="overlay-container interactive" id="overlayContainer">
     <!-- Header -->
     <div class="header" id="header">
-      <h2>Echoesight <span id="shortcut-hint" style="font-size: 10px; opacity: 0.7;">(Ctrl+Shift+I to interact)</span></h2>
+      <h2>Echoesight <span id="shortcut-hint" style="font-size: 10px; opacity: 0.7;">(Interactive Mode - Ctrl+Shift+I to exit)</span></h2>
       <div class="header-buttons">
         <button class="header-btn" onclick="showSettingsModal()" title="Settings">⚙</button>
         <button class="header-btn" onclick="minimizeOverlay()" title="Hide overlay">−</button>
@@ -454,7 +456,7 @@
       </div>
       <div class="template-controls">
         <button class="template-btn" onclick="loadCommunityTemplates()" style="background: #32cd32;">Community Templates</button>
-        <button class="template-btn" onclick="toggleInteractiveMode()" id="interactiveToggle" style="background: #666;">Click-Through Mode</button>
+        <button class="template-btn" onclick="toggleInteractiveMode()" id="interactiveToggle" style="background: #32cd32;">Interactive Mode</button>
       </div>
     </div>
 
@@ -520,7 +522,7 @@
 
   <!-- Settings Modal -->
   <div class="modal" id="settingsModal">
-    <div class="modal-content" style="max-width: 520px;">
+    <div class="modal-content" style="max-width: 450px;">
       <h3 class="modal-title">Settings</h3>
       
       <!-- Transparency Settings -->
@@ -542,7 +544,7 @@
           <select id="backgroundSelect" class="modal-input" style="margin-bottom: 0;" onchange="updateBackgroundColor(this.value)">
             <option value="dark">Dark (Default)</option>
             <option value="light">Light/White</option>
-            <option value="none">Transparent (Text Only)</option>
+            <option value="none">No Background (Text Only)</option>
           </select>
         </div>
       </div>
@@ -572,7 +574,7 @@
             </button>
           </div>
         </div>
-
+        
         <div style="margin-bottom: 12px;">
           <label style="display: block; margin-bottom: 4px; font-size: 12px;">Complete Next Task:</label>
           <div style="display: flex; gap: 8px; align-items: center;">
@@ -587,7 +589,7 @@
         <div style="font-size: 11px; color: #aaa; margin-top: 8px;">
           Click "Record" and press your desired key combination.<br>
           <strong>Avoid single letter keys (like Shift+I) to prevent typing conflicts!</strong><br>
-          Good examples: Ctrl+F1, Alt+Q, Ctrl+Shift+N<br>
+          Good examples: Ctrl+F1, Alt+Q, Ctrl+Shift+T<br>
           Changes take effect after restarting the overlay.<br>
           <button class="modal-btn secondary" onclick="resetHotkeys()" style="font-size: 10px; padding: 3px 8px; margin-top: 5px;">
             Reset to Defaults
@@ -618,9 +620,9 @@
     let tasks = [];
     let templates = [];
     let currentTemplate = null;
-    let isInteractiveMode = false;
+    let isInteractiveMode = true;
     let settings = {
-      transparency: 60,
+      transparency: 25,
       hotkeys: {
         toggleVisibility: 'Ctrl+Shift+T',
         toggleInteractive: 'Ctrl+Shift+I',
@@ -629,7 +631,7 @@
     }
 
     function resetHotkeys() {
-      if (confirm('Reset hotkeys to default values?')) {
+      if (confirm('Reset hotkeys to default values (Ctrl+Shift+T, Ctrl+Shift+I, and Ctrl+Shift+N)?')) {
         settings.hotkeys.toggleVisibility = 'Ctrl+Shift+T';
         settings.hotkeys.toggleInteractive = 'Ctrl+Shift+I';
         settings.hotkeys.completeNextTask = 'Ctrl+Shift+N';
@@ -640,31 +642,6 @@
         document.getElementById('completeNextTaskHotkey').value = 'Ctrl+Shift+N';
         
         alert('Hotkeys reset to defaults. Click "Save Settings" to apply.');
-      }
-    }
-
-    // Complete next task function
-    function completeNextTask() {
-      try {
-        console.log('Complete next task called');
-        
-        // Find the first uncompleted task
-        const nextTask = tasks.find(task => !task.completed);
-        
-        if (nextTask) {
-          console.log('Completing task:', nextTask.text);
-          nextTask.completed = true;
-          renderTasks();
-          updateProgress();
-          saveTasks();
-          
-          // Optional: Show a brief notification
-          console.log(`✓ Completed: ${nextTask.text}`);
-        } else {
-          console.log('No more tasks to complete');
-        }
-      } catch (error) {
-        console.error('Error completing next task:', error);
       }
     }
 
@@ -716,63 +693,62 @@
       if (existing) existing.remove();
       
       let backgroundCSS = '';
+      const transparency = settings.transparency / 100;
       
       switch(settings.backgroundColor) {
         case 'light':
           backgroundCSS = `
             .overlay-container.click-through {
-              background: rgba(255, 255, 255, 0.8) !important;
-              color: #333 !important;
-              border: 1px solid rgba(0, 0, 0, 0.2) !important;
+              background: rgba(255, 255, 255, ${Math.max(transparency, 0.7)}) !important;
+              border: 2px solid rgba(0, 0, 0, 0.8) !important;
+            }
+            .overlay-container.click-through .tasks-section {
+              background: rgba(255, 255, 255, ${Math.max(transparency, 0.6)}) !important;
             }
             .overlay-container.click-through .task-text {
-              color: #333 !important;
+              color: #000 !important;
+              font-weight: bold !important;
             }
             .overlay-container.click-through .task-text.completed {
               color: #666 !important;
             }
             .overlay-container.click-through .progress-text {
-              color: #555 !important;
-            }
-            .overlay-container.click-through .progress-bar {
-              background: rgba(0, 0, 0, 0.2) !important;
+              color: #000 !important;
+              font-weight: bold !important;
             }
           `;
           break;
         case 'none':
           backgroundCSS = `
             .overlay-container.click-through {
-              background: none !important;
-              color: white !important;
+              background: transparent !important;
               border: none !important;
             }
             .overlay-container.click-through .tasks-section {
-              background: none !important;
+              background: transparent !important;
             }
             .overlay-container.click-through .task-text {
-              text-shadow: 2px 2px 4px rgba(0,0,0,0.9) !important;
               color: white !important;
-            }
-            .overlay-container.click-through .task-text.completed {
-              text-shadow: 2px 2px 4px rgba(0,0,0,0.9) !important;
-              color: #ccc !important;
+              text-shadow: 2px 2px 4px black, -1px -1px 2px black !important;
+              font-weight: bold !important;
             }
             .overlay-container.click-through .progress-text {
-              text-shadow: 2px 2px 4px rgba(0,0,0,0.9) !important;
               color: white !important;
+              text-shadow: 2px 2px 4px black, -1px -1px 2px black !important;
+              font-weight: bold !important;
             }
             .overlay-container.click-through .progress-bar {
-              box-shadow: 0 0 6px rgba(0,0,0,0.9) !important;
-              border: 1px solid rgba(255, 255, 255, 0.3) !important;
+              background: transparent !important;
+              border: 2px solid white !important;
+              box-shadow: 0 0 4px black !important;
             }
           `;
           break;
         default: // dark
           backgroundCSS = `
-            .overlay-container.click-through {
-              background: rgba(0, 0, 0, 0.6) !important;
+            .overlay-container.click-through .task-text,
+            .overlay-container.click-through .progress-text {
               color: white !important;
-              border: 1px solid rgba(255, 255, 255, 0.2) !important;
             }
           `;
       }
@@ -790,9 +766,14 @@
       const existing = document.getElementById('transparency-style');
       if (existing) existing.remove();
       
+      // Simple transparency - just change the main background
       style.textContent = `
         .overlay-container.click-through {
-          opacity: ${transparency} !important;
+          background: rgba(0, 0, 0, ${transparency}) !important;
+        }
+        
+        .overlay-container.click-through .tasks-section {
+          background: rgba(0, 0, 0, ${transparency * 0.8}) !important;
         }
       `;
       
@@ -824,7 +805,7 @@
         // Get current hotkey values from input fields (in case recording didn't update them)
         const visibilityInput = document.getElementById('toggleVisibilityHotkey');
         const interactiveInput = document.getElementById('toggleInteractiveHotkey');
-        const nextTaskInput = document.getElementById('completeNextTaskHotkey');
+        const completeTaskInput = document.getElementById('completeNextTaskHotkey');
         
         if (visibilityInput.value.trim()) {
           settings.hotkeys.toggleVisibility = visibilityInput.value.trim();
@@ -832,8 +813,8 @@
         if (interactiveInput.value.trim()) {
           settings.hotkeys.toggleInteractive = interactiveInput.value.trim();
         }
-        if (nextTaskInput.value.trim()) {
-          settings.hotkeys.completeNextTask = nextTaskInput.value.trim();
+        if (completeTaskInput.value.trim()) {
+          settings.hotkeys.completeNextTask = completeTaskInput.value.trim();
         }
         
         console.log('Current settings:', settings);
@@ -893,24 +874,15 @@
     function recordHotkey(hotkeyType) {
       recordingHotkey = hotkeyType;
       const input = document.getElementById(hotkeyType + 'Hotkey');
+      let button;
       
-      // Get the correct button ID
-      let buttonId;
-      switch(hotkeyType) {
-        case 'toggleVisibility':
-          buttonId = 'recordBtn1';
-          break;
-        case 'toggleInteractive':
-          buttonId = 'recordBtn2';
-          break;
-        case 'completeNextTask':
-          buttonId = 'recordBtn3';
-          break;
-        default:
-          buttonId = 'recordBtn1';
+      if (hotkeyType === 'toggleVisibility') {
+        button = document.getElementById('recordBtn1');
+      } else if (hotkeyType === 'toggleInteractive') {
+        button = document.getElementById('recordBtn2');
+      } else if (hotkeyType === 'completeNextTask') {
+        button = document.getElementById('recordBtn3');
       }
-      
-      const button = document.getElementById(buttonId);
       
       input.value = 'Press keys now...';
       input.style.background = '#444';
@@ -924,24 +896,15 @@
 
     function stopRecording() {
       if (typeof recordingHotkey !== 'undefined' && recordingHotkey) {
-        
-        // Get the correct button ID
-        let buttonId;
-        switch(recordingHotkey) {
-          case 'toggleVisibility':
-            buttonId = 'recordBtn1';
-            break;
-          case 'toggleInteractive':
-            buttonId = 'recordBtn2';
-            break;
-          case 'completeNextTask':
-            buttonId = 'recordBtn3';
-            break;
-          default:
-            buttonId = 'recordBtn1';
+        let button;
+        if (recordingHotkey === 'toggleVisibility') {
+          button = document.getElementById('recordBtn1');
+        } else if (recordingHotkey === 'toggleInteractive') {
+          button = document.getElementById('recordBtn2');
+        } else if (recordingHotkey === 'completeNextTask') {
+          button = document.getElementById('recordBtn3');
         }
         
-        const button = document.getElementById(buttonId);
         const input = document.getElementById(recordingHotkey + 'Hotkey');
         
         if (input) {
@@ -1017,6 +980,22 @@
       }
     }
 
+    function previewBackground() {
+      // Temporarily switch to read-only mode to preview background
+      const wasInteractive = isInteractiveMode;
+      if (wasInteractive) {
+        // Temporarily switch to click-through mode
+        updateInteractiveVisuals(false);
+        setTimeout(() => {
+          // Switch back after preview
+          updateInteractiveVisuals(true);
+        }, 3000);
+        alert('Switched to read-only mode for 3 seconds to preview background style.');
+      } else {
+        alert('Background style is already visible in read-only mode.');
+      }
+    };
+
     // Initialize app
     async function initializeApp() {
       try {
@@ -1045,11 +1024,41 @@
         updateInteractiveVisuals(interactive);
       });
       
-      // Handle complete next task command from main process
+      // Handle complete next task from main process
       ipcRenderer.on('complete-next-task', () => {
-        console.log('Complete next task command received from main process');
+        console.log('Complete next task triggered');
         completeNextTask();
       });
+    }
+
+    // Complete the next uncompleted task
+    function completeNextTask() {
+      try {
+        const nextTask = tasks.find(t => !t.completed);
+        if (nextTask) {
+          nextTask.completed = true;
+          renderTasks();
+          updateProgress();
+          saveTasks();
+          console.log('Completed task:', nextTask.text);
+          
+          // Optional: Show a brief visual feedback
+          if (isInteractiveMode) {
+            const progressText = document.getElementById('progressText');
+            const originalText = progressText.textContent;
+            progressText.textContent = `✓ Completed: ${nextTask.text}`;
+            progressText.style.color = '#32cd32';
+            setTimeout(() => {
+              progressText.textContent = originalText;
+              progressText.style.color = '';
+            }, 2000);
+          }
+        } else {
+          console.log('No uncompleted tasks found');
+        }
+      } catch (error) {
+        console.error('Error completing next task:', error);
+      }
     }
 
     function updateInteractiveVisuals(interactive) {
@@ -1635,6 +1644,15 @@
         await ipcRenderer.invoke('save-templates', templates);
       } catch (error) {
         console.error('Failed to save templates:', error);
+      }
+    }
+
+    // Settings persistence
+    async function saveSettingsData() {
+      try {
+        await ipcRenderer.invoke('save-settings', settings);
+      } catch (error) {
+        console.error('Failed to save settings:', error);
       }
     }
 
