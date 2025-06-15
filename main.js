@@ -7,8 +7,8 @@ const { exec } = require('child_process');
 let overlayWindow = null;
 let isGameRunning = false;
 let gameMonitorInterval = null;
-let manuallyHidden = false; // Track if user manually hid the overlay
-let isInteractive = false; // Track if overlay is interactive or click-through
+let manuallyHidden = false;
+let isInteractive = true; // Start interactive so inputs work
 let currentHotkeys = {
   toggleVisibility: 'CommandOrControl+Shift+T',
   toggleInteractive: 'CommandOrControl+Shift+I',
@@ -41,7 +41,7 @@ class PoE2TaskOverlay {
 
   async initialize() {
     await app.whenReady();
-    await this.loadSettingsOnStartup(); // Load settings before creating window
+    await this.loadSettingsOnStartup();
     this.createOverlayWindow();
     this.startGameMonitoring();
     this.setupIPC();
@@ -55,7 +55,6 @@ class PoE2TaskOverlay {
       const settings = JSON.parse(data);
       console.log('Settings loaded on startup:', settings);
       
-      // Update hotkeys if they exist in settings
       if (settings.hotkeys) {
         console.log('Updating hotkeys from settings:', settings.hotkeys);
         currentHotkeys.toggleVisibility = this.convertHotkeyFormat(settings.hotkeys.toggleVisibility);
@@ -73,25 +72,22 @@ class PoE2TaskOverlay {
     const { width, height } = primaryDisplay.workAreaSize;
 
     overlayWindow = new BrowserWindow({
-      width: 500,        // Much larger width
-      height: 700,       // Much larger height  
-      minWidth: 450,     // Larger minimum width
-      minHeight: 600,    // Larger minimum height
-      x: width - 520,    // Adjusted for new width
+      width: 500,
+      height: 700,
+      minWidth: 450,
+      minHeight: 600,
+      x: width - 520,
       y: 20,
       transparent: true,
       frame: false,
       alwaysOnTop: true,
       skipTaskbar: true,
-      focusable: true, // CHANGED: Allow window to be focusable so inputs work
+      focusable: true, // Always allow focus for inputs to work
       resizable: true,
       webSecurity: false,
       minimizable: false,
       maximizable: false,
-      type: 'desktop', // To prevent OS decorations on Windows/Linux
-      show: false, // Start hidden until game is detected
-      thickFrame: false, // Disable thick frame for better appearance
-      titleBarStyle: 'hidden', // Hide title bar
+      show: false, // Start hidden
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false
@@ -102,12 +98,26 @@ class PoE2TaskOverlay {
     overlayWindow.setAlwaysOnTop(true, 'screen-saver');
     overlayWindow.setVisibleOnAllWorkspaces(true);
 
-    overlayWindow.loadFile('renderer/index.html');
+    overlayWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
     
-    // Start in interactive mode initially so inputs work
-    overlayWindow.setIgnoreMouseEvents(false); // CHANGED: Start interactive
-    isInteractive = true; // CHANGED: Track that we start interactive
-    overlayWindow.hide(); // Hide initially until game is detected
+    // Start in interactive mode
+    overlayWindow.setIgnoreMouseEvents(false);
+    isInteractive = true;
+    
+    // Event handlers to maintain overlay properties
+    overlayWindow.on('blur', () => {
+      // Maintain always on top when losing focus
+      if (overlayWindow && !overlayWindow.isDestroyed()) {
+        overlayWindow.setAlwaysOnTop(true, 'screen-saver');
+      }
+    });
+    
+    overlayWindow.on('focus', () => {
+      // Ensure proper overlay state when gaining focus
+      if (overlayWindow && !overlayWindow.isDestroyed()) {
+        overlayWindow.setAlwaysOnTop(true, 'screen-saver');
+      }
+    });
     
     // Optional: Show dev tools in development
     // overlayWindow.webContents.openDevTools();
@@ -141,10 +151,7 @@ class PoE2TaskOverlay {
             accelerator: currentHotkeys.toggleInteractive.replace('CommandOrControl', 'Ctrl'),
             click: () => {
               if (overlayWindow && overlayWindow.isVisible()) {
-                isInteractive = !isInteractive;
-                overlayWindow.setIgnoreMouseEvents(!isInteractive);
-                overlayWindow.webContents.send('interactive-mode-changed', isInteractive);
-                console.log('Interactive mode:', isInteractive ? 'ON' : 'OFF');
+                this.toggleInteractiveMode();
               }
             }
           },
@@ -168,7 +175,6 @@ class PoE2TaskOverlay {
   }
 
   registerHotkeys() {
-    // Try to register global shortcuts
     try {
       // Unregister any existing shortcuts
       globalShortcut.unregisterAll();
@@ -195,13 +201,7 @@ class PoE2TaskOverlay {
       const interactiveRet = globalShortcut.register(currentHotkeys.toggleInteractive, () => {
         console.log('Toggle interactive mode triggered!');
         if (overlayWindow && overlayWindow.isVisible()) {
-          isInteractive = !isInteractive;
-          overlayWindow.setIgnoreMouseEvents(!isInteractive);
-          
-          // Send state to renderer for visual feedback
-          overlayWindow.webContents.send('interactive-mode-changed', isInteractive);
-          
-          console.log('Interactive mode:', isInteractive ? 'ON' : 'OFF');
+          this.toggleInteractiveMode();
         }
       });
 
@@ -209,7 +209,6 @@ class PoE2TaskOverlay {
       const nextTaskRet = globalShortcut.register(currentHotkeys.completeNextTask, () => {
         console.log('Complete next task shortcut triggered!');
         if (overlayWindow && overlayWindow.isVisible()) {
-          // Send command to renderer to complete next task
           overlayWindow.webContents.send('complete-next-task');
         }
       });
@@ -237,6 +236,17 @@ class PoE2TaskOverlay {
     }
   }
 
+  toggleInteractiveMode() {
+    isInteractive = !isInteractive;
+    console.log('Toggling interactive mode to:', isInteractive ? 'ON' : 'OFF');
+    
+    // Update mouse events without recreating window
+    overlayWindow.setIgnoreMouseEvents(!isInteractive);
+    
+    // Send state to renderer for visual feedback
+    overlayWindow.webContents.send('interactive-mode-changed', isInteractive);
+  }
+
   startGameMonitoring() {
     gameMonitorInterval = setInterval(() => {
       this.checkForPoE2();
@@ -249,22 +259,21 @@ class PoE2TaskOverlay {
       isGameRunning = stdout.includes('PathOfExile');
       
       if (isGameRunning && !wasRunning && !manuallyHidden) {
-        console.log('PoE detected - showing overlay in interactive mode');
-        // CHANGED: Start in interactive mode so inputs work
-        isInteractive = true; 
+        console.log('PoE2 detected - showing overlay in interactive mode');
+        isInteractive = true;
         overlayWindow.show();
         overlayWindow.setAlwaysOnTop(true, 'screen-saver');
-        overlayWindow.setIgnoreMouseEvents(false); // Interactive by default
+        overlayWindow.setIgnoreMouseEvents(false);
         overlayWindow.webContents.send('interactive-mode-changed', true);
       } else if (!isGameRunning && wasRunning) {
-        console.log('PoE closed - hiding overlay');
+        console.log('PoE2 closed - hiding overlay');
         overlayWindow.hide();
-        manuallyHidden = false; // Reset manual state when game closes
-        isInteractive = true; // Keep interactive for when shown again
+        manuallyHidden = false;
+        isInteractive = true;
       }
       
       // Ensure overlay stays on top if game is running and overlay is visible
-      if (isGameRunning && overlayWindow.isVisible()) {
+      if (isGameRunning && overlayWindow && overlayWindow.isVisible()) {
         overlayWindow.setAlwaysOnTop(true, 'screen-saver');
       }
     });
@@ -319,7 +328,6 @@ class PoE2TaskOverlay {
         console.log('Attempting to save settings:', settings);
         console.log('Settings file path:', SETTINGS_FILE);
         
-        // Ensure directory exists
         await fs.mkdir(DATA_DIR, { recursive: true });
         
         const settingsJson = JSON.stringify(settings, null, 2);
@@ -353,7 +361,6 @@ class PoE2TaskOverlay {
     ipcMain.on('update-hotkeys', (event, hotkeys) => {
       console.log('Received hotkey update request:', hotkeys);
       
-      // Convert hotkeys to Electron format
       const newToggleVisibility = this.convertHotkeyFormat(hotkeys.toggleVisibility);
       const newToggleInteractive = this.convertHotkeyFormat(hotkeys.toggleInteractive);
       const newCompleteNextTask = this.convertHotkeyFormat(hotkeys.completeNextTask);
@@ -364,7 +371,6 @@ class PoE2TaskOverlay {
         completeNextTask: newCompleteNextTask
       });
       
-      // Only update if they're different
       if (newToggleVisibility !== currentHotkeys.toggleVisibility || 
           newToggleInteractive !== currentHotkeys.toggleInteractive ||
           newCompleteNextTask !== currentHotkeys.completeNextTask) {
@@ -373,7 +379,6 @@ class PoE2TaskOverlay {
         currentHotkeys.toggleInteractive = newToggleInteractive;
         currentHotkeys.completeNextTask = newCompleteNextTask;
         
-        // Re-register hotkeys with new bindings
         this.registerHotkeys();
       }
     });
@@ -433,14 +438,11 @@ class PoE2TaskOverlay {
       }
     });
 
-    // Toggle interactive mode
+    // Toggle interactive mode - DON'T recreate window
     ipcMain.on('toggle-interactive-mode', () => {
       console.log('IPC: toggle-interactive-mode received');
       if (overlayWindow && overlayWindow.isVisible()) {
-        isInteractive = !isInteractive;
-        overlayWindow.setIgnoreMouseEvents(!isInteractive);
-        overlayWindow.webContents.send('interactive-mode-changed', isInteractive);
-        console.log('Interactive mode:', isInteractive ? 'ON' : 'OFF');
+        this.toggleInteractiveMode();
       }
     });
 
@@ -453,13 +455,10 @@ class PoE2TaskOverlay {
   }
 
   convertHotkeyFormat(userHotkey) {
-    // Convert user-friendly format to Electron format
-    // e.g., "Ctrl+Shift+T" -> "CommandOrControl+Shift+T"
     if (!userHotkey) return 'CommandOrControl+Shift+T';
     
     console.log('Converting hotkey:', userHotkey);
     
-    // Only replace if it doesn't already contain CommandOrControl
     if (userHotkey.includes('CommandOrControl')) {
       console.log('Already in Electron format:', userHotkey);
       return userHotkey;
@@ -478,7 +477,6 @@ class PoE2TaskOverlay {
     if (gameMonitorInterval) {
       clearInterval(gameMonitorInterval);
     }
-    // Unregister global shortcuts
     globalShortcut.unregisterAll();
   }
 }
@@ -487,7 +485,7 @@ class PoE2TaskOverlay {
 const overlay = new PoE2TaskOverlay();
 
 app.whenReady().then(() => {
-  overlay.initialize();
+  overlay.initialize(); // This was missing!
 });
 
 app.on('window-all-closed', () => {
@@ -501,4 +499,8 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     overlay.createOverlayWindow();
   }
+});
+
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
 });

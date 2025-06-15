@@ -18,6 +18,7 @@
       padding: 0;
       user-select: none;
       overflow: hidden;
+      -webkit-app-region: none !important;
     }
 
     .overlay-container {
@@ -70,8 +71,11 @@
 
     .overlay-container.click-through {
       border-color: #666;
-      background: none !important;
+      background: transparent !important;
       /* Ensure no background color */
+      backdrop-filter: brightness(0.8);
+      -webkit-backdrop-filter: brightness(0.8);
+      -webkit-app-region: no-drag !important;
     }
 
     .overlay-container.click-through .header {
