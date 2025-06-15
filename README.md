@@ -1,6 +1,6 @@
-# Echoesight - PoE 2 Task Overlay
+# Echoesight - PoE Task Overlay
 
-A lightweight, customizable task management overlay designed specifically for Path of Exile 2 players. Keep track of your league start goals, character progression, and endgame objectives without ever leaving the game!
+A lightweight, customizable task management overlay designed specifically for Path of Exile players. Keep track of your league start goals, character progression, and endgame objectives without ever leaving the game!
 
 
 ## ✨ Features
@@ -8,7 +8,7 @@ A lightweight, customizable task management overlay designed specifically for Pa
 ### 🎯 **Smart Overlay System**
 - **Click-Through Mode**: Transparent overlay that doesn't interfere with gameplay
 - **Interactive Mode**: Full-featured task management when you need it
-- **Auto-Detection**: Automatically appears when PoE2 is running
+- **Auto-Detection**: Automatically appears when PoE is running
 - **Always On Top**: Stays visible during intense gameplay moments
 
 ### 📋 **Task Management**
@@ -120,7 +120,7 @@ Full functionality when you need to manage tasks:
 
 ### Best Practices
 - Use `Ctrl+Key` or `Alt+Key` combinations
-- Avoid conflicts with PoE2's built-in shortcuts
+- Avoid conflicts with PoE's built-in shortcuts
 - Function keys (F1-F12) work well with modifiers
 
 ## 🔧 Technical Details
