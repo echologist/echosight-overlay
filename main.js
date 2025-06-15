@@ -83,11 +83,15 @@ class PoE2TaskOverlay {
       frame: false,
       alwaysOnTop: true,
       skipTaskbar: true,
-      focusable: false, // Start unfocusable to avoid OS drawing it's own title bar
+      focusable: true, // CHANGED: Allow window to be focusable so inputs work
       resizable: true,
       webSecurity: false,
       minimizable: false,
       maximizable: false,
+      type: 'desktop', // To prevent OS decorations on Windows/Linux
+      show: false, // Start hidden until game is detected
+      thickFrame: false, // Disable thick frame for better appearance
+      titleBarStyle: 'hidden', // Hide title bar
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false
@@ -100,8 +104,9 @@ class PoE2TaskOverlay {
 
     overlayWindow.loadFile('renderer/index.html');
     
-    // Start in click-through mode (doesn't interfere with game)
-    overlayWindow.setIgnoreMouseEvents(true);
+    // Start in interactive mode initially so inputs work
+    overlayWindow.setIgnoreMouseEvents(false); // CHANGED: Start interactive
+    isInteractive = true; // CHANGED: Track that we start interactive
     overlayWindow.hide(); // Hide initially until game is detected
     
     // Optional: Show dev tools in development
@@ -244,17 +249,18 @@ class PoE2TaskOverlay {
       isGameRunning = stdout.includes('PathOfExile');
       
       if (isGameRunning && !wasRunning && !manuallyHidden) {
-        console.log('PoE2 detected - showing overlay in click-through mode');
-        isInteractive = false; // Start in click-through mode when game starts
+        console.log('PoE detected - showing overlay in interactive mode');
+        // CHANGED: Start in interactive mode so inputs work
+        isInteractive = true; 
         overlayWindow.show();
         overlayWindow.setAlwaysOnTop(true, 'screen-saver');
-        overlayWindow.setIgnoreMouseEvents(true); // Click-through by default
-        overlayWindow.webContents.send('interactive-mode-changed', false);
+        overlayWindow.setIgnoreMouseEvents(false); // Interactive by default
+        overlayWindow.webContents.send('interactive-mode-changed', true);
       } else if (!isGameRunning && wasRunning) {
-        console.log('PoE2 closed - hiding overlay');
+        console.log('PoE closed - hiding overlay');
         overlayWindow.hide();
         manuallyHidden = false; // Reset manual state when game closes
-        isInteractive = false; // Reset interactive state
+        isInteractive = true; // Keep interactive for when shown again
       }
       
       // Ensure overlay stays on top if game is running and overlay is visible
