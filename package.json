@@ -1,6 +1,6 @@
 {
   "name": "echoesight",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Simple task management overlay for Path of Exile 2",
   "main": "main.js",
   "scripts": {
@@ -15,7 +15,7 @@
   },
   "build": {
     "appId": "com.poe2tools.task-overlay",
-    "productName": "Echoesight PoE 2 Task Overlay",
+    "productName": "Echoesight PoE Task Overlay",
     "directories": {
       "output": "dist"
     },
