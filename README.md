@@ -49,13 +49,19 @@ git clone https://github.com/echologist/echoesight-overlay.git
 cd echoesight-overlay
 
 # Install dependencies
-yarn install
+npm install
 
-# Run in development mode
-yarn start
+# Start development with hot reload
+npm run dev
 
-# Build executable
-yarn build-win
+# Build for production
+npm run build
+
+# Test production build
+npm run preview
+
+# Create distributable package
+npm run pack
 ```
 
 ## 🎮 Usage Guide
