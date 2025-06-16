@@ -32,6 +32,7 @@ class PoE2TaskOverlay {
   async initializeDataDirectory() {
     try {
       console.log('Creating data directory at:', DATA_DIR);
+      // Create user data directory if it doesn't exist yet
       await fs.mkdir(DATA_DIR, { recursive: true });
       console.log('Data directory created successfully');
     } catch (error) {
