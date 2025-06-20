@@ -150,7 +150,7 @@ Full functionality when you need to manage tasks:
 ## 🙏 Credits
 
 ### Inspiration
-Luca lol
+- Luca lol
 
 ### Safe for Path of Exile 2
 - ✅ **No game memory reading** - Only displays user-entered information
