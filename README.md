@@ -70,7 +70,7 @@ npm run pack
 - **Show/Hide Overlay**: `Ctrl+Shift+T` (customizable)
 - **Toggle Interactive Mode**: `Ctrl+Shift+I` (customizable)
 - **Add Task**: Type in input field and press Enter
-- **Complete Task**: Click the checkbox
+- **Complete Task**: Click the checkbox `Ctrl+Shift+N`
 - **Delete Task**: Click the × button next to any task
 
 ### Two Modes Explained
