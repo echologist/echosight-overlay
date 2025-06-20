@@ -99,7 +99,12 @@ class PoE2TaskOverlay {
     overlayWindow.setAlwaysOnTop(true, 'screen-saver');
     overlayWindow.setVisibleOnAllWorkspaces(true);
 
-    overlayWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+    // Load the renderer
+    if (!app.isPackaged && process.env.NODE_ENV === 'development' && process.env['ELECTRON_RENDERER_URL']) {
+      overlayWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    } else {
+      overlayWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
+    }
     
     // Start in interactive mode
     overlayWindow.setIgnoreMouseEvents(false);
