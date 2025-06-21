@@ -1075,6 +1075,204 @@ function previewCommunityTemplate(index) {
   }
 }
 
+let draggedTaskId = null;
+let draggedElement = null;
+let placeholder = null;
+
+// Initialize drag and drop functionality
+function initializeDragAndDrop() {
+  const taskItems = document.querySelectorAll('.task-item');
+  
+  taskItems.forEach(taskItem => {
+    const taskId = parseInt(taskItem.dataset.taskId);
+    
+    // Make task draggable
+    taskItem.draggable = true;
+    taskItem.style.cursor = 'grab';
+    
+    // Add drag event listeners
+    taskItem.addEventListener('dragstart', handleDragStart);
+    taskItem.addEventListener('dragend', handleDragEnd);
+    taskItem.addEventListener('dragover', handleDragOver);
+    taskItem.addEventListener('drop', handleDrop);
+    taskItem.addEventListener('dragenter', handleDragEnter);
+    taskItem.addEventListener('dragleave', handleDragLeave);
+  });
+}
+
+// Handle drag start
+function handleDragStart(e) {
+  draggedTaskId = parseInt(e.currentTarget.dataset.taskId);
+  draggedElement = e.currentTarget;
+  
+  // Create visual feedback
+  e.currentTarget.style.opacity = '0.5';
+  e.currentTarget.style.cursor = 'grabbing';
+  
+  // Create placeholder element
+  placeholder = document.createElement('li');
+  placeholder.className = 'drag-placeholder';
+  placeholder.style.cssText = `
+    height: ${e.currentTarget.offsetHeight}px;
+    background: rgba(212, 55, 55, 0.3);
+    border: 2px dashed #d4af37;
+    border-radius: 4px;
+    margin: 2px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    font-size: 12px;
+    font-style: italic;
+    list-style: none;
+  `;
+  placeholder.textContent = 'Drop here to reorder';
+  
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', e.currentTarget.outerHTML);
+}
+
+// Handle drag end
+function handleDragEnd(e) {
+  // Reset visual feedback
+  if (draggedElement) {
+    draggedElement.style.opacity = '1';
+    draggedElement.style.cursor = 'grab';
+  }
+  
+  // Clean up placeholder
+  if (placeholder && placeholder.parentNode) {
+    placeholder.parentNode.removeChild(placeholder);
+  }
+  
+  // Reset variables
+  draggedTaskId = null;
+  draggedElement = null;
+  placeholder = null;
+}
+
+// Handle drag over
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  
+  const targetElement = e.currentTarget;
+  if (targetElement === draggedElement) return;
+  
+  // Determine where to place the placeholder
+  const rect = targetElement.getBoundingClientRect();
+  const midpoint = rect.top + rect.height / 2;
+  const isAbove = e.clientY < midpoint;
+  
+  // Remove existing placeholder
+  if (placeholder && placeholder.parentNode) {
+    placeholder.parentNode.removeChild(placeholder);
+  }
+  
+  // Insert placeholder in the correct position
+  if (isAbove) {
+    targetElement.parentNode.insertBefore(placeholder, targetElement);
+  } else {
+    targetElement.parentNode.insertBefore(placeholder, targetElement.nextSibling);
+  }
+}
+
+// Handle drop
+function handleDrop(e) {
+  e.preventDefault();
+  
+  if (!draggedTaskId) return;
+  
+  const targetTaskId = parseInt(e.currentTarget.dataset.taskId);
+  if (draggedTaskId === targetTaskId) return;
+  
+  // Calculate new position
+  const targetElement = e.currentTarget;
+  const rect = targetElement.getBoundingClientRect();
+  const midpoint = rect.top + rect.height / 2;
+  const isAbove = e.clientY < midpoint;
+  
+  // Reorder tasks array
+  reorderTasks(draggedTaskId, targetTaskId, isAbove);
+}
+
+// Handle drag enter
+function handleDragEnter(e) {
+  e.preventDefault();
+  if (e.currentTarget !== draggedElement) {
+    e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+  }
+}
+
+// Handle drag leave
+function handleDragLeave(e) {
+  if (e.currentTarget !== draggedElement) {
+    e.currentTarget.style.backgroundColor = '';
+  }
+}
+
+// Reorder tasks in the array
+function reorderTasks(draggedId, targetId, insertAbove) {
+  // Find the tasks in the array
+  const draggedIndex = tasks.findIndex(task => task.id === draggedId);
+  const targetIndex = tasks.findIndex(task => task.id === targetId);
+  
+  if (draggedIndex === -1 || targetIndex === -1) return;
+  
+  // Remove dragged task from its current position
+  const [draggedTask] = tasks.splice(draggedIndex, 1);
+  
+  // Calculate new insertion index
+  let newTargetIndex = tasks.findIndex(task => task.id === targetId);
+  let insertIndex = insertAbove ? newTargetIndex : newTargetIndex + 1;
+  
+  // Insert the dragged task at the new position
+  tasks.splice(insertIndex, 0, draggedTask);
+  
+  // Re-render tasks and save
+  renderTasks();
+  saveTasks();
+}
+
+// Show feedback when task order is updated
+function showReorderFeedback() {
+  // Create a temporary success message
+  const feedback = document.createElement('div');
+  feedback.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(50, 205, 50, 0.9);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 1001;
+    animation: slideIn 0.3s ease;
+  `;
+  feedback.textContent = 'Task order updated!';
+  
+  // Add slide-in animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  `;
+  document.head.appendChild(style);
+  document.body.appendChild(feedback);
+  
+  // Remove after 2 seconds
+  setTimeout(() => {
+    if (feedback.parentNode) {
+      feedback.style.animation = 'slideIn 0.3s ease reverse';
+      setTimeout(() => feedback.remove(), 300);
+    }
+    style.remove();
+  }, 2000);
+}
+
 // Rendering
 function renderTasks() {
   const taskList = document.getElementById('taskList');
@@ -1083,7 +1281,20 @@ function renderTasks() {
   tasks.forEach(task => {
     const li = document.createElement('li');
     li.className = 'task-item';
+    li.dataset.taskId = task.id;  // Sets the task ID for drag and drop
+    li.draggable = true;  // Allows dragging of this task item
+    
     li.innerHTML = `
+      <span class="drag-handle" style="
+        cursor: grab;
+        color: #666;
+        font-size: 14px;
+        user-select: none;
+        padding: 2px 4px 2px 0;
+        opacity: 0.5;
+        transition: opacity 0.2s ease;
+        display: inline-block;
+      " title="Drag to reorder">⋮⋮</span>
       <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
              onchange="toggleTask(${task.id})">
       <span class="task-text ${task.completed ? 'completed' : ''}">${escapeHtml(task.text)}</span>
@@ -1091,6 +1302,9 @@ function renderTasks() {
     `;
     taskList.appendChild(li);
   });
+  
+  // Initialize drag and drop for the new elements
+  initializeDragAndDrop();
 }
 
 function updateProgress() {
