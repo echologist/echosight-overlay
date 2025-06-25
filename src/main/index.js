@@ -46,8 +46,30 @@ class PoE2TaskOverlay {
 
   async copyDefaultThemes() {
     try {
-      const sourceThemesDir = path.join(__dirname, '../../data/themes');
+      let sourceThemesDir;
+      
+      if (app.isPackaged) {
+        // For packaged apps, themes are in the app directory
+        const appPath = path.dirname(app.getPath('exe'));
+        
+        // Different paths for different platforms
+        if (process.platform === 'darwin') {
+          // macOS: MyApp.app/Contents/Resources/data/themes
+          sourceThemesDir = path.join(process.resourcesPath, 'data', 'themes');
+        } else if (process.platform === 'win32') {
+          // Windows: MyApp/data/themes
+          sourceThemesDir = path.join(appPath, 'data', 'themes');
+        } else {
+          // Linux: /opt/MyApp/data/themes
+          sourceThemesDir = path.join(appPath, 'data', 'themes');
+        }
+      } else {
+        // Development mode
+        sourceThemesDir = path.join(__dirname, '../../data/themes');
+      }
+      
       console.log('Copying default themes from:', sourceThemesDir);
+      console.log('Platform:', process.platform, 'Packaged:', app.isPackaged);
       
       const themeFiles = await fs.readdir(sourceThemesDir);
       
@@ -67,6 +89,7 @@ class PoE2TaskOverlay {
       }
     } catch (error) {
       console.error('Failed to copy default themes:', error);
+      console.error('Error details:', error.message);
     }
   }
 
