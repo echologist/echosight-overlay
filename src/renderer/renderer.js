@@ -3,11 +3,12 @@ const { ipcRenderer } = window.require('electron');
 
 let tasks = [];
 let templates = [];
+let themes = [];
 let currentTemplate = null;
 let isInteractiveMode = true;
 let settings = {
   transparency: 25,
-  backgroundColor: 'dark',
+  theme: 'dark',
   hotkeys: {
     toggleVisibility: 'Ctrl+Shift+T',
     toggleInteractive: 'Ctrl+Shift+I',
@@ -34,13 +35,29 @@ function resetHotkeys() {
 function showSettingsModal() {
   document.getElementById('settingsModal').style.display = 'flex';
 
-  // Load current settings into the modal
+  updateThemeSelector();
+  
   document.getElementById('transparencySlider').value = settings.transparency;
   document.getElementById('transparencyValue').textContent = settings.transparency + '% visible';
-  document.getElementById('backgroundSelect').value = settings.backgroundColor;
+  document.getElementById('themeSelect').value = settings.theme;
   document.getElementById('toggleVisibilityHotkey').value = settings.hotkeys.toggleVisibility;
   document.getElementById('toggleInteractiveHotkey').value = settings.hotkeys.toggleInteractive;
   document.getElementById('completeNextTaskHotkey').value = settings.hotkeys.completeNextTask;
+}
+
+function updateThemeSelector() {
+  const select = document.getElementById('themeSelect');
+  select.innerHTML = '';
+
+  themes.forEach(theme => {
+    const option = document.createElement('option');
+    option.value = theme.id;
+    option.textContent = theme.name;
+    if (theme.description) {
+      option.title = theme.description;
+    }
+    select.appendChild(option);
+  });
 }
 
 function closeSettingsModal() {
@@ -61,209 +78,228 @@ function updateTransparency(value) {
   applyTransparencySettings();
 }
 
-function updateBackgroundColor(value) {
-  console.log('Background color changed to:', value);
-  settings.backgroundColor = value;
-  applyBackgroundSettings();
+function updateTheme(themeId) {
+  console.log('Theme changed to:', themeId);
+  settings.theme = themeId;
+  applyTheme();
 
-  // Update interactive visuals if currently in interactive mode
   if (isInteractiveMode) {
     updateInteractiveVisuals(true);
   }
 }
 
-function applyBackgroundSettings() {
-  console.log('Applying background settings:', settings.backgroundColor);
+async function applyTheme() {
+  try {
+    const theme = await getCurrentTheme();
+    if (!theme) {
+      console.error('No theme found for ID:', settings.theme);
+      return;
+    }
 
-  const style = document.createElement('style');
-  style.id = 'background-style';
-
-  // Remove existing background style
-  const existing = document.getElementById('background-style');
-  if (existing) existing.remove();
-
-  let backgroundCSS = '';
-  const transparency = settings.transparency / 100;
-
-  switch (settings.backgroundColor) {
-    case 'light':
-      backgroundCSS = `
-        .overlay-container.click-through {
-          background: rgba(255, 255, 255, ${Math.max(transparency, 0.7)}) !important;
-          border: 2px solid rgba(0, 0, 0, 0.8) !important;
-        }
-        .overlay-container.click-through .tasks-section {
-          background: rgba(255, 255, 255, ${Math.max(transparency, 0.6)}) !important;
-        }
-        .overlay-container.click-through .task-text {
-          color: #000 !important;
-          font-weight: bold !important;
-        }
-        .overlay-container.click-through .task-text.completed {
-          color: #666 !important;
-        }
-        .overlay-container.click-through .progress-text {
-          color: #000 !important;
-          font-weight: bold !important;
-        }
-      `;
-      break;
-    case 'glass':
-      backgroundCSS = `
-        .overlay-container.click-through {
-          background: rgba(255, 255, 255, 0.05) !important;
-          backdrop-filter: blur(10px) !important;
-          -webkit-backdrop-filter: blur(10px) !important;
-          border: 1px solid rgba(255, 255, 255, 0.3) !important;
-          border-radius: 12px !important;
-          box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5),
-            inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
-          position: relative !important;
-          overflow: hidden !important;
-        }
-        .overlay-container.click-through::before {
-          content: '' !important;
-          position: absolute !important;
-          top: 0 !important;
-          left: 0 !important;
-          right: 0 !important;
-          height: 1px !important;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.8),
-            transparent
-          ) !important;
-        }
-        .overlay-container.click-through::after {
-          content: '' !important;
-          position: absolute !important;
-          top: 0 !important;
-          left: 0 !important;
-          width: 1px !important;
-          height: 100% !important;
-          background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.8),
-            transparent,
-            rgba(255, 255, 255, 0.3)
-          ) !important;
-        }
-        .overlay-container.click-through .tasks-section {
-          background: rgba(255, 255, 255, 0.03) !important;
-          backdrop-filter: blur(5px) !important;
-          -webkit-backdrop-filter: blur(5px) !important;
-          border-radius: 8px !important;
-          border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        }
-        .overlay-container.click-through .task-text {
-          color: white !important;
-          font-weight: 600 !important;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
-        }
-        .overlay-container.click-through .task-text.completed {
-          color: #ccc !important;
-        }
-        .overlay-container.click-through .progress-text {
-          color: white !important;
-          font-weight: bold !important;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
-        }
-        .overlay-container.click-through .progress-bar {
-          background: rgba(255, 255, 255, 0.1) !important;
-          border: 1px solid rgba(255, 255, 255, 0.2) !important;
-          backdrop-filter: blur(5px) !important;
-          -webkit-backdrop-filter: blur(5px) !important;
-        }
-      `;
-      break;
-    case 'none':
-      backgroundCSS = `
-        .overlay-container.click-through {
-          background: none !important;
-          border: none !important;
-        }
-        .overlay-container.click-through .tasks-section {
-          background: none !important;
-        }
-        .overlay-container.click-through .progress-bar {
-          background: none !important;
-          border: 2px solid white !important;
-          box-shadow: 0 0 4px black !important;
-        }
-        .overlay-container.click-through .task-text {
-          color: white !important;
-          text-shadow: 
-            2px 2px 4px rgba(0,0,0,1), 
-            -2px -2px 4px rgba(0,0,0,1),
-            2px -2px 4px rgba(0,0,0,1),
-            -2px 2px 4px rgba(0,0,0,1),
-            0 0 8px rgba(0,0,0,1) !important;
-          font-weight: bold !important;
-        }
-        .overlay-container.click-through .task-text.completed {
-          color: #ccc !important;
-          text-shadow: 
-            2px 2px 4px rgba(0,0,0,1), 
-            -2px -2px 4px rgba(0,0,0,1),
-            2px -2px 4px rgba(0,0,0,1),
-            -2px 2px 4px rgba(0,0,0,1),
-            0 0 8px rgba(0,0,0,1) !important;
-        }
-        .overlay-container.click-through .progress-text {
-          color: white !important;
-          text-shadow: 
-            2px 2px 4px rgba(0,0,0,1), 
-            -2px -2px 4px rgba(0,0,0,1),
-            2px -2px 4px rgba(0,0,0,1),
-            -2px 2px 4px rgba(0,0,0,1),
-            0 0 8px rgba(0,0,0,1) !important;
-          font-weight: bold !important;
-        }
-        .overlay-container.click-through .task-checkbox {
-          filter: 
-            drop-shadow(2px 2px 4px rgba(0,0,0,1)) 
-            drop-shadow(-2px -2px 4px rgba(0,0,0,1))
-            drop-shadow(0 0 4px rgba(0,0,0,1)) !important;
-        }
-      `;
-      break;
-    default: // dark
-      backgroundCSS = `
-        .overlay-container.click-through .task-text,
-        .overlay-container.click-through .progress-text {
-          color: white !important;
-        }
-      `;
+    console.log('Applying theme:', theme.name, 'with settings:', settings);
+    
+    removeExistingStyles();
+    
+    const style = document.createElement('style');
+    style.id = 'theme-style';
+    
+    let css = generateThemeCSS(theme);
+    console.log('Generated CSS:', css);
+    style.textContent = css;
+    document.head.appendChild(style);
+    
+    applyFonts(theme);
+    
+  } catch (error) {
+    console.error('Failed to apply theme:', error);
   }
+}
 
-  style.textContent = backgroundCSS;
+function removeExistingStyles() {
+  const existingStyles = ['theme-style', 'background-style', 'transparency-style', 'font-style'];
+  existingStyles.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.remove();
+  });
+}
+
+function generateThemeCSS(theme) {
+  const transparency = settings.transparency / 100;
+  
+  const cssVars = generateCSSVariables(theme, transparency);
+  const interactiveStyles = generateInteractiveStyles(theme);
+  const clickThroughStyles = generateClickThroughStyles(theme);
+  const commonStyles = generateCommonStyles(theme);
+  
+  return `
+    :root {
+      ${cssVars}
+    }
+    
+    ${commonStyles}
+    ${interactiveStyles}
+    ${clickThroughStyles}
+  `;
+}
+
+function generateCSSVariables(theme, transparency) {
+  const vars = [];
+  
+  vars.push(`--user-transparency: ${transparency}`);
+  
+  Object.entries(theme.colors).forEach(([category, values]) => {
+    if (typeof values === 'object') {
+      Object.entries(values).forEach(([key, value]) => {
+        const shortCategory = category === 'background' ? 'bg' : 
+                             category === 'border' ? 'border' :
+                             category === 'text' ? 'text' : category;
+        vars.push(`--${shortCategory}-${key}: ${value}`);
+      });
+    } else {
+      vars.push(`--${category}: ${values}`);
+    }
+  });
+  
+  if (theme.effects) {
+    Object.entries(theme.effects).forEach(([key, value]) => {
+      vars.push(`--${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value}`);
+    });
+  }
+  
+  return vars.join(';\n      ');
+}
+
+function generateInteractiveStyles(theme) {
+  const interactive = theme.styles.interactive;
+  if (!interactive) return '';
+  
+  return `
+    .overlay-container.interactive {
+      ${objectToCSS(interactive.container)}
+    }
+    
+    .overlay-container.interactive .header {
+      ${objectToCSS(interactive.header)}
+    }
+    
+    .overlay-container.interactive .template-section {
+      ${objectToCSS(interactive.templateSection)}
+    }
+    
+    .overlay-container.interactive .tasks-section {
+      ${objectToCSS(interactive.tasksSection)}
+    }
+  `;
+}
+
+function generateClickThroughStyles(theme) {
+  const clickThrough = theme.styles.clickThrough;
+  if (!clickThrough) return '';
+  
+  return `
+    .overlay-container.click-through {
+      ${objectToCSS(clickThrough.container)}
+    }
+    
+    .overlay-container.click-through .tasks-section {
+      ${objectToCSS(clickThrough.tasksSection)}
+    }
+  `;
+}
+
+function generateCommonStyles(theme) {
+  return `
+    .overlay-container .task-text {
+      color: var(--text-primary) !important;
+      font-weight: var(--font-weight-normal, normal) !important;
+      ${theme.effects?.textShadow ? `text-shadow: var(--text-shadow) !important;` : ''}
+    }
+    
+    .overlay-container .task-text.completed {
+      color: var(--text-muted) !important;
+      ${theme.effects?.textShadow ? `text-shadow: var(--text-shadow) !important;` : ''}
+    }
+    
+    .overlay-container .progress-text {
+      color: var(--text-secondary) !important;
+      font-weight: var(--font-weight-bold, bold) !important;
+      ${theme.effects?.textShadow ? `text-shadow: var(--text-shadow) !important;` : ''}
+    }
+    
+    .overlay-container .progress-bar {
+      ${theme.effects?.boxShadow ? `box-shadow: var(--box-shadow) !important;` : ''}
+    }
+    
+    .overlay-container .task-checkbox {
+      ${theme.effects?.dropShadow ? `filter: var(--drop-shadow) !important;` : ''}
+    }
+  `;
+}
+
+function objectToCSS(obj) {
+  if (!obj) return '';
+  
+  return Object.entries(obj).map(([key, value]) => {
+    const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+    return `${cssKey}: ${value} !important`;
+  }).join(';\n      ');
+}
+
+async function getCurrentTheme() {
+  const themeId = settings.theme || 'dark';
+  return await ipcRenderer.invoke('get-theme', themeId);
+}
+
+function applyFonts(theme) {
+  if (!theme.fonts) return;
+  
+  const style = document.createElement('style');
+  style.id = 'font-style';
+  
+  let fontCSS = '';
+  
+  if (theme.fonts.primary) {
+    const font = theme.fonts.primary;
+    
+    fontCSS += `
+      body, .overlay-container {
+        font-family: ${font.family} !important;
+      }
+      
+      .header h2 {
+        font-size: ${font.sizes.header} !important;
+      }
+      
+      .task-text {
+        font-size: ${font.sizes.task} !important;
+      }
+      
+      .progress-text {
+        font-size: ${font.sizes.progress} !important;
+      }
+      
+      button, select, input {
+        font-size: ${font.sizes.ui} !important;
+        font-family: ${font.family} !important;
+      }
+    `;
+    
+    if (font.weights) {
+      fontCSS += `
+        :root {
+          --font-weight-normal: ${font.weights.normal};
+          --font-weight-bold: ${font.weights.bold};
+        }
+      `;
+    }
+  }
+  
+  style.textContent = fontCSS;
   document.head.appendChild(style);
 }
 
 function applyTransparencySettings() {
-  const transparency = settings.transparency / 100;
-  const style = document.createElement('style');
-  style.id = 'transparency-style';
-
-  // Remove existing transparency style
-  const existing = document.getElementById('transparency-style');
-  if (existing) existing.remove();
-
-  // Simple transparency - just change the main background
-  style.textContent = `
-    .overlay-container.click-through {
-      background: rgba(0, 0, 0, ${transparency}) !important;
-    }
-    
-    .overlay-container.click-through .tasks-section {
-      background: rgba(0, 0, 0, ${transparency * 0.8}) !important;
-    }
-  `;
-
-  document.head.appendChild(style);
+  applyTheme();
 }
 
 async function saveSettings() {
@@ -277,7 +313,7 @@ async function saveSettings() {
 
     // Get all settings values
     settings.transparency = parseInt(document.getElementById('transparencySlider').value);
-    settings.backgroundColor = document.getElementById('backgroundSelect').value;
+    settings.theme = document.getElementById('themeSelect').value;
 
     // Make sure hotkeys object exists
     if (!settings.hotkeys) {
@@ -333,21 +369,23 @@ async function loadSettings() {
     console.log('Loaded settings:', loadedSettings);
 
     if (loadedSettings) {
-      // Merge loaded settings with defaults
       settings = {
         ...settings,
         ...loadedSettings,
-        // Ensure hotkeys object exists
         hotkeys: {
           ...settings.hotkeys,
           ...loadedSettings.hotkeys
         }
       };
+      
+      if (loadedSettings.backgroundColor && !loadedSettings.theme) {
+        console.log('Migrating backgroundColor to theme:', loadedSettings.backgroundColor);
+        settings.theme = loadedSettings.backgroundColor;
+      }
     }
     console.log('Final settings:', settings);
   } catch (error) {
     console.error('Failed to load settings:', error);
-    // Use defaults if loading fails
   }
 }
 
@@ -488,17 +526,96 @@ async function initializeApp() {
     console.log('Initializing app...');
     await loadTasks();
     await loadTemplates();
+    await loadThemes();
     await loadSettings();
     updateTemplateSelect();
     renderTasks();
     updateProgress();
     setupInteractiveModeListener();
-    applyTransparencySettings();
-    applyBackgroundSettings();
+    await applyTheme();
     console.log('App initialized successfully');
   } catch (error) {
     console.error('Error initializing app:', error);
     alert('Error initializing app. Check console for details.');
+  }
+}
+
+async function loadThemes() {
+  try {
+    themes = await ipcRenderer.invoke('load-themes');
+    console.log('Themes loaded:', themes.length);
+  } catch (error) {
+    console.error('Failed to load themes:', error);
+    themes = [];
+  }
+}
+
+async function openThemesFolder() {
+  try {
+    const result = await ipcRenderer.invoke('open-themes-folder');
+    if (result.success) {
+      console.log('Themes folder opened');
+    } else {
+      alert('Failed to open themes folder: ' + result.error);
+    }
+  } catch (error) {
+    console.error('Error opening themes folder:', error);
+    alert('Error opening themes folder. Check console for details.');
+  }
+}
+
+async function reloadThemes() {
+  try {
+    themes = await ipcRenderer.invoke('reload-themes');
+    updateThemeSelector();
+    const currentTheme = document.getElementById('themeSelect').value;
+    if (currentTheme) {
+      settings.theme = currentTheme;
+      await applyTheme();
+    }
+    alert(`Themes reloaded! Found ${themes.length} themes.`);
+  } catch (error) {
+    console.error('Error reloading themes:', error);
+    alert('Error reloading themes. Check console for details.');
+  }
+}
+
+async function showThemesPath() {
+  try {
+    const themesPath = await ipcRenderer.invoke('get-themes-path');
+    console.log('Themes folder location:', themesPath);
+    
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.9);
+      color: #d4af37;
+      padding: 15px 20px;
+      border: 2px solid #d4af37;
+      border-radius: 8px;
+      font-size: 12px;
+      z-index: 1001;
+      max-width: 400px;
+      line-height: 1.4;
+    `;
+    notification.innerHTML = `
+      <strong>Custom Themes Folder:</strong><br>
+      <code style="background: rgba(255,255,255,0.1); padding: 2px 4px; border-radius: 3px; display: block; margin: 8px 0; word-break: break-all;">${themesPath}</code>
+      <small>Add .json theme files here and click "Reload" in settings</small>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.remove();
+      }
+    }, 8000);
+    
+  } catch (error) {
+    console.error('Error getting themes path:', error);
   }
 }
 
@@ -1539,7 +1656,7 @@ window.showSettingsModal = showSettingsModal;
 window.closeSettingsModal = closeSettingsModal;
 window.resetHotkeys = resetHotkeys;
 window.updateTransparency = updateTransparency;
-window.updateBackgroundColor = updateBackgroundColor;
+window.updateTheme = updateTheme;
 window.recordHotkey = recordHotkey;
 window.resetPosition = resetPosition;
 window.saveSettings = saveSettings;
@@ -1557,3 +1674,6 @@ window.loadCommunityTemplates = loadCommunityTemplates;
 window.closeCommunityModal = closeCommunityModal;
 window.importCommunityTemplate = importCommunityTemplate;
 window.previewCommunityTemplate = previewCommunityTemplate;
+window.openThemesFolder = openThemesFolder;
+window.reloadThemes = reloadThemes;
+window.showThemesPath = showThemesPath;

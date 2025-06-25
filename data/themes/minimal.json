@@ -1,0 +1,87 @@
+{
+  "name": "Minimal",
+  "id": "minimal",
+  "version": "1.0.0",
+  "author": "Echoesight",
+  "description": "Clean minimal theme with no background",
+  "isDefault": true,
+  "fonts": {
+    "primary": {
+      "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+      "sizes": {
+        "header": "16px",
+        "task": "13px",
+        "progress": "12px",
+        "ui": "12px"
+      },
+      "weights": {
+        "normal": "700",
+        "bold": "900"
+      }
+    }
+  },
+  "colors": {
+    "primary": "#ffffff",
+    "secondary": "#32cd32",
+    "accent": "#4169e1",
+    "danger": "#dc143c",
+    "text": {
+      "primary": "#ffffff",
+      "secondary": "#cccccc",
+      "muted": "#aaaaaa",
+      "inverse": "#000000"
+    },
+    "background": {
+      "primary": "transparent",
+      "secondary": "transparent",
+      "tertiary": "transparent",
+      "transparent": "transparent"
+    },
+    "border": {
+      "primary": "#ffffff",
+      "secondary": "#ffffff",
+      "interactive": "#ffffff"
+    }
+  },
+  "transparency": {
+    "clickThrough": "1.0",
+    "interactive": "1.0"
+  },
+  "effects": {
+    "textShadow": "2px 2px 4px rgba(0,0,0,1), -2px -2px 4px rgba(0,0,0,1), 2px -2px 4px rgba(0,0,0,1), -2px 2px 4px rgba(0,0,0,1), 0 0 8px rgba(0,0,0,1)",
+    "dropShadow": "drop-shadow(2px 2px 4px rgba(0,0,0,1)) drop-shadow(-2px -2px 4px rgba(0,0,0,1)) drop-shadow(0 0 4px rgba(0,0,0,1))",
+    "boxShadow": "0 0 4px black"
+  },
+  "styles": {
+    "interactive": {
+      "container": {
+        "background": "none",
+        "border": "none",
+        "borderRadius": "0"
+      },
+      "header": {
+        "background": "none",
+        "borderBottom": "2px solid var(--border-primary)",
+        "boxShadow": "var(--box-shadow)"
+      },
+      "templateSection": {
+        "background": "none",
+        "borderBottom": "2px solid var(--border-primary)",
+        "boxShadow": "var(--box-shadow)"
+      },
+      "tasksSection": {
+        "background": "none"
+      }
+    },
+    "clickThrough": {
+      "container": {
+        "background": "none",
+        "border": "none",
+        "borderRadius": "0"
+      },
+      "tasksSection": {
+        "background": "none"
+      }
+    }
+  }
+}

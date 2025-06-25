@@ -1,0 +1,81 @@
+{
+  "name": "Light",
+  "id": "light",
+  "version": "1.0.0",
+  "author": "Echoesight",
+  "description": "Clean light theme with dark text",
+  "isDefault": true,
+  "fonts": {
+    "primary": {
+      "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+      "sizes": {
+        "header": "16px",
+        "task": "13px",
+        "progress": "12px",
+        "ui": "12px"
+      },
+      "weights": {
+        "normal": "400",
+        "bold": "700"
+      }
+    }
+  },
+  "colors": {
+    "primary": "#d4af37",
+    "secondary": "#32cd32",
+    "accent": "#4169e1",
+    "danger": "#dc143c",
+    "text": {
+      "primary": "#000000",
+      "secondary": "#333333",
+      "muted": "#666666",
+      "inverse": "#ffffff"
+    },
+    "background": {
+      "primary": "rgba(255, 255, 255, 0.95)",
+      "secondary": "rgba(255, 255, 255, 0.8)",
+      "tertiary": "rgba(255, 255, 255, 0.6)",
+      "transparent": "transparent"
+    },
+    "border": {
+      "primary": "rgba(0, 0, 0, 0.8)",
+      "secondary": "#cccccc",
+      "interactive": "#32cd32"
+    }
+  },
+  "transparency": {
+    "clickThrough": "var(--user-transparency, 0.7)",
+    "interactive": "0.95"
+  },
+  "styles": {
+    "interactive": {
+      "container": {
+        "background": "var(--bg-primary)",
+        "border": "2px solid var(--border-interactive)",
+        "borderRadius": "8px",
+        "boxShadow": "0 0 10px rgba(50, 205, 50, 0.5)"
+      },
+      "header": {
+        "background": "linear-gradient(135deg, rgba(220, 220, 220, 0.9), rgba(240, 240, 240, 0.9))",
+        "borderBottom": "1px solid var(--border-secondary)"
+      },
+      "templateSection": {
+        "background": "var(--bg-secondary)",
+        "borderBottom": "1px solid var(--border-secondary)"
+      },
+      "tasksSection": {
+        "background": "var(--bg-tertiary)"
+      }
+    },
+    "clickThrough": {
+      "container": {
+        "background": "rgba(255, 255, 255, var(--user-transparency, 0.7))",
+        "border": "2px solid var(--border-primary)",
+        "borderRadius": "4px"
+      },
+      "tasksSection": {
+        "background": "rgba(255, 255, 255, calc(var(--user-transparency, 0.7) * 0.8))"
+      }
+    }
+  }
+}

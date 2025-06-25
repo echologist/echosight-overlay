@@ -1,5 +1,5 @@
 // Main Electron process for Task Overlay
-const { app, BrowserWindow, screen, ipcMain, Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, screen, ipcMain, Menu, globalShortcut, shell } = require('electron');
 const path = require('path');
 const fs = require('fs').promises;
 const { exec } = require('child_process');
@@ -20,23 +20,83 @@ const DATA_DIR = app.isPackaged
   ? path.join(app.getPath('userData'), 'data')
   : path.join(__dirname, 'data');
 
+const THEMES_DIR = path.join(DATA_DIR, 'themes');
 const TASKS_FILE = path.join(DATA_DIR, 'current_tasks.json');
 const TEMPLATES_FILE = path.join(DATA_DIR, 'templates.json');
 const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
 
 class PoE2TaskOverlay {
   constructor() {
+    this.themes = new Map();
     this.initializeDataDirectory();
   }
 
   async initializeDataDirectory() {
     try {
       console.log('Creating data directory at:', DATA_DIR);
-      // Create user data directory if it doesn't exist yet
       await fs.mkdir(DATA_DIR, { recursive: true });
+      await fs.mkdir(THEMES_DIR, { recursive: true });
       console.log('Data directory created successfully');
+      await this.copyDefaultThemes();
+      await this.loadThemes();
     } catch (error) {
       console.error('Failed to create data directory:', error);
+    }
+  }
+
+  async copyDefaultThemes() {
+    try {
+      const sourceThemesDir = path.join(__dirname, '../../data/themes');
+      console.log('Copying default themes from:', sourceThemesDir);
+      
+      const themeFiles = await fs.readdir(sourceThemesDir);
+      
+      for (const file of themeFiles) {
+        if (!file.endsWith('.json')) continue;
+        
+        const sourcePath = path.join(sourceThemesDir, file);
+        const targetPath = path.join(THEMES_DIR, file);
+        
+        try {
+          await fs.access(targetPath);
+          console.log(`Theme already exists: ${file}`);
+        } catch {
+          console.log(`Copying default theme: ${file}`);
+          await fs.copyFile(sourcePath, targetPath);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to copy default themes:', error);
+    }
+  }
+
+  async loadThemes() {
+    try {
+      console.log('Loading themes from:', THEMES_DIR);
+      const themeFiles = await fs.readdir(THEMES_DIR);
+      
+      for (const file of themeFiles) {
+        if (!file.endsWith('.json')) continue;
+        
+        try {
+          const themePath = path.join(THEMES_DIR, file);
+          const themeData = await fs.readFile(themePath, 'utf8');
+          const theme = JSON.parse(themeData);
+          
+          if (theme.id && theme.name) {
+            this.themes.set(theme.id, theme);
+            console.log(`Loaded theme: ${theme.name} (${theme.id})`);
+          } else {
+            console.warn(`Invalid theme file: ${file} - missing id or name`);
+          }
+        } catch (error) {
+          console.error(`Failed to load theme file ${file}:`, error);
+        }
+      }
+      
+      console.log(`Total themes loaded: ${this.themes.size}`);
+    } catch (error) {
+      console.error('Failed to load themes:', error);
     }
   }
 
@@ -431,6 +491,54 @@ class PoE2TaskOverlay {
         console.log('Settings file not found or invalid, using defaults:', error.message);
         return null;
       }
+    });
+
+    // Load themes
+    ipcMain.handle('load-themes', async () => {
+      try {
+        return Array.from(this.themes.values());
+      } catch (error) {
+        console.error('Failed to get themes:', error);
+        return [];
+      }
+    });
+
+    // Get specific theme
+    ipcMain.handle('get-theme', async (event, themeId) => {
+      try {
+        return this.themes.get(themeId) || null;
+      } catch (error) {
+        console.error('Failed to get theme:', error);
+        return null;
+      }
+    });
+
+    // Reload themes
+    ipcMain.handle('reload-themes', async () => {
+      try {
+        this.themes.clear();
+        await this.loadThemes();
+        return Array.from(this.themes.values());
+      } catch (error) {
+        console.error('Failed to reload themes:', error);
+        return [];
+      }
+    });
+
+    // Open themes folder
+    ipcMain.handle('open-themes-folder', async () => {
+      try {
+        await shell.openPath(THEMES_DIR);
+        return { success: true };
+      } catch (error) {
+        console.error('Failed to open themes folder:', error);
+        return { success: false, error: error.message };
+      }
+    });
+
+    // Get themes folder path
+    ipcMain.handle('get-themes-path', async () => {
+      return THEMES_DIR;
     });
 
     // Update hotkeys

@@ -1,0 +1,83 @@
+{
+  "name": "Dark",
+  "id": "dark",
+  "version": "1.0.0",
+  "author": "Echoesight",
+  "description": "Default dark theme with high contrast",
+  "isDefault": true,
+  "fonts": {
+    "primary": {
+      "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+      "sizes": {
+        "header": "16px",
+        "task": "13px",
+        "progress": "12px",
+        "ui": "12px"
+      },
+      "weights": {
+        "normal": "400",
+        "bold": "700"
+      }
+    }
+  },
+  "colors": {
+    "primary": "#d4af37",
+    "secondary": "#32cd32",
+    "accent": "#4169e1",
+    "danger": "#dc143c",
+    "text": {
+      "primary": "#ffffff",
+      "secondary": "#cccccc",
+      "muted": "#888888",
+      "inverse": "#000000"
+    },
+    "background": {
+      "primary": "rgba(0, 0, 0, 0.9)",
+      "secondary": "rgba(0, 0, 0, 0.7)",
+      "tertiary": "rgba(0, 0, 0, 0.3)",
+      "transparent": "transparent"
+    },
+    "border": {
+      "primary": "#d4af37",
+      "secondary": "#333333",
+      "interactive": "#32cd32"
+    }
+  },
+  "transparency": {
+    "clickThrough": "var(--user-transparency, 0.25)",
+    "interactive": "0.9"
+  },
+  "styles": {
+    "interactive": {
+      "container": {
+        "background": "var(--bg-primary)",
+        "border": "2px solid var(--border-interactive)",
+        "borderRadius": "8px",
+        "boxShadow": "0 0 10px rgba(50, 205, 50, 0.5)"
+      },
+      "header": {
+        "background": "linear-gradient(135deg, #8b4513, #a0522d)",
+        "borderBottom": "1px solid var(--border-primary)"
+      },
+      "templateSection": {
+        "background": "var(--bg-tertiary)",
+        "borderBottom": "1px solid var(--border-secondary)"
+      },
+      "tasksSection": {
+        "background": "var(--bg-secondary)"
+      }
+    },
+    "clickThrough": {
+      "container": {
+        "background": "rgba(0, 0, 0, var(--user-transparency, 0.25))",
+        "border": "none",
+        "borderRadius": "4px",
+        "backdropFilter": "brightness(0.8)",
+        "webkitBackdropFilter": "brightness(0.8)"
+      },
+      "tasksSection": {
+        "background": "rgba(0, 0, 0, calc(var(--user-transparency, 0.25) * 0.8))"
+      }
+    }
+  }
+}
