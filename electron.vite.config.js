@@ -5,19 +5,18 @@ export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
     build: {
-      outDir: 'dist-electron/main',
-      rollupOptions: {
-        input: resolve(__dirname, 'src/main/index.js')
-      }
+      outDir: 'dist-electron/main'
+    }
+  },
+  preload: {
+    plugins: [externalizeDepsPlugin()], 
+    build: {
+      outDir: 'dist-electron/preload'
     }
   },
   renderer: {
-    root: 'src/renderer',
     build: {
-      outDir: 'dist-electron/renderer',
-      rollupOptions: {
-        input: resolve(__dirname, 'src/renderer/index.html')
-      }
+      outDir: 'dist-electron/renderer'
     }
   }
 })

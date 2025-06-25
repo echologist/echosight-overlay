@@ -1,4 +1,5 @@
-const { ipcRenderer } = require('electron');
+// ES Module imports 4 Vite
+const { ipcRenderer } = window.require('electron');
 
 let tasks = [];
 let templates = [];
@@ -357,7 +358,7 @@ function resetPosition() {
 
 // Hotkey recording system
 function recordHotkey(hotkeyType) {
-  recordingHotkey = hotkeyType;
+  window.recordingHotkey = hotkeyType;
   const input = document.getElementById(hotkeyType + 'Hotkey');
   let button;
 
@@ -380,17 +381,17 @@ function recordHotkey(hotkeyType) {
 }
 
 function stopRecording() {
-  if (typeof recordingHotkey !== 'undefined' && recordingHotkey) {
+  if (typeof window.recordingHotkey !== 'undefined' && window.recordingHotkey) {
     let button;
-    if (recordingHotkey === 'toggleVisibility') {
+    if (window.recordingHotkey === 'toggleVisibility') {
       button = document.getElementById('recordBtn1');
-    } else if (recordingHotkey === 'toggleInteractive') {
+    } else if (window.recordingHotkey === 'toggleInteractive') {
       button = document.getElementById('recordBtn2');
-    } else if (recordingHotkey === 'completeNextTask') {
+    } else if (window.recordingHotkey === 'completeNextTask') {
       button = document.getElementById('recordBtn3');
     }
 
-    const input = document.getElementById(recordingHotkey + 'Hotkey');
+    const input = document.getElementById(window.recordingHotkey + 'Hotkey');
 
     if (input) {
       input.style.background = '#333';
@@ -400,12 +401,12 @@ function stopRecording() {
       button.style.background = '#666';
       button.disabled = false;
     }
-    recordingHotkey = null;
+    window.recordingHotkey = null;
   }
 }
 
 function handleHotkeyRecording(event) {
-  if (!recordingHotkey) return;
+  if (!window.recordingHotkey) return;
 
   event.preventDefault();
   event.stopPropagation();
@@ -448,11 +449,11 @@ function handleHotkeyRecording(event) {
     // Only save if we have a complete key combination
     if (hasRequiredModifier) {
       const hotkeyString = keys.join('+');
-      const input = document.getElementById(recordingHotkey + 'Hotkey');
+      const input = document.getElementById(window.recordingHotkey + 'Hotkey');
       input.value = hotkeyString;
 
       // Update settings
-      settings.hotkeys[recordingHotkey] = hotkeyString;
+      settings.hotkeys[window.recordingHotkey] = hotkeyString;
 
       // Stop recording after a short delay
       setTimeout(() => {
@@ -479,7 +480,7 @@ function previewBackground() {
   } else {
     alert('Background style is already visible in read-only mode.');
   }
-};
+}
 
 // Initialize app
 async function initializeApp() {
@@ -1443,7 +1444,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Click outside modal to stop recording
   document.addEventListener('click', function (e) {
-    if (recordingHotkey && !e.target.closest('.modal-content')) {
+    if (window.recordingHotkey && !e.target.closest('.modal-content')) {
       stopRecording();
     }
   });
@@ -1525,3 +1526,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize the app
   initializeApp();
 });
+
+// make functions global for onclick handlers
+window.addTask = addTask;
+window.toggleTask = toggleTask;
+window.deleteTask = deleteTask;
+window.clearAllTasks = clearAllTasks;
+window.minimizeOverlay = minimizeOverlay;
+window.closeOverlay = closeOverlay;
+window.toggleInteractiveMode = toggleInteractiveMode;
+window.showSettingsModal = showSettingsModal;
+window.closeSettingsModal = closeSettingsModal;
+window.resetHotkeys = resetHotkeys;
+window.updateTransparency = updateTransparency;
+window.updateBackgroundColor = updateBackgroundColor;
+window.recordHotkey = recordHotkey;
+window.resetPosition = resetPosition;
+window.saveSettings = saveSettings;
+window.showSaveTemplateModal = showSaveTemplateModal;
+window.closeSaveTemplateModal = closeSaveTemplateModal;
+window.saveTemplate = saveTemplate;
+window.loadTemplate = loadTemplate;
+window.deleteTemplate = deleteTemplate;
+window.exportTemplate = exportTemplate;
+window.showImportModal = showImportModal;
+window.closeImportModal = closeImportModal;
+window.importTemplate = importTemplate;
+window.handleFileImport = handleFileImport;
+window.loadCommunityTemplates = loadCommunityTemplates;
+window.closeCommunityModal = closeCommunityModal;
+window.importCommunityTemplate = importCommunityTemplate;
+window.previewCommunityTemplate = previewCommunityTemplate;

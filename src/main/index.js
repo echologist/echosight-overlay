@@ -91,7 +91,10 @@ class PoE2TaskOverlay {
       show: false, // Start hidden
       webPreferences: {
         nodeIntegration: true,
-        contextIsolation: false
+        contextIsolation: false,
+        webSecurity: false,
+        enableRemoteModule: true,
+        allowRunningInsecureContent: true
       }
     });
 
@@ -99,12 +102,67 @@ class PoE2TaskOverlay {
     overlayWindow.setAlwaysOnTop(true, 'screen-saver');
     overlayWindow.setVisibleOnAllWorkspaces(true);
 
-    // Load the renderer
-    if (!app.isPackaged && process.env.NODE_ENV === 'development' && process.env['ELECTRON_RENDERER_URL']) {
-      overlayWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-    } else {
-      overlayWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
-    }
+    // Load the renderer function
+    const loadRenderer = () => {
+      if (!app.isPackaged && process.env.NODE_ENV === 'development' && process.env['ELECTRON_RENDERER_URL']) {
+        console.log('Loading dev URL:', process.env['ELECTRON_RENDERER_URL']);
+        overlayWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+      } else {
+        const rendererPath = path.join(__dirname, '../renderer/index.html');
+        console.log('Loading file:', rendererPath);
+        console.log('File exists:', require('fs').existsSync(rendererPath));
+        overlayWindow.loadFile(rendererPath);
+      }
+    };
+
+    // Add error handling for renderer loading
+    overlayWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+      console.error('Failed to load renderer:', errorCode, errorDescription, validatedURL);
+      
+      // Try alternative path
+      const altPath = path.join(__dirname, '../../dist-electron/renderer/index.html');
+      console.log('Trying alternative path:', altPath);
+      if (require('fs').existsSync(altPath)) {
+        overlayWindow.loadFile(altPath);
+      }
+    });
+
+    overlayWindow.webContents.on('did-finish-load', () => {
+      console.log('Renderer loaded successfully');
+      
+      // Check if JavaScript is working
+      overlayWindow.webContents.executeJavaScript('typeof window !== "undefined"')
+        .then(result => {
+          console.log('JavaScript working:', result);
+          
+          // Test if our functions exist
+          overlayWindow.webContents.executeJavaScript('typeof addTask !== "undefined"')
+            .then(hasFunction => {
+              console.log('addTask function exists:', hasFunction);
+              if (!hasFunction) {
+                console.error('Renderer script not loaded properly');
+              }
+            });
+        })
+        .catch(error => {
+          console.error('JavaScript execution failed:', error);
+        });
+
+      // Register hotkeys after window is fully loaded
+      console.log('Registering hotkeys after window load...');
+      setTimeout(() => {
+        this.registerHotkeys();
+        
+        // Verify registration
+        setTimeout(() => {
+          const isRegistered = globalShortcut.isRegistered(currentHotkeys.toggleVisibility);
+          console.log(`Hotkey registration check: ${isRegistered ? 'SUCCESS' : 'FAILED'}`);
+        }, 1000);
+      }, app.isPackaged ? 2000 : 500);
+    });
+
+    // !!! CRITICAL !!! Actually call the loadRenderer function!
+    loadRenderer();
     
     // Start in interactive mode
     overlayWindow.setIgnoreMouseEvents(false);
@@ -124,13 +182,18 @@ class PoE2TaskOverlay {
         overlayWindow.setAlwaysOnTop(true, 'screen-saver');
       }
     });
+
+    // Show window after a delay to ensure everything loads
+    setTimeout(() => {
+      overlayWindow.show();
+    }, 1000);
     
     // Optional: Show dev tools in development
     // overlayWindow.webContents.openDevTools();
   }
 
   setupMenu() {
-    this.registerHotkeys();
+    // Hotkeys are now registered after window loads, not here
 
     const template = [
       {
@@ -182,8 +245,18 @@ class PoE2TaskOverlay {
 
   registerHotkeys() {
     try {
+      console.log('=== REGISTERING HOTKEYS ===');
+      console.log('App packaged:', app.isPackaged);
+      console.log('Current hotkeys:', currentHotkeys);
+      
       // Unregister any existing shortcuts
       globalShortcut.unregisterAll();
+      
+      // Check if globalShortcut is available
+      if (!globalShortcut) {
+        console.error('globalShortcut not available');
+        return;
+      }
       
       // Toggle overlay visibility
       const toggleRet = globalShortcut.register(currentHotkeys.toggleVisibility, () => {
@@ -219,26 +292,23 @@ class PoE2TaskOverlay {
         }
       });
 
-      if (!toggleRet) {
-        console.log('Failed to register toggle shortcut');
-      } else {
-        console.log('Toggle shortcut registered successfully:', currentHotkeys.toggleVisibility);
-      }
+      // Log results with better formatting
+      console.log('Hotkey Registration Results:');
+      console.log(`  ${currentHotkeys.toggleVisibility}: ${toggleRet ? 'SUCCESS' : 'FAILED'}`);
+      console.log(`  ${currentHotkeys.toggleInteractive}: ${interactiveRet ? 'SUCCESS' : 'FAILED'}`);
+      console.log(`  ${currentHotkeys.completeNextTask}: ${nextTaskRet ? 'SUCCESS' : 'FAILED'}`);
 
-      if (!interactiveRet) {
-        console.log('Failed to register interactive shortcut');
-      } else {
-        console.log('Interactive shortcut registered successfully:', currentHotkeys.toggleInteractive);
-      }
+      const successCount = [toggleRet, interactiveRet, nextTaskRet].filter(Boolean).length;
+      console.log(`Total: ${successCount}/3 hotkeys registered`);
 
-      if (!nextTaskRet) {
-        console.log('Failed to register complete next task shortcut');
-      } else {
-        console.log('Complete next task shortcut registered successfully:', currentHotkeys.completeNextTask);
+      if (successCount === 0) {
+        console.error('No hotkeys registered successfully');
+        throw new Error('Hotkey registration completely failed');
       }
 
     } catch (error) {
-      console.error('Error registering global shortcuts:', error);
+      console.error('Error in registerHotkeys:', error);
+      // Don't throw, let the fallback system handle it
     }
   }
 
@@ -491,7 +561,7 @@ class PoE2TaskOverlay {
 const overlay = new PoE2TaskOverlay();
 
 app.whenReady().then(() => {
-  overlay.initialize(); // This was missing!
+  overlay.initialize();
 });
 
 app.on('window-all-closed', () => {

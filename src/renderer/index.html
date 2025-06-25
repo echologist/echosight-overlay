@@ -310,10 +310,37 @@
       padding: 8px 0;
       border-bottom: 1px solid #333;
       gap: 10px;
+      transition: all 0.2s ease;
+      border-radius: 4px;
+      margin: 2px 0;
+      list-style: none; /* Remove bullet points if using li elements */
     }
 
     .task-item:last-child {
       border-bottom: none;
+    }
+
+    .task-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .task-item:hover .drag-handle {
+      opacity: 1 !important;
+      color: #d4af37 !important;
+    }
+
+    .drag-placeholder {
+      animation: placeholderPulse 1.5s ease-in-out infinite;
+      list-style: none;
+    }
+
+    @keyframes placeholderPulse {
+      0%, 100% { background: rgba(212, 175, 55, 0.2); }
+      50% { background: rgba(3, 236, 127, 0.4); }
+    }
+
+    .task-item[draggable="true"]:active {
+      cursor: grabbing !important;
     }
 
     .task-checkbox {
@@ -481,47 +508,12 @@
       background: #888;
     }
 
-    .task-item {
-  transition: all 0.2s ease;
-  border-radius: 4px;
-  margin: 2px 0;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  list-style: none; /* Remove bullet points if using li elements */
-}
-
-.task-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.task-item:hover .drag-handle {
-  opacity: 1 !important;
-  color: #d4af37 !important;
-}
-
-.drag-placeholder {
-  animation: placeholderPulse 1.5s ease-in-out infinite;
-  list-style: none;
-}
-
-@keyframes placeholderPulse {
-  0%, 100% { background: rgba(212, 175, 55, 0.2); }
-  50% { background: rgba(3, 236, 127, 0.4); }
-}
-
-.task-item[draggable="true"]:active {
-  cursor: grabbing !important;
-}
-
-/* Ensure taskList container allows for proper drag/drop */
-#taskList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-
+    /* Ensure taskList container allows for proper drag/drop */
+    #taskList {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
   </style>
 </head>
 
@@ -723,7 +715,8 @@
     </div>
   </div>
 
-  <script src="renderer.js"></script>
+  <!-- IMPORTANT Import as ES module, not regular script -->
+  <script type="module" src="./renderer.js"></script>
 </body>
 
 </html>
