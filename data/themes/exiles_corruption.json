@@ -1,0 +1,100 @@
+{
+  "name": "Exile's Corruption",
+  "id": "exiles_corruption",
+  "version": "1.0.0",
+  "author": "Echoesight",
+  "description": "Dark corruption theme inspired by PoE's corruption mechanics with deep purples and red accents",
+  "isDefault": false,
+  "fonts": {
+    "primary": {
+      "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+      "sizes": {
+        "header": "16px",
+        "task": "13px",
+        "progress": "12px",
+        "ui": "12px"
+      },
+      "weights": {
+        "normal": "400",
+        "bold": "600"
+      }
+    }
+  },
+  "colors": {
+    "primary": "#8b0000",
+    "secondary": "#dc143c",
+    "accent": "#4b0082",
+    "danger": "#ff1744",
+    "text": {
+      "primary": "#e6e6fa",
+      "secondary": "#dda0dd",
+      "muted": "#9370db",
+      "inverse": "#000000"
+    },
+    "background": {
+      "primary": "rgba(25, 0, 25, 0.9)",
+      "secondary": "rgba(35, 0, 35, 0.8)",
+      "tertiary": "rgba(45, 0, 45, 0.6)",
+      "transparent": "transparent"
+    },
+    "border": {
+      "primary": "#8b0000",
+      "secondary": "#4b0082",
+      "interactive": "#dc143c"
+    }
+  },
+  "transparency": {
+    "clickThrough": "0.15",
+    "interactive": "0.9"
+  },
+  "effects": {
+    "blur": "8px",
+    "borderRadius": "6px",
+    "textShadow": "0 0 4px rgba(220, 20, 60, 0.8), 0 1px 2px rgba(0, 0, 0, 0.9)",
+    "boxShadow": "0 0 20px rgba(220, 20, 60, 0.4), 0 0 40px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(220, 20, 60, 0.3)"
+  },
+  "styles": {
+    "interactive": {
+      "container": {
+        "background": "linear-gradient(135deg, var(--bg-primary) 0%, rgba(35, 0, 35, 0.95) 50%, var(--bg-primary) 100%)",
+        "border": "2px solid var(--border-interactive)",
+        "borderRadius": "var(--border-radius)",
+        "backdropFilter": "blur(var(--blur)) saturate(1.2)",
+        "webkitBackdropFilter": "blur(var(--blur)) saturate(1.2)",
+        "boxShadow": "var(--box-shadow)",
+        "position": "relative",
+        "overflow": "hidden"
+      },
+      "header": {
+        "background": "linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(75, 0, 130, 0.6) 100%)",
+        "backdropFilter": "blur(5px)",
+        "webkitBackdropFilter": "blur(5px)",
+        "borderBottom": "1px solid var(--border-primary)",
+        "boxShadow": "0 2px 10px rgba(220, 20, 60, 0.3)"
+      },
+      "templateSection": {
+        "background": "linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%)",
+        "borderBottom": "1px solid var(--border-secondary)",
+        "boxShadow": "inset 0 1px 3px rgba(220, 20, 60, 0.2)"
+      },
+      "tasksSection": {
+        "background": "linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%)",
+        "position": "relative"
+      }
+    },
+    "clickThrough": {
+      "container": {
+        "background": "linear-gradient(135deg, rgba(25, 0, 25, var(--user-transparency, 0.15)) 0%, rgba(35, 0, 35, calc(var(--user-transparency, 0.15) * 1.2)) 50%, rgba(25, 0, 25, var(--user-transparency, 0.15)) 100%)",
+        "border": "1px solid rgba(139, 0, 0, 0.4)",
+        "borderRadius": "var(--border-radius)",
+        "backdropFilter": "blur(3px) saturate(1.1) brightness(0.7)",
+        "webkitBackdropFilter": "blur(3px) saturate(1.1) brightness(0.7)",
+        "boxShadow": "0 0 15px rgba(220, 20, 60, 0.2)"
+      },
+      "tasksSection": {
+        "background": "linear-gradient(180deg, rgba(25, 0, 25, calc(var(--user-transparency, 0.15) * 0.8)) 0%, rgba(35, 0, 35, calc(var(--user-transparency, 0.15) * 1.1)) 100%)",
+        "position": "relative"
+      }
+    }
+  }
+}
