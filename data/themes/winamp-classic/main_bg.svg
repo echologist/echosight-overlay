@@ -1,0 +1,99 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="winampBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#404040;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#303030;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#202020;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#101010;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="winampTexture" patternUnits="userSpaceOnUse" width="8" height="8">
+      <rect width="8" height="8" fill="#202020"/>
+      <circle cx="2" cy="2" r="1" fill="#404040"/>
+      <circle cx="6" cy="6" r="1" fill="#606060"/>
+      <circle cx="2" cy="6" r="0.5" fill="#303030"/>
+      <circle cx="6" cy="2" r="0.5" fill="#303030"/>
+    </pattern>
+    <radialGradient id="spotLight" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#008000;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#004000;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#002000;stop-opacity:0.1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Base background -->
+  <rect width="800" height="600" fill="url(#winampBg)"/>
+  
+  <!-- Texture overlay -->
+  <rect width="800" height="600" fill="url(#winampTexture)" opacity="0.4"/>
+  
+  <!-- Winamp green spotlight effect -->
+  <ellipse cx="400" cy="180" rx="300" ry="200" fill="url(#spotLight)"/>
+  
+  <!-- Border highlights -->
+  <rect x="1" y="1" width="798" height="598" fill="none" stroke="#606060" stroke-width="1"/>
+  <rect x="2" y="2" width="796" height="596" fill="none" stroke="#202020" stroke-width="1"/>
+  
+  <!-- Classic Winamp brand stripes -->
+  <rect x="0" y="0" width="800" height="30" fill="url(#winampBg)"/>
+  <rect x="0" y="0" width="800" height="30" fill="none" stroke="#008000" stroke-width="2"/>
+  
+  <!-- EQ visualizer pattern across bottom -->
+  <g fill="#00ff00" opacity="0.2">
+    <rect x="50" y="550" width="6" height="40"/>
+    <rect x="70" y="540" width="6" height="50"/>
+    <rect x="90" y="545" width="6" height="45"/>
+    <rect x="110" y="535" width="6" height="55"/>
+    <rect x="130" y="542" width="6" height="48"/>
+    <rect x="150" y="538" width="6" height="52"/>
+    <rect x="170" y="546" width="6" height="44"/>
+    <rect x="190" y="532" width="6" height="58"/>
+    
+    <rect x="250" y="548" width="6" height="42"/>
+    <rect x="270" y="544" width="6" height="46"/>
+    <rect x="290" y="540" width="6" height="50"/>
+    <rect x="310" y="536" width="6" height="54"/>
+    <rect x="330" y="542" width="6" height="48"/>
+    <rect x="350" y="534" width="6" height="56"/>
+    <rect x="370" y="545" width="6" height="45"/>
+    <rect x="390" y="539" width="6" height="51"/>
+    
+    <rect x="450" y="546" width="6" height="44"/>
+    <rect x="470" y="541" width="6" height="49"/>
+    <rect x="490" y="537" width="6" height="53"/>
+    <rect x="510" y="543" width="6" height="47"/>
+    <rect x="530" y="535" width="6" height="55"/>
+    <rect x="550" y="540" width="6" height="50"/>
+    <rect x="570" y="544" width="6" height="46"/>
+    <rect x="590" y="538" width="6" height="52"/>
+    
+    <rect x="650" y="542" width="6" height="48"/>
+    <rect x="670" y="546" width="6" height="44"/>
+    <rect x="690" y="540" width="6" height="50"/>
+    <rect x="710" y="536" width="6" height="54"/>
+    <rect x="730" y="544" width="6" height="46"/>
+  </g>
+  
+  <!-- LED indicator dots -->
+  <circle cx="750" cy="50" r="4" fill="#ff0000" opacity="0.8"/>
+  <circle cx="750" cy="65" r="4" fill="#ffff00" opacity="0.8"/>
+  <circle cx="750" cy="80" r="4" fill="#00ff00" opacity="0.8"/>
+  
+  <!-- Scan lines effect -->
+  <g stroke="#00ff00" stroke-width="0.5" opacity="0.1">
+    <line x1="0" y1="50" x2="800" y2="50"/>
+    <line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="250" x2="800" y2="250"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="350" x2="800" y2="350"/>
+    <line x1="0" y1="400" x2="800" y2="400"/>
+    <line x1="0" y1="450" x2="800" y2="450"/>
+    <line x1="0" y1="500" x2="800" y2="500"/>
+  </g>
+  
+  <!-- Center logo area -->
+  <circle cx="400" cy="300" r="80" fill="none" stroke="#00ff00" stroke-width="2" opacity="0.3"/>
+  <text x="400" y="305" font-family="Arial" font-size="16" fill="#00ff00" text-anchor="middle" opacity="0.5">ECHOESIGHT</text>
+</svg>

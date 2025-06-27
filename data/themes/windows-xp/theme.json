@@ -1,0 +1,98 @@
+{
+  "name": "Windows XP",
+  "id": "windows-xp",
+  "version": "1.0.0",
+  "author": "Echoesight",
+  "description": "Authentic Windows XP theme with classic Luna styling",
+  "isDefault": false,
+  "fonts": {
+    "primary": {
+      "family": "Tahoma, Arial, sans-serif",
+      "sizes": {
+        "header": "11px",
+        "task": "11px",
+        "progress": "11px",
+        "ui": "11px"
+      },
+      "weights": {
+        "normal": "400",
+        "bold": "700"
+      }
+    }
+  },
+  "colors": {
+    "primary": "#0054e3",
+    "secondary": "#316ac5",
+    "accent": "#ffd700",
+    "danger": "#ff6b6b",
+    "text": {
+      "primary": "#000000",
+      "secondary": "#333333",
+      "muted": "#666666",
+      "inverse": "#ffffff",
+      "disabled": "#999999"
+    },
+    "background": {
+      "primary": "#ece9d8",
+      "secondary": "#f1efe2",
+      "tertiary": "#ddd9c3",
+      "transparent": "transparent"
+    },
+    "border": {
+      "primary": "#0054e3",
+      "secondary": "#8b8680",
+      "interactive": "#0054e3",
+      "light": "#ffffff",
+      "dark": "#aca899"
+    }
+  },
+  "effects": {
+    "borderRadius": "0px",
+    "textShadow": "none",
+    "boxShadow": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680",
+    "buttonShadow": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680",
+    "bevelInset": "inset 1px 1px 0px #8b8680, inset -1px -1px 0px #ffffff",
+    "bevelOutset": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680"
+  },
+  "styles": {
+    "interactive": {
+      "container": {
+        "background": "#ece9d8",
+        "border": "2px outset #ece9d8",
+        "borderRadius": "0px",
+        "fontFamily": "Tahoma, Arial, sans-serif",
+        "color": "#000000"
+      },
+      "header": {
+        "background": "linear-gradient(to bottom, #0054e3, #316ac5)",
+        "borderBottom": "1px solid #8b8680",
+        "color": "#ffffff",
+        "textShadow": "none",
+        "fontSize": "11px",
+        "fontWeight": "bold"
+      },
+      "templateSection": {
+        "background": "#f1efe2",
+        "borderBottom": "1px solid #8b8680",
+        "color": "#000000"
+      },
+      "tasksSection": {
+        "background": "#ece9d8",
+        "border": "1px inset #ece9d8",
+        "color": "#000000"
+      }
+    },
+    "clickThrough": {
+      "container": {
+        "background": "rgba(236, 233, 216, 0.9)",
+        "border": "1px solid rgba(139, 134, 128, 0.8)",
+        "borderRadius": "0px"
+      },
+      "tasksSection": {
+        "background": "rgba(241, 239, 226, 0.8)",
+        "border": "1px solid rgba(139, 134, 128, 0.8)"
+      }
+    }
+  },
+  "cssFile": "styles.css"
+}

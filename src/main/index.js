@@ -71,20 +71,23 @@ class PoE2TaskOverlay {
       console.log('Copying default themes from:', sourceThemesDir);
       console.log('Platform:', process.platform, 'Packaged:', app.isPackaged);
       
-      const themeFiles = await fs.readdir(sourceThemesDir);
+      const themeEntries = await fs.readdir(sourceThemesDir, { withFileTypes: true });
       
-      for (const file of themeFiles) {
-        if (!file.endsWith('.json')) continue;
-        
-        const sourcePath = path.join(sourceThemesDir, file);
-        const targetPath = path.join(THEMES_DIR, file);
+      for (const entry of themeEntries) {
+        const sourcePath = path.join(sourceThemesDir, entry.name);
+        const targetPath = path.join(THEMES_DIR, entry.name);
         
         try {
           await fs.access(targetPath);
-          console.log(`Theme already exists: ${file}`);
+          console.log(`Theme already exists: ${entry.name}`);
         } catch {
-          console.log(`Copying default theme: ${file}`);
-          await fs.copyFile(sourcePath, targetPath);
+          if (entry.isFile() && entry.name.endsWith('.json')) {
+            console.log(`Copying default theme file: ${entry.name}`);
+            await fs.copyFile(sourcePath, targetPath);
+          } else if (entry.isDirectory()) {
+            console.log(`Copying default theme folder: ${entry.name}`);
+            await this.copyFolderRecursively(sourcePath, targetPath);
+          }
         }
       }
     } catch (error) {
@@ -93,27 +96,38 @@ class PoE2TaskOverlay {
     }
   }
 
+  async copyFolderRecursively(source, target) {
+    try {
+      await fs.mkdir(target, { recursive: true });
+      const entries = await fs.readdir(source, { withFileTypes: true });
+      
+      for (const entry of entries) {
+        const sourcePath = path.join(source, entry.name);
+        const targetPath = path.join(target, entry.name);
+        
+        if (entry.isDirectory()) {
+          await this.copyFolderRecursively(sourcePath, targetPath);
+        } else {
+          await fs.copyFile(sourcePath, targetPath);
+        }
+      }
+    } catch (error) {
+      console.error(`Failed to copy folder ${source} to ${target}:`, error);
+    }
+  }
+
   async loadThemes() {
     try {
       console.log('Loading themes from:', THEMES_DIR);
-      const themeFiles = await fs.readdir(THEMES_DIR);
+      const entries = await fs.readdir(THEMES_DIR, { withFileTypes: true });
       
-      for (const file of themeFiles) {
-        if (!file.endsWith('.json')) continue;
-        
-        try {
-          const themePath = path.join(THEMES_DIR, file);
-          const themeData = await fs.readFile(themePath, 'utf8');
-          const theme = JSON.parse(themeData);
-          
-          if (theme.id && theme.name) {
-            this.themes.set(theme.id, theme);
-            console.log(`Loaded theme: ${theme.name} (${theme.id})`);
-          } else {
-            console.warn(`Invalid theme file: ${file} - missing id or name`);
-          }
-        } catch (error) {
-          console.error(`Failed to load theme file ${file}:`, error);
+      for (const entry of entries) {
+        if (entry.isFile() && entry.name.endsWith('.json')) {
+          // Legacy single-file theme
+          await this.loadSingleFileTheme(entry.name);
+        } else if (entry.isDirectory()) {
+          // New folder-based theme with assets
+          await this.loadFolderTheme(entry.name);
         }
       }
       
@@ -121,6 +135,271 @@ class PoE2TaskOverlay {
     } catch (error) {
       console.error('Failed to load themes:', error);
     }
+  }
+
+  async loadSingleFileTheme(filename) {
+    try {
+      const themePath = path.join(THEMES_DIR, filename);
+      const themeData = await fs.readFile(themePath, 'utf8');
+      const theme = JSON.parse(themeData);
+      
+      if (theme.id && theme.name) {
+        theme.assets = {}; // No assets for single-file themes
+        this.themes.set(theme.id, theme);
+        console.log(`Loaded theme: ${theme.name} (${theme.id}) [single-file]`);
+      } else {
+        console.warn(`Invalid theme file: ${filename} - missing id or name`);
+      }
+    } catch (error) {
+      console.error(`Failed to load theme file ${filename}:`, error);
+    }
+  }
+
+  async loadFolderTheme(folderName) {
+    try {
+      const themeFolderPath = path.join(THEMES_DIR, folderName);
+      const themeJsonPath = path.join(themeFolderPath, 'theme.json');
+      
+      // Check if theme.json exists
+      try {
+        await fs.access(themeJsonPath);
+      } catch {
+        console.warn(`No theme.json found in folder: ${folderName}`);
+        return;
+      }
+      
+      const themeData = await fs.readFile(themeJsonPath, 'utf8');
+      const theme = JSON.parse(themeData);
+      
+      if (!theme.id || !theme.name) {
+        console.warn(`Invalid theme in folder: ${folderName} - missing id or name`);
+        return;
+      }
+      
+      // Load assets
+      theme.assets = await this.loadThemeAssets(themeFolderPath);
+      theme.folderPath = themeFolderPath;
+      
+      // Load theme metadata
+      await this.loadThemeMetadata(theme, themeFolderPath);
+      
+      // Handle theme variants
+      if (theme.variants) {
+        await this.loadThemeVariants(theme, themeFolderPath);
+      }
+      
+      this.themes.set(theme.id, theme);
+      console.log(`Loaded theme: ${theme.name} (${theme.id}) [folder] with ${Object.keys(theme.assets).length} assets`);
+    } catch (error) {
+      console.error(`Failed to load theme folder ${folderName}:`, error);
+    }
+  }
+
+  async loadThemeAssets(themeFolderPath) {
+    const assets = {};
+    const supportedExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'];
+    
+    try {
+      const files = await fs.readdir(themeFolderPath);
+      
+      for (const file of files) {
+        if (file === 'theme.json') continue;
+        
+        const ext = path.extname(file).toLowerCase();
+        if (supportedExtensions.includes(ext)) {
+          const assetName = path.basename(file, ext);
+          const assetPath = path.join(themeFolderPath, file);
+          
+          // Store relative path for use in renderer
+          assets[assetName] = {
+            path: assetPath,
+            relativePath: `themes/${path.basename(themeFolderPath)}/${file}`,
+            type: this.getAssetType(assetName),
+            extension: ext
+          };
+        } else if (ext === '.css') {
+          // Skip CSS files - they're handled separately via the cssFile property
+          continue;
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load theme assets:', error);
+    }
+    
+    return assets;
+  }
+
+  getAssetType(assetName) {
+    const name = assetName.toLowerCase();
+    
+    if (name.includes('background') || name.includes('bg')) return 'background';
+    if (name.includes('button')) return 'button';
+    if (name.includes('progress')) return 'progress';
+    if (name.includes('icon')) return 'icon';
+    if (name.includes('texture')) return 'texture';
+    if (name.includes('border')) return 'border';
+    
+    return 'misc';
+  }
+
+  getMimeType(extension) {
+    const mimeTypes = {
+      '.png': 'image/png',
+      '.jpg': 'image/jpeg',
+      '.jpeg': 'image/jpeg',
+      '.gif': 'image/gif',
+      '.svg': 'image/svg+xml',
+      '.webp': 'image/webp'
+    };
+    return mimeTypes[extension.toLowerCase()] || 'application/octet-stream';
+  }
+
+  async loadThemeMetadata(theme, themeFolderPath) {
+    try {
+      // Check for preview images
+      const previewFiles = ['preview.png', 'preview.jpg', 'preview.jpeg', 'screenshot.png'];
+      for (const previewFile of previewFiles) {
+        const previewPath = path.join(themeFolderPath, previewFile);
+        try {
+          await fs.access(previewPath);
+          theme.preview = {
+            path: previewPath,
+            relativePath: `themes/${path.basename(themeFolderPath)}/${previewFile}`
+          };
+          break;
+        } catch {
+          // Preview file doesn't exist, continue
+        }
+      }
+
+      // Check for README/documentation
+      const docFiles = ['README.md', 'readme.txt', 'info.txt'];
+      for (const docFile of docFiles) {
+        const docPath = path.join(themeFolderPath, docFile);
+        try {
+          const docContent = await fs.readFile(docPath, 'utf8');
+          theme.documentation = {
+            file: docFile,
+            content: docContent
+          };
+          break;
+        } catch {
+          // Doc file doesn't exist, continue
+        }
+      }
+
+      // Set theme metadata defaults
+      theme.metadata = {
+        loadedAt: new Date().toISOString(),
+        assetCount: Object.keys(theme.assets || {}).length,
+        hasVariants: !!(theme.variants && Object.keys(theme.variants).length > 0),
+        hasPreview: !!theme.preview,
+        hasDocumentation: !!theme.documentation,
+        isAdvanced: !!(theme.animations || theme.layout || theme.backgrounds),
+        compatibility: theme.compatibility || {
+          minVersion: '1.0.0',
+          maxVersion: '*'
+        }
+      };
+
+    } catch (error) {
+      console.error('Failed to load theme metadata:', error);
+    }
+  }
+
+  async loadThemeVariants(theme, themeFolderPath) {
+    try {
+      const variantThemes = new Map();
+      
+      for (const [variantId, variantConfig] of Object.entries(theme.variants)) {
+        // Create variant theme by merging base theme with variant config
+        const variantTheme = this.createVariantTheme(theme, variantId, variantConfig);
+        
+        // Check for variant-specific assets
+        const variantAssetsPath = path.join(themeFolderPath, 'variants', variantId);
+        try {
+          await fs.access(variantAssetsPath);
+          const variantAssets = await this.loadThemeAssets(variantAssetsPath);
+          variantTheme.assets = { ...variantTheme.assets, ...variantAssets };
+        } catch {
+          // No variant-specific assets
+        }
+        
+        // Set variant metadata
+        variantTheme.metadata = {
+          ...theme.metadata,
+          isVariant: true,
+          baseTheme: theme.id,
+          variantId: variantId
+        };
+        
+        variantThemes.set(variantTheme.id, variantTheme);
+      }
+      
+      // Add variants to main themes collection
+      for (const [variantId, variantTheme] of variantThemes) {
+        this.themes.set(variantId, variantTheme);
+        console.log(`Loaded variant: ${variantTheme.name} (${variantTheme.id})`);
+      }
+      
+    } catch (error) {
+      console.error('Failed to load theme variants:', error);
+    }
+  }
+
+  createVariantTheme(baseTheme, variantId, variantConfig) {
+    // Deep clone base theme
+    const variantTheme = JSON.parse(JSON.stringify(baseTheme));
+    
+    // Update variant identification
+    variantTheme.id = `${baseTheme.id}-${variantId}`;
+    variantTheme.name = variantConfig.name || `${baseTheme.name} (${variantId})`;
+    variantTheme.description = variantConfig.description || `${baseTheme.description} - ${variantId} variant`;
+    
+    // Merge variant configuration
+    variantTheme.colors = this.mergeDeep(variantTheme.colors, variantConfig.colors);
+    variantTheme.effects = this.mergeDeep(variantTheme.effects, variantConfig.effects);
+    variantTheme.fonts = this.mergeDeep(variantTheme.fonts, variantConfig.fonts);
+    variantTheme.styles = this.mergeDeep(variantTheme.styles, variantConfig.styles);
+    variantTheme.components = this.mergeDeep(variantTheme.components, variantConfig.components);
+    
+    if (variantConfig.backgrounds) {
+      variantTheme.backgrounds = this.mergeDeep(variantTheme.backgrounds, variantConfig.backgrounds);
+    }
+    
+    if (variantConfig.layout) {
+      variantTheme.layout = this.mergeDeep(variantTheme.layout, variantConfig.layout);
+    }
+    
+    if (variantConfig.animations) {
+      variantTheme.animations = this.mergeDeep(variantTheme.animations, variantConfig.animations);
+    }
+    
+    if (variantConfig.customCSS) {
+      variantTheme.customCSS = this.mergeDeep(variantTheme.customCSS, variantConfig.customCSS);
+    }
+    
+    // Remove variants from variant theme to prevent recursion
+    delete variantTheme.variants;
+    
+    return variantTheme;
+  }
+
+  mergeDeep(target, source) {
+    if (!source) return target;
+    if (!target) return source;
+    
+    const output = { ...target };
+    
+    for (const key in source) {
+      if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+        output[key] = this.mergeDeep(target[key], source[key]);
+      } else {
+        output[key] = source[key];
+      }
+    }
+    
+    return output;
   }
 
   async initialize() {
@@ -190,6 +469,11 @@ class PoE2TaskOverlay {
       if (!app.isPackaged && process.env.NODE_ENV === 'development' && process.env['ELECTRON_RENDERER_URL']) {
         console.log('Loading dev URL:', process.env['ELECTRON_RENDERER_URL']);
         overlayWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+        
+        // Open DevTools in development
+        overlayWindow.webContents.openDevTools({
+            mode: 'detach'
+          });
       } else {
         const rendererPath = path.join(__dirname, '../renderer/index.html');
         console.log('Loading file:', rendererPath);
@@ -562,6 +846,81 @@ class PoE2TaskOverlay {
     // Get themes folder path
     ipcMain.handle('get-themes-path', async () => {
       return THEMES_DIR;
+    });
+
+    // Load theme CSS file
+    ipcMain.handle('load-theme-css', async (event, themeId, cssFileName) => {
+      try {
+        const theme = this.themes.get(themeId);
+        if (!theme) return null;
+        
+        const themeDir = theme.folderPath || path.dirname(theme.path);
+        const cssPath = path.join(themeDir, cssFileName);
+        
+        let cssContent = await fs.readFile(cssPath, 'utf8');
+        
+        // Convert relative paths to CSS variable references
+        const cssWithAssetVars = cssContent.replace(/url\(['"]?\.\/([^'")\s]+)['"]?\)/g, (match, filename) => {
+          const assetName = filename.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9]/g, '-');
+          return `var(--asset-${assetName})`;
+        });
+        
+        return cssWithAssetVars;
+      } catch (error) {
+        console.error(`Failed to load CSS file ${cssFileName} for theme ${themeId}:`, error);
+        return null;
+      }
+    });
+
+    // Get theme asset
+    ipcMain.handle('get-theme-asset', async (event, themeId, assetName) => {
+      try {
+        const theme = this.themes.get(themeId);
+        if (!theme || !theme.assets || !theme.assets[assetName]) {
+          return null;
+        }
+
+        const asset = theme.assets[assetName];
+        
+        if (asset.type === 'css') {
+          // Return CSS as text
+          const cssContent = await fs.readFile(asset.path, 'utf8');
+          return {
+            data: cssContent,
+            type: asset.type,
+            extension: asset.extension,
+            mimeType: 'text/css',
+            isText: true
+          };
+        } else {
+          // Return binary assets as base64
+          const assetData = await fs.readFile(asset.path);
+          return {
+            data: assetData.toString('base64'),
+            type: asset.type,
+            extension: asset.extension,
+            mimeType: this.getMimeType(asset.extension),
+            isText: false
+          };
+        }
+      } catch (error) {
+        console.error('Failed to get theme asset:', error);
+        return null;
+      }
+    });
+
+    // List theme assets
+    ipcMain.handle('list-theme-assets', async (event, themeId) => {
+      try {
+        const theme = this.themes.get(themeId);
+        if (!theme || !theme.assets) {
+          return {};
+        }
+        return theme.assets;
+      } catch (error) {
+        console.error('Failed to list theme assets:', error);
+        return {};
+      }
     });
 
     // Update hotkeys

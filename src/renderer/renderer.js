@@ -100,10 +100,13 @@ async function applyTheme() {
     
     removeExistingStyles();
     
+    // Load theme assets first
+    await loadThemeAssets(theme);
+    
     const style = document.createElement('style');
     style.id = 'theme-style';
     
-    let css = generateThemeCSS(theme);
+    let css = await generateThemeCSS(theme);
     console.log('Generated CSS:', css);
     style.textContent = css;
     document.head.appendChild(style);
@@ -116,44 +119,66 @@ async function applyTheme() {
 }
 
 function removeExistingStyles() {
-  const existingStyles = ['theme-style', 'background-style', 'transparency-style', 'font-style'];
+  const existingStyles = ['theme-style', 'background-style', 'transparency-style', 'font-style', 'theme-assets'];
   existingStyles.forEach(id => {
     const element = document.getElementById(id);
     if (element) element.remove();
   });
 }
 
-function generateThemeCSS(theme) {
+async function generateThemeCSS(theme) {
   const transparency = settings.transparency / 100;
   
-  const cssVars = generateCSSVariables(theme, transparency);
+  const cssVars = await generateCSSVariables(theme, transparency);
   const interactiveStyles = generateInteractiveStyles(theme);
   const clickThroughStyles = generateClickThroughStyles(theme);
   const commonStyles = generateCommonStyles(theme);
+  const componentStyles = generateComponentStyles(theme);
+  const customCSS = generateCustomCSS(theme);
+  const backgroundStyles = await generateBackgroundStyles(theme);
+  const layoutStyles = generateLayoutStyles(theme);
+  const animationStyles = generateAnimationStyles(theme);
+  const cssFileStyles = await loadCSSFile(theme);
   
-  return `
+  const finalCSS = `
     :root {
       ${cssVars}
     }
     
+    ${backgroundStyles}
+    ${layoutStyles}
+    ${animationStyles}
     ${commonStyles}
+    ${componentStyles}
     ${interactiveStyles}
     ${clickThroughStyles}
+    ${customCSS}
+    
+    /* CSS File Styles */
+    ${cssFileStyles}
   `;
+  
+  
+  return finalCSS;
 }
 
-function generateCSSVariables(theme, transparency) {
+async function generateCSSVariables(theme, transparency) {
   const vars = [];
   
   vars.push(`--user-transparency: ${transparency}`);
   
   Object.entries(theme.colors).forEach(([category, values]) => {
-    if (typeof values === 'object') {
+    if (typeof values === 'object' && values !== null && !Array.isArray(values)) {
       Object.entries(values).forEach(([key, value]) => {
         const shortCategory = category === 'background' ? 'bg' : 
                              category === 'border' ? 'border' :
                              category === 'text' ? 'text' : category;
         vars.push(`--${shortCategory}-${key}: ${value}`);
+        
+        if (category === 'border') {
+          if (key === 'primary') vars.push(`--border-light: ${value}`);
+          if (key === 'secondary') vars.push(`--border-dark: ${value}`);
+        }
       });
     } else {
       vars.push(`--${category}: ${values}`);
@@ -162,11 +187,487 @@ function generateCSSVariables(theme, transparency) {
   
   if (theme.effects) {
     Object.entries(theme.effects).forEach(([key, value]) => {
-      vars.push(`--${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value}`);
+      const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      vars.push(`--${cssKey}: ${value}`);
+    });
+  }
+  
+  if (theme.transparency) {
+    Object.entries(theme.transparency).forEach(([key, value]) => {
+      vars.push(`--transparency-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${value}`);
+    });
+  }
+
+  // Add asset variables
+  if (theme.loadedAssets) {
+    Object.entries(theme.loadedAssets).forEach(([assetName, assetUrl]) => {
+      vars.push(`--asset-${assetName.replace(/[^a-zA-Z0-9]/g, '-')}: url('${assetUrl}')`);
     });
   }
   
   return vars.join(';\n      ');
+}
+
+async function loadThemeAssets(theme) {
+  if (!theme.assets || Object.keys(theme.assets).length === 0) {
+    theme.loadedAssets = {};
+    return;
+  }
+
+  console.log('Loading theme assets for:', theme.name);
+  theme.loadedAssets = {};
+
+  for (const [assetName, assetInfo] of Object.entries(theme.assets)) {
+    try {
+      const assetData = await ipcRenderer.invoke('get-theme-asset', theme.id, assetName);
+      if (assetData) {
+        if (assetData.type === 'css') {
+          // Store CSS content directly
+          theme.loadedAssets[assetName] = assetData.data;
+          console.log(`Loaded CSS: ${assetName}`);
+        } else {
+          // Create data URL for images
+          const dataUrl = `data:${assetData.mimeType};base64,${assetData.data}`;
+          theme.loadedAssets[assetName] = dataUrl;
+          console.log(`Loaded asset: ${assetName} (${assetInfo.type})`);
+        }
+      }
+    } catch (error) {
+      console.error(`Failed to load asset ${assetName}:`, error);
+    }
+  }
+}
+
+async function generateBackgroundStyles(theme) {
+  let backgroundCSS = '';
+
+  // Handle full window background image - check for main_bg asset or backgroundImage property
+  const mainBgAsset = theme.loadedAssets && theme.loadedAssets['main_bg'];
+  const backgroundImageAsset = theme.backgroundImage && theme.loadedAssets && theme.loadedAssets[theme.backgroundImage.replace(/\.[^.]+$/, '')];
+  const backgroundColor = theme.colors?.background?.primary;
+  
+  // Only apply background if we have an image or a non-transparent background color
+  if (mainBgAsset || backgroundImageAsset || (backgroundColor && backgroundColor !== 'transparent')) {
+    const assetUrl = mainBgAsset || backgroundImageAsset;
+    
+    backgroundCSS += `
+      body {
+        ${backgroundColor && backgroundColor !== 'transparent' ? `background-color: ${backgroundColor} !important;` : ''}
+        ${assetUrl ? `
+        background-image: url('${assetUrl}') !important;
+        background-size: 100% 100% !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        background-attachment: fixed !important;` : ''}
+      }
+      
+      .overlay-container.interactive {
+        ${assetUrl ? 'background: transparent !important; background-color: transparent !important;' : ''}
+      }
+      .overlay-container.click-through {
+        ${assetUrl ? 'background: transparent !important; background-color: transparent !important;' : ''}
+      }
+    `;
+  }
+
+  // Check for background configuration
+  if (theme.backgrounds) {
+    Object.entries(theme.backgrounds).forEach(([selector, bgConfig]) => {
+      backgroundCSS += generateSelectorBackground(selector, bgConfig, theme);
+    });
+  }
+
+  // Default backgrounds from assets
+  if (theme.loadedAssets) {
+    Object.entries(theme.loadedAssets).forEach(([assetName, assetUrl]) => {
+      const assetInfo = theme.assets[assetName];
+      if (assetInfo.type === 'background') {
+        backgroundCSS += `
+          .bg-${assetName} {
+            background-image: url('${assetUrl}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
+        `;
+      }
+    });
+  }
+
+  // Auto-generate CSS for common UI assets (can be overridden by CSS files)
+  backgroundCSS += generateAutoAssetStyles(theme);
+
+  return backgroundCSS;
+}
+
+function generateAutoAssetStyles(theme) {
+  if (!theme.loadedAssets) return '';
+  
+  let autoCSS = '';
+  
+  // Define common asset to selector mappings
+  const assetMappings = {
+    'titlebar_bg': ['.overlay-container.interactive .header'],
+    'button_normal': [
+      '.overlay-container.interactive button',
+      '.overlay-container.interactive .template-btn',
+      '.overlay-container.interactive .add-btn',
+      '.overlay-container.interactive .header-btn'
+    ],
+    'button_hover': [
+      '.overlay-container.interactive button:hover',
+      '.overlay-container.interactive .template-btn:hover', 
+      '.overlay-container.interactive .add-btn:hover'
+    ],
+    'button_pressed': [
+      '.overlay-container.interactive button:active',
+      '.overlay-container.interactive .template-btn:active',
+      '.overlay-container.interactive .add-btn:active'
+    ],
+    'progress_bg': ['.overlay-container.interactive .progress-bar'],
+    'progress_fill': ['.overlay-container.interactive .progress-fill']
+  };
+  
+  // Generate CSS for available assets
+  Object.entries(assetMappings).forEach(([assetName, selectors]) => {
+    const assetUrl = theme.loadedAssets[assetName];
+    if (assetUrl) {
+      selectors.forEach(selector => {
+        autoCSS += `
+          ${selector} {
+            background-image: url('${assetUrl}') !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+          }
+        `;
+      });
+    }
+  });
+  
+  return autoCSS;
+}
+
+function generateSelectorBackground(selector, bgConfig, theme) {
+  let bgCSS = `${selector} {\n`;
+
+  if (bgConfig.asset && theme.loadedAssets[bgConfig.asset]) {
+    bgCSS += `  background-image: url('${theme.loadedAssets[bgConfig.asset]}');\n`;
+  }
+
+  if (bgConfig.size) bgCSS += `  background-size: ${bgConfig.size};\n`;
+  if (bgConfig.position) bgCSS += `  background-position: ${bgConfig.position};\n`;
+  if (bgConfig.repeat) bgCSS += `  background-repeat: ${bgConfig.repeat};\n`;
+  if (bgConfig.attachment) bgCSS += `  background-attachment: ${bgConfig.attachment};\n`;
+  if (bgConfig.color) bgCSS += `  background-color: ${bgConfig.color};\n`;
+
+  bgCSS += '}\n';
+  return bgCSS;
+}
+
+function generateCSSFileStyles(theme) {
+  let cssFileContent = '';
+
+  if (theme.loadedAssets) {
+    Object.entries(theme.loadedAssets).forEach(([assetName, assetContent]) => {
+      const assetInfo = theme.assets[assetName];
+      if (assetInfo && assetInfo.type === 'css') {
+        cssFileContent += `\n/* CSS from ${assetName}.css */\n`;
+        cssFileContent += assetContent;
+        cssFileContent += '\n';
+      }
+    });
+  }
+
+  return cssFileContent;
+}
+
+function generateLayoutStyles(theme) {
+  let layoutCSS = '';
+
+  // Handle layout configuration
+  if (theme.layout) {
+    // Window sizing
+    if (theme.layout.window) {
+      const window = theme.layout.window;
+      layoutCSS += `
+        .overlay-container {
+          ${window.width ? `width: ${window.width} !important;` : ''}
+          ${window.height ? `height: ${window.height} !important;` : ''}
+          ${window.minWidth ? `min-width: ${window.minWidth} !important;` : ''}
+          ${window.minHeight ? `min-height: ${window.minHeight} !important;` : ''}
+          ${window.maxWidth ? `max-width: ${window.maxWidth} !important;` : ''}
+          ${window.maxHeight ? `max-height: ${window.maxHeight} !important;` : ''}
+        }
+      `;
+    }
+
+    // Component positioning
+    if (theme.layout.components) {
+      Object.entries(theme.layout.components).forEach(([component, layoutConfig]) => {
+        const selectors = getLayoutSelectors(component);
+        if (selectors.length > 0) {
+          layoutCSS += `
+            ${selectors.join(', ')} {
+              ${generateLayoutProperties(layoutConfig)}
+            }
+          `;
+        }
+      });
+    }
+
+    // Custom positioning
+    if (theme.layout.positions) {
+      Object.entries(theme.layout.positions).forEach(([selector, posConfig]) => {
+        layoutCSS += `
+          ${selector} {
+            ${generateLayoutProperties(posConfig)}
+          }
+        `;
+      });
+    }
+
+    // Grid/flexbox layouts
+    if (theme.layout.grid) {
+      layoutCSS += generateGridStyles(theme.layout.grid);
+    }
+
+    if (theme.layout.flex) {
+      layoutCSS += generateFlexStyles(theme.layout.flex);
+    }
+  }
+
+  return layoutCSS;
+}
+
+function getLayoutSelectors(component) {
+  const selectorMap = {
+    'header': ['.header'],
+    'templateSection': ['.template-section'],
+    'tasksSection': ['.tasks-section'],
+    'taskList': ['.tasks-list'],
+    'taskItem': ['.task-item'],
+    'progressBar': ['.progress-bar'],
+    'buttons': ['button', '.template-btn', '.add-btn', '.header-btn'],
+    'inputs': ['input', 'textarea', 'select']
+  };
+  
+  return selectorMap[component] || [];
+}
+
+function generateLayoutProperties(layoutConfig) {
+  const properties = [];
+  
+  // Position properties
+  if (layoutConfig.position) properties.push(`position: ${layoutConfig.position} !important`);
+  if (layoutConfig.top) properties.push(`top: ${layoutConfig.top} !important`);
+  if (layoutConfig.right) properties.push(`right: ${layoutConfig.right} !important`);
+  if (layoutConfig.bottom) properties.push(`bottom: ${layoutConfig.bottom} !important`);
+  if (layoutConfig.left) properties.push(`left: ${layoutConfig.left} !important`);
+  if (layoutConfig.zIndex) properties.push(`z-index: ${layoutConfig.zIndex} !important`);
+  
+  // Size properties
+  if (layoutConfig.width) properties.push(`width: ${layoutConfig.width} !important`);
+  if (layoutConfig.height) properties.push(`height: ${layoutConfig.height} !important`);
+  if (layoutConfig.minWidth) properties.push(`min-width: ${layoutConfig.minWidth} !important`);
+  if (layoutConfig.minHeight) properties.push(`min-height: ${layoutConfig.minHeight} !important`);
+  if (layoutConfig.maxWidth) properties.push(`max-width: ${layoutConfig.maxWidth} !important`);
+  if (layoutConfig.maxHeight) properties.push(`max-height: ${layoutConfig.maxHeight} !important`);
+  
+  // Spacing properties
+  if (layoutConfig.margin) properties.push(`margin: ${layoutConfig.margin} !important`);
+  if (layoutConfig.padding) properties.push(`padding: ${layoutConfig.padding} !important`);
+  
+  // Display properties
+  if (layoutConfig.display) properties.push(`display: ${layoutConfig.display} !important`);
+  if (layoutConfig.overflow) properties.push(`overflow: ${layoutConfig.overflow} !important`);
+  if (layoutConfig.visibility) properties.push(`visibility: ${layoutConfig.visibility} !important`);
+  
+  // Flexbox properties
+  if (layoutConfig.flex) properties.push(`flex: ${layoutConfig.flex} !important`);
+  if (layoutConfig.flexDirection) properties.push(`flex-direction: ${layoutConfig.flexDirection} !important`);
+  if (layoutConfig.justifyContent) properties.push(`justify-content: ${layoutConfig.justifyContent} !important`);
+  if (layoutConfig.alignItems) properties.push(`align-items: ${layoutConfig.alignItems} !important`);
+  if (layoutConfig.flexWrap) properties.push(`flex-wrap: ${layoutConfig.flexWrap} !important`);
+  
+  // Grid properties
+  if (layoutConfig.gridColumn) properties.push(`grid-column: ${layoutConfig.gridColumn} !important`);
+  if (layoutConfig.gridRow) properties.push(`grid-row: ${layoutConfig.gridRow} !important`);
+  if (layoutConfig.gridArea) properties.push(`grid-area: ${layoutConfig.gridArea} !important`);
+  
+  return properties.join(';\n      ');
+}
+
+function generateGridStyles(gridConfig) {
+  return `
+    .layout-grid {
+      display: grid !important;
+      ${gridConfig.columns ? `grid-template-columns: ${gridConfig.columns} !important;` : ''}
+      ${gridConfig.rows ? `grid-template-rows: ${gridConfig.rows} !important;` : ''}
+      ${gridConfig.gap ? `gap: ${gridConfig.gap} !important;` : ''}
+      ${gridConfig.areas ? `grid-template-areas: ${gridConfig.areas} !important;` : ''}
+    }
+  `;
+}
+
+function generateFlexStyles(flexConfig) {
+  return `
+    .layout-flex {
+      display: flex !important;
+      ${flexConfig.direction ? `flex-direction: ${flexConfig.direction} !important;` : ''}
+      ${flexConfig.wrap ? `flex-wrap: ${flexConfig.wrap} !important;` : ''}
+      ${flexConfig.justify ? `justify-content: ${flexConfig.justify} !important;` : ''}
+      ${flexConfig.align ? `align-items: ${flexConfig.align} !important;` : ''}
+      ${flexConfig.gap ? `gap: ${flexConfig.gap} !important;` : ''}
+    }
+  `;
+}
+
+function generateAnimationStyles(theme) {
+  let animationCSS = '';
+
+  // Handle animations configuration
+  if (theme.animations) {
+    // Generate keyframes
+    if (theme.animations.keyframes) {
+      Object.entries(theme.animations.keyframes).forEach(([name, keyframe]) => {
+        animationCSS += `
+          @keyframes ${name} {
+            ${generateKeyframeCSS(keyframe)}
+          }
+        `;
+      });
+    }
+
+    // Apply animations to components
+    if (theme.animations.components) {
+      Object.entries(theme.animations.components).forEach(([component, animConfig]) => {
+        const selectors = getAnimationSelectors(component);
+        if (selectors.length > 0) {
+          animationCSS += `
+            ${selectors.join(', ')} {
+              ${generateAnimationProperties(animConfig)}
+            }
+          `;
+        }
+      });
+    }
+
+    // Custom animation selectors
+    if (theme.animations.selectors) {
+      Object.entries(theme.animations.selectors).forEach(([selector, animConfig]) => {
+        animationCSS += `
+          ${selector} {
+            ${generateAnimationProperties(animConfig)}
+          }
+        `;
+      });
+    }
+
+    // Transition effects
+    if (theme.animations.transitions) {
+      animationCSS += generateTransitionStyles(theme.animations.transitions);
+    }
+  }
+
+  return animationCSS;
+}
+
+function generateKeyframeCSS(keyframe) {
+  let keyframeCSS = '';
+  
+  Object.entries(keyframe).forEach(([percentage, styles]) => {
+    keyframeCSS += `
+      ${percentage} {
+        ${objectToCSS(styles)}
+      }
+    `;
+  });
+  
+  return keyframeCSS;
+}
+
+function getAnimationSelectors(component) {
+  const selectorMap = {
+    'container': ['.overlay-container'],
+    'header': ['.header'],
+    'tasks': ['.task-item'],
+    'buttons': ['button', '.template-btn', '.add-btn'],
+    'progress': ['.progress-bar', '.progress-fill'],
+    'modal': ['.modal', '.settings-modal'],
+    'inputs': ['input', 'textarea', 'select']
+  };
+  
+  return selectorMap[component] || [];
+}
+
+function generateAnimationProperties(animConfig) {
+  const properties = [];
+  
+  // Animation properties
+  if (animConfig.name) properties.push(`animation-name: ${animConfig.name} !important`);
+  if (animConfig.duration) properties.push(`animation-duration: ${animConfig.duration} !important`);
+  if (animConfig.timing) properties.push(`animation-timing-function: ${animConfig.timing} !important`);
+  if (animConfig.delay) properties.push(`animation-delay: ${animConfig.delay} !important`);
+  if (animConfig.iteration) properties.push(`animation-iteration-count: ${animConfig.iteration} !important`);
+  if (animConfig.direction) properties.push(`animation-direction: ${animConfig.direction} !important`);
+  if (animConfig.fillMode) properties.push(`animation-fill-mode: ${animConfig.fillMode} !important`);
+  if (animConfig.playState) properties.push(`animation-play-state: ${animConfig.playState} !important`);
+  
+  // Shorthand animation
+  if (animConfig.animation) properties.push(`animation: ${animConfig.animation} !important`);
+  
+  // Transform properties
+  if (animConfig.transform) properties.push(`transform: ${animConfig.transform} !important`);
+  if (animConfig.transformOrigin) properties.push(`transform-origin: ${animConfig.transformOrigin} !important`);
+  
+  // Transition properties
+  if (animConfig.transition) properties.push(`transition: ${animConfig.transition} !important`);
+  if (animConfig.transitionProperty) properties.push(`transition-property: ${animConfig.transitionProperty} !important`);
+  if (animConfig.transitionDuration) properties.push(`transition-duration: ${animConfig.transitionDuration} !important`);
+  if (animConfig.transitionTiming) properties.push(`transition-timing-function: ${animConfig.transitionTiming} !important`);
+  if (animConfig.transitionDelay) properties.push(`transition-delay: ${animConfig.transitionDelay} !important`);
+  
+  return properties.join(';\n      ');
+}
+
+function generateTransitionStyles(transitionConfig) {
+  let transitionCSS = '';
+  
+  // Global transitions
+  if (transitionConfig.global) {
+    transitionCSS += `
+      * {
+        transition: ${transitionConfig.global} !important;
+      }
+    `;
+  }
+  
+  // Component-specific transitions
+  if (transitionConfig.components) {
+    Object.entries(transitionConfig.components).forEach(([component, transition]) => {
+      const selectors = getAnimationSelectors(component);
+      if (selectors.length > 0) {
+        transitionCSS += `
+          ${selectors.join(', ')} {
+            transition: ${transition} !important;
+          }
+        `;
+      }
+    });
+  }
+  
+  // Hover effects
+  if (transitionConfig.hover) {
+    Object.entries(transitionConfig.hover).forEach(([selector, hoverConfig]) => {
+      transitionCSS += `
+        ${selector}:hover {
+          ${generateAnimationProperties(hoverConfig)}
+        }
+      `;
+    });
+  }
+  
+  return transitionCSS;
 }
 
 function generateInteractiveStyles(theme) {
@@ -208,7 +709,11 @@ function generateClickThroughStyles(theme) {
 }
 
 function generateCommonStyles(theme) {
+  const globalEffects = generateGlobalEffects(theme);
+  
   return `
+    ${globalEffects}
+    
     .overlay-container .task-text {
       color: var(--text-primary) !important;
       font-weight: var(--font-weight-normal, normal) !important;
@@ -228,12 +733,219 @@ function generateCommonStyles(theme) {
     
     .overlay-container .progress-bar {
       ${theme.effects?.boxShadow ? `box-shadow: var(--box-shadow) !important;` : ''}
+      ${theme.effects?.borderRadius ? `border-radius: var(--border-radius) !important;` : ''}
     }
     
     .overlay-container .task-checkbox {
       ${theme.effects?.dropShadow ? `filter: var(--drop-shadow) !important;` : ''}
     }
+    
+    button, .template-btn, .add-btn, .header-btn, .modal-btn {
+      ${theme.effects?.borderRadius ? `border-radius: var(--border-radius) !important;` : ''}
+      ${theme.effects?.buttonShadow ? `box-shadow: var(--button-shadow) !important;` : ''}
+      ${theme.effects?.textShadow ? `text-shadow: var(--text-shadow) !important;` : ''}
+    }
+    
+    input, textarea, select, .task-input, .modal-input {
+      ${theme.effects?.borderRadius ? `border-radius: var(--border-radius) !important;` : ''}
+      ${theme.effects?.bevelInset ? `box-shadow: var(--bevel-inset) !important;` : ''}
+    }
   `;
+}
+
+function generateGlobalEffects(theme) {
+  if (!theme.effects) return '';
+  
+  let effectsCSS = '';
+  
+  // Handle bevel effects
+  if (theme.effects.bevelInset || theme.effects.bevelOutset) {
+    effectsCSS += `
+      .bevel-inset {
+        box-shadow: var(--bevel-inset) !important;
+      }
+      
+      .bevel-outset {
+        box-shadow: var(--bevel-outset) !important;
+      }
+    `;
+  }
+  
+  // Handle text effects
+  if (theme.effects.textShadow) {
+    effectsCSS += `
+      .text-shadow {
+        text-shadow: var(--text-shadow) !important;
+      }
+    `;
+  }
+  
+  // Handle drop shadow effects
+  if (theme.effects.dropShadow) {
+    effectsCSS += `
+      .drop-shadow {
+        filter: var(--drop-shadow) !important;
+      }
+    `;
+  }
+  
+  // Handle glow effects
+  if (theme.effects.glow) {
+    effectsCSS += `
+      .glow {
+        box-shadow: var(--glow) !important;
+      }
+    `;
+  }
+  
+  // Handle blur effects
+  if (theme.effects.blur) {
+    effectsCSS += `
+      .blur {
+        backdrop-filter: var(--blur) !important;
+      }
+    `;
+  }
+  
+  return effectsCSS;
+}
+
+function generateComponentStyles(theme) {
+  if (!theme.components) return '';
+  
+  let componentCSS = '';
+  
+  Object.entries(theme.components).forEach(([component, styles]) => {
+    const selectors = getComponentSelectors(component);
+    if (selectors.length > 0) {
+      componentCSS += generateComponentCSS(component, selectors, styles, theme);
+    }
+  });
+  
+  return componentCSS;
+}
+
+function generateComponentCSS(component, selectors, styles, theme) {
+  let css = '';
+  
+  // Handle different state styles (normal, hover, active, disabled)
+  if (styles.states) {
+    Object.entries(styles.states).forEach(([state, stateStyles]) => {
+      const stateSelectors = selectors.map(selector => {
+        switch(state) {
+          case 'hover': return `${selector}:hover`;
+          case 'active': return `${selector}:active`;
+          case 'focus': return `${selector}:focus`;
+          case 'disabled': return `${selector}:disabled`;
+          default: return selector;
+        }
+      });
+      
+      css += `
+        ${stateSelectors.join(', ')} {
+          ${generateComponentProperties(stateStyles, theme)}
+        }
+      `;
+    });
+  } else {
+    // Single state styling
+    css += `
+      ${selectors.join(', ')} {
+        ${generateComponentProperties(styles, theme)}
+      }
+    `;
+  }
+  
+  return css;
+}
+
+function generateComponentProperties(styles, theme) {
+  let properties = [];
+  
+  Object.entries(styles).forEach(([key, value]) => {
+    // Handle asset references
+    if (typeof value === 'string' && value.startsWith('asset:')) {
+      const assetName = value.substring(6);
+      if (theme.loadedAssets && theme.loadedAssets[assetName]) {
+        const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+        
+        if (key === 'backgroundImage' || key === 'background') {
+          properties.push(`background-image: url('${theme.loadedAssets[assetName]}') !important`);
+        } else if (key === 'borderImage') {
+          properties.push(`border-image: url('${theme.loadedAssets[assetName]}') !important`);
+        } else {
+          properties.push(`${cssKey}: url('${theme.loadedAssets[assetName]}') !important`);
+        }
+      }
+    } else {
+      const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      properties.push(`${cssKey}: ${value} !important`);
+    }
+  });
+  
+  return properties.join(';\n      ');
+}
+
+function getComponentSelectors(component) {
+  const selectorMap = {
+    'button': [
+      'button',
+      '.template-btn',
+      '.add-btn', 
+      '.header-btn',
+      '.modal-btn'
+    ],
+    'input': [
+      'input[type="text"]',
+      'input[type="password"]',
+      'textarea',
+      '.task-input',
+      '.modal-input'
+    ],
+    'select': [
+      'select',
+      '.template-select'
+    ],
+    'progressBar': [
+      '.progress-bar'
+    ],
+    'progressFill': [
+      '.progress-fill'
+    ],
+    'taskItem': [
+      '.task-item'
+    ],
+    'checkbox': [
+      'input[type="checkbox"]',
+      '.task-checkbox'
+    ]
+  };
+  
+  return selectorMap[component] || [];
+}
+
+function generateCustomCSS(theme) {
+  if (!theme.customCSS) return '';
+  
+  let customCSS = '';
+  
+  if (typeof theme.customCSS === 'string') {
+    customCSS = theme.customCSS;
+  } else if (typeof theme.customCSS === 'object') {
+    Object.entries(theme.customCSS).forEach(([key, styles]) => {
+      if (typeof styles === 'string') {
+        customCSS += styles + '\n';
+      } else if (typeof styles === 'object') {
+        customCSS += `
+          .theme-${key} {
+            ${objectToCSS(styles)}
+          }
+        `;
+      }
+    });
+  }
+  
+  return customCSS;
 }
 
 function objectToCSS(obj) {
@@ -248,6 +960,18 @@ function objectToCSS(obj) {
 async function getCurrentTheme() {
   const themeId = settings.theme || 'dark';
   return await ipcRenderer.invoke('get-theme', themeId);
+}
+
+async function loadCSSFile(theme) {
+  if (!theme.cssFile) return '';
+  
+  try {
+    const cssContent = await ipcRenderer.invoke('load-theme-css', theme.id, theme.cssFile);
+    return cssContent || '';
+  } catch (error) {
+    console.warn(`Failed to load CSS file ${theme.cssFile}:`, error);
+    return '';
+  }
 }
 
 function applyFonts(theme) {
