@@ -1,0 +1,46 @@
+<svg width="200" height="10" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="progFillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#008000;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#00ff00;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#80ff80;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#00ff00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#008000;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff00;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#00ff00;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#00ff00;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Progress fill background -->
+  <rect x="1" y="1" width="198" height="8" fill="url(#progFillGrad)"/>
+  
+  <!-- Highlight on top -->
+  <rect x="1" y="1" width="198" height="2" fill="url(#glowGrad)"/>
+  
+  <!-- EQ-style bars effect -->
+  <g fill="#40ff40" opacity="0.6">
+    <rect x="5" y="3" width="2" height="4"/>
+    <rect x="15" y="2" width="2" height="6"/>
+    <rect x="25" y="4" width="2" height="2"/>
+    <rect x="35" y="1" width="2" height="8"/>
+    <rect x="45" y="3" width="2" height="4"/>
+    <rect x="55" y="2" width="2" height="6"/>
+    <rect x="65" y="4" width="2" height="2"/>
+    <rect x="75" y="1" width="2" height="8"/>
+    <rect x="85" y="3" width="2" height="4"/>
+    <rect x="95" y="2" width="2" height="6"/>
+    <rect x="105" y="4" width="2" height="2"/>
+    <rect x="115" y="1" width="2" height="8"/>
+    <rect x="125" y="3" width="2" height="4"/>
+    <rect x="135" y="2" width="2" height="6"/>
+    <rect x="145" y="4" width="2" height="2"/>
+    <rect x="155" y="1" width="2" height="8"/>
+    <rect x="165" y="3" width="2" height="4"/>
+    <rect x="175" y="2" width="2" height="6"/>
+    <rect x="185" y="4" width="2" height="2"/>
+    <rect x="195" y="1" width="2" height="8"/>
+  </g>
+</svg>

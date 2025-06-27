@@ -1,0 +1,109 @@
+/* Winamp Classic Theme CSS */
+
+.overlay-container.interactive {
+  border: 2px solid #404040 !important;
+  color: #00ff00 !important;
+  font-family: 'MS Sans Serif', Arial, sans-serif !important;
+}
+
+.overlay-container.interactive .header {
+
+  color: #00ff00 !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8) !important;
+  border-bottom: 1px solid #101010 !important;
+}
+
+.overlay-container.interactive .header h2 {
+  color: #00ff00 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8) !important;
+}
+
+.overlay-container.interactive .template-section {
+  background: rgba(16, 16, 16, 0.8) !important;
+  border-bottom: 1px solid #404040 !important;
+  color: #00ff00 !important;
+}
+
+.overlay-container.interactive .tasks-section {
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: #00ff00 !important;
+}
+
+.overlay-container.interactive .task-text {
+  color: #00ff00 !important;
+  font-family: 'MS Sans Serif', Arial, sans-serif !important;
+  font-size: 10px !important;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8) !important;
+}
+
+.overlay-container.interactive .task-text.completed {
+  color: #408040 !important;
+  text-decoration: line-through !important;
+}
+
+.overlay-container.interactive .progress-text {
+  color: #80ff80 !important;
+  font-size: 10px !important;
+  font-weight: bold !important;
+}
+
+.overlay-container.interactive .progress-bar {
+  border: 1px inset #404040 !important;
+  height: 12px !important;
+}
+
+.overlay-container.interactive .progress-fill {
+  box-shadow: 0 0 3px #00ff00 !important;
+}
+
+.overlay-container.interactive button,
+.overlay-container.interactive .template-btn,
+.overlay-container.interactive .add-btn,
+.overlay-container.interactive .header-btn {
+  border: 1px outset #606060 !important;
+  color: #00ff00 !important;
+  font-family: 'MS Sans Serif', Arial, sans-serif !important;
+  font-size: 10px !important;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8) !important;
+  border-radius: 0px !important;
+  min-height: 20px !important;
+}
+
+.overlay-container.interactive button:hover,
+.overlay-container.interactive .template-btn:hover,
+.overlay-container.interactive .add-btn:hover {
+  color: #000000 !important;
+  text-shadow: none !important;
+}
+
+.overlay-container.interactive button:active,
+.overlay-container.interactive .template-btn:active,
+.overlay-container.interactive .add-btn:active {
+  /* Background handled by theming system */
+}
+
+.overlay-container.interactive input,
+.overlay-container.interactive textarea,
+.overlay-container.interactive select {
+  background: rgba(0, 0, 0, 0.8) !important;
+  border: 1px inset #404040 !important;
+  color: #00ff00 !important;
+  font-family: 'MS Sans Serif', Arial, sans-serif !important;
+  font-size: 10px !important;
+  border-radius: 0px !important;
+}
+
+.overlay-container.interactive .task-checkbox {
+  accent-color: #00ff00 !important;
+  filter: drop-shadow(0 0 2px #00ff00) !important;
+}
+
+.overlay-container.interactive .task-item:hover {
+  background: rgba(0, 255, 0, 0.1) !important;
+  border-left: 2px solid #00ff00 !important;
+}

@@ -1,0 +1,98 @@
+{
+  "name": "Windows 98",
+  "id": "windows-98",
+  "version": "1.0.0",
+  "author": "Echoesight",
+  "description": "Authentic Windows 98 theme with classic silver styling and pixelated fonts",
+  "isDefault": false,
+  "fonts": {
+    "primary": {
+      "family": "Pixelated MS Sans Serif, Arial, sans-serif",
+      "sizes": {
+        "header": "11px",
+        "task": "11px",
+        "progress": "11px",
+        "ui": "11px"
+      },
+      "weights": {
+        "normal": "400",
+        "bold": "700"
+      }
+    }
+  },
+  "colors": {
+    "primary": "#1084d0",
+    "secondary": "#000080",
+    "accent": "#ff0000",
+    "danger": "#ff0000",
+    "text": {
+      "primary": "#222222",
+      "secondary": "#000000",
+      "muted": "#666666",
+      "inverse": "#ffffff",
+      "disabled": "#808080"
+    },
+    "background": {
+      "primary": "#c0c7c8",
+      "secondary": "#c0c7c8",
+      "tertiary": "#c0c7c8",
+      "transparent": "transparent"
+    },
+    "border": {
+      "primary": "#000080",
+      "secondary": "#808080",
+      "interactive": "#1084d0",
+      "light": "#ffffff",
+      "dark": "#808080"
+    }
+  },
+  "effects": {
+    "borderRadius": "0px",
+    "textShadow": "none",
+    "boxShadow": "inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf",
+    "buttonShadow": "inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf",
+    "bevelInset": "inset -1px -1px #dfdfdf, inset 1px 1px #0a0a0a, inset -2px -2px #fff, inset 2px 2px grey",
+    "bevelOutset": "inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf"
+  },
+  "styles": {
+    "interactive": {
+      "container": {
+        "background": "#c0c7c8",
+        "border": "2px outset #c0c7c8",
+        "borderRadius": "0px",
+        "fontFamily": "Pixelated MS Sans Serif, Arial, sans-serif",
+        "color": "#222222"
+      },
+      "header": {
+        "background": "linear-gradient(90deg, #000080, #1084d0)",
+        "borderBottom": "1px solid #808080",
+        "color": "#ffffff",
+        "textShadow": "none",
+        "fontSize": "11px",
+        "fontWeight": "bold"
+      },
+      "templateSection": {
+        "background": "#c0c7c8",
+        "borderBottom": "1px solid #808080",
+        "color": "#222222"
+      },
+      "tasksSection": {
+        "background": "#c0c7c8",
+        "border": "1px inset #c0c7c8",
+        "color": "#222222"
+      }
+    },
+    "clickThrough": {
+      "container": {
+        "background": "rgba(192, 199, 200, 0.9)",
+        "border": "1px solid rgba(128, 128, 128, 0.8)",
+        "borderRadius": "0px"
+      },
+      "tasksSection": {
+        "background": "rgba(192, 199, 200, 0.8)",
+        "border": "1px solid rgba(128, 128, 128, 0.8)"
+      }
+    }
+  },
+  "cssFile": "styles.css"
+}

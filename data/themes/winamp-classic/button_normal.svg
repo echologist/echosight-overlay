@@ -1,0 +1,23 @@
+<svg width="60" height="16" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#606060;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#404040;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#202020;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#101010;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Button background -->
+  <rect width="60" height="16" fill="url(#btnGrad)"/>
+  
+  <!-- Raised border effect -->
+  <rect x="0" y="0" width="60" height="1" fill="#808080"/>
+  <rect x="0" y="0" width="1" height="16" fill="#808080"/>
+  <rect x="0" y="15" width="60" height="1" fill="#101010"/>
+  <rect x="59" y="0" width="1" height="16" fill="#101010"/>
+  
+  <!-- Inner highlight -->
+  <rect x="1" y="1" width="58" height="1" fill="#707070"/>
+  <rect x="1" y="1" width="1" height="14" fill="#707070"/>
+</svg>

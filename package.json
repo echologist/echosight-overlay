@@ -9,7 +9,7 @@
     "preview": "electron-vite preview",
     "start": "electron-vite preview",
     "build-win": "npm run build && electron-builder --win --publish=never",
-    "build-mac": "npm run build && electron-builder --mac --publish=never", 
+    "build-mac": "npm run build && electron-builder --mac --publish=never",
     "build-linux": "npm run build && electron-builder --linux --publish=never",
     "dist": "npm run build && electron-builder --publish=never",
     "pack": "npm run build && electron-builder --dir"
