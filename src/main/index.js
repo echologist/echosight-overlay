@@ -949,7 +949,7 @@ class PoE2TaskOverlay {
       }
     });
 
-    // Add this with your other IPC handlers
+    // Trying to avoid window out of focus issues
     ipcMain.on('focus-window', () => {
       if (overlayWindow && !overlayWindow.isDestroyed()) {
         overlayWindow.focus();
