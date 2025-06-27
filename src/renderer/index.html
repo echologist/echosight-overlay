@@ -514,6 +514,24 @@
       padding: 0;
       margin: 0;
     }
+
+    /* Settings Modal Scrollbar Styling */
+    #settingsModal .modal-content::-webkit-scrollbar {
+    width: 6px;
+    }
+
+    #settingsModal .modal-content::-webkit-scrollbar-track {
+    background: #333;
+    }
+
+    #settingsModal .modal-content::-webkit-scrollbar-thumb {
+    background: #b49937;
+    border-radius: 3px;
+    }
+
+    #settingsModal .modal-content::-webkit-scrollbar-thumb:hover {
+    background: #888;
+    }
   </style>
 </head>
 
@@ -616,7 +634,7 @@
 
   <!-- Settings Modal -->
   <div class="modal" id="settingsModal">
-    <div class="modal-content" style="max-width: 450px;">
+    <div class="modal-content" style="max-width: 450px; max-height: 80vh; overflow-y: auto;"> <!-- For making shit scrollable -->
       <h3 class="modal-title">Settings</h3>
 
       <!-- Transparency Settings -->
