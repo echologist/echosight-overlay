@@ -634,14 +634,23 @@
         </div>
 
         <div style="margin-bottom: 10px;">
-          <label style="display: block; margin-bottom: 5px; font-size: 12px;">Background Style:</label>
-          <select id="backgroundSelect" class="modal-input" style="margin-bottom: 0;"
-            onchange="updateBackgroundColor(this.value)">
-            <option value="dark">Dark (Default)</option>
-            <option value="light">Light/White</option>
-            <option value="glass">Glassmorphism</option>
-            <option value="none">No Background (Text Only)</option>
-          </select>
+          <label style="display: block; margin-bottom: 5px; font-size: 12px;">Theme:</label>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <select id="themeSelect" class="modal-input" style="margin-bottom: 0; flex: 1;"
+              onchange="updateTheme(this.value)">
+            </select>
+            <button class="modal-btn secondary" onclick="openThemesFolder()" 
+              style="font-size: 11px; padding: 6px 12px; white-space: nowrap;">
+              Open Folder
+            </button>
+            <button class="modal-btn secondary" onclick="reloadThemes()" 
+              style="font-size: 11px; padding: 6px 12px; white-space: nowrap;">
+              Reload
+            </button>
+          </div>
+          <div style="font-size: 10px; color: #aaa; margin-top: 4px;">
+            Add custom themes as .json files in the themes folder
+          </div>
         </div>
       </div>
 

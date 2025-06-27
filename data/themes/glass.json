@@ -1,0 +1,108 @@
+{
+  "name": "Glass",
+  "id": "glass",
+  "version": "1.0.0",
+  "author": "Echoesight",
+  "description": "Modern glassmorphism theme with blur effects",
+  "isDefault": true,
+  "fonts": {
+    "primary": {
+      "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+      "sizes": {
+        "header": "16px",
+        "task": "13px",
+        "progress": "12px",
+        "ui": "12px"
+      },
+      "weights": {
+        "normal": "400",
+        "bold": "600"
+      }
+    }
+  },
+  "colors": {
+    "primary": "#d4af37",
+    "secondary": "#32cd32",
+    "accent": "#4169e1",
+    "danger": "#dc143c",
+    "text": {
+      "primary": "#ffffff",
+      "secondary": "#cccccc",
+      "muted": "#aaaaaa",
+      "inverse": "#000000"
+    },
+    "background": {
+      "primary": "rgba(255, 255, 255, 0.08)",
+      "secondary": "rgba(255, 255, 255, 0.05)",
+      "tertiary": "rgba(255, 255, 255, 0.03)",
+      "transparent": "transparent"
+    },
+    "border": {
+      "primary": "rgba(255, 255, 255, 0.3)",
+      "secondary": "rgba(255, 255, 255, 0.2)",
+      "interactive": "rgba(50, 205, 50, 0.6)"
+    }
+  },
+  "transparency": {
+    "clickThrough": "0.08",
+    "interactive": "0.08"
+  },
+  "effects": {
+    "blur": "15px",
+    "borderRadius": "12px",
+    "textShadow": "0 1px 2px rgba(0, 0, 0, 0.5)",
+    "boxShadow": "0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4)"
+  },
+  "styles": {
+    "interactive": {
+      "container": {
+        "background": "var(--bg-primary)",
+        "border": "2px solid var(--border-interactive)",
+        "borderRadius": "var(--border-radius)",
+        "backdropFilter": "blur(var(--blur))",
+        "webkitBackdropFilter": "blur(var(--blur))",
+        "boxShadow": "0 0 20px rgba(50, 205, 50, 0.3), var(--box-shadow)",
+        "position": "relative",
+        "overflow": "hidden"
+      },
+      "header": {
+        "background": "rgba(255, 255, 255, 0.1)",
+        "backdropFilter": "blur(10px)",
+        "webkitBackdropFilter": "blur(10px)",
+        "borderBottom": "1px solid var(--border-secondary)"
+      },
+      "templateSection": {
+        "background": "var(--bg-secondary)",
+        "backdropFilter": "blur(8px)",
+        "webkitBackdropFilter": "blur(8px)",
+        "borderBottom": "1px solid var(--border-secondary)"
+      },
+      "tasksSection": {
+        "background": "var(--bg-tertiary)",
+        "backdropFilter": "blur(5px)",
+        "webkitBackdropFilter": "blur(5px)",
+        "borderRadius": "8px",
+        "border": "1px solid var(--border-secondary)"
+      }
+    },
+    "clickThrough": {
+      "container": {
+        "background": "var(--bg-primary)",
+        "border": "1px solid var(--border-primary)",
+        "borderRadius": "var(--border-radius)",
+        "backdropFilter": "blur(var(--blur))",
+        "webkitBackdropFilter": "blur(var(--blur))",
+        "boxShadow": "var(--box-shadow)",
+        "position": "relative",
+        "overflow": "hidden"
+      },
+      "tasksSection": {
+        "background": "var(--bg-tertiary)",
+        "backdropFilter": "blur(5px)",
+        "webkitBackdropFilter": "blur(5px)",
+        "borderRadius": "8px",
+        "border": "1px solid var(--border-secondary)"
+      }
+    }
+  }
+}
