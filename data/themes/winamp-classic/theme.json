@@ -1,0 +1,97 @@
+{
+  "name": "Winamp Classic",
+  "id": "winamp-classic",
+  "version": "1.0.0",
+  "author": "Community",
+  "description": "Classic Winamp-inspired theme with authentic retro styling",
+  "isDefault": false,
+  "fonts": {
+    "primary": {
+      "family": "MS Sans Serif, Arial, sans-serif",
+      "sizes": {
+        "header": "11px",
+        "task": "11px",
+        "progress": "10px",
+        "ui": "10px"
+      },
+      "weights": {
+        "normal": "400",
+        "bold": "700"
+      }
+    }
+  },
+  "colors": {
+    "primary": "#00ff00",
+    "secondary": "#008000",
+    "accent": "#80ff80",
+    "danger": "#ff3333",
+    "text": {
+      "primary": "#00ff00",
+      "secondary": "#80ff80",
+      "muted": "#408040",
+      "inverse": "#000000",
+      "disabled": "#404040"
+    },
+    "background": {
+      "primary": "pink",
+      "secondary": "#202020",
+      "tertiary": "#101010",
+      "transparent": "transparent"
+    },
+    "border": {
+      "primary": "#404040",
+      "secondary": "#202020",
+      "interactive": "#00ff00",
+      "light": "#606060",
+      "dark": "#101010"
+    }
+  },
+  "effects": {
+    "borderRadius": "0px",
+    "textShadow": "1px 1px 0px rgba(0, 0, 0, 0.8)",
+    "boxShadow": "inset 1px 1px 0px #606060, inset -1px -1px 0px #202020",
+    "buttonShadow": "inset 2px 2px 0px #606060, inset -2px -2px 0px #202020",
+    "bevelInset": "inset 1px 1px 0px #202020, inset -1px -1px 0px #606060",
+    "bevelOutset": "inset 1px 1px 0px #606060, inset -1px -1px 0px #202020"
+  },
+  "styles": {
+    "interactive": {
+      "container": {
+        "border": "2px solid #404040",
+        "borderRadius": "0px",
+        "fontFamily": "MS Sans Serif, Arial, sans-serif",
+        "color": "#00ff00"
+      },
+      "header": {
+        "background": "linear-gradient(to bottom, #404040, #202020)",
+        "borderBottom": "1px solid #101010",
+        "color": "#00ff00",
+        "textShadow": "1px 1px 0px rgba(0, 0, 0, 0.8)",
+        "fontSize": "11px",
+        "fontWeight": "bold"
+      },
+      "templateSection": {
+        "background": "#101010",
+        "borderBottom": "1px solid #404040",
+        "color": "#00ff00"
+      },
+      "tasksSection": {
+        "background": "#000000",
+        "border": "1px solid #404040",
+        "color": "#00ff00"
+      }
+    },
+    "clickThrough": {
+      "container": {
+        "background": "rgba(0, 0, 0, 0.9)",
+        "border": "1px solid rgba(0, 255, 0, 0.6)",
+        "borderRadius": "0px"
+      },
+      "tasksSection": {
+        "background": "rgba(16, 16, 16, 0.8)",
+        "border": "1px solid rgba(64, 64, 64, 0.8)"
+      }
+    }
+  },
+  "cssFile": "styles.css"
+}

@@ -1,0 +1,26 @@
+<svg width="60" height="16" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="btnPressedGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#101010;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#202020;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#404040;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#303030;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Button background -->
+  <rect width="60" height="16" fill="url(#btnPressedGrad)"/>
+  
+  <!-- Pressed border effect (inverted) -->
+  <rect x="0" y="0" width="60" height="1" fill="#101010"/>
+  <rect x="0" y="0" width="1" height="16" fill="#101010"/>
+  <rect x="0" y="15" width="60" height="1" fill="#606060"/>
+  <rect x="59" y="0" width="1" height="16" fill="#606060"/>
+  
+  <!-- Inner shadow -->
+  <rect x="1" y="1" width="58" height="1" fill="#080808"/>
+  <rect x="1" y="1" width="1" height="14" fill="#080808"/>
+  
+  <!-- Active indicator -->
+  <circle cx="30" cy="8" r="2" fill="#00ff00" opacity="0.7"/>
+</svg>
