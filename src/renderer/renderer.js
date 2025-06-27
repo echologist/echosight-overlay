@@ -1688,13 +1688,28 @@ async function loadTemplate() {
     id: Date.now() + index,
     text: t.text,
     completed: false,
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    children: t.children || []
   }));
 
   currentTemplate = template.name;
+  migrateTasksToHierarchical();
   renderTasks();
   updateProgress();
   saveTasks();
+  
+  // Force window focus after loading template
+  setTimeout(() => {
+    if (window.focus) {
+      window.focus();
+    }
+    // Also try to focus the main window via IPC
+    try {
+      ipcRenderer.send('focus-window');
+    } catch (error) {
+      console.log('Could not focus window via IPC');
+    }
+  }, 200);
 }
 
 async function deleteTemplate() {
@@ -1834,7 +1849,8 @@ async function importTemplate() {
       id: Date.now(),
       name: templateData.name,
       tasks: templateData.tasks.map(task => ({
-        text: typeof task === 'string' ? task : task.text
+        text: task,
+        children: []
       })),
       createdAt: new Date().toISOString(),
       imported: true
@@ -2025,7 +2041,10 @@ async function importCommunityTemplate(index) {
     const newTemplate = {
       id: Date.now(),
       name: template.name,
-      tasks: template.tasks.map(task => ({ text: task })),
+      tasks: template.tasks.map(task => ({ 
+        text: task,
+        children: []
+      })),
       createdAt: new Date().toISOString(),
       community: true
     };
@@ -2038,6 +2057,19 @@ async function importCommunityTemplate(index) {
     updateTemplateSelect();
 
     alert(`Community template "${template.name}" added to your templates!`);
+    
+    // Force window focus after importing
+    setTimeout(() => {
+      if (window.focus) {
+        window.focus();
+      }
+      try {
+        ipcRenderer.send('focus-window');
+      } catch (error) {
+        console.log('Could not focus window via IPC');
+      }
+    }, 200);
+    
   } catch (error) {
     console.error('Error importing community template:', error);
     alert('Error importing template. Please try again.');
@@ -2403,13 +2435,34 @@ function addSubTask(parentId) {
   
   // Show the modal
   document.getElementById('addSubTaskModal').style.display = 'flex';
-  document.getElementById('subTaskInput').focus();
+  
+  // Ensure the window has focus, then focus the input
+  setTimeout(() => {
+    // Try to focus the window first (Electron specific bs)
+    if (window.focus) {
+      window.focus();
+    }
+    
+    // Then focus the input
+    const input = document.getElementById('subTaskInput');
+    if (input) {
+      input.focus();
+      input.select();
+    }
+  }, 150);
 }
 
 function closeSubTaskModal() {
   document.getElementById('addSubTaskModal').style.display = 'none';
   document.getElementById('subTaskInput').value = '';
   currentParentId = null;
+  
+  // Return focus to the main window
+  setTimeout(() => {
+    if (window.focus) {
+      window.focus();
+    }
+  }, 50);
 }
 
 function saveSubTask() {

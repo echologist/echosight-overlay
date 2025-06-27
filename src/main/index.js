@@ -949,6 +949,14 @@ class PoE2TaskOverlay {
       }
     });
 
+    // Add this with your other IPC handlers
+    ipcMain.on('focus-window', () => {
+      if (overlayWindow && !overlayWindow.isDestroyed()) {
+        overlayWindow.focus();
+        overlayWindow.setAlwaysOnTop(true);
+  }
+});
+
     // Reset window position
     ipcMain.on('reset-window-position', () => {
       if (overlayWindow) {
