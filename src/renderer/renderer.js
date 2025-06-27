@@ -525,6 +525,7 @@ async function initializeApp() {
   try {
     console.log('Initializing app...');
     await loadTasks();
+    migrateTasksToHierarchical();
     await loadTemplates();
     await loadThemes();
     await loadSettings();
@@ -635,11 +636,16 @@ function setupInteractiveModeListener() {
 }
 
 // Complete the next uncompleted task
+// Complete the next uncompleted task - only works on leaf tasks (children)
 function completeNextTask() {
   try {
-    const nextTask = tasks.find(t => !t.completed);
+    const nextTask = findNextLeafTask();
     if (nextTask) {
       nextTask.completed = true;
+      
+      // Check if parent should auto-complete
+      checkParentCompletion(nextTask.id);
+      
       renderTasks();
       updateProgress();
       saveTasks();
@@ -657,11 +663,28 @@ function completeNextTask() {
         }, 2000);
       }
     } else {
-      console.log('No uncompleted tasks found');
+      console.log('No uncompleted leaf tasks found');
     }
   } catch (error) {
     console.error('Error completing next task:', error);
   }
+}
+
+// Find next uncompleted leaf task (skip parents)
+function findNextLeafTask(taskList = tasks) {
+  for (const task of taskList) {
+    if (!task.completed) {
+      // If task has children, it's a parent - skip it and check children
+      if (task.children && task.children.length > 0) {
+        const leafTask = findNextLeafTask(task.children);
+        if (leafTask) return leafTask;
+      } else {
+        // It's a leaf task (no children)
+        return task;
+      }
+    }
+  }
+  return null;
 }
 
 function updateInteractiveVisuals(interactive) {
@@ -701,9 +724,9 @@ function updateInteractiveVisuals(interactive) {
 }
 
 // Task management
-function addTask() {
+function addTask(parentId = null) {
   try {
-    console.log('addTask called');
+    console.log('addTask called with parentId:', parentId);
     const input = document.getElementById('taskInput');
     const text = input.value.trim();
     console.log('Task text:', text);
@@ -713,10 +736,22 @@ function addTask() {
         id: Date.now(),
         text: text,
         completed: false,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        children: []
       };
 
-      tasks.push(task);
+      if (parentId) {
+        // Find parent task and add as child
+        const parentTask = findTaskById(parentId);
+        if (parentTask) {
+          parentTask.children.push(task);
+          console.log('Added subtask to parent:', parentTask.text);
+        }
+      } else {
+        // Add as top-level task
+        tasks.push(task);
+      }
+
       input.value = '';
       renderTasks();
       updateProgress();
@@ -731,21 +766,126 @@ function addTask() {
   }
 }
 
-function toggleTask(taskId) {
-  const task = tasks.find(t => t.id === taskId);
-  if (task) {
-    task.completed = !task.completed;
-    renderTasks();
-    updateProgress();
+// Migration function to add children array to existing tasks
+function migrateTasksToHierarchical() {
+  let migrated = false;
+  tasks = tasks.map(task => {
+    if (!task.children) {
+      task.children = [];
+      migrated = true;
+    }
+    return task;
+  });
+  if (migrated) {
+    console.log('Tasks migrated to hierarchical structure');
     saveTasks();
   }
 }
 
-function deleteTask(taskId) {
-  tasks = tasks.filter(t => t.id !== taskId);
+// Helper function to find task by ID (recursive)
+function findTaskById(id, taskList = tasks) {
+  for (const task of taskList) {
+    if (task.id === id) {
+      return task;
+    }
+    if (task.children && task.children.length > 0) {
+      const found = findTaskById(id, task.children);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
+// Complete all children of a parent task
+function completeAllChildren(parentTask) {
+  if (parentTask.children) {
+    parentTask.children.forEach(child => {
+      child.completed = true;
+      if (child.children && child.children.length > 0) {
+        completeAllChildren(child);
+      }
+    });
+  }
+}
+
+// Check if parent should auto-complete when all children are done
+function checkParentCompletion(childId) {
+  const parentTask = findParentTask(childId);
+  if (parentTask && parentTask.children.length > 0) {
+    const allChildrenComplete = parentTask.children.every(child => child.completed);
+    if (allChildrenComplete && !parentTask.completed) {
+      parentTask.completed = true;
+    }
+  }
+}
+
+// Uncheck parent when child is unchecked
+function uncheckParent(childId) {
+  const parentTask = findParentTask(childId);
+  if (parentTask && parentTask.completed) {
+    parentTask.completed = false;
+  }
+}
+
+// Find the parent task of a given child ID
+function findParentTask(childId, taskList = tasks) {
+  for (const task of taskList) {
+    if (task.children) {
+      for (const child of task.children) {
+        if (child.id === childId) {
+          return task;
+        }
+      }
+      const found = findParentTask(childId, task.children);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
+function toggleTask(taskId) {
+  const task = findTaskById(taskId);
+  if (!task) return;
+
+  task.completed = !task.completed;
+
+  // If parent is being completed, complete all children
+  if (task.completed && task.children && task.children.length > 0) {
+    completeAllChildren(task);
+  }
+
+  // If child is being toggled, check if parent should auto-complete
+  if (task.completed) {
+    checkParentCompletion(taskId);
+  } else {
+    // If child is unchecked, uncheck parent
+    uncheckParent(taskId);
+  }
+
   renderTasks();
   updateProgress();
   saveTasks();
+}
+
+function deleteTask(taskId) {
+  function removeTaskRecursively(taskList) {
+    for (let i = 0; i < taskList.length; i++) {
+      if (taskList[i].id === taskId) {
+        taskList.splice(i, 1);
+        return true;
+      }
+      if (taskList[i].children && removeTaskRecursively(taskList[i].children)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  if (removeTaskRecursively(tasks)) {
+    renderTasks();
+    updateProgress();
+    saveTasks();
+  }
 }
 
 function clearAllTasks() {
@@ -1391,43 +1531,218 @@ function showReorderFeedback() {
   }, 2000);
 }
 
-// Rendering
+// Enhanced renderTasks with hierarchical structure
 function renderTasks() {
   const taskList = document.getElementById('taskList');
   taskList.innerHTML = '';
 
-  tasks.forEach(task => {
-    const li = document.createElement('li');
-    li.className = 'task-item';
-    li.dataset.taskId = task.id;  // Sets the task ID for drag and drop
-    li.draggable = true;  // Allows dragging of this task item
-    
-    li.innerHTML = `
-      <span class="drag-handle" style="
-        cursor: grab;
-        color: #666;
-        font-size: 14px;
-        user-select: none;
-        padding: 2px 4px 2px 0;
-        opacity: 0.5;
-        transition: opacity 0.2s ease;
-        display: inline-block;
-      " title="Drag to reorder">⋮⋮</span>
-      <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
-             onchange="toggleTask(${task.id})">
-      <span class="task-text ${task.completed ? 'completed' : ''}">${escapeHtml(task.text)}</span>
-      <button class="task-delete" onclick="deleteTask(${task.id})">×</button>
-    `;
-    taskList.appendChild(li);
-  });
-  
-  // Initialize drag and drop for the new elements
+  function renderTaskLevel(taskArray, level = 0) {
+    taskArray.forEach(task => {
+      const li = document.createElement('li');
+      li.className = 'task-item';
+      li.dataset.taskId = task.id;
+      li.dataset.level = level;
+      li.draggable = true;
+      
+      const isParent = task.children && task.children.length > 0;
+      const indentPadding = level * 20;
+      
+      li.innerHTML = `
+        <div style="padding-left: ${indentPadding}px; display: flex; align-items: center; width: 100%;">
+          <span class="drag-handle" style="
+            cursor: grab;
+            color: #666;
+            font-size: 14px;
+            user-select: none;
+            padding: 2px 4px 2px 0;
+            opacity: 0.5;
+            transition: opacity 0.2s ease;
+            display: inline-block;
+          " title="Drag to reorder">⋮⋮</span>
+          
+          ${isParent ? 
+            `<span class="parent-icon" style="
+              color: #d4af37;
+              font-size: 12px;
+              margin-right: 4px;
+              user-select: none;
+            ">📁</span>` : 
+            `<span style="width: 16px; margin-right: 4px;"></span>`
+          }
+          
+          <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
+                 onchange="toggleTask(${task.id})" style>
+          <span class="task-text ${task.completed ? 'completed' : ''}" 
+                style="${isParent ? 'font-weight: bold;' : ''}"
+                oncontextmenu="showContextMenu(event, ${task.id}, ${isParent})">${escapeHtml(task.text)}</span>
+          
+          ${isParent ? 
+            `<span class="child-count" style="
+              font-size: 10px;
+              color: #aaa;
+              margin-left: 8px;
+              user-select: none;
+            ">(${task.children.filter(c => c.completed).length}/${task.children.length})</span>` : 
+            ''
+          }
+          
+          <button class="task-delete" onclick="deleteTask(${task.id})" style="margin-left: auto;">×</button>
+        </div>
+      `;
+      
+      taskList.appendChild(li);
+      
+      // Render children if they exist
+      if (task.children && task.children.length > 0) {
+        renderTaskLevel(task.children, level + 1);
+      }
+    });
+  }
+
+  renderTaskLevel(tasks);
   initializeDragAndDrop();
 }
 
+// Context menu for adding subtasks
+let contextMenu = null;
+
+function showContextMenu(event, taskId, isParent) {
+  event.preventDefault();
+  
+  // Remove existing context menu
+  if (contextMenu) {
+    contextMenu.remove();
+  }
+  
+  // Only show context menu for tasks (any task can become a parent)
+  contextMenu = document.createElement('div');
+  contextMenu.className = 'context-menu';
+  contextMenu.style.cssText = `
+    position: fixed;
+    background: #222;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 4px 0;
+    z-index: 1000;
+    font-size: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  `;
+  
+  const menuItem = document.createElement('div');
+  menuItem.textContent = 'Add sub-task';
+  menuItem.style.cssText = `
+    padding: 6px 12px;
+    cursor: pointer;
+    color: white;
+    white-space: nowrap;
+  `;
+  
+  menuItem.addEventListener('mouseover', () => {
+    menuItem.style.background = '#444';
+  });
+  
+  menuItem.addEventListener('mouseout', () => {
+    menuItem.style.background = 'transparent';
+  });
+  
+  menuItem.addEventListener('click', () => {
+    addSubTask(taskId);
+    contextMenu.remove();
+    contextMenu = null;
+  });
+  
+  contextMenu.appendChild(menuItem);
+  document.body.appendChild(contextMenu);
+  
+  // Position the context menu
+  contextMenu.style.left = event.pageX + 'px';
+  contextMenu.style.top = event.pageY + 'px';
+  
+  // Remove context menu when clicking elsewhere
+  setTimeout(() => {
+    document.addEventListener('click', function removeMenu() {
+      if (contextMenu) {
+        contextMenu.remove();
+        contextMenu = null;
+      }
+      document.removeEventListener('click', removeMenu);
+    });
+  }, 10);
+}
+
+// Store the parent ID for the modal
+let currentParentId = null;
+
+function addSubTask(parentId) {
+  console.log('addSubTask called with parentId:', parentId);
+  currentParentId = parentId;
+  
+  // Show the modal
+  document.getElementById('addSubTaskModal').style.display = 'flex';
+  document.getElementById('subTaskInput').focus();
+}
+
+function closeSubTaskModal() {
+  document.getElementById('addSubTaskModal').style.display = 'none';
+  document.getElementById('subTaskInput').value = '';
+  currentParentId = null;
+}
+
+function saveSubTask() {
+  const taskText = document.getElementById('subTaskInput').value.trim();
+  console.log('User entered:', taskText);
+  
+  if (taskText && currentParentId) {
+    const parentTask = findTaskById(currentParentId);
+    console.log('Found parent task:', parentTask);
+    
+    if (parentTask) {
+      const subTask = {
+        id: Date.now(),
+        text: taskText,
+        completed: false,
+        createdAt: new Date().toISOString(),
+        children: []
+      };
+      
+      parentTask.children.push(subTask);
+      console.log('Added subtask, parent now has:', parentTask.children.length, 'children');
+      renderTasks();
+      updateProgress();
+      saveTasks();
+      closeSubTaskModal();
+    }
+  } else if (!taskText) {
+    alert('Please enter a task name!');
+  }
+}
+
 function updateProgress() {
-  const completed = tasks.filter(t => t.completed).length;
-  const total = tasks.length;
+  function countTasks(taskArray) {
+    let completed = 0;
+    let total = 0;
+    
+    taskArray.forEach(task => {
+      // Count children if they exist, otherwise count the task itself
+      if (task.children && task.children.length > 0) {
+        const childCounts = countTasks(task.children);
+        completed += childCounts.completed;
+        total += childCounts.total;
+        
+        // Also count the parent task
+        if (task.completed) completed++;
+        total++;
+      } else {
+        // Leaf task
+        if (task.completed) completed++;
+        total++;
+      }
+    });
+    
+    return { completed, total };
+  }
+
+  const { completed, total } = countTasks(tasks);
   const percentage = total > 0 ? (completed / total) * 100 : 0;
 
   document.getElementById('progressFill').style.width = percentage + '%';
@@ -1535,6 +1850,22 @@ document.addEventListener('DOMContentLoaded', () => {
       addTask();
     }
   });
+
+  document.getElementById('importTemplateInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter' && e.ctrlKey) {
+      importTemplate();
+    }
+  });
+
+  // Subtask input event listeners
+  document.getElementById('subTaskInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      saveSubTask();
+    }
+  });
+
+  // Global keydown listener for hotkey recording
+  document.addEventListener('keydown', handleHotkeyRecording);
 
   document.getElementById('taskInput').addEventListener('focus', function () {
     console.log('Task input gained focus');
@@ -1648,7 +1979,11 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addTask = addTask;
 window.toggleTask = toggleTask;
 window.deleteTask = deleteTask;
+window.showContextMenu = showContextMenu;
+window.addSubTask = addSubTask;
 window.clearAllTasks = clearAllTasks;
+window.closeSubTaskModal = closeSubTaskModal;
+window.saveSubTask = saveSubTask;
 window.minimizeOverlay = minimizeOverlay;
 window.closeOverlay = closeOverlay;
 window.toggleInteractiveMode = toggleInteractiveMode;

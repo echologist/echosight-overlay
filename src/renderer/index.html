@@ -307,13 +307,14 @@
     .task-item {
       display: flex;
       align-items: center;
-      padding: 8px 0;
+      padding: 6px 0;
       border-bottom: 1px solid #333;
-      gap: 10px;
+      gap: 0;
       transition: all 0.2s ease;
       border-radius: 4px;
-      margin: 2px 0;
-      list-style: none; /* Remove bullet points if using li elements */
+      margin: 1px 0;
+      list-style: none;
+      position: relative;
     }
 
     .task-item:last-child {
@@ -348,6 +349,7 @@
       height: 16px;
       accent-color: #d4af37;
       cursor: pointer;
+      margin-right: 8px;
     }
 
     .task-text {
@@ -531,6 +533,147 @@
 
     #settingsModal .modal-content::-webkit-scrollbar-thumb:hover {
     background: #888;
+    }
+
+    /* Hierarchy level indicators */
+    .task-item[data-level="0"] {
+      background: rgba(212, 175, 55, 0.05);
+      border-left: 3px solid transparent;
+    }
+
+    .task-item[data-level="1"] {
+      background: rgba(50, 205, 50, 0.03);
+      border-left: 3px solid rgba(50, 205, 50, 0.3);
+      margin-left: 2px;
+    }
+
+    .task-item[data-level="1"]:hover {
+      background: rgba(50, 205, 50, 0.08);
+      border-left-color: rgba(50, 205, 50, 0.5);
+    }
+
+    /* Parent task styling */
+    .task-item[data-level="0"] .task-text {
+      font-weight: 600 !important;
+      color: var(--text-primary) !important;
+    }
+
+    .task-item[data-level="1"] .task-text {
+      font-weight: 400 !important;
+      color: var(--text-secondary) !important;
+      font-size: 12px !important;
+    }
+
+    /* Parent icon styling */
+    .parent-icon {
+      animation: none;
+    }
+
+    .task-item:hover .parent-icon {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Child count badge */
+    .child-count {
+      background: rgba(50, 205, 50, 0.2);
+      border-radius: 10px;
+      padding: 2px 6px;
+      font-size: 9px !important;
+      color: #32cd32 !important;
+      border: 1px solid rgba(50, 205, 50, 0.3);
+      margin-left: 8px !important;
+      user-select: none;
+      font-weight: 500;
+    }
+
+    /* Context menu styling */
+    .context-menu {
+      position: fixed;
+      background: linear-gradient(135deg, #333, #222);
+      border: 2px solid #d4af37;
+      border-radius: 6px;
+      padding: 4px 0;
+      z-index: 1000;
+      font-size: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.7), 0 0 0 1px rgba(212, 175, 55, 0.3);
+      min-width: 120px;
+      font-family: inherit;
+    }
+
+    .context-menu div {
+      padding: 8px 14px;
+      cursor: pointer;
+      color: #ffffff;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+    }
+
+    .context-menu div:before {
+      content: "➕";
+      margin-right: 8px;
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    .context-menu div:hover {
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
+      color: #d4af37;
+      transform: translateX(2px);
+    }
+
+    .context-menu div:hover:before {
+      opacity: 1;
+    }
+
+    /* Enhanced checkbox styling for hierarchy */
+    .task-item[data-level="0"] .task-checkbox {
+      accent-color: #d4af37;
+      transform: scale(1.1);
+    }
+
+    .task-item[data-level="1"] .task-checkbox {
+      accent-color: #32cd32;
+      transform: scale(1.0);
+    }
+
+    /* Visual feedback for completed parent tasks */
+    .task-item[data-level="0"] .task-text.completed {
+      color: var(--text-muted) !important;
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+
+    .task-item[data-level="1"] .task-text.completed {
+      color: var(--text-muted) !important;
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    /* Right-click hint for parent tasks */
+    .task-item[data-level="0"]:hover:after {
+      content: "Right-click to add sub-task";
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 9px;
+      color: rgba(212, 175, 55, 0.6);
+      pointer-events: none;
+      white-space: nowrap;
+      opacity: 0;
+      animation: fadeInHint 0.3s ease forwards;
+    }
+
+    @keyframes fadeInHint {
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -742,6 +885,18 @@
     </div>
   </div>
 
+  <!-- Add Sub-Task Modal -->
+<div class="modal" id="addSubTaskModal">
+  <div class="modal-content" style="max-width: 350px;">
+    <h3 class="modal-title">Add Sub-Task</h3>
+    <input type="text" class="modal-input" id="subTaskInput" placeholder="Enter sub-task..." maxlength="100">
+    <div class="modal-buttons">
+      <button class="modal-btn secondary" onclick="closeSubTaskModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="saveSubTask()">Add</button>
+    </div>
+  </div>
+</div>
+  
   <!-- IMPORTANT Import as ES module, not regular script -->
   <script type="module" src="./renderer.js"></script>
 </body>
