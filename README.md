@@ -152,7 +152,7 @@ Full functionality when you need to manage tasks:
 ### Inspiration
 - Luca lol
 
-### Safe for Path of Exile 2
+### Safe for Path of Exile
 - ✅ **No game memory reading** - Only displays user-entered information
 - ✅ **No automation** - Requires manual user input for all actions
 - ✅ **No game file modification** - Pure overlay application
