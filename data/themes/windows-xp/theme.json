@@ -5,6 +5,7 @@
   "author": "Echoesight",
   "description": "Authentic Windows XP theme with classic Luna styling",
   "isDefault": false,
+  "supportsTransparency": false,
   "fonts": {
     "primary": {
       "family": "Tahoma, Arial, sans-serif",

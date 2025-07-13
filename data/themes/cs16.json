@@ -5,6 +5,7 @@
   "author": "Community",
   "description": "Authentic Counter-Strike 1.6 inspired theme based on cs16.css",
   "isDefault": false,
+  "supportsTransparency": false,
   "fonts": {
     "primary": {
       "family": "system-ui, sans-serif",

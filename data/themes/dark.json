@@ -5,6 +5,7 @@
   "author": "Echoesight",
   "description": "Default dark theme with high contrast",
   "isDefault": true,
+  "supportsTransparency": true,
   "fonts": {
     "primary": {
       "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
@@ -32,9 +33,9 @@
       "inverse": "#000000"
     },
     "background": {
-      "primary": "rgba(0, 0, 0, 0.9)",
-      "secondary": "rgba(0, 0, 0, 0.7)",
-      "tertiary": "rgba(0, 0, 0, 0.3)",
+      "primary": "rgba(0, 0, 0, var(--user-transparency, 1))",
+      "secondary": "rgba(0, 0, 0, var(--user-transparency, 1))",
+      "tertiary": "rgba(0, 0, 0, var(--user-transparency, 1))",
       "transparent": "transparent"
     },
     "border": {
@@ -45,7 +46,7 @@
   },
   "transparency": {
     "clickThrough": "var(--user-transparency, 0.25)",
-    "interactive": "0.9"
+    "interactive": "var(--user-transparency, 0.25)"
   },
   "styles": {
     "interactive": {
@@ -69,14 +70,14 @@
     },
     "clickThrough": {
       "container": {
-        "background": "rgba(0, 0, 0, var(--user-transparency, 0.25))",
+        "background": "var(--bg-primary)",
         "border": "none",
         "borderRadius": "4px",
         "backdropFilter": "brightness(0.8)",
         "webkitBackdropFilter": "brightness(0.8)"
       },
       "tasksSection": {
-        "background": "rgba(0, 0, 0, calc(var(--user-transparency, 0.25) * 0.8))"
+        "background": "transparent"
       }
     }
   }

@@ -1,0 +1,99 @@
+{
+  "name": "Windows 7",
+  "id": "windows-7",
+  "version": "1.0.0",
+  "author": "Echoesight",
+  "description": "Authentic Windows 7 Aero theme with glass effects, subtle gradients, and modern UI styling",
+  "isDefault": false,
+  "supportsTransparency": false,
+  "fonts": {
+    "primary": {
+      "family": "Segoe UI, SegoeUI, Noto Sans, sans-serif",
+      "sizes": {
+        "header": "12px",
+        "task": "11px",
+        "progress": "11px",
+        "ui": "11px"
+      },
+      "weights": {
+        "normal": "400",
+        "bold": "600"
+      }
+    }
+  },
+  "colors": {
+    "primary": "#4285f4",
+    "secondary": "#1e88e5",
+    "accent": "#2196f3",
+    "danger": "#f44336",
+    "text": {
+      "primary": "#222222",
+      "secondary": "#333333",
+      "muted": "#666666",
+      "inverse": "#ffffff",
+      "disabled": "#999999"
+    },
+    "background": {
+      "primary": "#f0f0f0",
+      "secondary": "#f2f2f2",
+      "tertiary": "#e8e8e8",
+      "transparent": "transparent"
+    },
+    "border": {
+      "primary": "#cccccc",
+      "secondary": "#dddddd",
+      "interactive": "#4285f4",
+      "light": "#ffffff",
+      "dark": "#aaaaaa"
+    }
+  },
+  "effects": {
+    "borderRadius": "3px",
+    "textShadow": "none",
+    "boxShadow": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9",
+    "buttonShadow": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9, 0 1px 3px rgba(0,0,0,0.1)",
+    "bevelInset": "inset 0 1px 3px rgba(0,0,0,0.1)",
+    "bevelOutset": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9"
+  },
+  "styles": {
+    "interactive": {
+      "container": {
+        "background": "linear-gradient(to bottom, #f8f8f8, #f0f0f0)",
+        "border": "1px solid #cccccc",
+        "borderRadius": "3px",
+        "fontFamily": "Segoe UI, SegoeUI, Noto Sans, sans-serif",
+        "color": "#222222"
+      },
+      "header": {
+        "background": "linear-gradient(to bottom, #4285f4, #1e88e5)",
+        "borderBottom": "1px solid #1565c0",
+        "color": "#ffffff",
+        "textShadow": "0 1px 2px rgba(0,0,0,0.2)",
+        "fontSize": "12px",
+        "fontWeight": "600"
+      },
+      "templateSection": {
+        "background": "linear-gradient(to bottom, #fafafa, #f2f2f2)",
+        "borderBottom": "1px solid #dddddd",
+        "color": "#222222"
+      },
+      "tasksSection": {
+        "background": "linear-gradient(to bottom, #ffffff, #f8f8f8)",
+        "border": "1px solid #dddddd",
+        "color": "#222222"
+      }
+    },
+    "clickThrough": {
+      "container": {
+        "background": "rgba(248, 248, 248, 0.9)",
+        "border": "1px solid rgba(204, 204, 204, 0.8)",
+        "borderRadius": "3px"
+      },
+      "tasksSection": {
+        "background": "rgba(255, 255, 255, 0.8)",
+        "border": "1px solid rgba(221, 221, 221, 0.8)"
+      }
+    }
+  },
+  "cssFile": "styles.css"
+}

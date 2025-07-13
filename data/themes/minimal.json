@@ -5,6 +5,7 @@
   "author": "Echoesight",
   "description": "Clean minimal theme with no background",
   "isDefault": true,
+  "supportsTransparency": true,
   "fonts": {
     "primary": {
       "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",

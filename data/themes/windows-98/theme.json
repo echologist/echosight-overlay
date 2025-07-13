@@ -5,6 +5,7 @@
   "author": "Echoesight",
   "description": "Authentic Windows 98 theme with classic silver styling and pixelated fonts",
   "isDefault": false,
+  "supportsTransparency": false,
   "fonts": {
     "primary": {
       "family": "Pixelated MS Sans Serif, Arial, sans-serif",

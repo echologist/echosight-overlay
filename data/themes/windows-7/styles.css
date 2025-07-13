@@ -1,0 +1,347 @@
+/* Authentic Windows 7 Aero Theme CSS - Based on 7.css */
+
+.overlay-container.interactive {
+  background: #f0f0f0 !important;
+  border: 1px solid #aaaaaa !important;
+  border-radius: 3px !important;
+  color: #222 !important;
+  font-family: "Segoe UI", "SegoeUI", "Noto Sans", sans-serif !important;
+  font-size: 11px !important;
+  padding: 0 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.overlay-container.interactive .header {
+  background: linear-gradient(to bottom, #4285f4 0%, #1e88e5 50%, #1565c0 100%) !important;
+  border: none !important;
+  border-radius: 3px 3px 0 0 !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  padding: 8px 12px !important;
+  margin: 0 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.overlay-container.interactive .header h2 {
+  color: #ffffff !important;
+  font-size: 12px !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  margin: 0 !important;
+  font-family: "Segoe UI", "SegoeUI", "Noto Sans", sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.overlay-container.interactive .template-section {
+  background: #f0f0f0 !important;
+  border: 1px solid #aaaaaa !important;
+  border-bottom: none !important;
+  box-shadow: 0 0 0 1px #fff9 !important;
+  margin: 6px !important;
+  margin-bottom: 0 !important;
+  padding: 6px !important;
+  color: #222 !important;
+  font-size: 11px !important;
+}
+
+.overlay-container.interactive .tasks-section,
+.overlay-container.interactive .window-body {
+  background: #f0f0f0 !important;
+  border: 1px solid #aaaaaa !important;
+  box-shadow: 0 0 0 1px #fff9 !important;
+  margin: 6px !important;
+  margin-top: 0 !important;
+  color: #222 !important;
+  font-size: 11px !important;
+}
+
+.overlay-container.interactive .tasks-section.has-space,
+.overlay-container.interactive .window-body.has-space {
+  padding: 6px !important;
+}
+
+.overlay-container.interactive .task-text {
+  color: #222 !important;
+  font-family: "Segoe UI", "SegoeUI", "Noto Sans", sans-serif !important;
+  font-size: 11px !important;
+  text-shadow: none !important;
+  line-height: 1.4 !important;
+}
+
+.overlay-container.interactive .task-text.completed {
+  color: #666666 !important;
+  text-decoration: line-through !important;
+}
+
+.overlay-container.interactive .progress-text {
+  color: #222 !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  font-family: "Segoe UI", "SegoeUI", "Noto Sans", sans-serif !important;
+}
+
+.overlay-container.interactive .progress-bar {
+  background: radial-gradient(circle at 0 50%, #0000001f 10px, transparent 30px),
+              radial-gradient(circle at 100% 50%, #0000001f 10px, transparent 30px),
+              linear-gradient(180deg, #f3f3f3af, #fcfcfcaf 3px, #dbdbdbaf 6px, #cacacaaf 0, #d5d5d5af),
+              #ddd !important;
+  border: 1px solid #aaaaaa !important;
+  border-radius: 3px !important;
+  box-shadow: inset 0 0 0 1px #f3f3f388, 0 0 0 1px #eaeaea88 !important;
+  height: 15px !important;
+  margin: 2px 0 !important;
+  overflow: hidden !important;
+}
+
+.overlay-container.interactive .progress-fill {
+  background-color: #0bd82c !important;
+  background-image: linear-gradient(180deg, #f3f3f3af, #fcfcfcaf 3px, #dbdbdbaf 6px, transparent 0),
+                    radial-gradient(circle at 0 50%, #0000002f 10px, transparent 30px),
+                    radial-gradient(circle at 100% 50%, #0000002f 10px, transparent 30px),
+                    linear-gradient(180deg, transparent 65%, #ffffff55),
+                    linear-gradient(180deg, transparent 6px, #cacaca33 0, #d5d5d533) !important;
+  box-shadow: inset 0 0 0 1px #ffffff1f !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  transition: width 0.3s ease !important;
+}
+
+/* Authentic Windows 7 Status Bar - Window Footer Style */
+.overlay-container.interactive .progress-section,
+.overlay-container.interactive .status-section,
+.overlay-container.interactive .window-footer {
+  background: #f0f0f0 !important;
+  border: 1px solid #aaaaaa !important;
+  border-top: 0 !important;
+  box-shadow: 0 0.5px 1px 0.5px #fff !important;
+  margin: 0 !important;
+  padding: 10px !important;
+  position: relative !important;
+  border-radius: 0 0 3px 3px !important;
+}
+
+.overlay-container.interactive .progress-section::before,
+.overlay-container.interactive .status-section::before,
+.overlay-container.interactive .window-footer::before {
+  box-shadow: inset 0 1px #0000004d, inset 0 -1px #fff !important;
+  content: "" !important;
+  height: 2px !important;
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+  width: 100% !important;
+}
+
+.overlay-container.interactive .progress-text {
+  color: #222 !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  font-family: "Segoe UI", "SegoeUI", "Noto Sans", sans-serif !important;
+}
+
+/* Status bar field styling */
+.overlay-container.interactive .status-bar-field {
+  padding: 2px 4px !important;
+  margin-right: 8px !important;
+  font-size: 11px !important;
+  color: #222 !important;
+}
+
+/* Authentic Windows 7 Button Styling */
+.overlay-container.interactive button,
+.overlay-container.interactive .template-btn,
+.overlay-container.interactive .add-btn,
+.overlay-container.interactive .header-btn {
+  background: linear-gradient(to bottom, #f2f2f2 45%, #e5e5e5 45%, #d1d1d1) !important;
+  border: 1px solid #8e8f8f !important;
+  border-radius: 3px !important;
+  box-shadow: inset 0 0 0 1px #fffc !important;
+  color: #222 !important;
+  font-family: "Segoe UI", "SegoeUI", "Noto Sans", sans-serif !important;
+  font-size: 11px !important;
+  text-shadow: none !important;
+  min-height: 23px !important;
+  min-width: 75px !important;
+  padding: 0 12px !important;
+  cursor: pointer !important;
+  transition: all 0.1s ease !important;
+}
+
+.overlay-container.interactive button:hover,
+.overlay-container.interactive .template-btn:hover,
+.overlay-container.interactive .add-btn:hover {
+  background: linear-gradient(to bottom, #eaf6fd 45%, #bee6fd 45%, #a7d9f5) !important;
+  border-color: #3c7fb1 !important;
+  color: #222 !important;
+  text-shadow: none !important;
+  box-shadow: inset 0 0 0 1px #fffc !important;
+}
+
+.overlay-container.interactive button:active,
+.overlay-container.interactive .template-btn:active,
+.overlay-container.interactive .add-btn:active {
+  background: linear-gradient(to bottom, #e5f4fc, #cce8fa 30% 50%, #bee6fd 50%, #68b3db) !important;
+  border-color: #2c628f !important;
+  color: #222 !important;
+  text-shadow: none !important;
+  box-shadow: inset 0 0 0 1px #fffc !important;
+}
+
+.overlay-container.interactive button:focus,
+.overlay-container.interactive .template-btn:focus,
+.overlay-container.interactive .add-btn:focus {
+  outline: 1px dotted #222 !important;
+  outline-offset: -4px !important;
+}
+
+/* Default button style (like OK/Save buttons) */
+.overlay-container.interactive button.default,
+.overlay-container.interactive .template-btn.default,
+.overlay-container.interactive .add-btn.default {
+  border-color: #5586a3 !important;
+  background: linear-gradient(to bottom, #bee6fd 45%, #a7d9f5 45%, #7fc4e8) !important;
+}
+
+/* Status bar buttons specifically */
+.overlay-container.interactive .status-section button,
+.overlay-container.interactive .window-footer button {
+  min-height: 21px !important;
+  min-width: 65px !important;
+  font-size: 11px !important;
+  padding: 0 8px !important;
+}
+
+.overlay-container.interactive input,
+.overlay-container.interactive textarea,
+.overlay-container.interactive select {
+  background: linear-gradient(to bottom, #ffffff, #f8f8f8) !important;
+  border: 1px solid #cccccc !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  color: #222 !important;
+  font-family: "Segoe UI", "SegoeUI", "Noto Sans", sans-serif !important;
+  font-size: 11px !important;
+  border-radius: 3px !important;
+  padding: 4px 8px !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.overlay-container.interactive input:focus,
+.overlay-container.interactive textarea:focus,
+.overlay-container.interactive select:focus {
+  outline: none !important;
+  border-color: #4285f4 !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1),
+              0 0 0 2px rgba(66, 133, 244, 0.3) !important;
+  background: #ffffff !important;
+}
+
+.overlay-container.interactive .task-checkbox {
+  appearance: none !important;
+  width: 16px !important;
+  height: 16px !important;
+  border: 1px solid #cccccc !important;
+  border-radius: 3px !important;
+  background: linear-gradient(to bottom, #ffffff, #f8f8f8) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.2s ease !important;
+}
+
+.overlay-container.interactive .task-checkbox:hover {
+  border-color: #4285f4 !important;
+  background: linear-gradient(to bottom, #eaf6fd, #ffffff) !important;
+}
+
+.overlay-container.interactive .task-checkbox:checked {
+  background: linear-gradient(to bottom, #4285f4, #1976d2) !important;
+  border-color: #1565c0 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.overlay-container.interactive .task-checkbox:checked::after {
+  content: '✓' !important;
+  position: absolute !important;
+  top: 1px !important;
+  left: 3px !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) !important;
+}
+
+.overlay-container.interactive .task-item {
+  border: none !important;
+  padding: 4px 8px !important;
+  margin: 2px 0 !important;
+  background: transparent !important;
+  border-radius: 3px !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.overlay-container.interactive .task-item:hover {
+  background: linear-gradient(to bottom, #eaf6fd, #d6effc) !important;
+  color: #222 !important;
+  border: none !important;
+}
+
+.overlay-container.interactive .task-item:hover .task-text {
+  color: #222 !important;
+}
+
+/* Aero glass effect for window */
+.overlay-container.interactive::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 3px !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+/* Window control buttons styling */
+.overlay-container.interactive .window-controls {
+  display: flex !important;
+  gap: 2px !important;
+  margin-left: auto !important;
+}
+
+.overlay-container.interactive .window-control-btn {
+  width: 16px !important;
+  height: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 2px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.overlay-container.interactive .window-control-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Click-through mode */
+.overlay-container.click-through {
+  background: rgba(248, 248, 248, 0.9) !important;
+  border: 1px solid rgba(204, 204, 204, 0.8) !important;
+  border-radius: 3px !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.overlay-container.click-through .tasks-section {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: none !important;
+  border-top: 1px solid rgba(221, 221, 221, 0.8) !important;
+  border-radius: 0 0 3px 3px !important;
+}
