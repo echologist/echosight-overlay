@@ -5,6 +5,7 @@
   "author": "Echoesight",
   "description": "Clean light theme with dark text",
   "isDefault": true,
+  "supportsTransparency": true,
   "fonts": {
     "primary": {
       "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
@@ -32,9 +33,9 @@
       "inverse": "#ffffff"
     },
     "background": {
-      "primary": "rgba(255, 255, 255, 0.95)",
-      "secondary": "rgba(255, 255, 255, 0.8)",
-      "tertiary": "rgba(255, 255, 255, 0.6)",
+      "primary": "rgba(255, 255, 255, var(--user-transparency, 1))",
+      "secondary": "rgba(255, 255, 255, var(--user-transparency, 1))",
+      "tertiary": "rgba(255, 255, 255, var(--user-transparency, 1))",
       "transparent": "transparent"
     },
     "border": {
@@ -44,8 +45,8 @@
     }
   },
   "transparency": {
-    "clickThrough": "var(--user-transparency, 0.7)",
-    "interactive": "0.95"
+    "clickThrough": "var(--user-transparency, 1)",
+    "interactive": "var(--user-transparency, 1)"
   },
   "styles": {
     "interactive": {
@@ -69,12 +70,12 @@
     },
     "clickThrough": {
       "container": {
-        "background": "rgba(255, 255, 255, var(--user-transparency, 0.7))",
+        "background": "var(--bg-primary)",
         "border": "2px solid var(--border-primary)",
         "borderRadius": "4px"
       },
       "tasksSection": {
-        "background": "rgba(255, 255, 255, calc(var(--user-transparency, 0.7) * 0.8))"
+        "background": "transparent"
       }
     }
   }
