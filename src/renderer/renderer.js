@@ -7,7 +7,7 @@ let themes = [];
 let currentTemplate = null;
 let isInteractiveMode = true;
 let settings = {
-  transparency: 25,
+  transparency: 60,
   theme: 'dark',
   hotkeys: {
     toggleVisibility: 'Ctrl+Shift+T',
@@ -70,17 +70,64 @@ function closeSettingsModal() {
   document.getElementById('settingsModal').style.display = 'none';
 }
 
+function updateTransparencyControls(supportsTransparency) {
+  const slider = document.getElementById('transparencySlider');
+  const label = document.querySelector('label[for="transparencySlider"]');
+  const valueDisplay = document.getElementById('transparencyValue');
+  
+  if (supportsTransparency) {
+    slider.disabled = false;
+    slider.style.opacity = '1';
+    slider.style.cursor = 'pointer';
+    if (label) {
+      label.style.opacity = '1';
+      label.style.color = '';
+    }
+    if (valueDisplay) {
+      valueDisplay.style.opacity = '1';
+      valueDisplay.style.color = '';
+      // Reset text to show current transparency value
+      valueDisplay.textContent = settings.transparency + '% visible';
+    }
+  } else {
+    slider.disabled = true;
+    slider.style.opacity = '0.5';
+    slider.style.cursor = 'not-allowed';
+    if (label) {
+      label.style.opacity = '0.5';
+      label.style.color = '#666';
+    }
+    if (valueDisplay) {
+      valueDisplay.style.opacity = '0.5';
+      valueDisplay.style.color = '#666';
+      valueDisplay.textContent = 'Not supported by this theme';
+    }
+  }
+}
+
 function updateTransparency(value) {
   document.getElementById('transparencyValue').textContent = value + '% visible';
 
   // Apply transparency preview immediately
   settings.transparency = parseInt(value);
+  
+  // Update the CSS variable for theme usage (keep as 0-1 range)
+  const opacity = value / 100;
+  document.documentElement.style.setProperty('--user-transparency', opacity);
+  
+  // Theme now handles transparency properly, no override needed
+  
   applyTransparencySettings();
 }
 
-function updateTheme(themeId) {
+async function updateTheme(themeId) {
   console.log('Theme changed to:', themeId);
   settings.theme = themeId;
+  
+  // PG: Check if theme supports transparency and update UI
+  const theme = await getCurrentTheme();
+  updateTransparencyControls(theme?.supportsTransparency !== false);
+  
   applyTheme();
 
   if (isInteractiveMode) {
@@ -107,11 +154,17 @@ async function applyTheme() {
     style.id = 'theme-style';
     
     let css = await generateThemeCSS(theme);
-    console.log('Generated CSS:', css);
+    console.log('Generated CSS with transparency:', css.substring(0, 500) + '...');
     style.textContent = css;
     document.head.appendChild(style);
     
     applyFonts(theme);
+    
+    // PG: Apply current transparency settings as CSS variable
+    const opacity = settings.transparency / 100;
+    document.documentElement.style.setProperty('--user-transparency', opacity);
+    
+    updateTransparencyControls(theme?.supportsTransparency !== false);
     
   } catch (error) {
     console.error('Failed to apply theme:', error);
@@ -173,7 +226,31 @@ async function generateCSSVariables(theme, transparency) {
         const shortCategory = category === 'background' ? 'bg' : 
                              category === 'border' ? 'border' :
                              category === 'text' ? 'text' : category;
-        vars.push(`--${shortCategory}-${key}: ${value}`);
+        
+        // PG: Apply user transparency to background colors
+        if (category === 'background' && value !== 'transparent') {
+          // Parse rgba/rgb values and multiply alpha by user transparency
+          const rgbaMatch = value.match(/rgba?\(([^)]+)\)/);
+          if (rgbaMatch) {
+            const parts = rgbaMatch[1].split(',').map(p => p.trim());
+            if (parts.length === 4) {
+              // Has alpha channel - multiply by user transparency
+              const alpha = parseFloat(parts[3]);
+              const newValue = `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, calc(${alpha} * var(--user-transparency, 1)))`;
+              vars.push(`--${shortCategory}-${key}: ${newValue}`);
+            } else if (parts.length === 3) {
+              // No alpha channel - add user transparency
+              const newValue = `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, var(--user-transparency, 1))`;
+              vars.push(`--${shortCategory}-${key}: ${newValue}`);
+            } else {
+              vars.push(`--${shortCategory}-${key}: ${value}`);
+            }
+          } else {
+            vars.push(`--${shortCategory}-${key}: ${value}`);
+          }
+        } else {
+          vars.push(`--${shortCategory}-${key}: ${value}`);
+        }
         
         if (category === 'border') {
           if (key === 'primary') vars.push(`--border-light: ${value}`);
@@ -1446,6 +1523,8 @@ function updateInteractiveVisuals(interactive) {
       toggleBtn.style.background = '#666';
     }
   }
+  
+  // Theme now handles transparency properly, no override needed
 }
 
 // Task management

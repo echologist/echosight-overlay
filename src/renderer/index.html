@@ -34,11 +34,11 @@
     .overlay-container.interactive {
       border-color: #32cd32;
       box-shadow: 0 0 10px rgba(50, 205, 50, 0.5);
-      background: rgba(0, 0, 0, 0.9);
+      /* Background is now handled by theme system */
     }
 
     .overlay-container.interactive.glass-mode {
-      background: rgba(255, 255, 255, 0.08) !important;
+      /* Glass mode background is now handled by theme system */
       backdrop-filter: blur(15px) !important;
       -webkit-backdrop-filter: blur(15px) !important;
       border: 2px solid rgba(50, 205, 50, 0.6) !important;
@@ -784,7 +784,7 @@
       <div style="margin-bottom: 20px;">
         <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 14px;">Appearance</h4>
         <div style="margin-bottom: 15px;">
-          <label style="display: block; margin-bottom: 5px; font-size: 12px;">Click-Through Transparency:</label>
+          <label style="display: block; margin-bottom: 5px; font-size: 12px;">Transparency:</label>
           <input type="range" id="transparencySlider" min="0" max="100" value="15" style="width: 100%;"
             oninput="updateTransparency(this.value)">
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: #aaa;">
