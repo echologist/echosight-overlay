@@ -5,6 +5,7 @@
   "author": "Echoesight",
   "description": "Modern glassmorphism theme with blur effects",
   "isDefault": true,
+  "supportsTransparency": true,
   "fonts": {
     "primary": {
       "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
@@ -32,9 +33,9 @@
       "inverse": "#000000"
     },
     "background": {
-      "primary": "rgba(255, 255, 255, 0.08)",
-      "secondary": "rgba(255, 255, 255, 0.05)",
-      "tertiary": "rgba(255, 255, 255, 0.03)",
+      "primary": "rgba(255, 255, 255, calc(var(--user-transparency, 1) * 0.3))",
+      "secondary": "rgba(255, 255, 255, calc(var(--user-transparency, 1) * 0.3))",
+      "tertiary": "rgba(255, 255, 255, calc(var(--user-transparency, 1) * 0.3))",
       "transparent": "transparent"
     },
     "border": {
@@ -44,8 +45,8 @@
     }
   },
   "transparency": {
-    "clickThrough": "0.08",
-    "interactive": "0.08"
+    "clickThrough": "var(--user-transparency, 1)",
+    "interactive": "var(--user-transparency, 1)"
   },
   "effects": {
     "blur": "15px",
@@ -97,7 +98,7 @@
         "overflow": "hidden"
       },
       "tasksSection": {
-        "background": "var(--bg-tertiary)",
+        "background": "transparent",
         "backdropFilter": "blur(5px)",
         "webkitBackdropFilter": "blur(5px)",
         "borderRadius": "8px",

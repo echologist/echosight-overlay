@@ -7,7 +7,7 @@ let themes = [];
 let currentTemplate = null;
 let isInteractiveMode = true;
 let settings = {
-  transparency: 25,
+  transparency: 60,
   theme: 'dark',
   hotkeys: {
     toggleVisibility: 'Ctrl+Shift+T',
@@ -70,17 +70,64 @@ function closeSettingsModal() {
   document.getElementById('settingsModal').style.display = 'none';
 }
 
+function updateTransparencyControls(supportsTransparency) {
+  const slider = document.getElementById('transparencySlider');
+  const label = document.querySelector('label[for="transparencySlider"]');
+  const valueDisplay = document.getElementById('transparencyValue');
+  
+  if (supportsTransparency) {
+    slider.disabled = false;
+    slider.style.opacity = '1';
+    slider.style.cursor = 'pointer';
+    if (label) {
+      label.style.opacity = '1';
+      label.style.color = '';
+    }
+    if (valueDisplay) {
+      valueDisplay.style.opacity = '1';
+      valueDisplay.style.color = '';
+      // Reset text to show current transparency value
+      valueDisplay.textContent = settings.transparency + '% visible';
+    }
+  } else {
+    slider.disabled = true;
+    slider.style.opacity = '0.5';
+    slider.style.cursor = 'not-allowed';
+    if (label) {
+      label.style.opacity = '0.5';
+      label.style.color = '#666';
+    }
+    if (valueDisplay) {
+      valueDisplay.style.opacity = '0.5';
+      valueDisplay.style.color = '#666';
+      valueDisplay.textContent = 'Not supported by this theme';
+    }
+  }
+}
+
 function updateTransparency(value) {
   document.getElementById('transparencyValue').textContent = value + '% visible';
 
   // Apply transparency preview immediately
   settings.transparency = parseInt(value);
+  
+  // Update the CSS variable for theme usage (keep as 0-1 range)
+  const opacity = value / 100;
+  document.documentElement.style.setProperty('--user-transparency', opacity);
+  
+  // Theme now handles transparency properly, no override needed
+  
   applyTransparencySettings();
 }
 
-function updateTheme(themeId) {
+async function updateTheme(themeId) {
   console.log('Theme changed to:', themeId);
   settings.theme = themeId;
+  
+  // PG: Check if theme supports transparency and update UI
+  const theme = await getCurrentTheme();
+  updateTransparencyControls(theme?.supportsTransparency !== false);
+  
   applyTheme();
 
   if (isInteractiveMode) {
@@ -107,11 +154,17 @@ async function applyTheme() {
     style.id = 'theme-style';
     
     let css = await generateThemeCSS(theme);
-    console.log('Generated CSS:', css);
+    console.log('Generated CSS with transparency:', css.substring(0, 500) + '...');
     style.textContent = css;
     document.head.appendChild(style);
     
     applyFonts(theme);
+    
+    // PG: Apply current transparency settings as CSS variable
+    const opacity = settings.transparency / 100;
+    document.documentElement.style.setProperty('--user-transparency', opacity);
+    
+    updateTransparencyControls(theme?.supportsTransparency !== false);
     
   } catch (error) {
     console.error('Failed to apply theme:', error);
@@ -173,7 +226,31 @@ async function generateCSSVariables(theme, transparency) {
         const shortCategory = category === 'background' ? 'bg' : 
                              category === 'border' ? 'border' :
                              category === 'text' ? 'text' : category;
-        vars.push(`--${shortCategory}-${key}: ${value}`);
+        
+        // PG: Apply user transparency to background colors
+        if (category === 'background' && value !== 'transparent') {
+          // Parse rgba/rgb values and multiply alpha by user transparency
+          const rgbaMatch = value.match(/rgba?\(([^)]+)\)/);
+          if (rgbaMatch) {
+            const parts = rgbaMatch[1].split(',').map(p => p.trim());
+            if (parts.length === 4) {
+              // Has alpha channel - multiply by user transparency
+              const alpha = parseFloat(parts[3]);
+              const newValue = `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, calc(${alpha} * var(--user-transparency, 1)))`;
+              vars.push(`--${shortCategory}-${key}: ${newValue}`);
+            } else if (parts.length === 3) {
+              // No alpha channel - add user transparency
+              const newValue = `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, var(--user-transparency, 1))`;
+              vars.push(`--${shortCategory}-${key}: ${newValue}`);
+            } else {
+              vars.push(`--${shortCategory}-${key}: ${value}`);
+            }
+          } else {
+            vars.push(`--${shortCategory}-${key}: ${value}`);
+          }
+        } else {
+          vars.push(`--${shortCategory}-${key}: ${value}`);
+        }
         
         if (category === 'border') {
           if (key === 'primary') vars.push(`--border-light: ${value}`);
@@ -1255,6 +1332,7 @@ async function initializeApp() {
     await loadSettings();
     updateTemplateSelect();
     renderTasks();
+    setupContainerDropHandler();
     updateProgress();
     setupInteractiveModeListener();
     await applyTheme();
@@ -1445,6 +1523,8 @@ function updateInteractiveVisuals(interactive) {
       toggleBtn.style.background = '#666';
     }
   }
+  
+  // Theme now handles transparency properly, no override needed
 }
 
 // Task management
@@ -2092,6 +2172,7 @@ function previewCommunityTemplate(index) {
 let draggedTaskId = null;
 let draggedElement = null;
 let placeholder = null;
+let lastOperation = null;
 
 // Initialize drag and drop functionality
 function initializeDragAndDrop() {
@@ -2104,13 +2185,13 @@ function initializeDragAndDrop() {
     taskItem.draggable = true;
     taskItem.style.cursor = 'grab';
     
-    // Add drag event listeners
+    // Add drag event listeners (keep dragover for visual feedback)
     taskItem.addEventListener('dragstart', handleDragStart);
     taskItem.addEventListener('dragend', handleDragEnd);
     taskItem.addEventListener('dragover', handleDragOver);
-    taskItem.addEventListener('drop', handleDrop);
     taskItem.addEventListener('dragenter', handleDragEnter);
     taskItem.addEventListener('dragleave', handleDragLeave);
+    
   });
 }
 
@@ -2128,7 +2209,7 @@ function handleDragStart(e) {
   placeholder.className = 'drag-placeholder';
   placeholder.style.cssText = `
     height: ${e.currentTarget.offsetHeight}px;
-    background: rgba(212, 55, 55, 0.3);
+    background: rgba(212, 175, 55, 0.2);
     border: 2px dashed #d4af37;
     border-radius: 4px;
     margin: 2px 0;
@@ -2136,9 +2217,10 @@ function handleDragStart(e) {
     align-items: center;
     justify-content: center;
     color: #d4af37;
-    font-size: 12px;
+    font-size: 11px;
     font-style: italic;
     list-style: none;
+    transition: all 0.2s ease;
   `;
   placeholder.textContent = 'Drop here to reorder';
   
@@ -2163,93 +2245,315 @@ function handleDragEnd(e) {
   draggedTaskId = null;
   draggedElement = null;
   placeholder = null;
+  lastOperation = null;
 }
 
 // Handle drag over
 function handleDragOver(e) {
   e.preventDefault();
+  e.stopPropagation();
   e.dataTransfer.dropEffect = 'move';
   
   const targetElement = e.currentTarget;
   if (targetElement === draggedElement) return;
   
-  // Determine where to place the placeholder
-  const rect = targetElement.getBoundingClientRect();
-  const midpoint = rect.top + rect.height / 2;
-  const isAbove = e.clientY < midpoint;
+  // PG: Use shared logic to calculate drop operation
+  const operation = calculateDropOperation(e, draggedTaskId, targetElement);
+  if (!operation) return;
   
-  // Remove existing placeholder
+  
+  // PG: Aids to have realtime Drop Handler. Check if operation has actually changed
+  const operationKey = `${operation.operationType}-${operation.isAbove}-${operation.targetTaskId}`;
+  if (lastOperation === operationKey) {
+    return; // No change, don't recreate placeholder
+  }
+  lastOperation = operationKey;
+  
+  // PG: Remove existing placeholder
   if (placeholder && placeholder.parentNode) {
     placeholder.parentNode.removeChild(placeholder);
+    placeholder = null;
   }
   
-  // Insert placeholder in the correct position
-  if (isAbove) {
-    targetElement.parentNode.insertBefore(placeholder, targetElement);
+  // PG: Create a fresh placeholder
+  placeholder = document.createElement('li');
+  placeholder.className = 'drag-placeholder';
+  placeholder.style.cssText = `
+    height: ${targetElement.offsetHeight}px;
+    border: 2px dashed;
+    border-radius: 4px;
+    margin: 2px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-style: italic;
+    list-style: none;
+    pointer-events: none;
+    user-select: none;
+  `;
+  
+  // PG: Operation Styles
+  if (operation.makeSubtask) {
+    placeholder.style.borderColor = '#4285f4';
+    placeholder.style.color = '#4285f4';
+    placeholder.style.background = 'rgba(66, 133, 244, 0.1)';
+    placeholder.textContent = 'Drop to make subtask';
+    placeholder.style.marginLeft = `${(operation.targetInfo.level + 1) * 20}px`;
+  } else if (operation.operationType.includes('Promote')) {
+    placeholder.style.borderColor = '#32cd32';
+    placeholder.style.color = '#32cd32';
+    placeholder.style.background = 'rgba(50, 205, 50, 0.1)';
+    placeholder.textContent = operation.operationType;
   } else {
+    placeholder.style.borderColor = '#d4af37';
+    placeholder.style.color = '#d4af37';
+    placeholder.style.background = 'rgba(212, 175, 55, 0.1)';
+    placeholder.textContent = operation.operationType;
+  }
+  
+  // PG: Insert placeholder in the correct position
+  if (operation.makeSubtask) {
+    // PG: Insert after target for subtask creation
     targetElement.parentNode.insertBefore(placeholder, targetElement.nextSibling);
+  } else {
+    // PG: Insert above or below for reordering
+    if (operation.isAbove) {
+      targetElement.parentNode.insertBefore(placeholder, targetElement);
+    } else {
+      targetElement.parentNode.insertBefore(placeholder, targetElement.nextSibling);
+    }
   }
 }
 
 // Handle drop
 function handleDrop(e) {
   e.preventDefault();
+  console.log('Drop triggered');
   
   if (!draggedTaskId) return;
   
   const targetTaskId = parseInt(e.currentTarget.dataset.taskId);
   if (draggedTaskId === targetTaskId) return;
   
-  // Calculate new position
+  const draggedInfo = findTaskWithParent(draggedTaskId);
+  const targetInfo = findTaskWithParent(targetTaskId);
+  
+  if (!draggedInfo || !targetInfo) return;
+  
   const targetElement = e.currentTarget;
   const rect = targetElement.getBoundingClientRect();
   const midpoint = rect.top + rect.height / 2;
   const isAbove = e.clientY < midpoint;
+  const leftThird = rect.left + rect.width / 3;
+  const isIndented = e.clientX > leftThird;
   
-  // Reorder tasks array
-  reorderTasks(draggedTaskId, targetTaskId, isAbove);
+  let makeSubtask = false;
+  
+  if (isIndented && !isAbove && draggedInfo.level <= targetInfo.level) {
+    makeSubtask = true;
+  }
+  
+  reorderTasksAdvanced(draggedTaskId, targetTaskId, isAbove, makeSubtask);
 }
 
-// Handle drag enter
 function handleDragEnter(e) {
   e.preventDefault();
+  e.stopPropagation();
   if (e.currentTarget !== draggedElement) {
     e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
   }
 }
 
-// Handle drag leave
 function handleDragLeave(e) {
   if (e.currentTarget !== draggedElement) {
     e.currentTarget.style.backgroundColor = '';
   }
 }
 
-// Reorder tasks in the array
-function reorderTasks(draggedId, targetId, insertAbove) {
-  // Find the tasks in the array
-  const draggedIndex = tasks.findIndex(task => task.id === draggedId);
-  const targetIndex = tasks.findIndex(task => task.id === targetId);
+// Helper function to calculate drop operation details
+function calculateDropOperation(e, draggedTaskId, targetElement) {
+  if (!draggedTaskId || !targetElement) return null;
   
-  if (draggedIndex === -1 || targetIndex === -1) return;
+  const draggedInfo = findTaskWithParent(draggedTaskId);
+  const targetTaskId = parseInt(targetElement.dataset.taskId);
+  const targetInfo = findTaskWithParent(targetTaskId);
   
-  // Remove dragged task from its current position
-  const [draggedTask] = tasks.splice(draggedIndex, 1);
+  if (!draggedInfo || !targetInfo) return null;
   
-  // Calculate new insertion index
-  let newTargetIndex = tasks.findIndex(task => task.id === targetId);
-  let insertIndex = insertAbove ? newTargetIndex : newTargetIndex + 1;
+  // Calculate drop details from mouse position
+  const rect = targetElement.getBoundingClientRect();
+  const midpoint = rect.top + rect.height / 2;
+  const isAbove = e.clientY < midpoint;
   
-  // Insert the dragged task at the new position
-  tasks.splice(insertIndex, 0, draggedTask);
+  // Balanced indentation detection - right half of the task
+  const rightHalf = rect.left + rect.width * 0.5;
+  const isIndented = e.clientX > rightHalf;
   
-  // Re-render tasks and save
+  // Create subtask when dropping in right half, below target, and valid level
+  let makeSubtask = false;
+  if (isIndented && !isAbove && draggedInfo.level <= targetInfo.level) {
+    makeSubtask = true;
+  }
+  
+  // Determine operation type for visual feedback
+  let operationType = '';
+  let placeholderColor = '#d4af37';
+  
+  if (makeSubtask) {
+    operationType = 'Make subtask of target';
+    placeholderColor = '#4285f4';
+  } else if (draggedInfo.level === targetInfo.level) {
+    operationType = 'Reorder within same level';
+    placeholderColor = '#d4af37';
+  } else if (draggedInfo.level > targetInfo.level) {
+    operationType = 'Promote to higher level';
+    placeholderColor = '#32cd32';
+  } else {
+    operationType = 'Reorder as sibling';
+    placeholderColor = '#d4af37';
+  }
+  
+  return {
+    isAbove,
+    isIndented,
+    makeSubtask,
+    operationType,
+    placeholderColor,
+    draggedInfo,
+    targetInfo,
+    targetTaskId
+  };
+}
+
+// Advanced reorder function with subtask conversion support
+function reorderTasksAdvanced(draggedId, targetId, insertAbove, makeSubtask = false) {
+  console.log('Advanced reordering:', { draggedId, targetId, insertAbove, makeSubtask });
+  
+  // Find both tasks in the hierarchical structure
+  const draggedInfo = findTaskWithParent(draggedId);
+  const targetInfo = findTaskWithParent(targetId);
+  
+  if (!draggedInfo || !targetInfo) {
+    console.log('Task not found:', !draggedInfo ? draggedId : targetId);
+    return;
+  }
+  
+  console.log('Dragged task:', draggedInfo.task.text, 'at level', draggedInfo.level);
+  console.log('Target task:', targetInfo.task.text, 'at level', targetInfo.level);
+  console.log('Dragged parent:', draggedInfo.parent ? draggedInfo.parent.text : 'none');
+  console.log('Target parent:', targetInfo.parent ? targetInfo.parent.text : 'none');
+  
+  // Remove dragged task from its current location
+  const draggedTask = draggedInfo.task;
+  removeTaskFromParent(draggedId);
+  
+  // Determine the new parent and position
+  let newParentArray, insertIndex;
+  let operation = '';
+  
+  if (makeSubtask) {
+    // Make the dragged task a subtask of the target
+    const targetTask = targetInfo.task;
+    if (!targetTask.children) targetTask.children = [];
+    newParentArray = targetTask.children;
+    insertIndex = newParentArray.length; // Add at end
+    operation = `Made "${draggedTask.text}" a subtask of "${targetTask.text}"`;
+    
+  } else if (draggedInfo.level === targetInfo.level) {
+    // Same level - reorder within same parent
+    if (targetInfo.parent) {
+      newParentArray = targetInfo.parent.children;
+      const targetIndex = newParentArray.findIndex(t => t.id === targetId);
+      insertIndex = insertAbove ? targetIndex : targetIndex + 1;
+    } else {
+      // Top level
+      newParentArray = tasks;
+      const targetIndex = newParentArray.findIndex(t => t.id === targetId);
+      insertIndex = insertAbove ? targetIndex : targetIndex + 1;
+    }
+    operation = `Reordered "${draggedTask.text}" within same level`;
+    
+  } else if (draggedInfo.level > targetInfo.level) {
+    // Dragging subtask to higher level - promote to same level as target
+    if (targetInfo.parent) {
+      // Target has a parent, so promote to be sibling of target
+      newParentArray = targetInfo.parent.children;
+      const targetIndex = newParentArray.findIndex(t => t.id === targetId);
+      insertIndex = insertAbove ? targetIndex : targetIndex + 1;
+    } else {
+      // Target is top level, so promote to top level
+      newParentArray = tasks;
+      const targetIndex = newParentArray.findIndex(t => t.id === targetId);
+      insertIndex = insertAbove ? targetIndex : targetIndex + 1;
+    }
+    operation = `Promoted "${draggedTask.text}" from level ${draggedInfo.level} to level ${targetInfo.level}`;
+    
+  } else {
+    // Dragging higher level task to lower level - make it a sibling of target
+    if (targetInfo.parent) {
+      newParentArray = targetInfo.parent.children;
+      const targetIndex = newParentArray.findIndex(t => t.id === targetId);
+      insertIndex = insertAbove ? targetIndex : targetIndex + 1;
+    } else {
+      // Same level at top
+      newParentArray = tasks;
+      const targetIndex = newParentArray.findIndex(t => t.id === targetId);
+      insertIndex = insertAbove ? targetIndex : targetIndex + 1;
+    }
+    operation = `Moved "${draggedTask.text}" to be sibling of "${targetInfo.task.text}"`;
+  }
+  
+  // Insert the task at the new position
+  newParentArray.splice(insertIndex, 0, draggedTask);
+  
+  console.log('Operation completed:', operation);
+  showReorderFeedback(operation);
   renderTasks();
   saveTasks();
 }
 
+// Legacy function for backward compatibility
+function reorderTasks(draggedId, targetId, insertAbove) {
+  reorderTasksAdvanced(draggedId, targetId, insertAbove, false);
+}
+
+// Helper function to find a task and its parent info
+function findTaskWithParent(taskId, taskArray = tasks, parent = null, level = 0) {
+  for (const task of taskArray) {
+    if (task.id === taskId) {
+      return { task, parent, level, array: taskArray };
+    }
+    
+    if (task.children && task.children.length > 0) {
+      const result = findTaskWithParent(taskId, task.children, task, level + 1);
+      if (result) return result;
+    }
+  }
+  return null;
+}
+
+// Helper function to remove a task from its current parent
+function removeTaskFromParent(taskId) {
+  function removeFromArray(taskArray) {
+    for (let i = 0; i < taskArray.length; i++) {
+      if (taskArray[i].id === taskId) {
+        taskArray.splice(i, 1);
+        return true;
+      }
+      
+      if (taskArray[i].children && removeFromArray(taskArray[i].children)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  return removeFromArray(tasks);
+}
+
 // Show feedback when task order is updated
-function showReorderFeedback() {
+function showReorderFeedback(message = 'Task order updated!') {
   // Create a temporary success message
   const feedback = document.createElement('div');
   feedback.style.cssText = `
@@ -2263,28 +2567,33 @@ function showReorderFeedback() {
     font-size: 12px;
     z-index: 1001;
     animation: slideIn 0.3s ease;
+    max-width: 300px;
+    word-wrap: break-word;
   `;
-  feedback.textContent = 'Task order updated!';
+  feedback.textContent = message;
   
-  // Add slide-in animation
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-  `;
-  document.head.appendChild(style);
+  // Add slide-in animation if not already present
+  if (!document.getElementById('slideInStyle')) {
+    const style = document.createElement('style');
+    style.id = 'slideInStyle';
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
   document.body.appendChild(feedback);
   
-  // Remove after 2 seconds
+  // Remove after 3 seconds
   setTimeout(() => {
     if (feedback.parentNode) {
       feedback.style.animation = 'slideIn 0.3s ease reverse';
       setTimeout(() => feedback.remove(), 300);
     }
-    style.remove();
-  }, 2000);
+  }, 3000);
 }
 
 // Enhanced renderTasks with hierarchical structure
@@ -2357,6 +2666,189 @@ function renderTasks() {
 
   renderTaskLevel(tasks);
   initializeDragAndDrop();
+}
+
+// PG: Update placeholder based on operation, this was buggy asf so check it thoroughly
+function updatePlaceholder(operation, targetElement) {
+  // Remove existing placeholder
+  if (placeholder && placeholder.parentNode) {
+    placeholder.parentNode.removeChild(placeholder);
+    placeholder = null;
+  }
+  
+  // Create a fresh placeholder
+  placeholder = document.createElement('li');
+  placeholder.className = 'drag-placeholder';
+  placeholder.style.cssText = `
+    height: ${targetElement.offsetHeight}px;
+    border: 2px dashed;
+    border-radius: 4px;
+    margin: 2px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-style: italic;
+    list-style: none;
+    pointer-events: none;
+    user-select: none;
+  `;
+  
+  if (operation.makeSubtask) {
+    placeholder.style.borderColor = '#4285f4';
+    placeholder.style.color = '#4285f4';
+    placeholder.style.background = 'rgba(66, 133, 244, 0.1)';
+    placeholder.textContent = 'Drop to make subtask';
+    placeholder.style.marginLeft = `${(operation.targetInfo.level + 1) * 20}px`;
+  } else if (operation.operationType.includes('Promote')) {
+    placeholder.style.borderColor = '#32cd32';
+    placeholder.style.color = '#32cd32';
+    placeholder.style.background = 'rgba(50, 205, 50, 0.1)';
+    placeholder.textContent = operation.operationType;
+  } else {
+    placeholder.style.borderColor = '#d4af37';
+    placeholder.style.color = '#d4af37';
+    placeholder.style.background = 'rgba(212, 175, 55, 0.1)';
+    placeholder.textContent = operation.operationType;
+  }
+  
+  if (operation.makeSubtask) {
+    // PG: Insert after target for subtask creation
+    targetElement.parentNode.insertBefore(placeholder, targetElement.nextSibling);
+  } else {
+    // PG: Insert above or below for reordering
+    if (operation.isAbove) {
+      targetElement.parentNode.insertBefore(placeholder, targetElement);
+    } else {
+      targetElement.parentNode.insertBefore(placeholder, targetElement.nextSibling);
+    }
+  }
+}
+
+// PG: Add container-level drop handler, it was per Task before but I coudn't get it to work properly
+function setupContainerDropHandler() {
+  const taskList = document.getElementById('taskList');
+  if (!taskList.hasDropHandler) {
+    taskList.addEventListener('drop', (e) => {
+      e.preventDefault();
+      console.log('Container drop event fired!');
+      console.log('Drop target element:', e.target);
+      console.log('Dragged task ID:', draggedTaskId);
+      
+      // PG: Find the task item that was dropped on
+      let target = e.target.closest('.task-item');
+      
+      // PG: If we dropped on placeholder, find the adjacent task
+      if (!target && e.target.classList.contains('drag-placeholder')) {
+        console.log('Dropped on placeholder, finding adjacent task');
+        const placeholder = e.target;
+        
+        // PG: Find the task before or after the placeholder
+        let adjacentTask = placeholder.previousElementSibling;
+        if (!adjacentTask || !adjacentTask.classList.contains('task-item')) {
+          adjacentTask = placeholder.nextElementSibling;
+        }
+        
+        if (adjacentTask && adjacentTask.classList.contains('task-item')) {
+          target = adjacentTask;
+          console.log('Found adjacent task:', target.dataset.taskId);
+        }
+      }
+      
+      // PG: If still no target, find the closest task item to the drop position
+      if (!target) {
+        console.log('No direct target, searching for closest task item');
+        const taskItems = document.querySelectorAll('.task-item');
+        let closestTask = null;
+        let closestDistance = Infinity;
+        
+        taskItems.forEach(task => {
+          const rect = task.getBoundingClientRect();
+          const distance = Math.abs(e.clientY - (rect.top + rect.height / 2));
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestTask = task;
+          }
+        });
+        
+        if (closestTask) {
+          target = closestTask;
+          console.log('Found closest task:', target.dataset.taskId);
+        }
+      }
+      
+      console.log('Found task item target:', target);
+      console.log('Target dataset:', target ? target.dataset : 'no target');
+      
+      if (target && target.dataset.taskId && draggedTaskId) {
+        const targetTaskId = parseInt(target.dataset.taskId);
+        console.log('Dropping task', draggedTaskId, 'onto task', targetTaskId);
+        
+        if (draggedTaskId !== targetTaskId) {
+          // Use shared logic to calculate drop operation
+          const operation = calculateDropOperation(e, draggedTaskId, target);
+          if (operation) {
+            console.log('Drop operation details:', {
+              isAbove: operation.isAbove, 
+              isIndented: operation.isIndented, 
+              makeSubtask: operation.makeSubtask,
+              operationType: operation.operationType,
+              draggedLevel: operation.draggedInfo.level,
+              targetLevel: operation.targetInfo.level
+            });
+            
+            reorderTasksAdvanced(draggedTaskId, operation.targetTaskId, operation.isAbove, operation.makeSubtask);
+          }
+        }
+      } else {
+        console.log('Drop validation failed:', {
+          hasTarget: !!target,
+          hasTaskId: target ? !!target.dataset.taskId : false,
+          hasDraggedId: !!draggedTaskId
+        });
+      }
+    });
+    
+    taskList.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      
+      // PG: Find the actual task item being hovered over
+      let target = e.target.closest('.task-item');
+      if (!target) {
+        // PG: As above, so below
+        const taskItems = document.querySelectorAll('.task-item');
+        let closestTask = null;
+        let closestDistance = Infinity;
+        
+        taskItems.forEach(task => {
+          const rect = task.getBoundingClientRect();
+          const distance = Math.abs(e.clientY - (rect.top + rect.height / 2));
+          if (distance < closestDistance && distance < 50) { // Within 50px
+            closestDistance = distance;
+            closestTask = task;
+          }
+        });
+        
+        if (closestTask) {
+          target = closestTask;
+        }
+      }
+      
+      if (target && draggedTaskId) {
+        const operation = calculateDropOperation(e, draggedTaskId, target);
+        if (operation) {
+          
+          const operationKey = `${operation.operationType}-${operation.isAbove}-${operation.targetTaskId}`;
+          if (lastOperation !== operationKey) {
+            lastOperation = operationKey;
+            updatePlaceholder(operation, target);
+          }
+        }
+      }
+    });
+    
+    taskList.hasDropHandler = true;
+  }
 }
 
 // Context menu for adding subtasks
@@ -2714,14 +3206,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Debug: Log when overlay gets focus/blur
-  window.addEventListener('focus', () => {
-    console.log('Overlay gained focus');
-  });
+  // Debug: Log when overlay gets focus/blur - temporarily disabled during drag debugging
+  // window.addEventListener('focus', () => {
+  //   console.log('Overlay gained focus');
+  // });
 
-  window.addEventListener('blur', () => {
-    console.log('Overlay lost focus');
-  });
+  // window.addEventListener('blur', () => {
+  //   console.log('Overlay lost focus');
+  // });
 
   // Debug function - call from console to test input
   window.testInput = function () {

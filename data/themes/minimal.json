@@ -5,6 +5,7 @@
   "author": "Echoesight",
   "description": "Clean minimal theme with no background",
   "isDefault": true,
+  "supportsTransparency": true,
   "fonts": {
     "primary": {
       "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
@@ -48,9 +49,9 @@
     "interactive": "1.0"
   },
   "effects": {
-    "textShadow": "2px 2px 4px rgba(0,0,0,1), -2px -2px 4px rgba(0,0,0,1), 2px -2px 4px rgba(0,0,0,1), -2px 2px 4px rgba(0,0,0,1), 0 0 8px rgba(0,0,0,1)",
-    "dropShadow": "drop-shadow(2px 2px 4px rgba(0,0,0,1)) drop-shadow(-2px -2px 4px rgba(0,0,0,1)) drop-shadow(0 0 4px rgba(0,0,0,1))",
-    "boxShadow": "0 0 4px black"
+    "textShadow": "7px 7px 4px rgba(0,0,0,0.35)",
+    "dropShadow": "drop-shadow(1px 1px 4px rgba(0,0,0,0.35))",
+    "boxShadow": "0 0 6px rgba(0,0,0,0.25)"
   },
   "styles": {
     "interactive": {

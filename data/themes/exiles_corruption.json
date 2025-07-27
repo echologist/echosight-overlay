@@ -5,6 +5,7 @@
   "author": "Echoesight",
   "description": "Dark corruption theme inspired by PoE's corruption mechanics with deep purples and red accents",
   "isDefault": false,
+  "supportsTransparency": false,
   "fonts": {
     "primary": {
       "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
