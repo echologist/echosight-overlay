@@ -8,10 +8,15 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+# Granting workflow permissions to create releases
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   build:
     strategy:
-      fail-fast: false  # Don't cancel other jobs if one fails
+      fail-fast: false  # Don't cancel other jobs if one fails :)
       matrix:
         include:
           - os: macos-latest
@@ -90,4 +95,74 @@ jobs:
         name: ${{ matrix.os }}-build
         path: ${{ matrix.artifacts }}
         if-no-files-found: warn
-        retention-days: 2
+        retention-days: 7  # Increased retention for release process
+
+  # New release job - only runs on main branch pushes (not PRs)
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Get version from package.json
+      id: package_version
+      run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: ./artifacts
+        
+    - name: Display downloaded artifacts
+      run: ls -la ./artifacts/
+      
+    - name: Prepare release assets
+      run: |
+        mkdir -p ./release-assets
+        
+        # Copy Windows executables
+        find ./artifacts/windows-latest-build -name "*.exe" -exec cp {} ./release-assets/ \;
+        
+        # Copy macOS DMGs
+        find ./artifacts/macos-latest-build -name "*.dmg" -exec cp {} ./release-assets/ \;
+        
+        # Copy Linux packages
+        find ./artifacts/ubuntu-latest-build -name "*.AppImage" -exec cp {} ./release-assets/ \;
+        find ./artifacts/ubuntu-latest-build -name "*.deb" -exec cp {} ./release-assets/ \;
+        
+        # List what we're about to release
+        echo "Release assets:"
+        ls -la ./release-assets/
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v${{ steps.package_version.outputs.version }}
+        name: "Echoesight v${{ steps.package_version.outputs.version }}"
+        body: |
+          ## Echoesight PoE2 Task Overlay v${{ steps.package_version.outputs.version }}
+          
+          **Download for your platform:**
+          - **Windows**: `.exe` file
+          - **macOS**: `.dmg` file  
+          - **Linux**: `.AppImage` or `.deb` file
+          
+          ### Changes in this release
+          - Auto-generated release from commit: ${{ github.sha }}
+          - Built from branch: ${{ github.ref_name }}
+          
+          ### Installation
+          - **Windows**: Download the `.exe` file and run it directly (portable)
+          - **macOS**: Download and mount the `.dmg` file, then drag to Applications
+          - **Linux**: Download `.AppImage` (make executable and run) or install `.deb` package
+          
+          ---
+          *This is an automated release created by GitHub Actions*
+        files: ./release-assets/*
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
