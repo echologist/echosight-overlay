@@ -47,36 +47,25 @@ class PoE2TaskOverlay {
   async copyDefaultThemes() {
     try {
       let sourceThemesDir;
-      
+
       if (app.isPackaged) {
-        // For packaged apps, themes are in the app directory
-        const appPath = path.dirname(app.getPath('exe'));
-        
-        // Different paths for different platforms
-        if (process.platform === 'darwin') {
-          // macOS: MyApp.app/Contents/Resources/data/themes
-          sourceThemesDir = path.join(process.resourcesPath, 'data', 'themes');
-        } else if (process.platform === 'win32') {
-          // Windows: MyApp/data/themes
-          sourceThemesDir = path.join(appPath, 'data', 'themes');
-        } else {
-          // Linux: /opt/MyApp/data/themes
-          sourceThemesDir = path.join(appPath, 'data', 'themes');
-        }
+        // For packaged apps, themes are ALWAYS in process.resourcesPath
+        // electron-builder's extraFiles places them here on ALL platforms
+        sourceThemesDir = path.join(process.resourcesPath, 'data', 'themes');
       } else {
         // Development mode
         sourceThemesDir = path.join(__dirname, '../../data/themes');
       }
-      
+
       console.log('Copying default themes from:', sourceThemesDir);
       console.log('Platform:', process.platform, 'Packaged:', app.isPackaged);
-      
+
       const themeEntries = await fs.readdir(sourceThemesDir, { withFileTypes: true });
-      
+
       for (const entry of themeEntries) {
         const sourcePath = path.join(sourceThemesDir, entry.name);
         const targetPath = path.join(THEMES_DIR, entry.name);
-        
+
         try {
           await fs.access(targetPath);
           console.log(`Theme already exists: ${entry.name}`);
