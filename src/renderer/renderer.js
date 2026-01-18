@@ -1818,6 +1818,73 @@ async function deleteTemplate() {
   }
 }
 
+// Security functions for template import
+function isValidTemplateInput(input) {
+  // Check for potentially dangerous patterns
+  const dangerousPatterns = [
+    /<script/i,
+    /javascript:/i,
+    /on\w+\s*=/i,
+    /eval\s*\(/i,
+    /Function\s*\(/i,
+    /setTimeout\s*\(/i,
+    /setInterval\s*\(/i,
+    /document\./i,
+    /window\./i,
+    /localStorage/i,
+    /sessionStorage/i,
+    /cookie/i,
+    /location\./i,
+    /navigator\./i
+  ];
+
+  // Reject if any dangerous patterns found
+  for (const pattern of dangerousPatterns) {
+    if (pattern.test(input)) {
+      return false;
+    }
+  }
+
+  // Only allow JSON-like input (starts with { and ends with })
+  return input.trim().startsWith('{') && input.trim().endsWith('}');
+}
+
+function sanitizeTemplateData(data) {
+  // Create a clean copy with only allowed properties
+  const sanitized = {
+    name: sanitizeString(data.name) || 'Imported Template',
+    tasks: []
+  };
+
+  // Sanitize tasks array
+  if (Array.isArray(data.tasks)) {
+    sanitized.tasks = data.tasks
+      .filter(task => typeof task === 'string' || (typeof task === 'object' && task.text))
+      .map(task => {
+        if (typeof task === 'string') {
+          return sanitizeString(task);
+        } else if (typeof task === 'object' && task.text) {
+          return sanitizeString(task.text);
+        }
+        return '';
+      })
+      .filter(task => task.length > 0 && task.length <= 200); // Limit task length
+  }
+
+  return sanitized;
+}
+
+function sanitizeString(str) {
+  if (typeof str !== 'string') return '';
+  
+  return str
+    .replace(/[<>]/g, '') // Remove HTML brackets
+    .replace(/javascript:/gi, '') // Remove javascript: protocol
+    .replace(/on\w+\s*=/gi, '') // Remove event handlers
+    .trim()
+    .substring(0, 200); // Limit string length
+}
+
 // Export/Import functionality
 function exportTemplate() {
   try {
@@ -1904,6 +1971,16 @@ async function importTemplate() {
   let templateData;
 
   try {
+    // Validate input before parsing
+    if (!isValidTemplateInput(inputData)) {
+      throw new Error('Invalid template format. Only JSON templates are supported.');
+    }
+
+    // Safe JSON parsing with size limit
+    if (inputData.length > 100000) { // 100KB limit
+      throw new Error('Template data too large');
+    }
+
     // Try to parse as JSON first
     if (inputData.startsWith('{')) {
       // It's JSON
@@ -1913,9 +1990,15 @@ async function importTemplate() {
       if (!templateData.name || !templateData.tasks || !Array.isArray(templateData.tasks)) {
         throw new Error('Invalid JSON template format');
       }
+
+      // Sanitize template data
+      templateData = sanitizeTemplateData(templateData);
     } else {
       // It might be a share code, but we'll just try JSON parsing
       templateData = JSON.parse(inputData);
+      
+      // Sanitize after parsing
+      templateData = sanitizeTemplateData(templateData);
     }
 
     // Check if template with same name exists
