@@ -123,19 +123,28 @@ jobs:
       run: |
         mkdir -p ./release-assets
         
-        # Copy Windows executables
-        find ./artifacts/windows-latest-build -name "*.exe" -exec cp {} ./release-assets/ \;
+        # Debug: Show the actual artifact structure
+        echo "Artifact directory structure:"
+        find ./artifacts -type f -name "*.exe" -o -name "*.dmg" -o -name "*.AppImage" -o -name "*.deb" | head -20
         
-        # Copy macOS DMGs
-        find ./artifacts/macos-latest-build -name "*.dmg" -exec cp {} ./release-assets/ \;
-        
-        # Copy Linux packages
-        find ./artifacts/ubuntu-latest-build -name "*.AppImage" -exec cp {} ./release-assets/ \;
-        find ./artifacts/ubuntu-latest-build -name "*.deb" -exec cp {} ./release-assets/ \;
+        # Copy files using the correct artifact structure
+        # The artifacts are downloaded to subdirectories named after the artifact names
+        find ./artifacts -name "*.exe" -exec cp {} ./release-assets/ \;
+        find ./artifacts -name "*.dmg" -exec cp {} ./release-assets/ \;
+        find ./artifacts -name "*.AppImage" -exec cp {} ./release-assets/ \;
+        find ./artifacts -name "*.deb" -exec cp {} ./release-assets/ \;
         
         # List what we're about to release
         echo "Release assets:"
         ls -la ./release-assets/
+        
+        # Check if we have any files to release
+        if [ ! "$(ls -A ./release-assets/)" ]; then
+          echo "WARNING: No release assets found!"
+          echo "Artifact structure:"
+          find ./artifacts -type f | head -10
+          exit 1
+        fi
     
     - name: Create Release
       uses: softprops/action-gh-release@v2
