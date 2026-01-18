@@ -58,17 +58,18 @@
       "container": {
         "background": "none",
         "border": "none",
-        "borderRadius": "0"
+        "borderRadius": "0",
+        "boxShadow": "none"
       },
       "header": {
         "background": "none",
         "borderBottom": "2px solid var(--border-primary)",
-        "boxShadow": "var(--box-shadow)"
+        "boxShadow": "none"
       },
       "templateSection": {
         "background": "none",
         "borderBottom": "2px solid var(--border-primary)",
-        "boxShadow": "var(--box-shadow)"
+        "boxShadow": "none"
       },
       "tasksSection": {
         "background": "none"
@@ -78,7 +79,8 @@
       "container": {
         "background": "none",
         "border": "none",
-        "borderRadius": "0"
+        "borderRadius": "0",
+        "boxShadow": "none"
       },
       "tasksSection": {
         "background": "none"
