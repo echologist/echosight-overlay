@@ -1,4 +1,4 @@
-# Echoesight - PoE Task Overlay
+# Echosight - PoE Task Overlay
 
 A lightweight, customizable task management overlay designed specifically for Path of Exile players. Keep track of your league start goals, character progression, and endgame objectives without ever leaving the game!
 
@@ -45,8 +45,8 @@ A lightweight, customizable task management overlay designed specifically for Pa
 ### Build from Source
 ```bash
 # Clone the repository
-git clone https://github.com/echologist/echoesight-overlay.git
-cd echoesight-overlay
+git clone https://github.com/echologist/echosight-overlay.git
+cd echosight-overlay
 
 # Install dependencies
 npm install
