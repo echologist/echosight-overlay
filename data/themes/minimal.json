@@ -49,9 +49,9 @@
     "interactive": "1.0"
   },
   "effects": {
-    "textShadow": "7px 7px 4px rgba(0,0,0,0.35)",
-    "dropShadow": "drop-shadow(1px 1px 4px rgba(0,0,0,0.35))",
-    "boxShadow": "0 0 6px rgba(0,0,0,0.25)"
+    "textShadow": "none",
+    "dropShadow": "none",
+    "boxShadow": "none"
   },
   "styles": {
     "interactive": {
