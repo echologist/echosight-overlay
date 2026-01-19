@@ -27,7 +27,9 @@ jobs:
             artifacts: "dist/*.exe"
           - os: ubuntu-latest
             build_script: "build-linux" 
-            artifacts: "dist/*.AppImage dist/*.deb"
+            artifacts: |
+              dist/*.AppImage
+              dist/*.deb
     
     runs-on: ${{ matrix.os }}
     
@@ -95,6 +97,16 @@ jobs:
     - name: Build application
       run: npm run ${{ matrix.build_script }}
       
+    - name: List build outputs (debug)
+      if: always()
+      shell: bash
+      run: |
+        echo "Contents of dist directory:"
+        ls -la dist/ || echo "dist/ not found"
+        echo ""
+        echo "Searching for build artifacts:"
+        find . -name "*.AppImage" -o -name "*.deb" -o -name "*.dmg" -o -name "*.exe" | head -20
+      
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -156,9 +168,9 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: v${{ steps.package_version.outputs.version }}
-        name: "Echosight v${{ steps.package_version.outputs.version }}"
+        name: "Echoesight v${{ steps.package_version.outputs.version }}"
         body: |
-          ## Echosight PoE2 Task Overlay v${{ steps.package_version.outputs.version }}
+          ## Echoesight PoE2 Task Overlay v${{ steps.package_version.outputs.version }}
           
           **Download for your platform:**
           - **Windows**: `.exe` file
