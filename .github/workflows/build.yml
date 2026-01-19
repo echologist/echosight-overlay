@@ -44,6 +44,12 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
+    - name: Install Linux dependencies
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libarchive-tools
+      
     - name: Create missing icon files (if needed)
       shell: bash
       run: |
@@ -150,9 +156,9 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: v${{ steps.package_version.outputs.version }}
-        name: "Echoesight v${{ steps.package_version.outputs.version }}"
+        name: "Echosight v${{ steps.package_version.outputs.version }}"
         body: |
-          ## Echoesight PoE2 Task Overlay v${{ steps.package_version.outputs.version }}
+          ## Echosight PoE2 Task Overlay v${{ steps.package_version.outputs.version }}
           
           **Download for your platform:**
           - **Windows**: `.exe` file
