@@ -3177,7 +3177,7 @@ function minimizeOverlay() {
 function closeOverlay() {
   try {
     console.log('closeOverlay called - quitting application');
-    if (confirm('Close Echoesight Overlay completely?')) {
+    if (confirm('Close Echosight Overlay completely?')) {
       ipcRenderer.send('quit-application');
     }
   } catch (error) {
