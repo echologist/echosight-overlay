@@ -1,6 +1,6 @@
 {
   "name": "echosight",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Simple task management overlay for Path of Exile 2",
   "main": "dist-electron/main/index.js",
   "scripts": {

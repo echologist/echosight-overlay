@@ -1326,7 +1326,7 @@ async function initializeApp() {
   try {
     console.log('Initializing app...');
     await loadTasks();
-    migrateTasksToHierarchical();
+    migrateTaskStructure();
     await loadTemplates();
     await loadThemes();
     await loadSettings();
@@ -1336,6 +1336,7 @@ async function initializeApp() {
     updateProgress();
     setupInteractiveModeListener();
     await applyTheme();
+    restartExpirationTimers();
     console.log('App initialized successfully');
   } catch (error) {
     console.error('Error initializing app:', error);
@@ -1438,16 +1439,24 @@ function setupInteractiveModeListener() {
 }
 
 // Complete the next uncompleted task
-// Complete the next uncompleted task - only works on leaf tasks (children)
+// Complete the next uncompleted task - only works on leaf tasks (children), skips background tasks
 function completeNextTask() {
   try {
     const nextTask = findNextLeafTask();
     if (nextTask) {
       nextTask.completed = true;
-      
+
       // Check if parent should auto-complete
       checkParentCompletion(nextTask.id);
-      
+
+      // Fire triggers for the completed task
+      activateTriggeredTasks(nextTask);
+      // Also check if parent was auto-completed and fire its triggers
+      const parent = findParentTask(nextTask.id);
+      if (parent && parent.completed) {
+        activateTriggeredTasks(parent);
+      }
+
       renderTasks();
       updateProgress();
       saveTasks();
@@ -1472,8 +1481,11 @@ function completeNextTask() {
   }
 }
 
-// Find next uncompleted leaf task (skip parents)
-function findNextLeafTask(taskList = tasks) {
+// Find next uncompleted leaf task (skip parents and background tasks)
+function findNextLeafTask(taskList = null) {
+  if (taskList === null) {
+    taskList = tasks.filter(t => t.mode !== 'background');
+  }
   for (const task of taskList) {
     if (!task.completed) {
       // If task has children, it's a parent - skip it and check children
@@ -1541,7 +1553,12 @@ function addTask(parentId = null) {
         text: text,
         completed: false,
         createdAt: new Date().toISOString(),
-        children: []
+        children: [],
+        mode: 'main',
+        triggers: [],
+        activated: true,
+        activatedAt: null,
+        backgroundOptions: null
       };
 
       if (parentId) {
@@ -1570,18 +1587,21 @@ function addTask(parentId = null) {
   }
 }
 
-// Migration function to add children array to existing tasks
-function migrateTasksToHierarchical() {
+// Migration function to ensure all tasks have required fields
+function migrateTaskStructure() {
   let migrated = false;
-  tasks = tasks.map(task => {
-    if (!task.children) {
-      task.children = [];
-      migrated = true;
-    }
-    return task;
-  });
+  function migrateTask(task) {
+    if (!task.children) { task.children = []; migrated = true; }
+    if (!task.mode) { task.mode = 'main'; migrated = true; }
+    if (!task.triggers) { task.triggers = []; migrated = true; }
+    if (task.activated === undefined) { task.activated = true; migrated = true; }
+    if (task.activatedAt === undefined) { task.activatedAt = null; migrated = true; }
+    if (task.backgroundOptions === undefined) { task.backgroundOptions = null; migrated = true; }
+    task.children.forEach(migrateTask);
+  }
+  tasks.forEach(migrateTask);
   if (migrated) {
-    console.log('Tasks migrated to hierarchical structure');
+    console.log('Tasks migrated to support background task structure');
     saveTasks();
   }
 }
@@ -1631,6 +1651,224 @@ function uncheckParent(childId) {
   }
 }
 
+// Activate background tasks triggered by a completed task
+function activateTriggeredTasks(task) {
+  if (!task.triggers || task.triggers.length === 0) return;
+
+  let activatedCount = 0;
+  task.triggers.forEach(triggeredId => {
+    const bgTask = findTaskById(triggeredId);
+    if (bgTask && bgTask.mode === 'background' && !bgTask.activated) {
+      bgTask.activated = true;
+      bgTask.activatedAt = new Date().toISOString();
+      activatedCount++;
+
+      // Start expiration timer if configured
+      if (bgTask.backgroundOptions?.expiresAfterMinutes) {
+        startExpirationTimer(bgTask);
+      }
+    }
+  });
+
+  // Show notification if background tasks were activated
+  if (activatedCount > 0) {
+    showBackgroundTaskNotification(activatedCount);
+  }
+}
+
+// Deactivate background tasks when their trigger task is un-completed
+function deactivateTriggeredTasks(task) {
+  if (!task.triggers || task.triggers.length === 0) return;
+
+  task.triggers.forEach(triggeredId => {
+    const bgTask = findTaskById(triggeredId);
+    if (bgTask && bgTask.mode === 'background' && bgTask.activated && !bgTask.completed) {
+      bgTask.activated = false;
+      bgTask.activatedAt = null;
+      // Clear any running expiration timer
+      if (expirationTimers[bgTask.id]) {
+        clearTimeout(expirationTimers[bgTask.id]);
+        delete expirationTimers[bgTask.id];
+      }
+    }
+  });
+}
+
+// Notification when background tasks activate
+function showBackgroundTaskNotification(count) {
+  const notification = document.createElement('div');
+  notification.className = 'bg-task-notification';
+  notification.textContent = `${count} background task${count > 1 ? 's' : ''} activated!`;
+  document.body.appendChild(notification);
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.style.animation = 'slideIn 0.3s ease reverse';
+      setTimeout(() => notification.remove(), 300);
+    }
+  }, 3000);
+}
+
+// Expiration timers for background tasks
+const expirationTimers = {};
+
+function startExpirationTimer(bgTask) {
+  if (expirationTimers[bgTask.id]) {
+    clearTimeout(expirationTimers[bgTask.id]);
+  }
+
+  let ms;
+  if (bgTask.activatedAt) {
+    // Calculate remaining time (for restart scenarios)
+    const elapsed = Date.now() - new Date(bgTask.activatedAt).getTime();
+    ms = (bgTask.backgroundOptions.expiresAfterMinutes * 60 * 1000) - elapsed;
+    if (ms <= 0) {
+      // Already expired
+      bgTask.activated = false;
+      renderTasks();
+      updateProgress();
+      saveTasks();
+      return;
+    }
+  } else {
+    ms = bgTask.backgroundOptions.expiresAfterMinutes * 60 * 1000;
+  }
+
+  expirationTimers[bgTask.id] = setTimeout(() => {
+    if (bgTask.activated && !bgTask.completed) {
+      bgTask.activated = false;
+      renderTasks();
+      updateProgress();
+      saveTasks();
+      console.log(`Background task "${bgTask.text}" expired`);
+    }
+    delete expirationTimers[bgTask.id];
+  }, ms);
+}
+
+// Dismiss a background task (deactivate without deleting)
+function dismissBackgroundTask(taskId) {
+  // Background tasks are removed via the standard delete button
+  deleteTask(taskId);
+}
+
+// Create a new background task (dormant until triggered)
+function addBackgroundTask(text, options = {}) {
+  const task = {
+    id: Date.now() + Math.random(),
+    text: text,
+    completed: false,
+    createdAt: new Date().toISOString(),
+    children: [],
+    mode: 'background',
+    triggers: [],
+    activated: false,
+    activatedAt: null,
+    backgroundOptions: {
+      expiresAfterMinutes: options.expiresAfterMinutes || null,
+      priority: options.priority || 'normal'
+    }
+  };
+  tasks.push(task);
+  return task;
+}
+
+// Trigger configuration UI
+let configuringTriggersForTaskId = null;
+
+function configureTriggers(taskId) {
+  configuringTriggersForTaskId = taskId;
+  const task = findTaskById(taskId);
+  if (!task) return;
+
+  const modal = document.getElementById('configureTriggersModal');
+  const listContainer = document.getElementById('triggerTaskList');
+  listContainer.innerHTML = '';
+
+  // Show all background tasks as checkboxes
+  const bgTasks = tasks.filter(t => t.mode === 'background');
+
+  if (bgTasks.length === 0) {
+    listContainer.innerHTML = '<p style="color: #888; font-size: 12px;">No background tasks yet. Create one below.</p>';
+  } else {
+    bgTasks.forEach(bgTask => {
+      const isLinked = task.triggers.includes(bgTask.id);
+      const div = document.createElement('div');
+      div.style.cssText = 'padding: 6px 0; display: flex; align-items: center; border-bottom: 1px solid #333;';
+      const priorityBadge = bgTask.backgroundOptions?.priority === 'high'
+        ? '<span style="color: #ff6b6b; font-size: 9px; margin-left: 4px;">HIGH</span>'
+        : '';
+      const statusBadge = bgTask.activated
+        ? '<span style="color: #32cd32; font-size: 9px; margin-left: 4px;">ACTIVE</span>'
+        : '<span style="color: #666; font-size: 9px; margin-left: 4px;">DORMANT</span>';
+      div.innerHTML = `
+        <input type="checkbox" ${isLinked ? 'checked' : ''}
+               data-bg-task-id="${bgTask.id}" class="trigger-checkbox"
+               style="accent-color: #d4af37; margin-right: 8px;">
+        <span style="font-size: 13px; flex: 1;">${escapeHtml(bgTask.text)}</span>
+        ${priorityBadge}${statusBadge}
+      `;
+      listContainer.appendChild(div);
+    });
+  }
+
+  // Clear the new background task input
+  const bgInput = document.getElementById('newBgTaskInput');
+  if (bgInput) bgInput.value = '';
+
+  modal.style.display = 'flex';
+}
+
+function closeTriggersModal() {
+  document.getElementById('configureTriggersModal').style.display = 'none';
+  configuringTriggersForTaskId = null;
+}
+
+function saveTriggers() {
+  const task = findTaskById(configuringTriggersForTaskId);
+  if (!task) return;
+
+  const checkboxes = document.querySelectorAll('.trigger-checkbox');
+  task.triggers = [];
+  checkboxes.forEach(cb => {
+    if (cb.checked) {
+      task.triggers.push(parseFloat(cb.dataset.bgTaskId));
+    }
+  });
+
+  saveTasks();
+  renderTasks();
+  closeTriggersModal();
+}
+
+function addNewBackgroundTaskFromTriggerModal() {
+  const input = document.getElementById('newBgTaskInput');
+  const text = input ? input.value.trim() : '';
+  if (!text) {
+    alert('Please enter a background task description.');
+    return;
+  }
+
+  const highPriority = document.getElementById('bgTaskHighPriority')?.checked || false;
+
+  addBackgroundTask(text, {
+    priority: highPriority ? 'high' : 'normal'
+  });
+  saveTasks();
+
+  // Re-open the modal to show the new task
+  configureTriggers(configuringTriggersForTaskId);
+}
+
+// Restart expiration timers on app load for active background tasks
+function restartExpirationTimers() {
+  const activeBgTasks = tasks.filter(t => t.mode === 'background' && t.activated && !t.completed);
+  activeBgTasks.forEach(bgTask => {
+    if (bgTask.backgroundOptions?.expiresAfterMinutes && bgTask.activatedAt) {
+      startExpirationTimer(bgTask);
+    }
+  });
+}
+
 // Find the parent task of a given child ID
 function findParentTask(childId, taskList = tasks) {
   for (const task of taskList) {
@@ -1661,9 +1899,18 @@ function toggleTask(taskId) {
   // If child is being toggled, check if parent should auto-complete
   if (task.completed) {
     checkParentCompletion(taskId);
+    // Fire triggers for background tasks
+    activateTriggeredTasks(task);
+    // Also check if parent was auto-completed and fire its triggers
+    const parent = findParentTask(taskId);
+    if (parent && parent.completed) {
+      activateTriggeredTasks(parent);
+    }
   } else {
     // If child is unchecked, uncheck parent
     uncheckParent(taskId);
+    // Deactivate triggered background tasks that haven't been independently completed
+    deactivateTriggeredTasks(task);
   }
 
   renderTasks();
@@ -1672,6 +1919,23 @@ function toggleTask(taskId) {
 }
 
 function deleteTask(taskId) {
+  // Clean up trigger references pointing to this task
+  function removeTriggerReferences(taskList) {
+    taskList.forEach(task => {
+      if (task.triggers) {
+        task.triggers = task.triggers.filter(id => id !== taskId);
+      }
+      if (task.children) removeTriggerReferences(task.children);
+    });
+  }
+  removeTriggerReferences(tasks);
+
+  // Clear any expiration timer
+  if (expirationTimers[taskId]) {
+    clearTimeout(expirationTimers[taskId]);
+    delete expirationTimers[taskId];
+  }
+
   function removeTaskRecursively(taskList) {
     for (let i = 0; i < taskList.length; i++) {
       if (taskList[i].id === taskId) {
@@ -1730,12 +1994,38 @@ async function saveTemplate() {
     return;
   }
 
+  // Build index map: task ID -> positional index for trigger remapping
+  const taskIndexMap = {};
+  let flatIndex = 0;
+  function buildIndexMap(taskArray) {
+    taskArray.forEach(task => {
+      taskIndexMap[task.id] = flatIndex++;
+      if (task.children) buildIndexMap(task.children);
+    });
+  }
+  buildIndexMap(tasks.filter(t => !t.completed));
+
+  function stripTaskForTemplate(task) {
+    const stripped = { text: task.text };
+    if (task.children && task.children.length > 0) {
+      stripped.children = task.children.filter(c => !c.completed).map(c => stripTaskForTemplate(c));
+    }
+    if (task.mode === 'background') {
+      stripped.mode = 'background';
+      stripped.backgroundOptions = task.backgroundOptions;
+    }
+    if (task.triggers && task.triggers.length > 0) {
+      stripped.triggerIndices = task.triggers
+        .map(id => taskIndexMap[id])
+        .filter(idx => idx !== undefined);
+    }
+    return stripped;
+  }
+
   const template = {
     id: Date.now(),
     name: name,
-    tasks: tasks.filter(t => !t.completed).map(t => ({
-      text: t.text
-    })),
+    tasks: tasks.filter(t => !t.completed).map(t => stripTaskForTemplate(t)),
     createdAt: new Date().toISOString()
   };
 
@@ -1769,11 +2059,21 @@ async function loadTemplate() {
     text: t.text,
     completed: false,
     createdAt: new Date().toISOString(),
-    children: t.children || []
+    children: t.children || [],
+    mode: t.mode || 'main',
+    triggers: [],
+    activated: t.mode === 'background' ? false : true,
+    activatedAt: null,
+    backgroundOptions: t.backgroundOptions || null
   }));
 
+  // Remap trigger references from template positional indices to new IDs
+  if (template.tasks.some(t => t.triggerIndices && t.triggerIndices.length > 0)) {
+    remapTemplateTriggersOnLoad(template.tasks, tasks);
+  }
+
   currentTemplate = template.name;
-  migrateTasksToHierarchical();
+  migrateTaskStructure();
   renderTasks();
   updateProgress();
   saveTasks();
@@ -1900,11 +2200,14 @@ function exportTemplate() {
     const template = templates.find(t => t.id === templateId);
     if (!template) return;
 
+    // Check if template has background tasks
+    const hasBackgroundTasks = template.tasks.some(t => t.mode === 'background');
+
     // Create exportable template data
     const exportData = {
       name: template.name,
       tasks: template.tasks,
-      version: "1.0",
+      version: hasBackgroundTasks ? "2.0" : "1.0",
       exportedAt: new Date().toISOString(),
       description: `PoE Task Template: ${template.name}`,
       taskCount: template.tasks.length
@@ -2011,10 +2314,17 @@ async function importTemplate() {
     const newTemplate = {
       id: Date.now(),
       name: templateData.name,
-      tasks: templateData.tasks.map(task => ({
-        text: task,
-        children: []
-      })),
+      tasks: templateData.tasks.map(task => {
+        if (typeof task === 'string') {
+          return { text: task, children: [] };
+        }
+        // Preserve background task metadata from v2.0 imports
+        const t = { text: task.text || task, children: task.children || [] };
+        if (task.mode) t.mode = task.mode;
+        if (task.backgroundOptions) t.backgroundOptions = task.backgroundOptions;
+        if (task.triggerIndices) t.triggerIndices = task.triggerIndices;
+        return t;
+      }),
       createdAt: new Date().toISOString(),
       imported: true
     };
@@ -2033,6 +2343,38 @@ async function importTemplate() {
     alert('Invalid template format! Please check the JSON data.');
     console.error('Import error:', error);
   }
+}
+
+// Remap trigger indices from template format back to live task IDs
+function remapTemplateTriggersOnLoad(templateTasks, loadedTasks) {
+  // Build flat array of loaded tasks to map positional index -> task ID
+  const flatLoaded = [];
+  function flatten(taskArray) {
+    taskArray.forEach(task => {
+      flatLoaded.push(task);
+      if (task.children) flatten(task.children);
+    });
+  }
+  flatten(loadedTasks);
+
+  // Also flatten template tasks to find triggerIndices
+  const flatTemplate = [];
+  function flattenTemplate(taskArray) {
+    taskArray.forEach(task => {
+      flatTemplate.push(task);
+      if (task.children) flattenTemplate(task.children);
+    });
+  }
+  flattenTemplate(templateTasks);
+
+  // Remap triggers
+  flatTemplate.forEach((tmplTask, i) => {
+    if (tmplTask.triggerIndices && tmplTask.triggerIndices.length > 0 && flatLoaded[i]) {
+      flatLoaded[i].triggers = tmplTask.triggerIndices
+        .map(idx => flatLoaded[idx]?.id)
+        .filter(Boolean);
+    }
+  });
 }
 
 function updateTemplateSelect() {
@@ -2512,16 +2854,24 @@ function calculateDropOperation(e, draggedTaskId, targetElement) {
 // Advanced reorder function with subtask conversion support
 function reorderTasksAdvanced(draggedId, targetId, insertAbove, makeSubtask = false) {
   console.log('Advanced reordering:', { draggedId, targetId, insertAbove, makeSubtask });
-  
+
   // Find both tasks in the hierarchical structure
   const draggedInfo = findTaskWithParent(draggedId);
   const targetInfo = findTaskWithParent(targetId);
-  
+
   if (!draggedInfo || !targetInfo) {
     console.log('Task not found:', !draggedInfo ? draggedId : targetId);
     return;
   }
-  
+
+  // Prevent cross-list drops (main <-> background)
+  const draggedMode = draggedInfo.task.mode || 'main';
+  const targetMode = targetInfo.task.mode || 'main';
+  if (draggedMode !== targetMode) {
+    console.log('Cannot reorder across main/background lists');
+    return;
+  }
+
   console.log('Dragged task:', draggedInfo.task.text, 'at level', draggedInfo.level);
   console.log('Target task:', targetInfo.task.text, 'at level', targetInfo.level);
   console.log('Dragged parent:', draggedInfo.parent ? draggedInfo.parent.text : 'none');
@@ -2679,22 +3029,35 @@ function showReorderFeedback(message = 'Task order updated!') {
   }, 3000);
 }
 
-// Enhanced renderTasks with hierarchical structure
+// Enhanced renderTasks with hierarchical structure and background task support
 function renderTasks() {
   const taskList = document.getElementById('taskList');
-  taskList.innerHTML = '';
+  const backgroundTaskList = document.getElementById('backgroundTaskList');
+  const backgroundSection = document.getElementById('backgroundTasksSection');
 
-  function renderTaskLevel(taskArray, level = 0) {
+  taskList.innerHTML = '';
+  backgroundTaskList.innerHTML = '';
+
+  const mainTasks = tasks.filter(t => t.mode !== 'background');
+  const activeBackgroundTasks = tasks.filter(t => t.mode === 'background' && t.activated);
+
+  function renderTaskLevel(taskArray, level = 0, targetList = taskList, isBackground = false) {
     taskArray.forEach(task => {
       const li = document.createElement('li');
       li.className = 'task-item';
       li.dataset.taskId = task.id;
       li.dataset.level = level;
+      li.dataset.mode = task.mode || 'main';
       li.draggable = true;
-      
+
+      if (isBackground && task.backgroundOptions?.priority === 'high') {
+        li.classList.add('high-priority');
+      }
+
       const isParent = task.children && task.children.length > 0;
       const indentPadding = level * 20;
-      
+      const hasTriggers = task.triggers && task.triggers.length > 0;
+
       li.innerHTML = `
         <div style="padding-left: ${indentPadding}px; display: flex; align-items: center; width: 100%;">
           <span class="drag-handle" style="
@@ -2707,47 +3070,64 @@ function renderTasks() {
             transition: opacity 0.2s ease;
             display: inline-block;
           " title="Drag to reorder">⋮⋮</span>
-          
-          ${isParent ? 
+
+          ${isParent ?
             `<span class="parent-icon" style="
               color: #d4af37;
               font-size: 12px;
               margin-right: 4px;
               user-select: none;
-            ">📁</span>` : 
+            ">📁</span>` :
             `<span style="width: 16px; margin-right: 4px;"></span>`
           }
-          
-          <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
-                 onchange="toggleTask(${task.id})" style>
-          <span class="task-text ${task.completed ? 'completed' : ''}" 
+
+          <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}
+                 onchange="toggleTask(${task.id})">
+          <span class="task-text ${task.completed ? 'completed' : ''}"
                 style="${isParent ? 'font-weight: bold;' : ''}"
                 oncontextmenu="showContextMenu(event, ${task.id}, ${isParent})">${escapeHtml(task.text)}</span>
-          
-          ${isParent ? 
-            `<span class="child-count" style="
-              font-size: 10px;
-              color: #aaa;
-              margin-left: 8px;
-              user-select: none;
-            ">(${task.children.filter(c => c.completed).length}/${task.children.length})</span>` : 
-            ''
-          }
-          
-          <button class="task-delete" onclick="deleteTask(${task.id})" style="margin-left: auto;">×</button>
+
+          <span class="task-badges">
+            ${hasTriggers ?
+              `<span class="trigger-indicator" onclick="configureTriggers(${task.id})" title="Triggers ${task.triggers.length} background task(s)">&#9889;${task.triggers.length}</span>` :
+              ''
+            }
+
+            ${isParent ?
+              `<span class="child-count">(${task.children.filter(c => c.completed).length}/${task.children.length})</span>` :
+              ''
+            }
+          </span>
+
+          <span class="right-click-hint">Right-click for options</span>
+
+          <button class="task-delete" onclick="deleteTask(${task.id})">×</button>
         </div>
       `;
-      
-      taskList.appendChild(li);
-      
+
+      targetList.appendChild(li);
+
       // Render children if they exist
       if (task.children && task.children.length > 0) {
-        renderTaskLevel(task.children, level + 1);
+        renderTaskLevel(task.children, level + 1, targetList, isBackground);
       }
     });
   }
 
-  renderTaskLevel(tasks);
+  renderTaskLevel(mainTasks, 0, taskList, false);
+  renderTaskLevel(activeBackgroundTasks, 0, backgroundTaskList, true);
+
+  // Show/hide background section
+  if (backgroundSection) {
+    backgroundSection.style.display = activeBackgroundTasks.length > 0 ? 'block' : 'none';
+    const bgCount = document.getElementById('backgroundCount');
+    if (bgCount) {
+      bgCount.textContent = activeBackgroundTasks.length > 0
+        ? `(${activeBackgroundTasks.filter(t => t.completed).length}/${activeBackgroundTasks.length})`
+        : '';
+    }
+  }
+
   initializeDragAndDrop();
 }
 
@@ -2932,6 +3312,51 @@ function setupContainerDropHandler() {
     
     taskList.hasDropHandler = true;
   }
+
+  // Also set up drop handler for background task list
+  const bgTaskList = document.getElementById('backgroundTaskList');
+  if (bgTaskList && !bgTaskList.hasDropHandler) {
+    bgTaskList.addEventListener('drop', (e) => {
+      e.preventDefault();
+      let target = e.target.closest('.task-item');
+      if (!target && e.target.classList.contains('drag-placeholder')) {
+        const ph = e.target;
+        let adjacentTask = ph.previousElementSibling;
+        if (!adjacentTask || !adjacentTask.classList.contains('task-item')) {
+          adjacentTask = ph.nextElementSibling;
+        }
+        if (adjacentTask && adjacentTask.classList.contains('task-item')) {
+          target = adjacentTask;
+        }
+      }
+      if (target && target.dataset.taskId && draggedTaskId) {
+        const targetTaskId = parseInt(target.dataset.taskId);
+        if (draggedTaskId !== targetTaskId) {
+          const operation = calculateDropOperation(e, draggedTaskId, target);
+          if (operation) {
+            reorderTasksAdvanced(draggedTaskId, operation.targetTaskId, operation.isAbove, operation.makeSubtask);
+          }
+        }
+      }
+    });
+
+    bgTaskList.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      let target = e.target.closest('.task-item');
+      if (target && draggedTaskId) {
+        const operation = calculateDropOperation(e, draggedTaskId, target);
+        if (operation) {
+          const operationKey = `${operation.operationType}-${operation.isAbove}-${operation.targetTaskId}`;
+          if (lastOperation !== operationKey) {
+            lastOperation = operationKey;
+            updatePlaceholder(operation, target);
+          }
+        }
+      }
+    });
+
+    bgTaskList.hasDropHandler = true;
+  }
 }
 
 // Context menu for adding subtasks
@@ -2981,8 +3406,39 @@ function showContextMenu(event, taskId, isParent) {
     contextMenu.remove();
     contextMenu = null;
   });
-  
+
   contextMenu.appendChild(menuItem);
+
+  // Add "Configure Triggers" option
+  const triggerItem = document.createElement('div');
+  triggerItem.textContent = 'Configure Triggers';
+  triggerItem.style.cssText = `
+    padding: 6px 12px;
+    cursor: pointer;
+    color: white;
+    white-space: nowrap;
+  `;
+
+  triggerItem.addEventListener('mouseover', () => {
+    triggerItem.style.background = '#444';
+  });
+
+  triggerItem.addEventListener('mouseout', () => {
+    triggerItem.style.background = 'transparent';
+  });
+
+  triggerItem.addEventListener('click', () => {
+    contextMenu.remove();
+    contextMenu = null;
+    configureTriggers(taskId);
+  });
+
+  // Override the default :before pseudo-element for this item
+  triggerItem.style.display = 'flex';
+  triggerItem.style.alignItems = 'center';
+  triggerItem.style.fontWeight = '500';
+
+  contextMenu.appendChild(triggerItem);
   document.body.appendChild(contextMenu);
   
   // Position the context menu
@@ -3054,7 +3510,12 @@ function saveSubTask() {
         text: taskText,
         completed: false,
         createdAt: new Date().toISOString(),
-        children: []
+        children: [],
+        mode: 'main',
+        triggers: [],
+        activated: true,
+        activatedAt: null,
+        backgroundOptions: null
       };
       
       parentTask.children.push(subTask);
@@ -3073,14 +3534,14 @@ function updateProgress() {
   function countTasks(taskArray) {
     let completed = 0;
     let total = 0;
-    
+
     taskArray.forEach(task => {
       // Count children if they exist, otherwise count the task itself
       if (task.children && task.children.length > 0) {
         const childCounts = countTasks(task.children);
         completed += childCounts.completed;
         total += childCounts.total;
-        
+
         // Also count the parent task
         if (task.completed) completed++;
         total++;
@@ -3090,15 +3551,23 @@ function updateProgress() {
         total++;
       }
     });
-    
+
     return { completed, total };
   }
 
-  const { completed, total } = countTasks(tasks);
-  const percentage = total > 0 ? (completed / total) * 100 : 0;
+  // Count main tasks and activated background tasks separately
+  const mainTasks = tasks.filter(t => t.mode !== 'background');
+  const activeBgTasks = tasks.filter(t => t.mode === 'background' && t.activated);
+
+  const mainCounts = countTasks(mainTasks);
+  const bgCounts = countTasks(activeBgTasks);
+
+  const totalCompleted = mainCounts.completed + bgCounts.completed;
+  const totalAll = mainCounts.total + bgCounts.total;
+  const percentage = totalAll > 0 ? (totalCompleted / totalAll) * 100 : 0;
 
   document.getElementById('progressFill').style.width = percentage + '%';
-  document.getElementById('progressText').textContent = `${completed} / ${total} tasks completed`;
+  document.getElementById('progressText').textContent = `${totalCompleted} / ${totalAll} tasks completed`;
 }
 
 // Data persistence
@@ -3215,6 +3684,16 @@ document.addEventListener('DOMContentLoaded', () => {
       saveSubTask();
     }
   });
+
+  // Background task input in triggers modal
+  const bgTaskInput = document.getElementById('newBgTaskInput');
+  if (bgTaskInput) {
+    bgTaskInput.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        addNewBackgroundTaskFromTriggerModal();
+      }
+    });
+  }
 
   // Global keydown listener for hotkey recording
   document.addEventListener('keydown', handleHotkeyRecording);
@@ -3364,3 +3843,8 @@ window.previewCommunityTemplate = previewCommunityTemplate;
 window.openThemesFolder = openThemesFolder;
 window.reloadThemes = reloadThemes;
 window.showThemesPath = showThemesPath;
+window.configureTriggers = configureTriggers;
+window.closeTriggersModal = closeTriggersModal;
+window.saveTriggers = saveTriggers;
+window.addNewBackgroundTaskFromTriggerModal = addNewBackgroundTaskFromTriggerModal;
+window.dismissBackgroundTask = dismissBackgroundTask;
