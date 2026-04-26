@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "Echosight",
   "description": "Default dark theme with high contrast",
-  "isDefault": true,
+  "isDefault": false,
   "supportsTransparency": true,
   "fonts": {
     "primary": {

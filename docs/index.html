@@ -1,0 +1,1240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Echosight — PoE Task Overlay</title>
+  <meta name="description" content="A lightweight, customizable task management overlay designed for Path of Exile players. Track league starts, progression, and endgame goals without leaving the game." />
+  <meta property="og:title" content="Echosight — PoE Task Overlay" />
+  <meta property="og:description" content="Lightweight task management overlay for Path of Exile. Track league starts, progression, endgame goals." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://echologist.github.io/echoesight-overlay/" />
+  <meta name="theme-color" content="#0b0a14" />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700&family=IM+Fell+English+SC&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ---------- Reset / Base ---------- */
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #d8d2c2;
+      background: #07060d;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, svg { display: block; max-width: 100%; }
+    button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+
+    :root {
+      --bg-0: #07060d;
+      --bg-1: #0d0b18;
+      --bg-2: #14111f;
+      --panel: rgba(15, 12, 24, 0.78);
+      --panel-edge: rgba(255, 200, 120, 0.18);
+      --gold: #d4a857;
+      --gold-soft: #b89148;
+      --gold-pale: #f1d990;
+      --teal: #5fd8c8;
+      --teal-deep: #2a8e84;
+      --ember: #e3804a;
+      --ember-deep: #b34a1f;
+      --rune: #8b6f3a;
+      --text: #d8d2c2;
+      --text-dim: #97907d;
+      --text-faint: #6c6553;
+    }
+
+    /* ---------- Background ambience ---------- */
+    .ambience {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse at 50% -10%, rgba(95, 216, 200, 0.08), transparent 55%),
+        radial-gradient(ellipse at 10% 30%, rgba(227, 128, 74, 0.10), transparent 45%),
+        radial-gradient(ellipse at 90% 60%, rgba(212, 168, 87, 0.07), transparent 45%),
+        linear-gradient(180deg, #06050b 0%, #0a0815 40%, #07060d 100%);
+    }
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.35;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    /* ---------- Browser frame (decorative) ---------- */
+    .browser {
+      max-width: 1200px;
+      margin: 28px auto 0;
+      padding: 0 16px;
+    }
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: linear-gradient(180deg, #18141f, #110e1a);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 0;
+      border-radius: 10px 10px 0 0;
+    }
+    .browser-dots { display: flex; gap: 6px; }
+    .browser-dots span {
+      width: 11px; height: 11px; border-radius: 50%;
+      background: #2a2535;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .browser-dots span:nth-child(1) { background: #c0463a; }
+    .browser-dots span:nth-child(2) { background: #c8973f; }
+    .browser-dots span:nth-child(3) { background: #4f9a4a; }
+    .browser-url {
+      flex: 1;
+      text-align: center;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      letter-spacing: 0.02em;
+      padding: 4px 12px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 999px;
+      max-width: 520px;
+      margin: 0 auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .browser-actions {
+      display: flex; gap: 10px; color: var(--text-faint);
+    }
+    .browser-actions svg { width: 16px; height: 16px; }
+
+    /* ---------- Nav ---------- */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      background: linear-gradient(180deg, rgba(7,6,13,0.85), rgba(7,6,13,0.55));
+      border-bottom: 1px solid rgba(212, 168, 87, 0.08);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      font-size: 14px;
+      color: var(--gold-pale);
+      text-shadow: 0 0 12px rgba(212,168,87,0.25);
+    }
+    .brand-mark {
+      width: 26px; height: 26px;
+      filter: drop-shadow(0 0 8px rgba(95,216,200,0.4));
+    }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: var(--text-dim);
+      transition: color .25s, text-shadow .25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 50%; bottom: -6px;
+      width: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transition: width .25s, left .25s;
+    }
+    .nav-links a:hover { color: var(--gold-pale); }
+    .nav-links a:hover::after { width: 100%; left: 0; }
+    .nav-gh {
+      width: 22px; height: 22px;
+      color: var(--text-dim);
+      transition: color .2s, transform .2s;
+    }
+    .nav-gh:hover { color: var(--gold-pale); transform: translateY(-1px); }
+
+    @media (max-width: 780px) {
+      .nav-links { display: none; }
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      padding: 60px 28px 80px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 30% 70%, rgba(227, 128, 74, 0.18), transparent 60%),
+        radial-gradient(ellipse 60% 50% at 75% 30%, rgba(95, 216, 200, 0.10), transparent 60%);
+      pointer-events: none;
+    }
+    .ember {
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #ffb066;
+      box-shadow: 0 0 8px #ff8a3d, 0 0 18px #ff6a1c;
+      opacity: 0.7;
+      animation: rise 9s linear infinite;
+    }
+    .ember.e2 { left: 18%; bottom: 10%; animation-delay: -2s; opacity: 0.55; }
+    .ember.e3 { left: 28%; bottom: 8%;  animation-delay: -5s; opacity: 0.6; }
+    .ember.e4 { left: 62%; bottom: 14%; animation-delay: -1s; opacity: 0.5; width: 4px; height: 4px; }
+    .ember.e5 { left: 72%; bottom: 6%;  animation-delay: -4s; opacity: 0.65; }
+    .ember.e6 { left: 8%;  bottom: 12%; animation-delay: -7s; opacity: 0.45; width: 3px; height: 3px; }
+    .ember.e7 { left: 50%; bottom: 4%;  animation-delay: -3s; opacity: 0.55; width: 5px; height: 5px; }
+    @keyframes rise {
+      0%   { transform: translateY(0)    scale(1);   opacity: 0; }
+      10%  { opacity: 0.8; }
+      100% { transform: translateY(-380px) scale(0.4); opacity: 0; }
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 50px; }
+    }
+
+    .hero-title {
+      font-family: 'Cinzel Decorative', 'Cinzel', serif;
+      font-weight: 900;
+      font-size: clamp(56px, 9vw, 116px);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: #f3e6c4;
+      background: linear-gradient(180deg, #fff2cf 0%, #d4a857 55%, #8a6420 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 24px rgba(212, 168, 87, 0.18));
+      margin-bottom: 6px;
+    }
+    .hero-subtitle {
+      font-family: 'IM Fell English SC', 'Cinzel', serif;
+      font-size: clamp(20px, 2.4vw, 28px);
+      letter-spacing: 0.16em;
+      color: var(--gold);
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+    .hero-rule {
+      width: 220px;
+      height: 18px;
+      margin-bottom: 22px;
+      opacity: 0.85;
+    }
+    .hero-desc {
+      max-width: 460px;
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.75;
+      margin-bottom: 32px;
+    }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 26px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      transition: transform .2s, box-shadow .25s, filter .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary {
+      color: #1a0a04;
+      background: linear-gradient(180deg, #f0a06a 0%, #d6663a 50%, #a13614 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        0 0 0 1px #6f2a10,
+        0 8px 24px rgba(214, 102, 58, 0.35);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.08);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.45),
+        0 0 0 1px #6f2a10,
+        0 12px 32px rgba(214, 102, 58, 0.5);
+    }
+    .btn-secondary {
+      color: var(--teal);
+      background: linear-gradient(180deg, rgba(20,40,46,0.85), rgba(10,18,22,0.9));
+      box-shadow:
+        inset 0 1px 0 rgba(95,216,200,0.18),
+        0 0 0 1px rgba(95,216,200,0.45),
+        0 8px 24px rgba(0,0,0,0.5);
+    }
+    .btn-secondary:hover {
+      color: var(--gold-pale);
+      box-shadow:
+        inset 0 1px 0 rgba(212,168,87,0.25),
+        0 0 0 1px rgba(212,168,87,0.6),
+        0 12px 32px rgba(212,168,87,0.25);
+    }
+
+    .hero-repo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+      color: var(--text-faint);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+    }
+    .hero-repo svg { width: 14px; height: 14px; opacity: 0.75; }
+    .hero-repo:hover { color: var(--gold-pale); }
+
+    /* ---------- Mock overlay panel (mirrors real Echosight theme) ---------- */
+    .mock {
+      position: relative;
+      max-width: 460px;
+      margin-left: auto;
+      border-radius: 6px;
+      background: linear-gradient(180deg, rgba(20,17,31,0.96) 0%, rgba(11,9,18,0.97) 100%);
+      border: 1px solid rgba(95,216,200,0.35);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.4),
+        0 24px 48px -12px rgba(0,0,0,0.8),
+        0 0 32px rgba(95,216,200,0.10);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      overflow: hidden;
+    }
+    .mock::before, .mock::after {
+      content: '';
+      position: absolute;
+      width: 14px; height: 14px;
+      border: 1px solid rgba(212,168,87,0.5);
+      pointer-events: none;
+      z-index: 3;
+    }
+    .mock::before { top: 4px; left: 4px; border-right: 0; border-bottom: 0; }
+    .mock::after  { bottom: 4px; right: 4px; border-left: 0; border-top: 0; }
+
+    /* Header */
+    .mock-head {
+      position: relative;
+      padding: 10px 14px;
+      background: linear-gradient(180deg, rgba(35,28,52,0.9) 0%, rgba(20,17,31,0.85) 100%);
+      border-bottom: 1px solid rgba(212,168,87,0.28);
+      box-shadow: inset 0 -1px 0 rgba(212,168,87,0.08);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px;
+    }
+    .mock-head::after {
+      content: '';
+      position: absolute;
+      left: 14px; right: 14px; bottom: -1px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,168,87,0.5), transparent);
+      pointer-events: none;
+    }
+    .mock-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: var(--gold-pale);
+      text-shadow: 0 0 12px rgba(212,168,87,0.25), 0 1px 2px rgba(0,0,0,0.6);
+    }
+    .mock-title small {
+      display: inline-block;
+      margin-left: 6px;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0;
+      text-transform: none;
+      color: rgba(184,176,154,0.6);
+      font-weight: 400;
+      font-size: 10px;
+      text-shadow: none;
+    }
+    .mock-head-btns { display: flex; gap: 5px; }
+    .mock-head-btn {
+      width: 22px; height: 22px;
+      border-radius: 4px;
+      background: rgba(212,168,87,0.12);
+      color: var(--gold-pale);
+      border: 1px solid rgba(212,168,87,0.3);
+      font-size: 12px;
+      line-height: 1;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all .2s ease;
+      padding: 0;
+    }
+    .mock-head-btn:hover { background: rgba(212,168,87,0.25); color: #fff2cf; border-color: rgba(212,168,87,0.6); }
+    .mock-head-btn.close { background: rgba(197,74,58,0.18); color: #f0a896; border-color: rgba(197,74,58,0.4); }
+    .mock-head-btn.close:hover { background: rgba(197,74,58,0.45); color: #ffe1d6; border-color: rgba(197,74,58,0.8); }
+
+    /* Template section */
+    .mock-templates {
+      padding: 10px 12px;
+      background: linear-gradient(180deg, rgba(11,9,18,0.5), rgba(11,9,18,0.3));
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .mock-tpl-row { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+    .mock-tpl-row + .mock-tpl-row { margin-top: 6px; }
+    .mock-tpl-btn {
+      background: linear-gradient(180deg, rgba(20,40,46,0.9), rgba(10,18,22,0.95));
+      color: var(--teal);
+      border: 1px solid rgba(95,216,200,0.4);
+      border-radius: 4px;
+      font-family: 'Cinzel', sans-serif;
+      letter-spacing: 0.06em;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 4px 9px;
+      cursor: pointer;
+      transition: all .2s ease;
+      white-space: nowrap;
+    }
+    .mock-tpl-btn:hover { color: var(--gold-pale); border-color: rgba(212,168,87,0.6); box-shadow: 0 0 14px rgba(212,168,87,0.18); }
+    .mock-tpl-btn.danger { color: #f0a896; border-color: rgba(197,74,58,0.45); background: linear-gradient(180deg, rgba(45,18,14,0.9), rgba(25,10,8,0.95)); }
+    .mock-tpl-btn.danger:hover { color: #ffd7c8; border-color: rgba(227,128,74,0.8); box-shadow: 0 0 14px rgba(227,128,74,0.25); }
+    .mock-tpl-select {
+      flex: 1; min-width: 110px;
+      background: rgba(7,6,13,0.7);
+      border: 1px solid rgba(212,168,87,0.18);
+      color: var(--text);
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Body */
+    .mock-body { padding: 12px; }
+
+    .mock-add { display: flex; gap: 5px; margin-bottom: 12px; }
+    .mock-add input {
+      flex: 1;
+      background: rgba(7,6,13,0.7);
+      border: 1px solid rgba(212,168,87,0.18);
+      color: var(--text);
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .mock-add input::placeholder { color: rgba(184,176,154,0.45); }
+    .mock-add input:focus { outline: 0; border-color: rgba(95,216,200,0.6); box-shadow: 0 0 0 2px rgba(95,216,200,0.12); }
+    .mock-add-btn {
+      background: linear-gradient(180deg, rgba(45,38,18,0.55) 0%, rgba(28,22,10,0.7) 100%);
+      color: var(--gold-pale);
+      border: 1px solid rgba(212,168,87,0.5);
+      border-radius: 4px;
+      font-family: 'Cinzel', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 11px;
+      padding: 6px 14px;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(212,168,87,0.12);
+      transition: all .2s ease;
+    }
+    .mock-add-btn:hover { color: #fff2cf; border-color: rgba(212,168,87,0.85); background: linear-gradient(180deg, rgba(60,48,22,0.65), rgba(38,28,12,0.8)); box-shadow: inset 0 1px 0 rgba(212,168,87,0.2), 0 0 14px rgba(212,168,87,0.25); }
+    .mock-add-btn:active { transform: translateY(1px); }
+
+    .mock-progress {
+      height: 6px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+      margin-bottom: 6px;
+    }
+    .mock-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal-deep) 0%, var(--teal) 80%);
+      box-shadow: 0 0 12px rgba(95,216,200,0.5);
+      border-radius: 3px;
+      transition: width .4s ease;
+    }
+    .mock-progress-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-align: center;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+    .mock-progress-pct { color: var(--teal); }
+
+    .mock-section-label {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 10px;
+      padding: 6px 4px 4px;
+      border-bottom: 1px dashed rgba(212,168,87,0.18);
+      margin-bottom: 4px;
+    }
+    .mock-section-label.bg {
+      color: var(--ember);
+      border-top: 1px solid rgba(227,128,74,0.25);
+      border-bottom: 0;
+      margin-top: 8px;
+      padding-top: 8px;
+    }
+
+    .mock-list { list-style: none; }
+    .mock-list li {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 4px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 13px;
+      color: var(--text);
+      transition: background .2s, border-color .2s;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .mock-list li:last-child { border-bottom: 0; }
+    .mock-list li:hover { background: rgba(212,168,87,0.05); }
+    .mock-list li input[type="checkbox"] {
+      width: 14px; height: 14px;
+      accent-color: var(--teal);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin: 0;
+    }
+    .mock-list li label {
+      flex: 1;
+      cursor: pointer;
+      user-select: none;
+      transition: color .2s;
+      pointer-events: none;
+    }
+    .mock-list li.done label { color: var(--text-faint); text-decoration: line-through; text-decoration-color: rgba(95,216,200,0.5); }
+    .mock-list li .meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-faint);
+      margin-left: auto;
+      pointer-events: none;
+    }
+    .mock-list li .x {
+      background: rgba(197,74,58,0.18);
+      color: #f0a896;
+      border: 1px solid rgba(197,74,58,0.35);
+      border-radius: 3px;
+      font-size: 10px;
+      padding: 1px 6px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity .2s, background .2s, color .2s, border-color .2s;
+      margin-left: auto;
+      line-height: 1.2;
+    }
+    .mock-list li:hover .x { opacity: 0.7; }
+    .mock-list li .x:hover { opacity: 1 !important; background: rgba(227,128,74,0.4); color: #ffe1d6; border-color: rgba(227,128,74,0.7); }
+
+    /* Background-task variant: ember left rail */
+    .mock-list-bg li {
+      border-left: 2px solid rgba(227,128,74,0.5);
+      margin-left: 4px;
+      padding-left: 8px;
+    }
+    .mock-list-bg li.priority {
+      border-left-color: var(--ember);
+      box-shadow: -2px 0 12px rgba(227,128,74,0.3);
+    }
+    .mock-list-bg li .meta { color: var(--ember); }
+
+    /* ---------- Section common ---------- */
+    section { position: relative; }
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 56px;
+    }
+    .section-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-eyebrow::before, .section-eyebrow::after {
+      content: '';
+      width: 36px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+    }
+    .section-title {
+      font-family: 'Cinzel Decorative', 'Cinzel', serif;
+      font-weight: 700;
+      font-size: clamp(32px, 5vw, 48px);
+      letter-spacing: 0.06em;
+      color: var(--gold-pale);
+      text-shadow: 0 4px 32px rgba(212,168,87,0.15);
+      margin-bottom: 12px;
+    }
+    .section-subtitle {
+      color: var(--text-dim);
+      font-size: 15px;
+    }
+
+    .divider-orn {
+      display: block;
+      width: 280px;
+      max-width: 60%;
+      margin: 0 auto 48px;
+      opacity: 0.7;
+    }
+
+    /* ---------- Features ---------- */
+    .features {
+      padding: 100px 28px 60px;
+      border-top: 1px solid rgba(212,168,87,0.06);
+      background: linear-gradient(180deg, transparent, rgba(13,11,24,0.6) 30%, transparent);
+    }
+    .feat-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 1100px) { .feat-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 720px)  { .feat-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 460px)  { .feat-grid { grid-template-columns: 1fr; } }
+
+    .feat-card {
+      position: relative;
+      padding: 32px 22px 28px;
+      background: linear-gradient(180deg, rgba(20,17,31,0.7), rgba(11,9,18,0.85));
+      border: 1px solid rgba(212,168,87,0.12);
+      border-radius: 6px;
+      text-align: center;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+      overflow: hidden;
+    }
+    .feat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top, rgba(212,168,87,0.10), transparent 60%);
+      opacity: 0;
+      transition: opacity .35s;
+      pointer-events: none;
+    }
+    .feat-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212,168,87,0.4);
+      box-shadow: 0 20px 50px -10px rgba(212,168,87,0.18);
+    }
+    .feat-card:hover::before { opacity: 1; }
+
+    .feat-icon {
+      width: 56px; height: 56px;
+      margin: 0 auto 22px;
+      color: var(--gold);
+      filter: drop-shadow(0 0 12px rgba(212,168,87,0.35));
+      position: relative;
+      z-index: 1;
+    }
+    .feat-name {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--gold-pale);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .feat-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text-dim);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---------- Action section ---------- */
+    .action {
+      padding: 100px 28px;
+    }
+    .action-grid {
+      max-width: 880px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .action-text h3 {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: clamp(24px, 3vw, 32px);
+      letter-spacing: 0.08em;
+      color: var(--gold-pale);
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      line-height: 1.3;
+    }
+    .action-text p {
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.8;
+      margin: 0 auto 18px;
+      max-width: 640px;
+    }
+    .action-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin: 40px auto 0;
+      max-width: 720px;
+    }
+    @media (max-width: 720px) {
+      .action-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    .stat {
+      padding: 20px 16px;
+      background: rgba(13,11,24,0.6);
+      border: 1px solid rgba(212,168,87,0.12);
+      border-radius: 4px;
+    }
+    .stat-num {
+      font-family: 'Cinzel', serif;
+      font-size: 26px;
+      color: var(--teal);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--text-faint);
+      text-transform: uppercase;
+    }
+
+    /* ---------- Footer / Tech bar ---------- */
+    .tech {
+      padding: 50px 28px;
+      border-top: 1px solid rgba(212,168,87,0.1);
+      background: linear-gradient(180deg, rgba(13,11,24,0.4), rgba(7,6,13,0.95));
+    }
+    .tech-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    @media (max-width: 880px) { .tech-inner { grid-template-columns: 1fr; gap: 30px; text-align: center; } }
+    .tech-block {
+      display: flex; align-items: center; gap: 16px;
+    }
+    @media (max-width: 880px) { .tech-block { justify-content: center; } }
+    .tech-icon {
+      width: 38px; height: 38px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .tech-block h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      color: var(--gold-pale);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .tech-block p {
+      font-size: 12.5px;
+      color: var(--text-dim);
+    }
+
+    .os-badges {
+      display: flex; gap: 10px; justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 880px) { .os-badges { justify-content: center; } }
+    .os-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 16px;
+      background: linear-gradient(180deg, rgba(20,17,31,0.85), rgba(11,9,18,0.9));
+      border: 1px solid rgba(212,168,87,0.18);
+      border-radius: 4px;
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      color: var(--text);
+      text-transform: uppercase;
+      transition: border-color .25s, color .25s;
+    }
+    .os-badge:hover { border-color: var(--gold); color: var(--gold-pale); }
+    .os-badge svg { width: 14px; height: 14px; }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      padding: 30px 28px 40px;
+      text-align: center;
+      color: var(--text-faint);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .footer a { color: var(--text-dim); }
+    .footer a:hover { color: var(--gold-pale); }
+
+    /* ---------- Reveal ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .8s, transform .8s;
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .ember { animation: none; opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambience" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <img src="assets/icon.png" alt="" class="brand-mark" />
+        <span>ECHOSIGHT</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#install">Installation</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contributing">Contributing</a>
+        <a href="https://github.com/echologist/echoesight-overlay" aria-label="GitHub">
+          <svg class="nav-gh" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.74.08-.74 1.21.09 1.85 1.24 1.85 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.62-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.39 1.24-3.23-.13-.3-.54-1.53.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.88.12 3.18.77.84 1.24 1.92 1.24 3.23 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5"/></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" id="top">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <span class="ember e2"></span>
+    <span class="ember e3"></span>
+    <span class="ember e4"></span>
+    <span class="ember e5"></span>
+    <span class="ember e6"></span>
+    <span class="ember e7"></span>
+
+    <div class="hero-grid">
+      <div>
+        <h1 class="hero-title">Echosight</h1>
+        <div class="hero-subtitle">PoE Task Overlay</div>
+        <svg class="hero-rule" viewBox="0 0 220 18" fill="none" aria-hidden="true">
+          <path d="M2 9 L90 9" stroke="#b89148" stroke-width="1"/>
+          <path d="M130 9 L218 9" stroke="#b89148" stroke-width="1"/>
+          <path d="M110 1 L118 9 L110 17 L102 9 Z" fill="none" stroke="#d4a857" stroke-width="1.2"/>
+          <circle cx="110" cy="9" r="2" fill="#d4a857"/>
+        </svg>
+        <p class="hero-desc">
+          A lightweight, customizable task management overlay designed for Path of Exile players.
+          Track league starts, progression, and endgame goals without ever leaving the game.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="https://github.com/echologist/echoesight-overlay/releases/latest">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
+            Download
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/echologist/echoesight-overlay">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.74.08-.74 1.21.09 1.85 1.24 1.85 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.62-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.39 1.24-3.23-.13-.3-.54-1.53.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.88.12 3.18.77.84 1.24 1.92 1.24 3.23 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5"/></svg>
+            View on GitHub
+          </a>
+        </div>
+        <a class="hero-repo" href="https://github.com/echologist/echoesight-overlay">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.74.08-.74 1.21.09 1.85 1.24 1.85 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.62-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.39 1.24-3.23-.13-.3-.54-1.53.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.88.12 3.18.77.84 1.24 1.92 1.24 3.23 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5"/></svg>
+          github.com/echologist/echoesight-overlay
+        </a>
+      </div>
+
+      <!-- Mock overlay (interactive — click any task to tick it) -->
+      <div class="mock" id="screenshots" data-mock>
+        <div class="mock-head">
+          <div class="mock-title">Echosight <small>(Interactive Mode &mdash; Ctrl+Shift+I to exit)</small></div>
+          <div class="mock-head-btns">
+            <button class="mock-head-btn" type="button" title="Settings" aria-label="Settings">&#9881;</button>
+            <button class="mock-head-btn" type="button" title="Hide" aria-label="Hide">&minus;</button>
+            <button class="mock-head-btn close" type="button" title="Quit" aria-label="Quit">&times;</button>
+          </div>
+        </div>
+
+        <div class="mock-templates">
+          <div class="mock-tpl-row">
+            <select class="mock-tpl-select" aria-label="Template selector">
+              <option>League Start Essentials</option>
+              <option>Endgame Progression</option>
+              <option>Crafting Checklist</option>
+            </select>
+            <button class="mock-tpl-btn" type="button">Load</button>
+            <button class="mock-tpl-btn" type="button">Save</button>
+            <button class="mock-tpl-btn" type="button">Export</button>
+            <button class="mock-tpl-btn" type="button">Import</button>
+            <button class="mock-tpl-btn danger" type="button">Delete</button>
+            <button class="mock-tpl-btn danger" type="button">Clear All</button>
+          </div>
+          <div class="mock-tpl-row">
+            <button class="mock-tpl-btn" type="button">Community Templates</button>
+            <button class="mock-tpl-btn" type="button">Click-Through Mode</button>
+          </div>
+        </div>
+
+        <div class="mock-body">
+          <div class="mock-add">
+            <input type="text" placeholder="Add new task..." aria-label="Add task (demo)" />
+            <button class="mock-add-btn" type="button">Add</button>
+          </div>
+
+          <div class="mock-progress"><div class="mock-progress-fill"></div></div>
+          <div class="mock-progress-text">
+            <span class="mock-progress-count">0 / 0</span> tasks completed &middot;
+            <span class="mock-progress-pct">0%</span>
+          </div>
+
+          <div class="mock-section-label">Main Tasks</div>
+          <ul class="mock-list mock-list-main">
+            <li class="done"><input type="checkbox" checked aria-label="Reach Act 2" /><label>Reach Act 2</label><button class="x" type="button" aria-label="Delete">&times;</button></li>
+            <li class="done"><input type="checkbox" checked aria-label="Complete Normal Lab" /><label>Complete Normal Lab</label><button class="x" type="button" aria-label="Delete">&times;</button></li>
+            <li><input type="checkbox" aria-label="Buy movement-speed boots" /><label>Buy movement-speed boots</label><button class="x" type="button" aria-label="Delete">&times;</button></li>
+            <li><input type="checkbox" aria-label="Beat the Atlas" /><label>Beat the Atlas</label><button class="x" type="button" aria-label="Delete">&times;</button></li>
+            <li><input type="checkbox" aria-label="Farm Chaos Recipe" /><label>Farm Chaos Recipe</label><button class="x" type="button" aria-label="Delete">&times;</button></li>
+            <li><input type="checkbox" aria-label="Kill Pinnacle Boss" /><label>Kill Pinnacle Boss</label><button class="x" type="button" aria-label="Delete">&times;</button></li>
+          </ul>
+
+          <div class="mock-section-label bg">Background Tasks</div>
+          <ul class="mock-list mock-list-bg">
+            <li><input type="checkbox" aria-label="Kill Catacombs" /><label>Kill Catacombs</label><span class="meta">1 / 6</span></li>
+            <li class="priority"><input type="checkbox" aria-label="Expedition Logbook" /><label>Expedition Logbook</label><span class="meta">0 / 1</span></li>
+            <li><input type="checkbox" aria-label="Map Bosses" /><label>Map Bosses</label><span class="meta">3 / 5</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Built for Exiles</div>
+      <h2 class="section-title">Powerful Features</h2>
+      <p class="section-subtitle">Powerful features to keep you focused on your journey</p>
+    </div>
+
+    <div class="feat-grid">
+      <article class="feat-card reveal">
+        <svg class="feat-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 32s10-18 28-18 28 18 28 18-10 18-28 18S4 32 4 32Z"/>
+          <circle cx="32" cy="32" r="9"/>
+          <circle cx="32" cy="32" r="3.5" fill="currentColor"/>
+        </svg>
+        <h3 class="feat-name">Smart Overlay System</h3>
+        <p class="feat-desc">Click-through mode, auto-detection, always on top.</p>
+      </article>
+
+      <article class="feat-card reveal">
+        <svg class="feat-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="10" y="8" width="44" height="48" rx="4"/>
+          <path d="m18 22 5 5 9-10"/>
+          <path d="M36 22h12"/>
+          <path d="m18 40 5 5 9-10"/>
+          <path d="M36 40h12"/>
+        </svg>
+        <h3 class="feat-name">Task Management</h3>
+        <p class="feat-desc">Custom tasks, progress tracking, drag-and-drop, sub-tasks.</p>
+      </article>
+
+      <article class="feat-card reveal">
+        <svg class="feat-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6h28"/>
+          <path d="M18 58h28"/>
+          <path d="M20 6c0 14 24 14 24 26S20 32 20 58"/>
+          <path d="M44 6c0 14-24 14-24 26s24 14 24 26"/>
+          <path d="M26 50h12"/>
+        </svg>
+        <h3 class="feat-name">Background Tasks</h3>
+        <p class="feat-desc">Triggered attaches, priority indicators, timers, notifications.</p>
+      </article>
+
+      <article class="feat-card reveal">
+        <svg class="feat-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="8" y="14" width="48" height="40" rx="3"/>
+          <path d="M8 24h48"/>
+          <path d="M20 8v10"/>
+          <path d="M44 8v10"/>
+          <path d="M18 36h20"/>
+          <path d="M18 44h28"/>
+        </svg>
+        <h3 class="feat-name">Template System</h3>
+        <p class="feat-desc">Save, load, import, export community templates.</p>
+      </article>
+
+      <article class="feat-card reveal">
+        <svg class="feat-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="32" cy="32" r="8"/>
+          <path d="M32 4v8M32 52v8M4 32h8M52 32h8M11.7 11.7l5.7 5.7M46.6 46.6l5.7 5.7M11.7 52.3l5.7-5.7M46.6 17.4l5.7-5.7"/>
+        </svg>
+        <h3 class="feat-name">Fully Customizable</h3>
+        <p class="feat-desc">Hotkeys, transparency, themes, draggable position.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Action -->
+  <section class="action" id="action">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Overlay In Action</div>
+      <h2 class="section-title">Sleek. Informative. Never in the Way.</h2>
+    </div>
+
+    <div class="action-grid">
+      <div class="action-text reveal">
+        <h3>A high-contrast overlay built for combat.</h3>
+        <p>
+          A high-contrast overlay that blends into your adventure while keeping
+          your gaze front and center. Click-through enabled means the game always
+          gets your input first.
+        </p>
+        <p>
+          No gameplay interruption. 100% focus on your clicks — toggle interactive
+          mode only when you need to manage tasks.
+        </p>
+        <div class="action-stats">
+          <div class="stat">
+            <div class="stat-num">~30 MB</div>
+            <div class="stat-label">RAM footprint</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">~1%</div>
+            <div class="stat-label">CPU usage</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">0 ms</div>
+            <div class="stat-label">Game impact</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Platforms</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq" style="padding: 100px 28px; border-top: 1px solid rgba(212,168,87,0.06);">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Common Questions</div>
+      <h2 class="section-title">FAQ</h2>
+    </div>
+    <div style="max-width: 880px; margin: 0 auto; display: grid; gap: 14px;">
+      <details class="reveal" style="background: rgba(13,11,24,0.6); border: 1px solid rgba(212,168,87,0.12); border-radius: 6px; padding: 18px 22px;">
+        <summary style="cursor: pointer; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.08em; color: var(--gold-pale); list-style: none;">Is Echosight safe to use with Path of Exile?</summary>
+        <p style="margin-top: 12px; color: var(--text-dim); font-size: 14px; line-height: 1.7;">Yes. Echosight is a pure overlay — it does not read game memory, send keystrokes, modify files, or automate gameplay. It behaves like Discord overlay or a hardware monitor: just visible information layered on top.</p>
+      </details>
+      <details class="reveal" style="background: rgba(13,11,24,0.6); border: 1px solid rgba(212,168,87,0.12); border-radius: 6px; padding: 18px 22px;">
+        <summary style="cursor: pointer; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.08em; color: var(--gold-pale); list-style: none;">What hotkeys does it use?</summary>
+        <p style="margin-top: 12px; color: var(--text-dim); font-size: 14px; line-height: 1.7;">Defaults: <code style="font-family: 'JetBrains Mono', monospace; color: var(--teal);">Ctrl+Shift+T</code> show/hide overlay, <code style="font-family: 'JetBrains Mono', monospace; color: var(--teal);">Ctrl+Shift+I</code> toggle interactive mode, <code style="font-family: 'JetBrains Mono', monospace; color: var(--teal);">Ctrl+Shift+N</code> advance the next task. All bindings are user-configurable.</p>
+      </details>
+      <details class="reveal" style="background: rgba(13,11,24,0.6); border: 1px solid rgba(212,168,87,0.12); border-radius: 6px; padding: 18px 22px;">
+        <summary style="cursor: pointer; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.08em; color: var(--gold-pale); list-style: none;">What are background tasks?</summary>
+        <p style="margin-top: 12px; color: var(--text-dim); font-size: 14px; line-height: 1.7;">Tasks that stay dormant until a trigger task completes — for example, "watch for 4-link drops" activates after you finish Act 2. They appear in a separate section below the main list and don't interrupt main-chain progression.</p>
+      </details>
+      <details class="reveal" style="background: rgba(13,11,24,0.6); border: 1px solid rgba(212,168,87,0.12); border-radius: 6px; padding: 18px 22px;">
+        <summary style="cursor: pointer; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.08em; color: var(--gold-pale); list-style: none;">Which platforms are supported?</summary>
+        <p style="margin-top: 12px; color: var(--text-dim); font-size: 14px; line-height: 1.7;">Windows (portable .exe), macOS (.dmg, Intel + Apple Silicon), and Linux (AppImage + .deb). Grab the latest build from the GitHub Releases page.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Tech / install bar -->
+  <section class="tech" id="install">
+    <div class="tech-inner">
+      <div class="tech-block">
+        <svg class="tech-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M32 6 8 14v18c0 14 10 22 24 26 14-4 24-12 24-26V14L32 6Z"/>
+          <path d="m22 32 7 7 13-14"/>
+        </svg>
+        <div>
+          <h4>Open Source</h4>
+          <p>MIT License</p>
+        </div>
+      </div>
+
+      <div class="tech-block">
+        <svg class="tech-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+          <ellipse cx="32" cy="32" rx="28" ry="11"/>
+          <ellipse cx="32" cy="32" rx="28" ry="11" transform="rotate(60 32 32)"/>
+          <ellipse cx="32" cy="32" rx="28" ry="11" transform="rotate(-60 32 32)"/>
+          <circle cx="32" cy="32" r="3" fill="currentColor"/>
+        </svg>
+        <div>
+          <h4>Electron + Vite</h4>
+          <p>Modern. Fast. Reliable.</p>
+        </div>
+      </div>
+
+      <div class="os-badges">
+        <a class="os-badge" href="https://github.com/echologist/echoesight-overlay/releases/latest">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.5 11 4.4v8.1H3V5.5Zm0 13L11 19.6v-8.1H3v7Zm9 1.5 9 1.4V12h-9v8Zm0-9 9-1.4V2.6L12 4v8Z"/></svg>
+          Windows
+        </a>
+        <a class="os-badge" href="https://github.com/echologist/echoesight-overlay/releases/latest">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.4 2-3.5 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.5-.2-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 3 2.3 1.2-.1 1.6-.8 3-.8 1.4 0 1.8.8 3 .8 1.3 0 2.1-1.1 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.7-1-2.7-3.7Zm-2.5-6.7c.6-.7 1-1.7.9-2.7-.9 0-2 .6-2.6 1.3-.6.6-1.1 1.6-1 2.6 1 .1 2-.5 2.7-1.2Z"/></svg>
+          macOS
+        </a>
+        <a class="os-badge" href="https://github.com/echologist/echoesight-overlay/releases/latest">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-2.2 0-3.5 1.6-3.5 4.4 0 1.4.6 2.6.6 3.6 0 1-1.4 2-2.6 3.6-1.2 1.6-2 3-2 4.6 0 1.6 1 2.6 2.6 2.6 1.4 0 1.8-.8 2.6-.8.6 0 1 .8 2.4.8 1.4 0 1.8-.8 2.4-.8.8 0 1.2.8 2.6.8 1.6 0 2.6-1 2.6-2.6 0-1.6-.8-3-2-4.6-1.2-1.6-2.6-2.6-2.6-3.6 0-1 .6-2.2.6-3.6C15.5 3.6 14.2 2 12 2Zm-1.5 4c-.5 0-.9.5-.9 1.1s.4 1.1.9 1.1c.5 0 .9-.5.9-1.1s-.4-1.1-.9-1.1Zm3 0c-.5 0-.9.5-.9 1.1s.4 1.1.9 1.1c.5 0 .9-.5.9-1.1s-.4-1.1-.9-1.1Z"/></svg>
+          Linux
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="contributing">
+    <p>
+      Echosight is open source under the MIT License —
+      <a href="https://github.com/echologist/echoesight-overlay">contribute on GitHub</a>.
+      Not affiliated with Grinding Gear Games.
+    </p>
+  </footer>
+
+  <script>
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Interactive mock overlays — tick tasks, add, delete, update progress live
+    function initMock(mock) {
+      const fill  = mock.querySelector('.mock-progress-fill');
+      const count = mock.querySelector('.mock-progress-count');
+      const pct   = mock.querySelector('.mock-progress-pct');
+
+      function update() {
+        const all = mock.querySelectorAll('.mock-list input[type="checkbox"]');
+        const total = all.length;
+        const done  = [...all].filter(c => c.checked).length;
+        const p     = total ? Math.round((done / total) * 100) : 0;
+        if (fill)  fill.style.width = p + '%';
+        if (count) count.textContent = `${done} / ${total}`;
+        if (pct)   pct.textContent   = p + '%';
+      }
+
+      function wireRow(li) {
+        const cb = li.querySelector('input[type="checkbox"]');
+        if (cb && cb.checked) li.classList.add('done');
+        if (cb) cb.addEventListener('change', () => { li.classList.toggle('done', cb.checked); update(); });
+
+        li.addEventListener('click', e => {
+          if (e.target.closest('.x')) return;
+          if (e.target.matches('input[type="checkbox"]')) return;
+          if (!cb) return;
+          cb.checked = !cb.checked;
+          cb.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+
+        const x = li.querySelector('.x');
+        if (x) x.addEventListener('click', e => {
+          e.stopPropagation();
+          li.style.transition = 'opacity .25s, transform .25s, max-height .3s, padding .3s, margin .3s';
+          li.style.maxHeight  = li.offsetHeight + 'px';
+          requestAnimationFrame(() => {
+            li.style.opacity   = '0';
+            li.style.transform = 'translateX(8px)';
+            li.style.maxHeight = '0';
+            li.style.padding   = '0';
+            li.style.margin    = '0';
+          });
+          setTimeout(() => { li.remove(); update(); }, 280);
+        });
+      }
+
+      mock.querySelectorAll('.mock-list li').forEach(wireRow);
+
+      // Demo Add button — append new task to Main list
+      const addInput = mock.querySelector('.mock-add input');
+      const addBtn   = mock.querySelector('.mock-add-btn');
+      const mainList = mock.querySelector('.mock-list-main');
+      function addTask() {
+        if (!addInput || !mainList) return;
+        const text = addInput.value.trim();
+        if (!text) return;
+        const li = document.createElement('li');
+        li.innerHTML = '<input type="checkbox" /><label></label><button class="x" type="button" aria-label="Delete">&times;</button>';
+        li.querySelector('label').textContent = text;
+        mainList.appendChild(li);
+        addInput.value = '';
+        wireRow(li);
+        update();
+      }
+      if (addBtn)   addBtn.addEventListener('click', addTask);
+      if (addInput) addInput.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+
+      update();
+    }
+
+    document.querySelectorAll('[data-mock]').forEach(initMock);
+  </script>
+</body>
+</html>

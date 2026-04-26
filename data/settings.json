@@ -1,6 +1,7 @@
 {
   "transparency": 60,
-  "backgroundColor": "dark",
+  "backgroundColor": "echosight",
+  "theme": "echosight",
   "hotkeys": {
     "toggleVisibility": "Ctrl+Shift+T",
     "toggleInteractive": "Ctrl+Shift+I",

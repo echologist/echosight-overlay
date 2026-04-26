@@ -8,7 +8,7 @@ let currentTemplate = null;
 let isInteractiveMode = true;
 let settings = {
   transparency: 60,
-  theme: 'dark',
+  theme: 'echosight',
   hotkeys: {
     toggleVisibility: 'Ctrl+Shift+T',
     toggleInteractive: 'Ctrl+Shift+I',
