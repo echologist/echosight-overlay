@@ -16,6 +16,7 @@ A lightweight, customizable task management overlay designed specifically for Pa
 - ✅ Visual progress tracking with completion percentage
 - ✅ Check off completed objectives with satisfying feedback
 - ✅ Delete unwanted or outdated tasks
+- ✅ Undo recent task actions with `Ctrl+Shift+Z` and forward them again with `Ctrl+Shift+Y`
 - ✅ Clean, minimal interface that doesn't clutter your screen
 - ✅ Hierarchical sub-tasks with parent/child relationships
 - ✅ Drag-and-drop reordering
@@ -73,6 +74,9 @@ npm run preview
 
 # Create distributable package
 npm run pack
+
+# Type-check the TypeScript code
+npm run typecheck
 ```
 
 ## 🎮 Usage Guide
@@ -82,7 +86,9 @@ npm run pack
 - **Toggle Interactive Mode**: `Ctrl+Shift+I` (customizable)
 - **Add Task**: Type in input field and press Enter
 - **Complete Task**: Click the checkbox `Ctrl+Shift+N` (customizable)
-- **Delete Task**: Click the × button next to any task
+- **Undo Last Task Action**: `Ctrl+Shift+Z` (customizable)
+- **Forward Last Task Action**: `Ctrl+Shift+Y` (customizable)
+- **Delete Task**: Click the × button next to any task and confirm
 
 ### Two Modes Explained
 
@@ -166,7 +172,7 @@ Background tasks are objectives that become relevant after completing a specific
 - **Native Windows APIs**: For overlay functionality and hotkey registration
 
 ### System Requirements
-- Windows 10/11 (64-bit)
+- Windows 10/11, macOS, or Linux (64-bit)
 - ~150MB disk space
 - No additional dependencies required
 
