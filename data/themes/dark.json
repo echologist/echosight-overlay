@@ -1,9 +1,9 @@
 {
   "name": "Dark",
   "id": "dark",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Echosight",
-  "description": "Default dark theme with high contrast",
+  "description": "Classic dark theme with high contrast",
   "isDefault": false,
   "supportsTransparency": true,
   "fonts": {
@@ -80,5 +80,6 @@
         "background": "transparent"
       }
     }
-  }
+  },
+  "customCSS": "/* Theme Modal */\n.modal { background: rgba(0,0,0,0.78) !important; backdrop-filter: blur(4px) !important; -webkit-backdrop-filter: blur(4px) !important; }\n.modal-content { background: linear-gradient(180deg, rgba(22,22,22,0.98), rgba(5,5,5,0.98)) !important; border: 1px solid rgba(212,175,55,0.72) !important; border-radius: 8px !important; box-shadow: 0 18px 44px rgba(0,0,0,0.78), 0 0 24px rgba(50,205,50,0.16) !important; color: #fff !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #d4af37 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #f2f2f2 !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #b8b8b8 !important; }\n.community-template { background: rgba(0,0,0,0.46) !important; border: 1px solid rgba(212,175,55,0.24) !important; }\n.modal-btn.primary { background: #4169e1 !important; border: 1px solid #6687ff !important; color: #fff !important; }\n.modal-btn.secondary { background: #2b2b2b !important; border: 1px solid #666 !important; color: #fff !important; }\n.modal-btn:hover { border-color: #d4af37 !important; box-shadow: 0 0 12px rgba(212,175,55,0.28) !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #dc143c !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #ff6b86 !important; }"
 }

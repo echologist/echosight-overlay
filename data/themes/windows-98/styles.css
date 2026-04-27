@@ -234,3 +234,83 @@
               inset 1px 1px rgba(128, 128, 128, 0.5) !important;
   border: none !important;
 }
+
+/* Theme Modal */
+.modal {
+  background: rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.modal-content {
+  background: #c0c7c8 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: inset -1px -1px #0a0a0a,
+              inset 1px 1px #fff,
+              inset -2px -2px grey,
+              inset 2px 2px #dfdfdf,
+              3px 3px 0 rgba(0, 0, 0, 0.35) !important;
+  color: #222 !important;
+  font-family: "Pixelated MS Sans Serif", Arial, sans-serif !important;
+  font-size: 11px !important;
+}
+
+.modal-title,
+.settings-title,
+.modal-content h4 {
+  background: linear-gradient(90deg, #000080, #1084d0) !important;
+  color: #fff !important;
+  font-family: "Pixelated MS Sans Serif", Arial, sans-serif !important;
+  font-size: 11px !important;
+  letter-spacing: 0 !important;
+  margin: -20px -20px 12px !important;
+  padding: 3px 5px !important;
+  text-shadow: none !important;
+  text-transform: none !important;
+}
+
+.app-dialog-message,
+.trigger-description,
+.community-template .description,
+.import-hint,
+.settings-help,
+.hotkey-help,
+.range-labels,
+.community-template .task-count {
+  color: #222 !important;
+  font-family: "Pixelated MS Sans Serif", Arial, sans-serif !important;
+  font-size: 11px !important;
+}
+
+.community-template {
+  background: #c0c7c8 !important;
+  border: none !important;
+  box-shadow: inset -1px -1px #dfdfdf, inset 1px 1px grey !important;
+}
+
+.modal-btn {
+  background: #c0c7c8 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: inset -1px -1px #0a0a0a,
+              inset 1px 1px #fff,
+              inset -2px -2px grey,
+              inset 2px 2px #dfdfdf !important;
+  color: #222 !important;
+  font-family: "Pixelated MS Sans Serif", Arial, sans-serif !important;
+  font-size: 11px !important;
+  min-height: 23px !important;
+  min-width: 75px !important;
+}
+
+.modal-btn:active {
+  box-shadow: inset -1px -1px #fff,
+              inset 1px 1px #0a0a0a,
+              inset -2px -2px #dfdfdf,
+              inset 2px 2px grey !important;
+}
+
+.modal-content-dialog.app-dialog-tone-danger .modal-title {
+  background: linear-gradient(90deg, #800000, #ff0000) !important;
+}

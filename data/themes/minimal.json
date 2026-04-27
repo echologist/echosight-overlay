@@ -1,7 +1,7 @@
 {
   "name": "Minimal",
   "id": "minimal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Echoesight",
   "description": "Clean minimal theme with no background",
   "isDefault": true,
@@ -86,5 +86,6 @@
         "background": "none"
       }
     }
-  }
+  },
+  "customCSS": "/* Theme Modal */\n.modal { background: rgba(0,0,0,0.42) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }\n.modal-content { background: rgba(0,0,0,0.9) !important; border: 2px solid #fff !important; border-radius: 0 !important; box-shadow: none !important; color: #fff !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #fff !important; text-transform: uppercase !important; letter-spacing: 0 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #fff !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #d6d6d6 !important; }\n.community-template { background: transparent !important; border: 1px solid #fff !important; }\n.modal-btn.primary { background: #fff !important; border: 2px solid #fff !important; color: #000 !important; }\n.modal-btn.secondary { background: transparent !important; border: 2px solid #fff !important; color: #fff !important; }\n.modal-btn:hover { outline: 2px solid #fff !important; outline-offset: 2px !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #ff4a4a !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #ff6b6b !important; }"
 }

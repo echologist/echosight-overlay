@@ -107,3 +107,77 @@
   background: rgba(0, 255, 0, 0.1) !important;
   border-left: 2px solid #00ff00 !important;
 }
+
+/* Theme Modal */
+.modal {
+  background: rgba(0, 0, 0, 0.82) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.modal-content {
+  background: linear-gradient(180deg, #202020, #101010) !important;
+  border: 2px solid #404040 !important;
+  border-radius: 0 !important;
+  box-shadow: inset 1px 1px 0 #606060, inset -1px -1px 0 #202020, 0 0 18px rgba(0,255,0,0.18) !important;
+  color: #00ff00 !important;
+  font-family: 'MS Sans Serif', Arial, sans-serif !important;
+  font-size: 10px !important;
+}
+
+.modal-title,
+.settings-title,
+.modal-content h4 {
+  background: linear-gradient(to bottom, #404040, #202020) !important;
+  color: #00ff00 !important;
+  font-family: 'MS Sans Serif', Arial, sans-serif !important;
+  font-size: 11px !important;
+  letter-spacing: 1px !important;
+  margin: -20px -20px 12px !important;
+  padding: 5px 7px !important;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.8) !important;
+  text-transform: uppercase !important;
+}
+
+.app-dialog-message,
+.trigger-description,
+.community-template .description {
+  color: #00ff00 !important;
+}
+
+.import-hint,
+.settings-help,
+.hotkey-help,
+.range-labels,
+.community-template .task-count {
+  color: #80ff80 !important;
+}
+
+.community-template {
+  background: #101010 !important;
+  border: 1px solid #404040 !important;
+}
+
+.modal-btn {
+  background: #202020 !important;
+  border: 1px outset #606060 !important;
+  border-radius: 0 !important;
+  color: #00ff00 !important;
+  font-family: 'MS Sans Serif', Arial, sans-serif !important;
+  font-size: 10px !important;
+  min-height: 20px !important;
+}
+
+.modal-btn:hover {
+  background: #00ff00 !important;
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+.modal-content-dialog.app-dialog-tone-danger {
+  border-color: #ff3333 !important;
+}
+
+.modal-content-dialog.app-dialog-tone-danger .modal-title {
+  color: #ff6666 !important;
+}
