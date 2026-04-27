@@ -1,17 +1,21 @@
 import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
+import { defineConfig } from 'electron-vite'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()],
     build: {
-      outDir: 'dist-electron/main'
+      outDir: 'dist-electron/main',
+      rollupOptions: {
+        input: resolve('src/main/index.ts')
+      }
     }
   },
   preload: {
-    plugins: [externalizeDepsPlugin()], 
     build: {
-      outDir: 'dist-electron/preload'
+      outDir: 'dist-electron/preload',
+      rollupOptions: {
+        input: resolve('src/preload/index.ts')
+      }
     }
   },
   renderer: {
