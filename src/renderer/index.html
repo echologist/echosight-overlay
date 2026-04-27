@@ -4,767 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Echosight</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: transparent !important;
-      color: #ffffff;
-      padding: 0;
-      user-select: none;
-      overflow: hidden;
-      -webkit-app-region: none !important;
-    }
-
-    .overlay-container {
-      width: 100%;
-      height: 100vh;
-      border: 2px solid #d4af37;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .overlay-container.click-through {
-      border-color: #666;
-      background: transparent !important;
-      /* Ensure no background color */
-      backdrop-filter: brightness(0.8);
-      -webkit-backdrop-filter: brightness(0.8);
-      -webkit-app-region: no-drag !important;
-    }
-
-    .overlay-container.click-through .header {
-      background: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(160, 82, 45, 0.3));
-    }
-
-    /* .overlay-container.click-through .header {
-      display: none !important;
-    } */
-
-    .overlay-container.click-through .header {
-      height: 0 !important;
-      overflow: hidden !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      border: none !important;
-      display: none !important;
-    }
-
-    .overlay-container.click-through .header-buttons {
-      display: none !important;
-    }
-
-    .overlay-container.click-through .template-section {
-      display: none;
-    }
-
-    .overlay-container.click-through .task-input-container {
-      display: none;
-    }
-
-    .overlay-container.click-through .task-delete {
-      display: none;
-    }
-
-    .overlay-container.click-through .task-checkbox {
-      pointer-events: none;
-      opacity: 1 !important;
-    }
-
-    .overlay-container.click-through {
-      border: none;
-      border-radius: 4px;
-    }
-
-    .overlay-container.click-through .tasks-section {
-      padding: 8px;
-      position: relative;
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-    .overlay-container.click-through .tasks-section::before {
-      content: "Ctrl+Shift+I to edit";
-      position: absolute;
-      top: -2px;
-      right: 2px;
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.4);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .overlay-container.click-through:hover .tasks-section::before {
-      opacity: 1;
-    }
-
-    /* Ensure all text elements remain fully opaque */
-    .overlay-container.click-through .task-text {
-      opacity: 1 !important;
-      color: #ffffff;
-    }
-
-    .overlay-container.click-through .task-text.completed {
-      opacity: 1 !important;
-      color: #888;
-    }
-
-    .overlay-container.click-through .progress-text {
-      opacity: 1 !important;
-      color: #ccc;
-    }
-
-    .overlay-container.click-through .progress-fill {
-      opacity: 1 !important;
-    }
-
-    .header {
-      background: linear-gradient(135deg, #8b4513, #a0522d);
-      padding: 12px;
-      border-bottom: 1px solid #d4af37;
-      cursor: move;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    /* .overlay-container.click-through .header,
-    .overlay-container.click-through .header-buttons {
-      display: none !important;
-    } */
-
-
-    .header h2 {
-      color: #d4af37;
-      font-size: 16px;
-      margin: 0;
-    }
-
-    .header-buttons {
-      display: flex;
-      gap: 5px;
-    }
-
-    .header-btn {
-      background: rgba(212, 175, 55, 0.8);
-      border: none;
-      border-radius: 3px;
-      color: black;
-      font-size: 12px;
-      padding: 4px 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .header-btn:hover {
-      background: rgba(212, 175, 55, 1);
-    }
-
-    .header-btn.close {
-      background: rgba(220, 20, 60, 0.8);
-    }
-
-    .header-btn.close:hover {
-      background: rgba(220, 20, 60, 1);
-    }
-
-    .template-section {
-      padding: 10px;
-      border-bottom: 1px solid #333;
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    .template-controls {
-      display: flex;
-      gap: 5px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-    }
-
-    .template-btn {
-      background: #4169e1;
-      border: none;
-      border-radius: 4px;
-      color: white;
-      padding: 6px 12px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    .template-btn:hover {
-      background: #5179f1;
-    }
-
-    .template-btn.danger {
-      background: #dc143c;
-    }
-
-    .template-btn.danger:hover {
-      background: #e6244c;
-    }
-
-    .template-select {
-      background: #333;
-      border: 1px solid #555;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      flex: 1;
-      min-width: 100px;
-    }
-
-    .tasks-section {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-    }
-
-    .task-input-container {
-      display: flex;
-      gap: 5px;
-      margin-bottom: 15px;
-    }
-
-    .task-input {
-      flex: 1;
-      background: #333;
-      border: 1px solid #555;
-      color: white;
-      padding: 8px;
-      border-radius: 4px;
-      font-size: 13px;
-    }
-
-    .task-input:focus {
-      outline: none;
-      border-color: #d4af37;
-    }
-
-    .add-btn {
-      background: #32cd32;
-      border: none;
-      border-radius: 4px;
-      color: white;
-      padding: 8px 12px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .add-btn:hover {
-      background: #3de63d;
-    }
-
-    .task-list {
-      list-style: none;
-    }
-
-    .task-item {
-      display: flex;
-      align-items: center;
-      padding: 6px 0;
-      border-bottom: 1px solid #333;
-      gap: 0;
-      transition: all 0.2s ease;
-      border-radius: 4px;
-      margin: 1px 0;
-      list-style: none;
-      position: relative;
-    }
-
-    .task-item:last-child {
-      border-bottom: none;
-    }
-
-    .task-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .task-item:hover .drag-handle {
-      opacity: 1 !important;
-      color: #d4af37 !important;
-    }
-
-    .drag-placeholder {
-      animation: placeholderPulse 1.5s ease-in-out infinite;
-      list-style: none;
-    }
-
-    @keyframes placeholderPulse {
-      0%, 100% { background: rgba(212, 175, 55, 0.2); }
-      50% { background: rgba(3, 236, 127, 0.4); }
-    }
-
-    .task-item[draggable="true"]:active {
-      cursor: grabbing !important;
-    }
-
-    .task-checkbox {
-      width: 16px;
-      height: 16px;
-      accent-color: #d4af37;
-      cursor: pointer;
-      margin-right: 8px;
-    }
-
-    .task-text {
-      flex: 1;
-      font-size: 13px;
-      line-height: 1.4;
-      transition: all 0.3s ease;
-    }
-
-    .task-text.completed {
-      text-decoration: line-through;
-      opacity: 0.6;
-      color: #888;
-    }
-
-    .task-delete {
-      background: #dc143c;
-      border: none;
-      border-radius: 3px;
-      color: white;
-      padding: 4px 8px;
-      cursor: pointer;
-      font-size: 11px;
-      opacity: 0.7;
-    }
-
-    .task-delete:hover {
-      opacity: 1;
-    }
-
-    .progress-bar {
-      margin: 10px 0;
-      height: 6px;
-      background: #333;
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #32cd32, #d4af37);
-      transition: width 0.3s ease;
-    }
-
-    .progress-text {
-      font-size: 12px;
-      text-align: center;
-      color: #ccc;
-      margin-top: 5px;
-    }
-
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: #222;
-      border: 2px solid #d4af37;
-      border-radius: 8px;
-      padding: 20px;
-      width: 90%;
-      max-width: 300px;
-    }
-
-    .modal-title {
-      color: #d4af37;
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
-
-    .modal-input {
-      width: 100%;
-      background: #333;
-      border: 1px solid #555;
-      color: white;
-      padding: 8px;
-      border-radius: 4px;
-      margin-bottom: 15px;
-    }
-
-    .modal-buttons {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-    }
-
-    .modal-btn {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .modal-btn.primary {
-      background: #4169e1;
-      color: white;
-    }
-
-    .modal-btn.secondary {
-      background: #666;
-      color: white;
-    }
-
-    .community-template {
-      border: 1px solid #555;
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 12px;
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    .community-template h4 {
-      color: #d4af37;
-      margin: 0 0 8px 0;
-      font-size: 14px;
-    }
-
-    .community-template p {
-      margin: 0 0 8px 0;
-      font-size: 12px;
-    }
-
-    .community-template .description {
-      color: #ccc;
-      font-style: italic;
-    }
-
-    .community-template .task-count {
-      color: #aaa;
-      font-size: 11px;
-    }
-
-    /* Scrollbar styling */
-    .tasks-section::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .tasks-section::-webkit-scrollbar-track {
-      background: #333;
-    }
-
-    .tasks-section::-webkit-scrollbar-thumb {
-      background: #666;
-      border-radius: 3px;
-    }
-
-    .tasks-section::-webkit-scrollbar-thumb:hover {
-      background: #888;
-    }
-
-    /* Ensure taskList container allows for proper drag/drop */
-    #taskList {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    /* Settings Modal Scrollbar Styling */
-    #settingsModal .modal-content::-webkit-scrollbar {
-    width: 6px;
-    }
-
-    #settingsModal .modal-content::-webkit-scrollbar-track {
-    background: #333;
-    }
-
-    #settingsModal .modal-content::-webkit-scrollbar-thumb {
-    background: #b49937;
-    border-radius: 3px;
-    }
-
-    #settingsModal .modal-content::-webkit-scrollbar-thumb:hover {
-    background: #888;
-    }
-
-    /* Hierarchy level indicators */
-    .task-item[data-level="0"] {
-      background: transparent;
-      border-left: 3px solid transparent;
-    }
-
-    .task-item[data-level="1"] {
-      background: transparent;
-      border-left: 3px solid rgba(50, 205, 50, 0.3);
-      margin-left: 2px;
-    }
-
-    .task-item[data-level="1"]:hover {
-      background: rgba(50, 205, 50, 0.08);
-      border-left-color: rgba(50, 205, 50, 0.5);
-    }
-
-    /* Parent task styling */
-    .task-item[data-level="0"] .task-text {
-      font-weight: 600 !important;
-      color: var(--text-primary) !important;
-    }
-
-    .task-item[data-level="1"] .task-text {
-      font-weight: 400 !important;
-      color: var(--text-secondary) !important;
-      font-size: 12px !important;
-    }
-
-    /* Parent icon styling */
-    .parent-icon {
-      animation: none;
-    }
-
-    .task-item:hover .parent-icon {
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    /* Badges container (trigger indicator + child count) */
-    .task-badges {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      margin-left: 6px;
-      flex-shrink: 0;
-    }
-
-    /* Child count badge */
-    .child-count {
-      background: rgba(50, 205, 50, 0.2);
-      border-radius: 10px;
-      padding: 1px 4px;
-      font-size: 9px !important;
-      color: #32cd32 !important;
-      border: 1px solid rgba(50, 205, 50, 0.3);
-      user-select: none;
-      font-weight: 500;
-      white-space: nowrap;
-      margin-right: 5px;
-    }
-
-    /* Context menu styling */
-    .context-menu {
-      position: fixed;
-      background: linear-gradient(135deg, #333, #222);
-      border: 2px solid #d4af37;
-      border-radius: 6px;
-      padding: 4px 0;
-      z-index: 1000;
-      font-size: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.7), 0 0 0 1px rgba(212, 175, 55, 0.3);
-      min-width: 120px;
-      font-family: inherit;
-    }
-
-    .context-menu div {
-      padding: 8px 14px;
-      cursor: pointer;
-      color: #ffffff;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      font-weight: 500;
-    }
-
-    .context-menu div:first-child:before {
-      content: "➕";
-      margin-right: 8px;
-      font-size: 10px;
-      opacity: 0.7;
-    }
-
-    .context-menu div:nth-child(2):before {
-      content: "⚡";
-      margin-right: 8px;
-      font-size: 10px;
-      opacity: 0.7;
-    }
-
-    .context-menu div:hover {
-      background: linear-gradient(90deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
-      color: #d4af37;
-      transform: translateX(2px);
-    }
-
-    .context-menu div:hover:before {
-      opacity: 1;
-    }
-
-    /* Enhanced checkbox styling for hierarchy */
-    .task-item[data-level="0"] .task-checkbox {
-      accent-color: #d4af37;
-      transform: scale(1.1);
-    }
-
-    .task-item[data-level="1"] .task-checkbox {
-      accent-color: #32cd32;
-      transform: scale(1.0);
-    }
-
-    /* Visual feedback for completed parent tasks */
-    .task-item[data-level="0"] .task-text.completed {
-      color: var(--text-muted) !important;
-      text-decoration: line-through;
-      opacity: 0.7;
-    }
-
-    .task-item[data-level="1"] .task-text.completed {
-      color: var(--text-muted) !important;
-      text-decoration: line-through;
-      opacity: 0.6;
-    }
-
-    /* Right-click hint - inline, shown on hover */
-    .right-click-hint {
-      font-size: 8px;
-      color: rgba(212, 175, 55, 0.6);
-      white-space: nowrap;
-      pointer-events: none;
-      user-select: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      margin-left: auto;
-      margin-right: 4px;
-      flex-shrink: 0;
-    }
-
-    .task-item:hover .right-click-hint {
-      opacity: 1;
-    }
-
-    .overlay-container.click-through .right-click-hint {
-      display: none;
-    }
-
-    @keyframes fadeInHint {
-      to { opacity: 1; }
-    }
-
-    /* Background tasks section */
-    .task-section-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #888;
-      padding: 4px 8px 2px;
-      user-select: none;
-    }
-
-    .background-tasks-section {
-      margin-top: 4px;
-    }
-
-    .background-label {
-      color: #d4af37;
-      border-top: 1px solid rgba(212, 175, 55, 0.3);
-      margin-top: 8px;
-      padding-top: 8px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .background-count {
-      font-size: 10px;
-      color: #aaa;
-    }
-
-    .background-task-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .background-task-list .task-item {
-      border-left: 2px solid #d4af37;
-      margin-left: 4px;
-    }
-
-    .background-task-list .task-item.high-priority {
-      border-left-color: #ff6b6b;
-      animation: pulseBorder 2s infinite;
-    }
-
-    @keyframes pulseBorder {
-      0%, 100% { border-left-color: #ff6b6b; }
-      50% { border-left-color: #ff3333; }
-    }
-
-    .task-item .trigger-indicator {
-      font-size: 10px;
-      color: #d4af37;
-      margin-left: 4px;
-      cursor: pointer;
-      user-select: none;
-      opacity: 0.8;
-    }
-
-    .task-item .trigger-indicator:hover {
-      opacity: 1;
-    }
-
-    .overlay-container.click-through .task-section-label {
-      display: none;
-    }
-
-    .overlay-container.click-through .background-label {
-      display: none;
-    }
-
-    .overlay-container.click-through .trigger-indicator {
-      display: none;
-    }
-
-    /* Notification toast */
-    .bg-task-notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(212, 175, 55, 0.9);
-      color: #000;
-      padding: 8px 16px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: bold;
-      z-index: 1001;
-      animation: slideIn 0.3s ease;
-      max-width: 280px;
-      word-wrap: break-word;
-    }
-  </style>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>
   <div class="overlay-container interactive" id="overlayContainer">
     <!-- Header -->
     <div class="header" id="header">
-      <h2>Echosight <span id="shortcut-hint" style="font-size: 10px; opacity: 0.7;">(Interactive Mode - Ctrl+Shift+I to
-          exit)</span></h2>
+      <h2>Echosight <span class="shortcut-hint" id="shortcut-hint">(Interactive Mode)</span></h2>
       <div class="header-buttons">
-        <button class="header-btn" onclick="showSettingsModal()" title="Settings">⚙</button>
-        <button class="header-btn" onclick="minimizeOverlay()" title="Hide overlay">−</button>
-        <button class="header-btn close" onclick="closeOverlay()" title="Quit application">×</button>
+        <button class="header-btn" id="settingsButton" title="Settings">⚙</button>
+        <button class="header-btn" id="minimizeButton" title="Hide overlay">−</button>
+        <button class="header-btn close" id="closeButton" title="Quit application">×</button>
       </div>
     </div>
 
@@ -774,18 +25,17 @@
         <select class="template-select" id="templateSelect">
           <option value="">Select Template...</option>
         </select>
-        <button class="template-btn" onclick="loadTemplate()">Load</button>
-        <button class="template-btn" onclick="showSaveTemplateModal()">Save</button>
-        <button class="template-btn" onclick="exportTemplate()">Export</button>
-        <button class="template-btn" onclick="showImportModal()">Import</button>
-        <button class="template-btn danger" onclick="deleteTemplate()">Delete</button>
-        <button class="template-btn danger" onclick="clearAllTasks()">Clear All</button>
+        <button class="template-btn" id="loadTemplateButton">Load</button>
+        <button class="template-btn" id="showSaveTemplateButton">Save</button>
+        <button class="template-btn" id="exportTemplateButton">Export</button>
+        <button class="template-btn" id="showImportButton">Import</button>
+        <button class="template-btn danger" id="deleteTemplateButton">Delete</button>
+        <button class="template-btn danger" id="clearTasksButton">Clear All</button>
       </div>
       <div class="template-controls">
-        <button class="template-btn" onclick="loadCommunityTemplates()" style="background: #32cd32;">Community
+        <button class="template-btn success" id="communityTemplatesButton">Community
           Templates</button>
-        <button class="template-btn" onclick="toggleInteractiveMode()" id="interactiveToggle"
-          style="background: #32cd32;">Click-Through Mode</button>
+        <button class="template-btn success" id="interactiveToggle">Click-Through Mode</button>
       </div>
     </div>
 
@@ -794,12 +44,12 @@
       <!-- Add Task Input -->
       <div class="task-input-container">
         <input type="text" class="task-input" id="taskInput" placeholder="Add new task..." maxlength="100">
-        <button class="add-btn" onclick="addTask()">Add</button>
+        <button class="add-btn" id="addTaskButton">Add</button>
       </div>
 
       <!-- Progress Bar -->
       <div class="progress-bar">
-        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        <div class="progress-fill" id="progressFill"></div>
       </div>
       <div class="progress-text" id="progressText">0 / 0 tasks completed</div>
 
@@ -809,7 +59,7 @@
       </ul>
 
       <!-- Background Tasks (hidden when empty) -->
-      <div class="background-tasks-section" id="backgroundTasksSection" style="display: none;">
+      <div class="background-tasks-section" id="backgroundTasksSection">
         <div class="task-section-label background-label">
           Background Tasks
           <span class="background-count" id="backgroundCount"></span>
@@ -826,195 +76,222 @@
       <h3 class="modal-title">Save Template</h3>
       <input type="text" class="modal-input" id="templateNameInput" placeholder="Template name..." maxlength="50">
       <div class="modal-buttons">
-        <button class="modal-btn secondary" onclick="closeSaveTemplateModal()">Cancel</button>
-        <button class="modal-btn primary" onclick="saveTemplate()">Save</button>
+        <button class="modal-btn secondary" id="cancelSaveTemplateButton">Cancel</button>
+        <button class="modal-btn primary" id="saveTemplateButton">Save</button>
       </div>
     </div>
   </div>
 
   <!-- Import Template Modal -->
   <div class="modal" id="importTemplateModal">
-    <div class="modal-content" style="max-width: 400px;">
+    <div class="modal-content modal-content-import">
       <h3 class="modal-title">Import Template</h3>
-      <textarea class="modal-input" id="importTemplateInput" placeholder="Paste template JSON or share code here..."
-        rows="8" style="resize: vertical; font-family: monospace; font-size: 12px;"></textarea>
-      <div style="margin-bottom: 10px;">
-        <input type="file" id="importFileInput" accept=".json" style="display: none;"
-          onchange="handleFileImport(event)">
-        <button class="modal-btn secondary" onclick="document.getElementById('importFileInput').click()">Choose
+      <textarea class="modal-input template-import-input" id="importTemplateInput"
+        placeholder="Paste template JSON or share code here..." rows="8"></textarea>
+      <div class="modal-field-spacer">
+        <input type="file" id="importFileInput" accept=".json" class="hidden-file-input">
+        <button class="modal-btn secondary" id="chooseImportFileButton">Choose
           File</button>
-        <span style="font-size: 12px; margin-left: 10px;">JSON file, JSON text, or share code</span>
+        <span class="import-hint">JSON file, JSON text, or share code</span>
       </div>
       <div class="modal-buttons">
-        <button class="modal-btn secondary" onclick="closeImportModal()">Cancel</button>
-        <button class="modal-btn primary" onclick="importTemplate()">Import</button>
+        <button class="modal-btn secondary" id="cancelImportButton">Cancel</button>
+        <button class="modal-btn primary" id="importTemplateConfirmButton">Import</button>
       </div>
     </div>
   </div>
 
   <!-- Community Templates Modal -->
   <div class="modal" id="communityTemplatesModal">
-    <div class="modal-content" style="max-width: 500px; max-height: 80vh; overflow-y: auto;">
+    <div class="modal-content modal-content-community">
       <h3 class="modal-title">Community Templates</h3>
       <div id="communityTemplatesList"></div>
       <div class="modal-buttons">
-        <button class="modal-btn secondary" onclick="closeCommunityModal()">Close</button>
+        <button class="modal-btn secondary" id="closeCommunityButton">Close</button>
       </div>
     </div>
   </div>
 
   <!-- Settings Modal -->
   <div class="modal" id="settingsModal">
-    <div class="modal-content" style="max-width: 450px; max-height: 80vh; overflow-y: auto;"> <!-- For making shit scrollable -->
+    <div class="modal-content modal-content-settings">
       <h3 class="modal-title">Settings</h3>
 
       <!-- Transparency Settings -->
-      <div style="margin-bottom: 20px;">
-        <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 14px;">Appearance</h4>
-        <div style="margin-bottom: 15px;">
-          <label style="display: block; margin-bottom: 5px; font-size: 12px;">Transparency:</label>
-          <input type="range" id="transparencySlider" min="0" max="100" value="15" style="width: 100%;"
-            oninput="updateTransparency(this.value)">
-          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #aaa;">
+      <div class="settings-section">
+        <h4 class="settings-title">Appearance</h4>
+        <div class="setting-group">
+          <label class="setting-label" for="transparencySlider">Transparency:</label>
+          <input type="range" id="transparencySlider" min="0" max="100" value="70" class="range-input">
+          <div class="range-labels">
             <span>More Transparent</span>
-            <span id="transparencyValue">15% visible</span>
+            <span id="transparencyValue">70% visible</span>
             <span>More Solid</span>
           </div>
         </div>
 
-        <div style="margin-bottom: 10px;">
-          <label style="display: block; margin-bottom: 5px; font-size: 12px;">Theme:</label>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <select id="themeSelect" class="modal-input" style="margin-bottom: 0; flex: 1;"
-              onchange="updateTheme(this.value)">
+        <div class="setting-group compact">
+          <label class="setting-label" for="themeSelect">Theme:</label>
+          <div class="inline-control-row">
+            <select id="themeSelect" class="modal-input select-flex">
             </select>
-            <button class="modal-btn secondary" onclick="openThemesFolder()" 
-              style="font-size: 11px; padding: 6px 12px; white-space: nowrap;">
+            <button class="modal-btn secondary compact-action" id="openThemesFolderButton">
               Open Folder
             </button>
-            <button class="modal-btn secondary" onclick="reloadThemes()" 
-              style="font-size: 11px; padding: 6px 12px; white-space: nowrap;">
+            <button class="modal-btn secondary compact-action" id="reloadThemesButton">
               Reload
             </button>
           </div>
-          <div style="font-size: 10px; color: #aaa; margin-top: 4px;">
+          <div class="settings-help">
             Add custom themes as .json files in the themes folder
           </div>
         </div>
       </div>
 
       <!-- Hotkey Settings -->
-      <div style="margin-bottom: 20px;">
-        <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 14px;">Hotkeys</h4>
+      <div class="settings-section">
+        <h4 class="settings-title">Hotkeys</h4>
 
-        <div style="margin-bottom: 12px;">
-          <label style="display: block; margin-bottom: 4px; font-size: 12px;">Toggle Overlay Visibility:</label>
-          <div style="display: flex; gap: 8px; align-items: center;">
+        <div class="hotkey-row">
+          <label class="setting-label" for="toggleVisibilityHotkey">Toggle Overlay Visibility:</label>
+          <div class="inline-control-row">
             <input type="text" id="toggleVisibilityHotkey" class="modal-input" placeholder="Click Record and press keys"
-              style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
-            <button class="modal-btn secondary" onclick="recordHotkey('toggleVisibility')" id="recordBtn1"
-              style="font-size: 11px; padding: 4px 8px;">
+              readonly>
+            <button class="modal-btn secondary record-button" id="recordBtn1">
               Record
             </button>
           </div>
         </div>
 
-        <div style="margin-bottom: 12px;">
-          <label style="display: block; margin-bottom: 4px; font-size: 12px;">Toggle Interactive Mode:</label>
-          <div style="display: flex; gap: 8px; align-items: center;">
+        <div class="hotkey-row">
+          <label class="setting-label" for="toggleInteractiveHotkey">Toggle Interactive Mode:</label>
+          <div class="inline-control-row">
             <input type="text" id="toggleInteractiveHotkey" class="modal-input"
               placeholder="Click Record and press keys"
-              style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
-            <button class="modal-btn secondary" onclick="recordHotkey('toggleInteractive')" id="recordBtn2"
-              style="font-size: 11px; padding: 4px 8px;">
+              readonly>
+            <button class="modal-btn secondary record-button" id="recordBtn2">
               Record
             </button>
           </div>
         </div>
 
-        <div style="margin-bottom: 12px;">
-          <label style="display: block; margin-bottom: 4px; font-size: 12px;">Complete Next Task:</label>
-          <div style="display: flex; gap: 8px; align-items: center;">
+        <div class="hotkey-row">
+          <label class="setting-label" for="completeNextTaskHotkey">Complete Next Task:</label>
+          <div class="inline-control-row">
             <input type="text" id="completeNextTaskHotkey" class="modal-input" placeholder="Click Record and press keys"
-              style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
-            <button class="modal-btn secondary" onclick="recordHotkey('completeNextTask')" id="recordBtn3"
-              style="font-size: 11px; padding: 4px 8px;">
+              readonly>
+            <button class="modal-btn secondary record-button" id="recordBtn3">
               Record
             </button>
           </div>
         </div>
 
-        <div style="font-size: 11px; color: #aaa; margin-top: 8px;">
+        <div class="hotkey-row">
+          <label class="setting-label" for="undoLastActionHotkey">Undo Last Task Action:</label>
+          <div class="inline-control-row">
+            <input type="text" id="undoLastActionHotkey" class="modal-input" placeholder="Click Record and press keys"
+              readonly>
+            <button class="modal-btn secondary record-button" id="recordBtn4">
+              Record
+            </button>
+          </div>
+        </div>
+
+        <div class="hotkey-row">
+          <label class="setting-label" for="redoLastActionHotkey">Forward Last Task Action:</label>
+          <div class="inline-control-row">
+            <input type="text" id="redoLastActionHotkey" class="modal-input" placeholder="Click Record and press keys"
+              readonly>
+            <button class="modal-btn secondary record-button" id="recordBtn5">
+              Record
+            </button>
+          </div>
+        </div>
+
+        <div class="hotkey-help">
           Click "Record" and press your desired key combination.<br>
           <strong>Avoid single letter keys (like Shift+I) to prevent typing conflicts!</strong><br>
-          Good examples: Ctrl+F1, Alt+Q, Ctrl+Shift+T<br>
-          Changes take effect after restarting the overlay.<br>
-          <button class="modal-btn secondary" onclick="resetHotkeys()"
-            style="font-size: 10px; padding: 3px 8px; margin-top: 5px;">
+          Good examples: Cmd/Ctrl+F1, Alt+Q, Cmd/Ctrl+Shift+T<br>
+          Changes take effect as soon as settings are saved.<br>
+          <button class="modal-btn secondary reset-hotkeys-button" id="resetHotkeysButton">
             Reset to Defaults
           </button>
         </div>
       </div>
 
       <!-- Position Settings -->
-      <div style="margin-bottom: 20px;">
-        <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 14px;">Position</h4>
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="modal-btn secondary" onclick="resetPosition()" style="font-size: 12px; padding: 6px 12px;">
+      <div class="settings-section">
+        <h4 class="settings-title">Position</h4>
+        <div class="position-row">
+          <button class="modal-btn secondary compact-action" id="resetPositionButton">
             Reset to Top-Right
           </button>
         </div>
       </div>
 
       <div class="modal-buttons">
-        <button class="modal-btn secondary" onclick="closeSettingsModal()">Cancel</button>
-        <button class="modal-btn primary" onclick="saveSettings()">Save Settings</button>
+        <button class="modal-btn secondary" id="closeSettingsButton">Cancel</button>
+        <button class="modal-btn primary" id="saveSettingsButton">Save Settings</button>
       </div>
     </div>
   </div>
 
   <!-- Add Sub-Task Modal -->
-<div class="modal" id="addSubTaskModal">
-  <div class="modal-content" style="max-width: 350px;">
-    <h3 class="modal-title">Add Sub-Task</h3>
-    <input type="text" class="modal-input" id="subTaskInput" placeholder="Enter sub-task..." maxlength="100">
-    <div class="modal-buttons">
-      <button class="modal-btn secondary" onclick="closeSubTaskModal()">Cancel</button>
-      <button class="modal-btn primary" onclick="saveSubTask()">Add</button>
+  <div class="modal" id="addSubTaskModal">
+    <div class="modal-content modal-content-subtask">
+      <h3 class="modal-title">Add Sub-Task</h3>
+      <input type="text" class="modal-input" id="subTaskInput" placeholder="Enter sub-task..." maxlength="100">
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" id="closeSubTaskButton">Cancel</button>
+        <button class="modal-btn primary" id="saveSubTaskButton">Add</button>
+      </div>
     </div>
   </div>
-</div>
 
   <!-- Configure Triggers Modal -->
   <div class="modal" id="configureTriggersModal">
-    <div class="modal-content" style="max-width: 450px; max-height: 80vh; overflow-y: auto;">
+    <div class="modal-content modal-content-triggers">
       <h3 class="modal-title">Configure Triggers</h3>
-      <p style="font-size: 12px; color: #aaa; margin-bottom: 10px;">
+      <p class="trigger-description">
         When this task is completed, the selected background tasks will activate.
       </p>
-      <div id="triggerTaskList" style="max-height: 300px; overflow-y: auto;"></div>
-      <div style="margin-top: 10px; border-top: 1px solid #444; padding-top: 10px;">
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <input type="text" class="modal-input" id="newBgTaskInput" placeholder="New background task..." maxlength="100" style="margin-bottom: 0; flex: 1;">
-          <button class="modal-btn secondary" onclick="addNewBackgroundTaskFromTriggerModal()" style="font-size: 11px; white-space: nowrap;">
+      <div id="triggerTaskList" class="trigger-list"></div>
+      <div class="trigger-builder">
+        <div class="inline-control-row">
+          <input type="text" class="modal-input select-flex" id="newBgTaskInput"
+            placeholder="New background task..." maxlength="100">
+          <button class="modal-btn secondary compact-action" id="addNewBgTaskButton">
             + Add
           </button>
         </div>
-        <div style="margin-top: 8px;">
-          <label style="font-size: 11px; color: #aaa; display: flex; align-items: center; gap: 6px;">
+        <div class="checkbox-group">
+          <label class="checkbox-row">
             <input type="checkbox" id="bgTaskHighPriority"> High Priority
           </label>
         </div>
       </div>
-      <div class="modal-buttons" style="margin-top: 15px;">
-        <button class="modal-btn secondary" onclick="closeTriggersModal()">Cancel</button>
-        <button class="modal-btn primary" onclick="saveTriggers()">Save</button>
+      <div class="modal-buttons modal-buttons-spaced">
+        <button class="modal-btn secondary" id="closeTriggersButton">Cancel</button>
+        <button class="modal-btn primary" id="saveTriggersButton">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Dialog Modal -->
+  <div class="modal app-dialog-modal" id="appDialogModal" aria-hidden="true" role="alertdialog"
+    aria-labelledby="appDialogTitle" aria-describedby="appDialogMessage">
+    <div class="modal-content modal-content-dialog app-dialog-tone-info">
+      <h3 class="modal-title" id="appDialogTitle">Echosight</h3>
+      <p class="app-dialog-message" id="appDialogMessage"></p>
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" id="appDialogCancelButton">Cancel</button>
+        <button class="modal-btn primary" id="appDialogConfirmButton">OK</button>
       </div>
     </div>
   </div>
 
   <!-- IMPORTANT Import as ES module, not regular script -->
-  <script type="module" src="./renderer.js"></script>
+  <script type="module" src="./renderer.ts"></script>
 </body>
 
 </html>
