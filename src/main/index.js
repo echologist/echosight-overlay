@@ -12,7 +12,8 @@ let isInteractive = true; // Start interactive so inputs work
 let currentHotkeys = {
   toggleVisibility: 'CommandOrControl+Shift+T',
   toggleInteractive: 'CommandOrControl+Shift+I',
-  completeNextTask: 'CommandOrControl+Shift+N'
+  completeNextTask: 'CommandOrControl+Shift+N',
+  undoLastAction: 'CommandOrControl+Shift+Z'
 };
 
 // Data storage paths - Use proper user data directory
@@ -412,6 +413,7 @@ class PoE2TaskOverlay {
         currentHotkeys.toggleVisibility = this.convertHotkeyFormat(settings.hotkeys.toggleVisibility);
         currentHotkeys.toggleInteractive = this.convertHotkeyFormat(settings.hotkeys.toggleInteractive);
         currentHotkeys.completeNextTask = this.convertHotkeyFormat(settings.hotkeys.completeNextTask);
+        currentHotkeys.undoLastAction = this.convertHotkeyFormat(settings.hotkeys.undoLastAction || 'Ctrl+Shift+Z');
         console.log('Updated currentHotkeys:', currentHotkeys);
       }
     } catch (error) {
@@ -589,6 +591,15 @@ class PoE2TaskOverlay {
               }
             }
           },
+          {
+            label: 'Undo Last Task Action',
+            accelerator: currentHotkeys.undoLastAction.replace('CommandOrControl', 'Ctrl'),
+            click: () => {
+              if (overlayWindow && overlayWindow.isVisible()) {
+                overlayWindow.webContents.send('undo-last-task-action');
+              }
+            }
+          },
           { type: 'separator' },
           { role: 'quit' }
         ]
@@ -648,14 +659,23 @@ class PoE2TaskOverlay {
         }
       });
 
+      // Undo last task action
+      const undoRet = globalShortcut.register(currentHotkeys.undoLastAction, () => {
+        console.log('Undo last task action shortcut triggered!');
+        if (overlayWindow && overlayWindow.isVisible()) {
+          overlayWindow.webContents.send('undo-last-task-action');
+        }
+      });
+
       // Log results with better formatting
       console.log('Hotkey Registration Results:');
       console.log(`  ${currentHotkeys.toggleVisibility}: ${toggleRet ? 'SUCCESS' : 'FAILED'}`);
       console.log(`  ${currentHotkeys.toggleInteractive}: ${interactiveRet ? 'SUCCESS' : 'FAILED'}`);
       console.log(`  ${currentHotkeys.completeNextTask}: ${nextTaskRet ? 'SUCCESS' : 'FAILED'}`);
+      console.log(`  ${currentHotkeys.undoLastAction}: ${undoRet ? 'SUCCESS' : 'FAILED'}`);
 
-      const successCount = [toggleRet, interactiveRet, nextTaskRet].filter(Boolean).length;
-      console.log(`Total: ${successCount}/3 hotkeys registered`);
+      const successCount = [toggleRet, interactiveRet, nextTaskRet, undoRet].filter(Boolean).length;
+      console.log(`Total: ${successCount}/4 hotkeys registered`);
 
       if (successCount === 0) {
         console.error('No hotkeys registered successfully');
@@ -919,20 +939,24 @@ class PoE2TaskOverlay {
       const newToggleVisibility = this.convertHotkeyFormat(hotkeys.toggleVisibility);
       const newToggleInteractive = this.convertHotkeyFormat(hotkeys.toggleInteractive);
       const newCompleteNextTask = this.convertHotkeyFormat(hotkeys.completeNextTask);
+      const newUndoLastAction = this.convertHotkeyFormat(hotkeys.undoLastAction || 'Ctrl+Shift+Z');
       
       console.log('Converted hotkeys:', {
         visibility: newToggleVisibility,
         interactive: newToggleInteractive,
-        completeNextTask: newCompleteNextTask
+        completeNextTask: newCompleteNextTask,
+        undoLastAction: newUndoLastAction
       });
       
       if (newToggleVisibility !== currentHotkeys.toggleVisibility || 
           newToggleInteractive !== currentHotkeys.toggleInteractive ||
-          newCompleteNextTask !== currentHotkeys.completeNextTask) {
+          newCompleteNextTask !== currentHotkeys.completeNextTask ||
+          newUndoLastAction !== currentHotkeys.undoLastAction) {
         
         currentHotkeys.toggleVisibility = newToggleVisibility;
         currentHotkeys.toggleInteractive = newToggleInteractive;
         currentHotkeys.completeNextTask = newCompleteNextTask;
+        currentHotkeys.undoLastAction = newUndoLastAction;
         
         this.registerHotkeys();
       }

@@ -944,6 +944,18 @@
           </div>
         </div>
 
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; margin-bottom: 4px; font-size: 12px;">Undo Last Task Action:</label>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="text" id="undoLastActionHotkey" class="modal-input" placeholder="Click Record and press keys"
+              style="font-family: monospace; font-size: 12px; margin-bottom: 0; flex: 1;" readonly>
+            <button class="modal-btn secondary" onclick="recordHotkey('undoLastAction')" id="recordBtn4"
+              style="font-size: 11px; padding: 4px 8px;">
+              Record
+            </button>
+          </div>
+        </div>
+
         <div style="font-size: 11px; color: #aaa; margin-top: 8px;">
           Click "Record" and press your desired key combination.<br>
           <strong>Avoid single letter keys (like Shift+I) to prevent typing conflicts!</strong><br>

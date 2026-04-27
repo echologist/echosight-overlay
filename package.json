@@ -1,11 +1,15 @@
 {
   "name": "echosight",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Simple task management overlay for Path of Exile 2",
   "main": "dist-electron/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
+    "test": "node tests/run-tests.js",
+    "test:unit": "node tests/run-tests.js unit",
+    "test:integration": "node tests/run-tests.js integration",
+    "test:e2e": "node tests/run-tests.js e2e",
     "preview": "electron-vite preview",
     "start": "electron-vite preview",
     "build-win": "npm run build && electron-builder --win --publish=never",
