@@ -1,5 +1,9 @@
 # Echosight
 
+<p align="center">
+  <img src="docs/assets/icon.png" alt="Echosight logo" width="160">
+</p>
+
 Echosight is a desktop task overlay for persistent checklists. It was originally built for Path of Exile players, including Path of Exile 1 and 2, but it also works as a general overlay for office work, live operations, study sessions, and other workflows where a compact task list needs to stay visible.
 
 The project is built with Electron, TypeScript, and Vite. It stores user tasks, templates, settings, and themes locally.
