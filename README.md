@@ -1,203 +1,147 @@
-# Echosight - PoE Task Overlay
+# Echosight
 
-A lightweight, customizable task management overlay designed specifically for Path of Exile players. Keep track of your league start goals, character progression, and endgame objectives without ever leaving the game!
+Echosight is a desktop task overlay for persistent checklists. It was originally built for Path of Exile players, including Path of Exile 1 and 2, but it also works as a general overlay for office work, live operations, study sessions, and other workflows where a compact task list needs to stay visible.
 
+The project is built with Electron, TypeScript, and Vite. It stores user tasks, templates, settings, and themes locally.
 
-## ✨ Features
+## Features
 
-### 🎯 **Smart Overlay System**
-- **Click-Through Mode**: Transparent overlay that doesn't interfere with gameplay
-- **Interactive Mode**: Full-featured task management when you need it
-- **Auto-Detection**: Automatically appears when PoE is running
-- **Always On Top**: Stays visible during intense gameplay moments
+- Always-on-top overlay window with click-through and interactive modes.
+- Hierarchical task lists with subtasks, progress tracking, completion state, and deletion.
+- Undo and redo for recent task actions.
+- Drag-and-drop task reordering.
+- Background tasks that can be activated by completing specific main tasks.
+- Template import, export, save, and load support.
+- Built-in community templates for common game and workflow goals.
+- Theme support with bundled themes and local custom theme files.
+- Configurable transparency, window position, and global hotkeys.
 
-### 📋 **Task Management**
-- ✅ Add custom tasks for any situation
-- ✅ Visual progress tracking with completion percentage
-- ✅ Check off completed objectives with satisfying feedback
-- ✅ Delete unwanted or outdated tasks
-- ✅ Undo recent task actions with `Ctrl+Shift+Z` and forward them again with `Ctrl+Shift+Y`
-- ✅ Clean, minimal interface that doesn't clutter your screen
-- ✅ Hierarchical sub-tasks with parent/child relationships
-- ✅ Drag-and-drop reordering
+## Controls
 
-### ⚡ **Background Tasks (New in v1.1.0)**
-- 🔄 Create **background tasks** that activate when a main task is completed
-- 🔗 Configure **triggers** on any task via right-click > "Configure Triggers"
-- 📌 Background tasks appear in a separate section below the main task list
-- 🎯 Main chain progression (including the Ctrl+Shift+N hotkey) is unaffected
-- 🔴 High-priority background tasks get a visual pulsing indicator
-- ⏱️ Optional expiration timers for time-limited objectives
-- 🔔 Notification toast when background tasks activate
+Default hotkeys:
 
-### 📁 **Template System**
-- 💾 Save task lists as reusable templates
-- 🔄 Load pre-made templates for different scenarios
-- 📤 Export templates to share with friends
-- 📥 Import templates from the community
-- 🌟 Built-in community templates for common goals
+- `Ctrl+Shift+T`: show or hide the overlay.
+- `Ctrl+Shift+I`: toggle interactive mode.
+- `Ctrl+Shift+N`: complete the next available main task.
+- `Ctrl+Shift+Z`: undo the last task action.
+- `Ctrl+Shift+Y`: redo the last undone task action.
 
-### ⚙️ **Fully Customizable**
-- 🎨 Adjustable transparency (10% to 70% visibility)
-- 🎨 Multiple background styles (Dark, Light, Transparent)
-- ⌨️ Custom hotkeys with intuitive recording system
-- 📍 Draggable window positioning
-- 💾 All settings persist between sessions
+Hotkeys can be changed from the settings window.
 
-### 🌟 **Built-in Community Templates**
-- **League Start Essentials**: Core early-game objectives
-- **Endgame Progression**: Pinnacle bosses and atlas goals  
-- **New Character Setup**: Build planning checklist
-- **Currency Goals**: Economic milestones
-- **HC/SSF Priorities**: Hardcore-focused objectives
-- **Crafting Checklist**: Gear progression steps
+## Modes
 
-## 🚀 Quick Start
+### Interactive Mode
 
-### Build from Source
+Use interactive mode to manage the overlay:
+
+- Add, complete, delete, and reorder tasks.
+- Configure background task triggers.
+- Save or load task templates.
+- Change theme, transparency, hotkeys, and position.
+
+### Click-Through Mode
+
+Use click-through mode when the overlay should remain visible without capturing mouse input. Editing controls are hidden, and mouse input passes through to the application underneath.
+
+## Background Tasks
+
+Background tasks are optional objectives that become relevant after a main task is completed. For example, a campaign task can activate a reminder to watch for a specific item type, or an office checklist can activate follow-up reminders after a review step is completed.
+
+To configure them:
+
+1. Right-click a task.
+2. Select `Configure Triggers`.
+3. Create or select background tasks.
+4. Save the trigger configuration.
+
+When the trigger task is completed, linked background tasks appear in the background task section. The `Ctrl+Shift+N` hotkey only advances main tasks.
+
+## Templates
+
+Templates allow task lists to be reused or shared.
+
+- Save the current task list as a named template.
+- Load a saved template when starting a new run, character, project, or recurring workflow.
+- Export templates as JSON files.
+- Import shared template JSON files.
+- Use bundled community templates as a starting point.
+
+Template data preserves hierarchy, background task configuration, and trigger relationships.
+
+## Themes
+
+Echosight ships with several bundled themes and supports custom theme folders. Themes are stored under the application data directory and can include JSON configuration, CSS, and image assets.
+
+Use the settings window to open the local themes folder or reload themes after editing them.
+
+## Development
+
+Requirements:
+
+- Node.js `^20.19.0` or `>=22.12.0`
+- npm
+
+Install dependencies:
+
 ```bash
-# Clone the repository
-git clone https://github.com/echologist/echosight-overlay.git
-cd echosight-overlay
-
-# Install dependencies
 npm install
-
-# Start development with hot reload
-npm run dev
-
-# Build for production
-npm run build
-
-# Test production build
-npm run preview
-
-# Create distributable package
-npm run pack
-
-# Type-check the TypeScript code
-npm run typecheck
 ```
 
-## 🎮 Usage Guide
+Run the development app:
 
-### Basic Controls
-- **Show/Hide Overlay**: `Ctrl+Shift+T` (customizable)
-- **Toggle Interactive Mode**: `Ctrl+Shift+I` (customizable)
-- **Add Task**: Type in input field and press Enter
-- **Complete Task**: Click the checkbox `Ctrl+Shift+N` (customizable)
-- **Undo Last Task Action**: `Ctrl+Shift+Z` (customizable)
-- **Forward Last Task Action**: `Ctrl+Shift+Y` (customizable)
-- **Delete Task**: Click the × button next to any task and confirm
+```bash
+npm run dev
+```
 
-### Two Modes Explained
+Run checks:
 
-#### 🌫️ Click-Through Mode (Default)
-Perfect for gaming - you see your tasks but can't accidentally click on them:
-- Semi-transparent overlay
-- Mouse clicks pass through to the game
-- Shows only essential information (tasks + progress)
-- No distracting buttons or controls
+```bash
+npm run typecheck
+npm test
+npm run build
+```
 
-#### ⚡ Interactive Mode  
-Full functionality when you need to manage tasks:
-- Interactive overlay
-- Add, edit, and organize tasks
-- Access settings and templates
-- Import/export functionality
+Create a packaged build:
 
-### Template System
+```bash
+npm run pack
+```
 
-#### Creating Templates
-1. Add your desired tasks
-2. Click "Save" in template section
-3. Enter a descriptive name
-4. Template is saved for future use
+Platform-specific builds:
 
-#### Using Community Templates
-1. Click "Community Templates"
-2. Browse available templates
-3. Click "Add to My Templates"
-4. Load whenever starting a new character/league
+```bash
+npm run build-win
+npm run build-mac
+npm run build-linux
+```
 
-#### Sharing Templates
-1. Select your template
-2. Click "Export" to download JSON file
-3. Share the file with friends
-4. Others can import using "Import" button
+## Project Structure
 
-## ⚙️ Customization
+- `src/main`: Electron main process, hotkeys, IPC, theme loading, and overlay window management.
+- `src/preload`: preload bridge exposed to the renderer.
+- `src/renderer`: renderer UI, task workflow, settings, templates, themes, and dialogs.
+- `src/shared`: shared TypeScript types and utilities.
+- `data`: default settings, templates, and bundled themes.
+- `tests`: unit tests for main and renderer modules.
 
-### Appearance Settings
-- **Transparency**: Adjust from 10% (barely visible) to 70% (more solid)
-- **Background Style**: 
-  - Dark (default black background)
-  - Light (white background with dark text)
-  - Transparent (text only with shadows) (fake news)
+## Safety
 
-### Hotkey Customization
-- Click "Record" next to any hotkey
-- Press your desired key combination
-- Avoid single letters (like Shift+I) to prevent typing conflicts
-- Good examples: `Ctrl+F1`, `Alt+Q`, `Ctrl+Shift+T`
+Echosight is a manual overlay. For game use, it does not:
 
-### Background Tasks
-Background tasks are objectives that become relevant after completing a specific task but shouldn't interrupt your main progression. For example, after completing Act 2, you might want to "Watch for 4-linked items" — this stays visible as a background task while you continue through the main quest line.
+- Read game memory.
+- Read or modify game files.
+- Send gameplay input.
+- Automate gameplay.
+- Inspect network traffic.
 
-#### Setting Up Background Tasks
-1. Right-click any task and select "Configure Triggers"
-2. Create new background tasks using the input field in the modal
-3. Check the background tasks you want to link as triggers
-4. Click "Save" — a lightning bolt icon appears on the trigger task
-5. When you complete the trigger task, the linked background tasks activate and appear in the "Background Tasks" section
+It behaves like a task list displayed above another application. Users are responsible for making sure any third-party tool use complies with the rules that apply to their game, workplace, or platform.
 
-#### How They Work
-- Background tasks start **dormant** (invisible) until triggered
-- Once activated, they appear in a separate section below your main tasks
-- They can be completed independently at any time
-- The `Ctrl+Shift+N` hotkey only advances main chain tasks
-- The progress bar counts both main and active background tasks
-- Templates preserve background task configurations
+## Credits
 
-### Best Practices
-- Use `Ctrl+Key` or `Alt+Key` combinations
-- Avoid conflicts with PoE's built-in shortcuts
-- Function keys (F1-F12) work well with modifiers
+Major TypeScript refactor, renderer modularization, tests, and theme work by Flycro.
 
-## 🔧 Technical Details
+Maintained by Echologist.
 
-### Built With
-- **Electron**: Cross-platform desktop app framework
-- **Node.js**: JavaScript runtime
-- **Native Windows APIs**: For overlay functionality and hotkey registration
+## License
 
-### System Requirements
-- Windows 10/11, macOS, or Linux (64-bit)
-- ~150MB disk space
-- No additional dependencies required
-
-### Performance
-- Minimal CPU usage (~1%)
-- Low memory footprint (~30MB RAM)
-- No impact on game performance
-- Efficient click-through detection
-
-## 🙏 Credits
-
-### Inspiration
-- Luca lol
-
-### Safe for Path of Exile
-- ✅ **No game memory reading** - Only displays user-entered information
-- ✅ **No automation** - Requires manual user input for all actions
-- ✅ **No game file modification** - Pure overlay application
-- ✅ **Similar to external tools** like Discord overlay, hardware monitors, etc.
-
-### What This App Does NOT Do
-- ❌ Read game data automatically
-- ❌ Send keystrokes or clicks to the game
-- ❌ Modify game files or memory
-- ❌ Provide unfair competitive advantages
-- ❌ Violate any game terms of service
-
-*This overlay is essentially a smart notepad that floats over your game*
+MIT
