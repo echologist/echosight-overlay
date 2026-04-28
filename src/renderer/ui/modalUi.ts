@@ -12,8 +12,16 @@ const FOCUSABLE_SELECTOR = [
   '[contenteditable="true"]',
   '[tabindex]'
 ].join(',');
+const ESCAPE_CLOSE_SELECTOR = [
+  '[data-modal-close]',
+  'button[id*="cancel"]',
+  'button[id*="Cancel"]',
+  'button[id*="close"]',
+  'button[id*="Close"]'
+].join(',');
 
 export interface ShowModalOptions {
+  closeOnEscape?: boolean;
   focusSelector?: string;
   focusDelayMs?: number;
   focusFirst?: boolean;
@@ -26,6 +34,7 @@ export interface ShowModalOptions {
 }
 
 interface ModalFocusState {
+  closeOnEscape: boolean;
   modal: HTMLElement;
   previousFocus: Element | null;
   restoreFocus: boolean;
@@ -121,10 +130,11 @@ function installModalFocusState(modal: HTMLElement, options: ShowModalOptions): 
 
   const state: ModalFocusState = {
     modal,
+    closeOnEscape: options.closeOnEscape ?? true,
     previousFocus: document.activeElement,
     restoreFocus: options.restoreFocus ?? true,
     trapFocus: options.trapFocus ?? true,
-    handleKeydown: event => trapModalFocus(state, event)
+    handleKeydown: event => handleModalKeydown(state, event)
   };
 
   activeModalStack.push(state);
@@ -151,14 +161,23 @@ function removeModalFocusState(modal: HTMLElement, restoreFocus: boolean): void 
   }
 }
 
+function handleModalKeydown(state: ModalFocusState, event: KeyboardEvent): void {
+  if (!isTopVisibleModalState(state)) {
+    return;
+  }
+
+  if (event.key === 'Escape' && state.closeOnEscape) {
+    event.preventDefault();
+    event.stopPropagation();
+    closeModalFromEscape(state.modal);
+    return;
+  }
+
+  trapModalFocus(state, event);
+}
+
 function trapModalFocus(state: ModalFocusState, event: KeyboardEvent): void {
-  if (
-    event.key !== 'Tab' ||
-    !state.trapFocus ||
-    getTopModalState() !== state ||
-    !document.contains(state.modal) ||
-    !state.modal.classList.contains(VISIBLE_MODAL_CLASS)
-  ) {
+  if (event.key !== 'Tab' || !state.trapFocus) {
     return;
   }
 
@@ -193,6 +212,35 @@ function trapModalFocus(state: ModalFocusState, event: KeyboardEvent): void {
 
 function getTopModalState(): ModalFocusState | null {
   return activeModalStack[activeModalStack.length - 1] ?? null;
+}
+
+function isTopVisibleModalState(state: ModalFocusState): boolean {
+  return getTopModalState() === state &&
+    document.contains(state.modal) &&
+    state.modal.classList.contains(VISIBLE_MODAL_CLASS);
+}
+
+function closeModalFromEscape(modal: HTMLElement): void {
+  const closeControl = findEscapeCloseControl(modal);
+  if (closeControl) {
+    closeControl.click();
+    return;
+  }
+
+  if (modal.id) {
+    hideModal(modal.id);
+    return;
+  }
+
+  modal.classList.remove(VISIBLE_MODAL_CLASS);
+  modal.setAttribute('aria-hidden', 'true');
+  modal.removeAttribute('aria-modal');
+  removeModalFocusState(modal, true);
+}
+
+function findEscapeCloseControl(modal: HTMLElement): HTMLElement | null {
+  return Array.from(modal.querySelectorAll<HTMLElement>(ESCAPE_CLOSE_SELECTOR))
+    .find(isFocusableElement) ?? null;
 }
 
 function restorePreviousFocus(previousFocus: Element | null): void {

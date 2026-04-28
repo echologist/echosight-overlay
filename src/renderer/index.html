@@ -76,7 +76,7 @@
       <h3 class="modal-title">Save Template</h3>
       <input type="text" class="modal-input" id="templateNameInput" placeholder="Template name..." maxlength="50">
       <div class="modal-buttons">
-        <button class="modal-btn secondary" id="cancelSaveTemplateButton">Cancel</button>
+        <button class="modal-btn secondary" id="cancelSaveTemplateButton" data-modal-close>Cancel</button>
         <button class="modal-btn primary" id="saveTemplateButton">Save</button>
       </div>
     </div>
@@ -95,7 +95,7 @@
         <span class="import-hint">JSON file, JSON text, or share code</span>
       </div>
       <div class="modal-buttons">
-        <button class="modal-btn secondary" id="cancelImportButton">Cancel</button>
+        <button class="modal-btn secondary" id="cancelImportButton" data-modal-close>Cancel</button>
         <button class="modal-btn primary" id="importTemplateConfirmButton">Import</button>
       </div>
     </div>
@@ -107,7 +107,7 @@
       <h3 class="modal-title">Community Templates</h3>
       <div id="communityTemplatesList"></div>
       <div class="modal-buttons">
-        <button class="modal-btn secondary" id="closeCommunityButton">Close</button>
+        <button class="modal-btn secondary" id="closeCommunityButton" data-modal-close>Close</button>
       </div>
     </div>
   </div>
@@ -230,7 +230,7 @@
       </div>
 
       <div class="modal-buttons">
-        <button class="modal-btn secondary" id="closeSettingsButton">Cancel</button>
+        <button class="modal-btn secondary" id="closeSettingsButton" data-modal-close>Cancel</button>
         <button class="modal-btn primary" id="saveSettingsButton">Save Settings</button>
       </div>
     </div>
@@ -242,7 +242,7 @@
       <h3 class="modal-title">Add Sub-Task</h3>
       <input type="text" class="modal-input" id="subTaskInput" placeholder="Enter sub-task..." maxlength="100">
       <div class="modal-buttons">
-        <button class="modal-btn secondary" id="closeSubTaskButton">Cancel</button>
+        <button class="modal-btn secondary" id="closeSubTaskButton" data-modal-close>Cancel</button>
         <button class="modal-btn primary" id="saveSubTaskButton">Add</button>
       </div>
     </div>
@@ -271,7 +271,7 @@
         </div>
       </div>
       <div class="modal-buttons modal-buttons-spaced">
-        <button class="modal-btn secondary" id="closeTriggersButton">Cancel</button>
+        <button class="modal-btn secondary" id="closeTriggersButton" data-modal-close>Cancel</button>
         <button class="modal-btn primary" id="saveTriggersButton">Save</button>
       </div>
     </div>
@@ -284,7 +284,7 @@
       <h3 class="modal-title" id="appDialogTitle">Echosight</h3>
       <p class="app-dialog-message" id="appDialogMessage"></p>
       <div class="modal-buttons">
-        <button class="modal-btn secondary" id="appDialogCancelButton">Cancel</button>
+        <button class="modal-btn secondary" id="appDialogCancelButton" data-modal-close>Cancel</button>
         <button class="modal-btn primary" id="appDialogConfirmButton">OK</button>
       </div>
     </div>
