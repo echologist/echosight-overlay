@@ -52,7 +52,11 @@ export function registerThemeIpc(
 
   ipcMain.handle('open-themes-folder', async () => {
     try {
-      await options.openPath(options.themesDir);
+      const errorMessage = await options.openPath(options.themesDir);
+      if (errorMessage) {
+        return { success: false, error: errorMessage };
+      }
+
       return { success: true };
     } catch (error) {
       logger.error('Failed to open themes folder:', error);

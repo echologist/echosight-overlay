@@ -12,7 +12,7 @@ export interface DataPaths {
 export function createDataPaths(app: Pick<App, 'isPackaged' | 'getPath'>, appDir: string): DataPaths {
   const dataDir = app.isPackaged
     ? path.join(app.getPath('userData'), 'data')
-    : path.join(appDir, 'data');
+    : getDevelopmentDataDir(appDir);
 
   return {
     DATA_DIR: dataDir,
@@ -21,4 +21,8 @@ export function createDataPaths(app: Pick<App, 'isPackaged' | 'getPath'>, appDir
     TEMPLATES_FILE: path.join(dataDir, 'templates.json'),
     SETTINGS_FILE: path.join(dataDir, 'settings.json')
   };
+}
+
+export function getDevelopmentDataDir(appDir: string): string {
+  return path.resolve(appDir, '..', '..', 'data');
 }

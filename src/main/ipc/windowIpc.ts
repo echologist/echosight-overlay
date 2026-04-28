@@ -8,6 +8,7 @@ import {
   showOverlayWindow,
   toggleOverlayWindow
 } from '../overlay/windowActions';
+import { getOverlayAnchorPosition } from '../overlay/windowPlacement';
 
 export interface WindowIpcOptions {
   getWindow: () => BrowserWindow | null;
@@ -57,8 +58,10 @@ export function registerWindowIpc(ipcMain: IpcMain, options: WindowIpcOptions): 
     const window = options.getWindow();
     if (window) {
       const primaryDisplay = screen.getPrimaryDisplay();
-      const { width } = primaryDisplay.workAreaSize;
-      window.setPosition(width - 520, 20);
+      const [x, y] = getOverlayAnchorPosition(primaryDisplay.workArea, {
+        width: window.getBounds().width
+      });
+      window.setPosition(x, y);
     }
   });
 

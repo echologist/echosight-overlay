@@ -4,6 +4,7 @@ import {
   keepOverlayOnTop,
   showOverlayOnAllWorkspaces
 } from './windowActions';
+import { getOverlayWindowBounds } from './windowPlacement';
 
 export interface CreateOverlayWindowOptions {
   preloadPath: string;
@@ -17,16 +18,17 @@ export interface CreateOverlayWindowOptions {
 
 export function createOverlayWindow(options: CreateOverlayWindowOptions): BrowserWindow {
   const primaryDisplay = screen.getPrimaryDisplay();
-  const { width } = primaryDisplay.workAreaSize;
+  const bounds = getOverlayWindowBounds(primaryDisplay.workArea);
 
   const window = new BrowserWindow({
-    width: 500,
-    height: 700,
+    width: bounds.width,
+    height: bounds.height,
     minWidth: 450,
     minHeight: 600,
-    x: width - 520,
-    y: 20,
+    x: bounds.x,
+    y: bounds.y,
     transparent: true,
+    backgroundColor: '#00000000',
     frame: false,
     alwaysOnTop: true,
     skipTaskbar: true,
@@ -100,7 +102,7 @@ export function createOverlayWindow(options: CreateOverlayWindowOptions): Browse
 }
 
 function loadRenderer(window: BrowserWindow, options: CreateOverlayWindowOptions): void {
-  if (!options.isPackaged && process.env.NODE_ENV === 'development' && options.devRendererUrl) {
+  if (!options.isPackaged && options.devRendererUrl) {
     console.log('Loading dev URL:', options.devRendererUrl);
     window.loadURL(options.devRendererUrl);
     window.webContents.openDevTools({ mode: 'detach' });
