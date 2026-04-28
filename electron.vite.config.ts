@@ -1,5 +1,5 @@
-import { resolve } from 'path'
-import { defineConfig } from 'electron-vite'
+import { resolve } from 'node:path';
+import { defineConfig } from 'electron-vite';
 
 export default defineConfig({
   main: {
@@ -23,4 +23,4 @@ export default defineConfig({
       outDir: 'dist-electron/renderer'
     }
   }
-})
+});

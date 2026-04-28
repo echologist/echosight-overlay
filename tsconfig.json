@@ -10,6 +10,7 @@
     "skipLibCheck": true
   },
   "include": [
+    "electron.vite.config.ts",
     "src/**/*.ts",
     "tests/**/*.ts",
     "vitest.config.ts"
