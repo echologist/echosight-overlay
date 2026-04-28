@@ -4,7 +4,10 @@ import path from 'path';
 import { registerStorageIpc } from './ipc/storageIpc';
 import { registerThemeIpc } from './ipc/themeIpc';
 import { registerWindowIpc } from './ipc/windowIpc';
-import { createDataPaths } from './utils/dataPaths';
+import {
+  createDataPaths,
+  getDevelopmentBundledDataDir
+} from './utils/dataPaths';
 import { DEFAULT_HOTKEYS, normalizeHotkeys } from './utils/hotkeys';
 import { readJsonFile } from './utils/jsonStorage';
 import { getErrorMessage } from '../shared/errors';
@@ -40,11 +43,11 @@ const {
   TASKS_FILE,
   TEMPLATES_FILE,
   SETTINGS_FILE
-} = createDataPaths(app, __dirname);
+} = createDataPaths(app);
 
 const DEFAULT_THEMES_DIR = app.isPackaged
   ? path.join(process.resourcesPath, 'data', 'themes')
-  : path.join(__dirname, '../../data/themes');
+  : path.join(getDevelopmentBundledDataDir(__dirname), 'themes');
 
 class PoE2TaskOverlay {
   private readonly themeLibrary: ThemeLibrary;

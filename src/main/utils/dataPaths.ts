@@ -9,10 +9,8 @@ export interface DataPaths {
   SETTINGS_FILE: string;
 }
 
-export function createDataPaths(app: Pick<App, 'isPackaged' | 'getPath'>, appDir: string): DataPaths {
-  const dataDir = app.isPackaged
-    ? path.join(app.getPath('userData'), 'data')
-    : getDevelopmentDataDir(appDir);
+export function createDataPaths(app: Pick<App, 'getPath'>): DataPaths {
+  const dataDir = path.join(app.getPath('userData'), 'data');
 
   return {
     DATA_DIR: dataDir,
@@ -23,6 +21,6 @@ export function createDataPaths(app: Pick<App, 'isPackaged' | 'getPath'>, appDir
   };
 }
 
-export function getDevelopmentDataDir(appDir: string): string {
+export function getDevelopmentBundledDataDir(appDir: string): string {
   return path.resolve(appDir, '..', '..', 'data');
 }
