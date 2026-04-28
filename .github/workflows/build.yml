@@ -41,42 +41,42 @@ jobs:
           - os: macos-latest
             build_script: "build-mac"
             artifacts: "dist/*.dmg"
-          - os: windows-latest  
+          - os: windows-latest
             build_script: "build-win"
             artifacts: "dist/*.exe"
           - os: ubuntu-latest
-            build_script: "build-linux" 
+            build_script: "build-linux"
             artifacts: |
               dist/*.AppImage
               dist/*.deb
-    
+
     runs-on: ${{ matrix.os }}
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
-        
+
     - name: Install dependencies
       run: npm ci
-      
+
     - name: Install Linux dependencies
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
         sudo apt-get install -y libarchive-tools
-      
+
     - name: Create missing icon files (if needed)
       shell: bash
       run: |
         # Create assets directory if it doesn't exist
         mkdir -p assets
-        
+
         # Create a simple PNG icon if missing (for testing)
         if [ ! -f "assets/icon.png" ]; then
           echo "Creating placeholder icon.png"
@@ -89,7 +89,7 @@ jobs:
             curl -L "https://via.placeholder.com/256x256/0066cc/ffffff?text=POE" -o assets/icon.png || echo "Could not create icon"
           fi
         fi
-        
+
         # Create ICN file for Mac (convert from PNG)
         if [ ! -f "assets/icon.icns" ] && [ -f "assets/icon.png" ]; then
           if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
@@ -112,10 +112,10 @@ jobs:
             cp assets/icon.png assets/icon.icns
           fi
         fi
-        
+
     - name: Build application
       run: npm run ${{ matrix.build_script }}
-      
+
     - name: List build outputs (debug)
       if: always()
       shell: bash
@@ -125,7 +125,7 @@ jobs:
         echo ""
         echo "Searching for build artifacts:"
         find . -name "*.AppImage" -o -name "*.deb" -o -name "*.dmg" -o -name "*.exe" | head -20
-      
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -139,7 +139,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -148,10 +148,12 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
-      
+
     - name: Get version from package.json
       id: package_version
-      run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      run: |
+        VERSION="$(node -p "require('./package.json').version")"
+        echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
     - name: Validate release tag
       env:
@@ -168,34 +170,34 @@ jobs:
           echo "::error::Release $TAG already exists. Bump package.json before publishing a new release."
           exit 1
         fi
-      
+
     - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
         path: ./artifacts
-        
+
     - name: Display downloaded artifacts
       run: ls -la ./artifacts/
-      
+
     - name: Prepare release assets
       run: |
         mkdir -p ./release-assets
-        
+
         # Debug: Show the actual artifact structure
         echo "Artifact directory structure:"
         find ./artifacts -type f -name "*.exe" -o -name "*.dmg" -o -name "*.AppImage" -o -name "*.deb" | head -20
-        
+
         # Copy files using the correct artifact structure
         # The artifacts are downloaded to subdirectories named after the artifact names
         find ./artifacts -name "*.exe" -exec cp {} ./release-assets/ \;
         find ./artifacts -name "*.dmg" -exec cp {} ./release-assets/ \;
         find ./artifacts -name "*.AppImage" -exec cp {} ./release-assets/ \;
         find ./artifacts -name "*.deb" -exec cp {} ./release-assets/ \;
-        
+
         # List what we're about to release
         echo "Release assets:"
         ls -la ./release-assets/
-        
+
         # Check if we have any files to release
         if [ ! "$(ls -A ./release-assets/)" ]; then
           echo "WARNING: No release assets found!"
@@ -203,7 +205,7 @@ jobs:
           find ./artifacts -type f | head -10
           exit 1
         fi
-    
+
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
@@ -211,21 +213,21 @@ jobs:
         name: "Echosight v${{ steps.package_version.outputs.version }}"
         body: |
           ## Echosight PoE2 Task Overlay v${{ steps.package_version.outputs.version }}
-          
+
           **Download for your platform:**
           - **Windows**: `.exe` file
-          - **macOS**: `.dmg` file  
+          - **macOS**: `.dmg` file
           - **Linux**: `.AppImage` or `.deb` file
-          
+
           ### Changes in this release
           - Auto-generated release from commit: ${{ github.sha }}
           - Built from branch: ${{ github.ref_name }}
-          
+
           ### Installation
           - **Windows**: Download the `.exe` file and run it directly (portable)
           - **macOS**: Download and mount the `.dmg` file, then drag to Applications
           - **Linux**: Download `.AppImage` (make executable and run) or install `.deb` package
-          
+
           ---
           *This is an automated release created by GitHub Actions*
         files: ./release-assets/*
