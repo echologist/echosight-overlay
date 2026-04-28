@@ -100,6 +100,7 @@ Rules:
 - The path must be relative.
 - The path must stay inside the theme folder.
 - The file must use the `.css` extension.
+- Only the stylesheet named by `cssFile` is loaded for that theme.
 
 Relative `url("./asset.svg")` references inside CSS are rewritten to theme asset variables when possible.
 

@@ -11,7 +11,13 @@ export async function loadThemeCssFile(
   theme: Theme | null | undefined,
   cssFileName: unknown
 ): Promise<string | null> {
-  if (!theme || typeof cssFileName !== 'string') {
+  if (!theme || typeof cssFileName !== 'string' || typeof theme.cssFile !== 'string') {
+    return null;
+  }
+
+  const declaredCssPath = normalizeThemeCssPath(theme.cssFile);
+  const requestedCssPath = normalizeThemeCssPath(cssFileName);
+  if (!declaredCssPath || requestedCssPath !== declaredCssPath) {
     return null;
   }
 
@@ -20,7 +26,7 @@ export async function loadThemeCssFile(
     return null;
   }
 
-  const cssPath = resolveChildPath(themeDir, cssFileName);
+  const cssPath = resolveChildPath(themeDir, declaredCssPath);
   if (path.extname(cssPath).toLowerCase() !== '.css') {
     return null;
   }
@@ -30,6 +36,27 @@ export async function loadThemeCssFile(
     const assetName = filename.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9]/g, '-');
     return `var(--asset-${assetName})`;
   });
+}
+
+function normalizeThemeCssPath(value: string): string | null {
+  const trimmedValue = value.trim();
+  if (!trimmedValue || trimmedValue.includes('\0') || path.win32.isAbsolute(trimmedValue)) {
+    return null;
+  }
+
+  const normalizedPath = path.posix.normalize(trimmedValue.replace(/\\/g, '/'));
+  if (
+    normalizedPath === '.' ||
+    normalizedPath === '..' ||
+    normalizedPath.startsWith('../') ||
+    path.posix.isAbsolute(normalizedPath)
+  ) {
+    return null;
+  }
+
+  return path.extname(normalizedPath).toLowerCase() === '.css'
+    ? normalizedPath
+    : null;
 }
 
 export async function loadThemeAssetData(
