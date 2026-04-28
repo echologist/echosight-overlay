@@ -30,4 +30,6 @@ pids
 *.seed
 *.pid.lock
 
-docs/superpowers
+docs/superpowers/
+instructions/
+.codex
