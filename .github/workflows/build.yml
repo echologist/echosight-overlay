@@ -3,9 +3,8 @@ name: Build Cross-Platform
 
 on:
   push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 # Granting workflow permissions to create releases
@@ -13,8 +12,28 @@ permissions:
   contents: write
   actions: read
 
+env:
+  NODE_VERSION: '22.12.0'
+
 jobs:
+  lint-workflows:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download actionlint
+      id: get_actionlint
+      shell: bash
+      run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) 1.7.12
+
+    - name: Check workflow files
+      shell: bash
+      run: ${{ steps.get_actionlint.outputs.executable }} -color
+
   build:
+    needs: lint-workflows
     strategy:
       fail-fast: false  # Don't cancel other jobs if one fails :)
       matrix:
@@ -40,7 +59,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
         
     - name: Install dependencies
@@ -115,33 +134,38 @@ jobs:
         if-no-files-found: warn
         retention-days: 7  # Increased retention for release process
 
-  # New release job - only runs on main branch pushes (not PRs)
+  # Release job - only runs when a v* tag is pushed
   release:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
       
     - name: Get version from package.json
       id: package_version
       run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
-    - name: Ensure release tag is new
+    - name: Validate release tag
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         TAG="v${{ steps.package_version.outputs.version }}"
 
-        if gh release view "$TAG" >/dev/null 2>&1; then
-          echo "::error::Release $TAG already exists. Bump package.json before publishing a new release."
+        if [ "$TAG" != "${{ github.ref_name }}" ]; then
+          echo "::error::Tag ${{ github.ref_name }} does not match package.json version ${{ steps.package_version.outputs.version }}."
           exit 1
         fi
 
-        if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
-          echo "::error::Tag $TAG already exists. Bump package.json before publishing a new release."
+        if gh release view "$TAG" >/dev/null 2>&1; then
+          echo "::error::Release $TAG already exists. Bump package.json before publishing a new release."
           exit 1
         fi
       
