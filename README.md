@@ -69,6 +69,9 @@ npm run dev
 # Build for production
 npm run build
 
+# Run typecheck, tests, and production build
+npm run verify
+
 # Test production build
 npm run preview
 
@@ -78,6 +81,9 @@ npm run pack
 # Type-check the TypeScript code
 npm run typecheck
 ```
+
+### Theme Authoring
+Custom theme structure, validation rules, assets, `cssFile`, variants, and `customCSS` are documented in [docs/themes.md](docs/themes.md).
 
 ## 🎮 Usage Guide
 

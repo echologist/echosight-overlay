@@ -10,6 +10,7 @@
     "test:unit": "vitest run tests/unit",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
+    "verify": "npm run typecheck && npm test && npm run build",
     "preview": "electron-vite preview",
     "start": "electron-vite preview",
     "build-win": "npm run build && electron-builder --win --publish=never",
