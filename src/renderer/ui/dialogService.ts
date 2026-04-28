@@ -5,11 +5,17 @@ import type {
 } from './dialogTypes';
 
 const DIALOG_MODAL_ID = 'appDialogModal';
+const DIALOG_CANCEL_BUTTON_ID = 'appDialogCancelButton';
 const DIALOG_CONFIRM_BUTTON_ID = 'appDialogConfirmButton';
 const TONE_CLASSES = [
   'app-dialog-tone-info',
   'app-dialog-tone-danger',
   'app-dialog-tone-success'
+] as const;
+const CONFIRM_BUTTON_TONE_CLASSES = [
+  'app-dialog-confirm-info',
+  'app-dialog-confirm-danger',
+  'app-dialog-confirm-success'
 ] as const;
 
 type DialogKind = 'alert' | 'confirm';
@@ -105,7 +111,7 @@ async function showDialog(request: DialogRequest): Promise<boolean> {
         return;
       }
 
-      if (event.key === 'Enter' && !(event.target instanceof HTMLTextAreaElement)) {
+      if (event.key === 'Enter' && shouldConfirmFromEnter(event, request)) {
         event.preventDefault();
         event.stopPropagation();
         accept();
@@ -117,7 +123,7 @@ async function showDialog(request: DialogRequest): Promise<boolean> {
     document.addEventListener('keydown', handleKeydown, true);
 
     showModal(DIALOG_MODAL_ID, {
-      focusSelector: `#${DIALOG_CONFIRM_BUTTON_ID}`
+      focusSelector: getInitialFocusSelector(request)
     });
   });
 }
@@ -131,9 +137,13 @@ function configureDialog(elements: DialogElements, request: DialogRequest): void
   elements.cancelButton.textContent = request.options.cancelLabel ?? 'Cancel';
   elements.confirmButton.textContent = request.options.confirmLabel ?? (isConfirm ? 'OK' : 'OK');
   elements.cancelButton.hidden = !isConfirm;
+  elements.cancelButton.disabled = !isConfirm;
+  elements.modal.setAttribute('role', isConfirm && tone !== 'danger' ? 'dialog' : 'alertdialog');
 
   TONE_CLASSES.forEach(className => elements.content.classList.remove(className));
   elements.content.classList.add(`app-dialog-tone-${tone}`);
+  CONFIRM_BUTTON_TONE_CLASSES.forEach(className => elements.confirmButton.classList.remove(className));
+  elements.confirmButton.classList.add(`app-dialog-confirm-${tone}`);
 }
 
 function getDialogElements(): DialogElements | null {
@@ -141,7 +151,7 @@ function getDialogElements(): DialogElements | null {
   const content = modal?.querySelector<HTMLElement>('.modal-content-dialog') ?? null;
   const title = document.getElementById('appDialogTitle');
   const message = document.getElementById('appDialogMessage');
-  const cancelButton = document.getElementById('appDialogCancelButton');
+  const cancelButton = document.getElementById(DIALOG_CANCEL_BUTTON_ID);
   const confirmButton = document.getElementById(DIALOG_CONFIRM_BUTTON_ID);
 
   if (
@@ -163,4 +173,42 @@ function getDialogElements(): DialogElements | null {
     cancelButton,
     confirmButton
   };
+}
+
+function getInitialFocusSelector(request: DialogRequest): string {
+  return `#${getInitialFocusButtonId(request)}`;
+}
+
+function getInitialFocusButtonId(request: DialogRequest): string {
+  if (request.kind === 'alert') {
+    return DIALOG_CONFIRM_BUTTON_ID;
+  }
+
+  const requestedFocus = request.options.initialFocus;
+  if (requestedFocus === 'confirm') {
+    return DIALOG_CONFIRM_BUTTON_ID;
+  }
+  if (requestedFocus === 'cancel') {
+    return DIALOG_CANCEL_BUTTON_ID;
+  }
+
+  return request.options.tone === 'danger'
+    ? DIALOG_CANCEL_BUTTON_ID
+    : DIALOG_CONFIRM_BUTTON_ID;
+}
+
+function shouldConfirmFromEnter(event: KeyboardEvent, request: DialogRequest): boolean {
+  const confirmOnEnter = request.options.confirmOnEnter ?? !(
+    request.kind === 'confirm' &&
+    request.options.tone === 'danger'
+  );
+
+  return confirmOnEnter && !isInteractiveDialogTarget(event.target);
+}
+
+function isInteractiveDialogTarget(target: EventTarget | null): boolean {
+  return target instanceof HTMLButtonElement ||
+    target instanceof HTMLInputElement ||
+    target instanceof HTMLSelectElement ||
+    target instanceof HTMLTextAreaElement;
 }

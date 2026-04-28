@@ -2,7 +2,9 @@ export type DialogTone = 'info' | 'danger' | 'success';
 
 export interface DialogOptions {
   cancelLabel?: string;
+  confirmOnEnter?: boolean;
   confirmLabel?: string;
+  initialFocus?: 'cancel' | 'confirm';
   title?: string;
   tone?: DialogTone;
 }

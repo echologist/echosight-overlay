@@ -485,6 +485,10 @@ body {
   -webkit-app-region: no-drag !important;
 }
 
+.modal-content:focus {
+  outline: none;
+}
+
 .modal-title {
   color: #d4af37;
   margin-bottom: 15px;
@@ -538,6 +542,14 @@ textarea {
   color: white;
 }
 
+.modal-btn:focus-visible,
+.modal-input:focus-visible,
+.template-select:focus-visible,
+.range-input:focus-visible {
+  outline: 2px solid var(--border-interactive, #5fd8c8);
+  outline-offset: 2px;
+}
+
 .modal-content-import {
   max-width: 400px;
 }
@@ -584,6 +596,19 @@ textarea {
 
 .modal-content-dialog.app-dialog-tone-danger .modal-title {
   color: var(--danger, #f0a896);
+}
+
+.modal-content-dialog.app-dialog-tone-danger .app-dialog-confirm-danger {
+  background: var(--danger, #c54a3a);
+  color: #fff;
+}
+
+.modal-content-dialog.app-dialog-tone-success {
+  border-color: var(--secondary, #32cd32);
+}
+
+.modal-content-dialog.app-dialog-tone-success .modal-title {
+  color: var(--secondary, #32cd32);
 }
 
 .template-import-input {

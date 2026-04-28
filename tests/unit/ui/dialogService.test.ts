@@ -39,7 +39,10 @@ describe('dialog service', () => {
     expect(getTitle().textContent).toBe('Saved');
     expect(getMessage().textContent).toBe('Saved successfully');
     expect(getCancelButton().hidden).toBe(true);
+    expect(getCancelButton().disabled).toBe(true);
+    expect(getModal().getAttribute('role')).toBe('alertdialog');
     expect(getContent().classList.contains('app-dialog-tone-success')).toBe(true);
+    expect(getConfirmButton().classList.contains('app-dialog-confirm-success')).toBe(true);
 
     getConfirmButton().click();
     await result;
@@ -58,6 +61,8 @@ describe('dialog service', () => {
 
     expect(getTitle().textContent).toBe('Delete Task');
     expect(getCancelButton().hidden).toBe(false);
+    expect(getCancelButton().disabled).toBe(false);
+    expect(getModal().getAttribute('role')).toBe('alertdialog');
     expect(getContent().classList.contains('app-dialog-tone-danger')).toBe(true);
 
     getCancelButton().click();
@@ -65,9 +70,84 @@ describe('dialog service', () => {
 
     const confirmed = dialogs.confirm('Delete task?');
     await allowDialogToOpen();
+    expect(getModal().getAttribute('role')).toBe('dialog');
     getConfirmButton().click();
 
     await expect(confirmed).resolves.toBe(true);
+  });
+
+  test('focuses cancel by default for danger confirms', async () => {
+    const dialogs = createDialogService();
+    const result = dialogs.confirm('Delete task?', {
+      title: 'Delete Task',
+      tone: 'danger'
+    });
+
+    await allowDialogToOpen();
+    vi.advanceTimersByTime(50);
+
+    expect(document.activeElement).toBe(getCancelButton());
+
+    getCancelButton().click();
+    await expect(result).resolves.toBe(false);
+  });
+
+  test('does not confirm danger dialogs from a bare Enter key', async () => {
+    const dialogs = createDialogService();
+    let settled = false;
+    const result = dialogs.confirm('Delete task?', {
+      title: 'Delete Task',
+      tone: 'danger'
+    }).then(value => {
+      settled = true;
+      return value;
+    });
+
+    await allowDialogToOpen();
+    dispatchKey('Enter');
+    await allowDialogToOpen();
+
+    expect(settled).toBe(false);
+
+    dispatchKey('Escape');
+    await expect(result).resolves.toBe(false);
+  });
+
+  test('confirms non-danger dialogs from Enter outside a control', async () => {
+    const dialogs = createDialogService();
+    const result = dialogs.confirm('Continue?', {
+      title: 'Continue'
+    });
+
+    await allowDialogToOpen();
+    dispatchKey('Enter');
+
+    await expect(result).resolves.toBe(true);
+  });
+
+  test('does not convert Enter on the cancel button into confirmation', async () => {
+    const dialogs = createDialogService();
+    let settled = false;
+    const result = dialogs.confirm('Continue?', {
+      title: 'Continue'
+    }).then(value => {
+      settled = true;
+      return value;
+    });
+
+    await allowDialogToOpen();
+    getCancelButton().focus();
+    getCancelButton().dispatchEvent(new KeyboardEvent('keydown', {
+      bubbles: true,
+      cancelable: true,
+      key: 'Enter'
+    }));
+    await allowDialogToOpen();
+
+    expect(settled).toBe(false);
+
+    getCancelButton().click();
+    await expect(result).resolves.toBe(false);
   });
 
   test('queues dialogs so only one prompt is active at a time', async () => {
@@ -135,4 +215,12 @@ function getElement(id: string): HTMLElement {
     throw new Error(`Missing element ${id}`);
   }
   return element;
+}
+
+function dispatchKey(key: string): void {
+  document.dispatchEvent(new KeyboardEvent('keydown', {
+    bubbles: true,
+    cancelable: true,
+    key
+  }));
 }

@@ -10,6 +10,7 @@ describe('modal UI helpers', () => {
   });
 
   afterEach(() => {
+    hideModal('settingsModal');
     vi.restoreAllMocks();
     vi.useRealTimers();
     document.body.replaceChildren();
@@ -21,10 +22,13 @@ describe('modal UI helpers', () => {
     expect(showModal('settingsModal')).toBe(getModal());
     expect(getModal().classList.contains('is-visible')).toBe(true);
     expect(getModal().getAttribute('aria-hidden')).toBe('false');
+    expect(getModal().getAttribute('aria-modal')).toBe('true');
+    expect(getModal().getAttribute('role')).toBe('dialog');
 
     expect(hideModal('settingsModal')).toBe(getModal());
     expect(getModal().classList.contains('is-visible')).toBe(false);
     expect(getModal().getAttribute('aria-hidden')).toBe('true');
+    expect(getModal().hasAttribute('aria-modal')).toBe(false);
   });
 
   test('returns null for missing modals', () => {
@@ -54,6 +58,61 @@ describe('modal UI helpers', () => {
     expect(input.selectionStart).toBe(0);
     expect(input.selectionEnd).toBe('Boss setup'.length);
     expect(focusWindow).toHaveBeenCalledOnce();
+  });
+
+  test('focuses the first focusable control when no selector is provided', () => {
+    vi.useFakeTimers();
+    document.body.innerHTML = `
+      <div id="settingsModal" class="modal">
+        <button id="firstButton">First</button>
+        <button id="secondButton">Second</button>
+      </div>
+    `;
+
+    showModal('settingsModal');
+    vi.advanceTimersByTime(50);
+
+    expect(document.activeElement).toBe(getButton('firstButton'));
+  });
+
+  test('keeps tab focus inside the topmost modal', () => {
+    vi.useFakeTimers();
+    document.body.innerHTML = `
+      <div id="settingsModal" class="modal">
+        <button id="firstButton">First</button>
+        <button id="secondButton">Second</button>
+      </div>
+    `;
+
+    showModal('settingsModal');
+    vi.advanceTimersByTime(50);
+
+    getButton('secondButton').focus();
+    dispatchTab();
+    expect(document.activeElement).toBe(getButton('firstButton'));
+
+    dispatchTab({ shiftKey: true });
+    expect(document.activeElement).toBe(getButton('secondButton'));
+  });
+
+  test('restores focus to the opener when the modal closes', () => {
+    vi.useFakeTimers();
+    document.body.innerHTML = `
+      <button id="beforeModal">Before</button>
+      <div id="settingsModal" class="modal">
+        <button id="firstButton">First</button>
+      </div>
+    `;
+
+    const opener = getButton('beforeModal');
+    opener.focus();
+    showModal('settingsModal');
+    vi.advanceTimersByTime(50);
+
+    expect(document.activeElement).toBe(getButton('firstButton'));
+    hideModal('settingsModal');
+
+    expect(document.activeElement).toBe(opener);
   });
 
   test('does not steal focus after a modal has already closed', () => {
@@ -98,4 +157,13 @@ function getButton(id: string): HTMLButtonElement {
     throw new Error(`Missing button ${id}`);
   }
   return element;
+}
+
+function dispatchTab(options: { shiftKey?: boolean } = {}): void {
+  document.dispatchEvent(new KeyboardEvent('keydown', {
+    bubbles: true,
+    cancelable: true,
+    key: 'Tab',
+    shiftKey: options.shiftKey
+  }));
 }
