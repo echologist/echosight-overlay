@@ -62,6 +62,7 @@ export interface HotkeySettings {
 }
 
 export interface Settings {
+  settingsVersion: number;
   transparency: number;
   theme: string;
   hotkeys: HotkeySettings;

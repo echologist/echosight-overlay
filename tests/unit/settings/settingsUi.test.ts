@@ -90,6 +90,7 @@ describe('settings UI', () => {
 });
 
 const settingsFixture: Settings = {
+  settingsVersion: 1,
   transparency: 70,
   theme: 'echosight',
   hotkeys: {

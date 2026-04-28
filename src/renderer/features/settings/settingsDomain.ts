@@ -1,4 +1,8 @@
 import type { HotkeySettings, Settings } from '../../../shared/types';
+import {
+  CURRENT_SETTINGS_VERSION,
+  createDefaultSettingsState
+} from '../../../shared/settingsDefaults';
 import { getPrimaryModifierLabel } from '../../ui/hotkeyDisplay';
 
 export type HotkeyAction = keyof HotkeySettings;
@@ -16,11 +20,7 @@ export function createDefaultHotkeys(): HotkeySettings {
 }
 
 export function createDefaultSettings(): Settings {
-  return {
-    transparency: 70,
-    theme: 'echosight',
-    hotkeys: createDefaultHotkeys()
-  };
+  return createDefaultSettingsState(createDefaultHotkeys());
 }
 
 export function normalizeTransparency(value: unknown, fallback = 70): number {
@@ -85,10 +85,25 @@ export function normalizeSettings(input: unknown, fallback: Settings = createDef
   const theme = normalizeString(source.theme, legacyTheme || fallback.theme);
 
   return {
+    settingsVersion: CURRENT_SETTINGS_VERSION,
     transparency: normalizeTransparency(source.transparency, fallback.transparency),
     theme,
     hotkeys: normalizeHotkeys(source.hotkeys, fallback.hotkeys)
   };
+}
+
+export function shouldPersistSettingsMigration(input: unknown, settings: Settings): boolean {
+  if (!isRecord(input)) {
+    return true;
+  }
+
+  if (input.settingsVersion !== CURRENT_SETTINGS_VERSION || 'backgroundColor' in input) {
+    return true;
+  }
+
+  return input.transparency !== settings.transparency ||
+    input.theme !== settings.theme ||
+    !areHotkeysEqual(input.hotkeys, settings.hotkeys);
 }
 
 function normalizeHotkeys(input: unknown, fallback: HotkeySettings): HotkeySettings {
@@ -101,6 +116,18 @@ function normalizeHotkeys(input: unknown, fallback: HotkeySettings): HotkeySetti
     undoLastAction: normalizeString(source.undoLastAction, fallback.undoLastAction),
     redoLastAction: normalizeString(source.redoLastAction, fallback.redoLastAction)
   };
+}
+
+function areHotkeysEqual(input: unknown, hotkeys: HotkeySettings): boolean {
+  if (!isRecord(input)) {
+    return false;
+  }
+
+  return input.toggleVisibility === hotkeys.toggleVisibility &&
+    input.toggleInteractive === hotkeys.toggleInteractive &&
+    input.completeNextTask === hotkeys.completeNextTask &&
+    input.undoLastAction === hotkeys.undoLastAction &&
+    input.redoLastAction === hotkeys.redoLastAction;
 }
 
 function normalizeString(value: unknown, fallback: string): string {

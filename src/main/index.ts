@@ -10,6 +10,7 @@ import {
 } from './utils/dataPaths';
 import { DEFAULT_HOTKEYS, normalizeHotkeys } from './utils/hotkeys';
 import { readJsonFile } from './utils/jsonStorage';
+import { createDefaultSettingsState } from '../shared/settingsDefaults';
 import { getErrorMessage } from '../shared/errors';
 import type { HotkeySettings, Settings } from '../shared/types';
 import {
@@ -29,6 +30,7 @@ import {
 import { createPoe2Monitor } from './game/poe2Monitor';
 import type { Poe2Monitor } from './game/poe2Monitor';
 import { ThemeLibrary } from './themes/themeLibrary';
+import { initializeRuntimeData } from './storage/runtimeDataBootstrap';
 
 let overlayWindow: BrowserWindow | null = null;
 let gameMonitor: Poe2Monitor | null = null;
@@ -45,9 +47,10 @@ const {
   SETTINGS_FILE
 } = createDataPaths(app);
 
-const DEFAULT_THEMES_DIR = app.isPackaged
-  ? path.join(process.resourcesPath, 'data', 'themes')
-  : path.join(getDevelopmentBundledDataDir(__dirname), 'themes');
+const DEFAULT_DATA_DIR = app.isPackaged
+  ? path.join(process.resourcesPath, 'data')
+  : getDevelopmentBundledDataDir(__dirname);
+const DEFAULT_THEMES_DIR = path.join(DEFAULT_DATA_DIR, 'themes');
 
 class PoE2TaskOverlay {
   private readonly themeLibrary: ThemeLibrary;
@@ -63,6 +66,11 @@ class PoE2TaskOverlay {
   }
 
   async initializeDataDirectory() {
+    await initializeRuntimeData({
+      dataDir: DATA_DIR,
+      defaultDataDir: DEFAULT_DATA_DIR,
+      settings: createDefaultSettingsState(DEFAULT_HOTKEYS)
+    });
     await this.themeLibrary.initialize();
   }
 

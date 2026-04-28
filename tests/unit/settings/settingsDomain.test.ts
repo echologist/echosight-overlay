@@ -9,24 +9,31 @@ describe('settings domain', () => {
 
     expect(createDefaultSettings().theme).toBe('echosight');
     expect(createDefaultSettings().transparency).toBe(70);
+    expect(createDefaultSettings().settingsVersion).toBe(1);
     expect(normalizeSettings(null).theme).toBe('echosight');
     expect(normalizeSettings(null).transparency).toBe(70);
+    expect(normalizeSettings(null).settingsVersion).toBe(1);
     expect(normalizeSettings({ theme: '' }).theme).toBe('echosight');
   });
 
   test('normalizes legacy settings and fills undo/forward defaults', async () => {
-    const { normalizeSettings } = await importSettingsDomain('Win32');
+    const {
+      normalizeSettings,
+      shouldPersistSettingsMigration
+    } = await importSettingsDomain('Win32');
 
-    const settings = normalizeSettings({
+    const legacySettings = {
       transparency: '78.4',
       backgroundColor: 'echosight',
       hotkeys: {
         completeNextTask: 'Alt+N',
         undoLastAction: 'Alt+Z'
       }
-    });
+    };
+    const settings = normalizeSettings(legacySettings);
 
     expect(settings).toEqual({
+      settingsVersion: 1,
       transparency: 78,
       theme: 'echosight',
       hotkeys: {
@@ -37,6 +44,8 @@ describe('settings domain', () => {
         redoLastAction: 'Ctrl+Shift+Y'
       }
     });
+    expect(shouldPersistSettingsMigration(legacySettings, settings)).toBe(true);
+    expect(shouldPersistSettingsMigration(settings, settings)).toBe(false);
   });
 
   test('uses Cmd labels for default hotkeys on macOS', async () => {

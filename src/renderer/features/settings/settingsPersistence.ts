@@ -1,5 +1,8 @@
 import type { EchosightApi, Settings } from '../../../shared/types';
-import { normalizeSettings } from './settingsDomain';
+import {
+  normalizeSettings,
+  shouldPersistSettingsMigration
+} from './settingsDomain';
 
 export async function loadSettingsState(
   api: EchosightApi,
@@ -16,6 +19,14 @@ export async function loadSettingsState(
     }
 
     const settings = normalizeSettings(loadedSettings, fallback);
+    if (shouldPersistSettingsMigration(loadedSettings, settings)) {
+      logger.log('Persisting migrated settings:', settings);
+      const saveResult = await api.saveSettings(settings);
+      if (!saveResult.success) {
+        logger.error('Failed to persist migrated settings:', saveResult.error || 'Unknown save error');
+      }
+    }
+
     logger.log('Final settings:', settings);
     return settings;
   } catch (error) {
