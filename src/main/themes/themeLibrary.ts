@@ -8,6 +8,11 @@ import {
   createVariantTheme,
   getAssetType
 } from './themeHelpers';
+import {
+  formatThemeValidationMessages,
+  validateTheme,
+  validateThemeVariantConfig
+} from './themeValidation';
 
 export interface ThemeLibraryOptions {
   dataDir: string;
@@ -115,7 +120,7 @@ export class ThemeLibrary {
     try {
       const sourceTheme = await readJsonFile<Partial<Theme>>(sourceThemePath);
       const targetTheme = await readJsonFile<Partial<Theme>>(targetThemePath);
-      if (!isTheme(sourceTheme) || !isTheme(targetTheme)) {
+      if (!hasThemeIdentity(sourceTheme) || !hasThemeIdentity(targetTheme)) {
         return false;
       }
 
@@ -171,16 +176,17 @@ export class ThemeLibrary {
   private async loadSingleFileTheme(filename: string): Promise<void> {
     try {
       const themePath = resolveChildPath(this.themesDir, filename);
-      const theme = await readJsonFile<Partial<Theme>>(themePath);
+      const rawTheme = await readJsonFile<Partial<Theme>>(themePath);
+      const theme = this.validateLoadedTheme(rawTheme, `theme file ${filename}`);
 
-      if (isTheme(theme)) {
-        theme.assets = {};
-        theme.path = themePath;
-        this.themes.set(theme.id, theme);
-        this.logger.log(`Loaded theme: ${theme.name} (${theme.id}) [single-file]`);
-      } else {
-        this.logger.warn(`Invalid theme file: ${filename} - missing id or name`);
+      if (!theme) {
+        return;
       }
+
+      theme.assets = {};
+      theme.path = themePath;
+      this.themes.set(theme.id, theme);
+      this.logger.log(`Loaded theme: ${theme.name} (${theme.id}) [single-file]`);
     } catch (error) {
       this.logger.error(`Failed to load theme file ${filename}:`, error);
     }
@@ -198,10 +204,10 @@ export class ThemeLibrary {
         return;
       }
 
-      const theme = await readJsonFile<Partial<Theme>>(themeJsonPath);
+      const rawTheme = await readJsonFile<Partial<Theme>>(themeJsonPath);
+      const theme = this.validateLoadedTheme(rawTheme, `theme folder ${folderName}`);
 
-      if (!isTheme(theme)) {
-        this.logger.warn(`Invalid theme in folder: ${folderName} - missing id or name`);
+      if (!theme) {
         return;
       }
 
@@ -318,6 +324,15 @@ export class ThemeLibrary {
           continue;
         }
 
+        const validation = validateThemeVariantConfig(theme.id, variantId, variantConfig);
+        this.logValidationWarnings(`variant ${theme.id}/${variantId}`, validation.warnings);
+        if (validation.errors.length > 0) {
+          this.logger.warn(
+            `Invalid variant ${theme.id}/${variantId}: ${formatThemeValidationMessages(validation.errors)}`
+          );
+          continue;
+        }
+
         const variantTheme = createVariantTheme(theme, variantId, variantConfig);
 
         const variantAssetsPath = resolveChildPath(themeFolderPath, 'variants', variantId);
@@ -347,14 +362,30 @@ export class ThemeLibrary {
       this.logger.error('Failed to load theme variants:', error);
     }
   }
+
+  private validateLoadedTheme(value: unknown, source: string): Theme | null {
+    const validation = validateTheme(value);
+    this.logValidationWarnings(source, validation.warnings);
+
+    if (validation.errors.length > 0) {
+      this.logger.warn(`Invalid ${source}: ${formatThemeValidationMessages(validation.errors)}`);
+      return null;
+    }
+
+    return validation.theme;
+  }
+
+  private logValidationWarnings(source: string, warnings: string[]): void {
+    warnings.forEach(warning => {
+      this.logger.warn(`Theme warning in ${source}: ${warning}`);
+    });
+  }
 }
 
-function isTheme(value: unknown): value is Theme {
+function hasThemeIdentity(value: unknown): value is Pick<Theme, 'id'> & { author?: unknown; version?: unknown } {
   return isRecord(value) &&
     typeof value.id === 'string' &&
-    value.id.length > 0 &&
-    typeof value.name === 'string' &&
-    value.name.length > 0;
+    value.id.length > 0;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

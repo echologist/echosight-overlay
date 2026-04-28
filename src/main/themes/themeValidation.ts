@@ -1,0 +1,292 @@
+import path from 'path';
+import type { Theme } from '../../shared/types';
+
+export interface ThemeValidationResult {
+  theme: Theme | null;
+  errors: string[];
+  warnings: string[];
+}
+
+export interface ThemeValidationMessages {
+  errors: string[];
+  warnings: string[];
+}
+
+const OPTIONAL_STRING_FIELDS = [
+  'author',
+  'description',
+  'version'
+];
+
+const OPTIONAL_BOOLEAN_FIELDS = [
+  'isDefault',
+  'supportsTransparency'
+];
+
+const RECORD_FIELDS = [
+  'fonts',
+  'effects',
+  'transparency',
+  'styles',
+  'components',
+  'backgrounds',
+  'layout',
+  'animations',
+  'compatibility',
+  'metadata'
+];
+
+const VARIANT_RECORD_FIELDS = [
+  'colors',
+  'effects',
+  'fonts',
+  'styles',
+  'components',
+  'backgrounds',
+  'layout',
+  'animations'
+];
+
+export function validateTheme(value: unknown): ThemeValidationResult {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+
+  if (!isRecord(value)) {
+    return {
+      theme: null,
+      errors: ['theme must be a JSON object'],
+      warnings
+    };
+  }
+
+  requireNonEmptyString(value, 'id', errors);
+  requireNonEmptyString(value, 'name', errors);
+  validateOptionalStringFields(value, OPTIONAL_STRING_FIELDS, errors);
+  validateOptionalBooleanFields(value, OPTIONAL_BOOLEAN_FIELDS, errors);
+  validateCssFile(value.cssFile, errors);
+  validateCustomCss(value.customCSS, errors);
+  validateColors(value.colors, errors);
+  validateRecordFields(value, RECORD_FIELDS, errors);
+  validateVariants(value.variants, warnings);
+
+  return {
+    theme: errors.length === 0 ? value as Theme : null,
+    errors,
+    warnings
+  };
+}
+
+export function validateThemeVariantConfig(
+  themeId: string,
+  variantId: string,
+  value: unknown
+): ThemeValidationMessages {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  const variantPath = `variants.${variantId}`;
+
+  if (!isRecord(value)) {
+    return {
+      errors: [`${variantPath} must be an object`],
+      warnings
+    };
+  }
+
+  validateOptionalStringFields(value, ['name', 'description'], errors, variantPath);
+  validateCustomCss(value.customCSS, errors, variantPath);
+  validateVariantRecordFields(value, VARIANT_RECORD_FIELDS, errors, variantPath);
+
+  if (errors.length > 0) {
+    warnings.push(`Skipping invalid variant ${themeId}/${variantId}`);
+  }
+
+  return { errors, warnings };
+}
+
+export function formatThemeValidationMessages(messages: string[]): string {
+  return messages.join('; ');
+}
+
+function requireNonEmptyString(
+  record: Record<string, unknown>,
+  field: string,
+  errors: string[]
+): void {
+  if (typeof record[field] !== 'string' || !record[field].trim()) {
+    errors.push(`${field} must be a non-empty string`);
+  }
+}
+
+function validateOptionalStringFields(
+  record: Record<string, unknown>,
+  fields: string[],
+  errors: string[],
+  prefix?: string
+): void {
+  fields.forEach(field => {
+    const value = record[field];
+    if (value !== undefined && typeof value !== 'string') {
+      errors.push(formatPath(field, prefix) + ' must be a string');
+    }
+  });
+}
+
+function validateOptionalBooleanFields(
+  record: Record<string, unknown>,
+  fields: string[],
+  errors: string[]
+): void {
+  fields.forEach(field => {
+    const value = record[field];
+    if (value !== undefined && typeof value !== 'boolean') {
+      errors.push(`${field} must be a boolean`);
+    }
+  });
+}
+
+function validateCssFile(value: unknown, errors: string[]): void {
+  if (value === undefined) {
+    return;
+  }
+
+  if (typeof value !== 'string' || !value.trim()) {
+    errors.push('cssFile must be a non-empty string');
+    return;
+  }
+
+  if (hasUnsafePathSegment(value)) {
+    errors.push('cssFile must be a relative path inside the theme folder');
+    return;
+  }
+
+  if (path.extname(value).toLowerCase() !== '.css') {
+    errors.push('cssFile must point to a .css file');
+  }
+}
+
+function validateCustomCss(value: unknown, errors: string[], prefix?: string): void {
+  if (value === undefined || typeof value === 'string') {
+    return;
+  }
+
+  const customCssPath = formatPath('customCSS', prefix);
+  if (!isRecord(value)) {
+    errors.push(`${customCssPath} must be a string or object`);
+    return;
+  }
+
+  Object.entries(value).forEach(([key, styles]) => {
+    const fieldPath = formatPath(key, customCssPath);
+    if (typeof styles === 'string') {
+      return;
+    }
+
+    if (isRecord(styles)) {
+      validateCssValueRecord(styles, errors, fieldPath);
+      return;
+    }
+
+    errors.push(`${fieldPath} must be a CSS string or object`);
+  });
+}
+
+function validateColors(value: unknown, errors: string[], prefix = 'colors'): void {
+  if (value === undefined) {
+    return;
+  }
+
+  if (!isRecord(value)) {
+    errors.push(`${prefix} must be an object`);
+    return;
+  }
+
+  validateCssValueRecord(value, errors, prefix);
+}
+
+function validateRecordFields(
+  record: Record<string, unknown>,
+  fields: string[],
+  errors: string[]
+): void {
+  fields.forEach(field => {
+    const value = record[field];
+    if (value !== undefined && !isRecord(value)) {
+      errors.push(`${field} must be an object`);
+    }
+  });
+}
+
+function validateVariantRecordFields(
+  record: Record<string, unknown>,
+  fields: string[],
+  errors: string[],
+  prefix: string
+): void {
+  fields.forEach(field => {
+    const value = record[field];
+    if (value === undefined) {
+      return;
+    }
+
+    if (!isRecord(value)) {
+      errors.push(formatPath(field, prefix) + ' must be an object');
+      return;
+    }
+
+    if (field === 'colors') {
+      validateCssValueRecord(value, errors, formatPath(field, prefix));
+    }
+  });
+}
+
+function validateVariants(value: unknown, warnings: string[]): void {
+  if (value === undefined) {
+    return;
+  }
+
+  if (!isRecord(value)) {
+    warnings.push('variants must be an object; variants will be ignored');
+    return;
+  }
+
+  Object.entries(value).forEach(([variantId, variantConfig]) => {
+    if (!isRecord(variantConfig)) {
+      warnings.push(`variants.${variantId} must be an object; variant will be ignored`);
+    }
+  });
+}
+
+function validateCssValueRecord(
+  record: Record<string, unknown>,
+  errors: string[],
+  prefix: string
+): void {
+  Object.entries(record).forEach(([key, value]) => {
+    const fieldPath = formatPath(key, prefix);
+    if (isRecord(value)) {
+      validateCssValueRecord(value, errors, fieldPath);
+      return;
+    }
+
+    if (typeof value !== 'string' && typeof value !== 'number') {
+      errors.push(`${fieldPath} must be a CSS string or number`);
+    }
+  });
+}
+
+function formatPath(field: string, prefix?: string): string {
+  return prefix ? `${prefix}.${field}` : field;
+}
+
+function hasUnsafePathSegment(value: string): boolean {
+  if (value.includes('\0') || path.isAbsolute(value) || path.win32.isAbsolute(value)) {
+    return true;
+  }
+
+  const normalizedPath = value.replace(/\\/g, '/');
+  return normalizedPath.split('/').some(segment => segment === '..');
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}

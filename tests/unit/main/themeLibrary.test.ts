@@ -64,6 +64,26 @@ describe('theme library', () => {
     expect(copiedTheme.supportsTransparency).toBe(false);
   });
 
+  test('skips invalid theme files with validation warnings', async () => {
+    const paths = await createThemePaths();
+    const warnings: string[] = [];
+    await writeTheme(paths.themesDir, 'broken.json', {
+      id: 'broken',
+      name: 'Broken',
+      colors: 'not-an-object'
+    });
+
+    await createLibrary(paths, {
+      warn: message => warnings.push(String(message))
+    }).initialize();
+
+    const library = createLibrary(paths);
+    await library.reloadThemes();
+
+    expect(library.themes.has('broken')).toBe(false);
+    expect(warnings).toContain('Invalid theme file broken.json: colors must be an object');
+  });
+
   async function createThemePaths() {
     const dataDir = path.join(tempRoot, 'data');
     const themesDir = path.join(dataDir, 'themes');
@@ -83,12 +103,15 @@ function createLibrary(paths: {
   dataDir: string;
   themesDir: string;
   defaultThemesDir: string;
-}): ThemeLibrary {
+}, loggerOverrides: Partial<TestLogger> = {}): ThemeLibrary {
   return new ThemeLibrary({
     ...paths,
     isPackaged: false,
     platform: process.platform,
-    logger: silentLogger
+    logger: {
+      ...silentLogger,
+      ...loggerOverrides
+    }
   });
 }
 
@@ -96,8 +119,10 @@ async function writeTheme(directory: string, filename: string, theme: unknown): 
   await fs.writeFile(path.join(directory, filename), JSON.stringify(theme, null, 2), 'utf8');
 }
 
-const silentLogger = {
+const silentLogger: TestLogger = {
   log: () => undefined,
   warn: () => undefined,
   error: () => undefined
 };
+
+type TestLogger = Pick<Console, 'log' | 'warn' | 'error'>;
