@@ -28,6 +28,7 @@ export interface RendererControlHandlers {
   closeSaveTemplateModal: CommandHandler;
   closeSettingsModal: CommandHandler;
   closeSubTaskModal: CommandHandler;
+  closeThemeSelectionModal: CommandHandler;
   closeTriggersModal: CommandHandler;
   deleteTemplate: CommandHandler;
   exportTemplate: CommandHandler;
@@ -49,6 +50,7 @@ export interface RendererControlHandlers {
   showImportModal: CommandHandler;
   showSaveTemplateModal: CommandHandler;
   showSettingsModal: CommandHandler;
+  showThemeSelection: CommandHandler;
   toggleInteractiveMode: CommandHandler;
   updateTheme: ValueHandler;
   updateTransparency: ValueHandler;
@@ -80,6 +82,9 @@ export function setupRendererControls(handlers: RendererControlHandlers): void {
 
   bindClick('openThemesFolderButton', handlers.openThemesFolder);
   bindClick('reloadThemesButton', handlers.reloadThemes);
+  bindClick('chooseThemeButton', handlers.showThemeSelection);
+  bindClick('closeThemeSelectionButton', handlers.closeThemeSelectionModal);
+  bindClick('cancelThemeSelectionButton', handlers.closeThemeSelectionModal);
   bindClick('recordBtn1', () => handlers.hotkeyRecorder.record('toggleVisibility'));
   bindClick('recordBtn2', () => handlers.hotkeyRecorder.record('toggleInteractive'));
   bindClick('recordBtn3', () => handlers.hotkeyRecorder.record('completeNextTask'));

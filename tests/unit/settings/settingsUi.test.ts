@@ -26,9 +26,9 @@ describe('settings UI', () => {
 
     expect(getElement('settingsModal').classList.contains('is-visible')).toBe(true);
     expect(getElement('settingsModal').getAttribute('aria-hidden')).toBe('false');
-    expect(getSelect('themeSelect').value).toBe('echosight');
-    expect([...getSelect('themeSelect').options].map(option => option.textContent))
-      .toEqual(['Dark', 'Echosight']);
+    expect(getInput('themeSelect').value).toBe('echosight');
+    expect(getElement('selectedThemeName').textContent).toBe('Echosight');
+    expect(getElement('selectedThemeId').textContent).toBe('echosight');
     expect(getInput('transparencySlider').value).toBe('70');
     expect(getElement('transparencyValue').textContent).toBe('70% visible');
     expect(getInput('undoLastActionHotkey').value).toBe('Ctrl+Shift+Z');
@@ -43,7 +43,7 @@ describe('settings UI', () => {
     renderSettingsModal(settingsFixture, themeFixtures);
 
     getInput('transparencySlider').value = '75';
-    getSelect('themeSelect').value = 'dark';
+    getInput('themeSelect').value = 'dark';
     getInput('redoLastActionHotkey').value = 'Alt+Y';
 
     expect(readSettingsControls(settingsFixture)).toEqual({
@@ -120,7 +120,9 @@ function renderSettingsFixture(): void {
     <label for="transparencySlider">Transparency</label>
     <input id="transparencySlider" type="range">
     <div id="transparencyValue"></div>
-    <select id="themeSelect"></select>
+    <input id="themeSelect" type="hidden">
+    <span id="selectedThemeName"></span>
+    <span id="selectedThemeId"></span>
     <input id="toggleVisibilityHotkey">
     <input id="toggleInteractiveHotkey">
     <input id="completeNextTaskHotkey">
@@ -141,14 +143,6 @@ function getInput(id: string): HTMLInputElement {
   const element = getElement(id);
   if (!(element instanceof HTMLInputElement)) {
     throw new Error(`Expected input ${id}`);
-  }
-  return element;
-}
-
-function getSelect(id: string): HTMLSelectElement {
-  const element = getElement(id);
-  if (!(element instanceof HTMLSelectElement)) {
-    throw new Error(`Expected select ${id}`);
   }
   return element;
 }

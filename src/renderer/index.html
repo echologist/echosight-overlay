@@ -131,10 +131,16 @@
         </div>
 
         <div class="setting-group compact">
-          <label class="setting-label" for="themeSelect">Theme:</label>
+          <label class="setting-label" for="chooseThemeButton">Theme:</label>
           <div class="inline-control-row">
-            <select id="themeSelect" class="modal-input select-flex">
-            </select>
+            <input type="hidden" id="themeSelect" value="echosight">
+            <div class="theme-current-summary select-flex">
+              <span class="theme-current-name" id="selectedThemeName">Echosight</span>
+              <span class="theme-current-id" id="selectedThemeId">echosight</span>
+            </div>
+            <button class="modal-btn secondary compact-action" id="chooseThemeButton">
+              Choose Theme
+            </button>
             <button class="modal-btn secondary compact-action" id="openThemesFolderButton">
               Open Folder
             </button>
@@ -143,7 +149,7 @@
             </button>
           </div>
           <div class="settings-help">
-            Add custom themes as .json files in the themes folder
+            Browse themes in a larger preview window, or add custom themes as .json files in the themes folder
           </div>
         </div>
       </div>
@@ -232,6 +238,146 @@
       <div class="modal-buttons">
         <button class="modal-btn secondary" id="closeSettingsButton" data-modal-close>Cancel</button>
         <button class="modal-btn primary" id="saveSettingsButton">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Theme Selection Modal -->
+  <div class="modal theme-selection-modal" id="themeSelectionModal" aria-hidden="true">
+    <div class="modal-content modal-content-theme-selection">
+      <div class="theme-selection-heading">
+        <div class="theme-selection-heading-copy">
+          <h3 class="modal-title">Choose Theme</h3>
+          <p class="theme-selection-description" id="themeSelectionDescription"></p>
+        </div>
+        <button class="modal-btn secondary compact-action" id="closeThemeSelectionButton" data-modal-close>
+          Close
+        </button>
+      </div>
+
+      <div class="theme-selection-layout">
+        <aside class="theme-selection-sidebar">
+          <div class="theme-selection-list" id="themeSelectionList"></div>
+          <div class="theme-selection-actions">
+            <button class="modal-btn secondary" id="cancelThemeSelectionButton" data-modal-close>
+              Cancel
+            </button>
+            <button class="modal-btn primary" id="applyThemeSelectionButton">
+              Apply Theme
+            </button>
+          </div>
+        </aside>
+
+        <main class="theme-selection-main">
+          <div class="theme-selection-title-row">
+            <div>
+              <h4 class="settings-title" id="themeSelectionName">Theme Preview</h4>
+              <p class="theme-selection-preview-note">
+                Preview only. The overlay changes when you apply the theme.
+              </p>
+            </div>
+          </div>
+
+          <div class="theme-selection-stage" id="themeSelectionPreviewRoot">
+            <div class="overlay-container interactive theme-selection-overlay">
+              <div class="header theme-selection-sample-header">
+                <h2><span id="themeSelectionSampleThemeName">Echosight</span> <span class="shortcut-hint">(Interactive Mode)</span></h2>
+                <div class="header-buttons theme-selection-window-buttons">
+                  <span class="header-btn">−</span>
+                  <span class="header-btn close">×</span>
+                </div>
+              </div>
+
+              <div class="template-section theme-selection-template-section">
+                <div class="template-controls">
+                  <span class="template-select theme-selection-select">Boss Rotation</span>
+                  <span class="template-btn">Load</span>
+                  <span class="template-btn success">Click-Through Mode</span>
+                </div>
+              </div>
+
+              <div class="tasks-section theme-selection-tasks-section">
+                <div class="task-input-container">
+                  <span class="task-input theme-selection-input">Add next task...</span>
+                  <span class="add-btn">Add</span>
+                </div>
+
+                <div class="progress-bar">
+                  <div class="progress-fill theme-selection-progress-fill"></div>
+                </div>
+                <div class="progress-text">3 / 5 tasks completed</div>
+
+                <div class="task-section-label">Main Tasks</div>
+                <ul class="task-list">
+                  <li class="task-item" data-level="0">
+                    <div class="task-row">
+                      <input type="checkbox" class="task-checkbox" checked disabled>
+                      <span class="task-text completed parent-task-text">Prepare map device</span>
+                      <span class="child-count">2/2</span>
+                    </div>
+                  </li>
+                  <li class="task-item" data-level="0">
+                    <div class="task-row">
+                      <input type="checkbox" class="task-checkbox" disabled>
+                      <span class="task-text parent-task-text">Track boss phase timers</span>
+                      <span class="trigger-indicator">⚡1</span>
+                    </div>
+                  </li>
+                  <li class="task-item" data-level="1">
+                    <div class="task-row">
+                      <span class="parent-icon-spacer"></span>
+                      <input type="checkbox" class="task-checkbox" checked disabled>
+                      <span class="task-text completed">Refresh defensive flask</span>
+                    </div>
+                  </li>
+                </ul>
+
+                <div class="background-tasks-section has-active-background-tasks">
+                  <div class="task-section-label background-label">
+                    Background Tasks
+                    <span class="background-count">1 active</span>
+                  </div>
+                  <ul class="task-list background-task-list">
+                    <li class="task-item high-priority" data-level="0">
+                      <div class="task-row">
+                        <input type="checkbox" class="task-checkbox" disabled>
+                        <span class="task-text">Watch shrine timer</span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="overlay-container click-through theme-selection-click-through">
+              <div class="tasks-section">
+                <div class="progress-bar">
+                  <div class="progress-fill theme-selection-progress-fill"></div>
+                </div>
+                <div class="progress-text">Click-through task stack</div>
+                <ul class="task-list">
+                  <li class="task-item" data-level="0">
+                    <div class="task-row">
+                      <input type="checkbox" class="task-checkbox" disabled>
+                      <span class="task-text parent-task-text">Next visible objective</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="theme-selection-info">
+            <div class="theme-selection-section">
+              <h4 class="settings-title">Details</h4>
+              <div class="theme-selection-metadata" id="themeSelectionMetadata"></div>
+            </div>
+            <div class="theme-selection-section">
+              <h4 class="settings-title">Palette</h4>
+              <div class="theme-selection-swatches" id="themeSelectionSwatches"></div>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   </div>

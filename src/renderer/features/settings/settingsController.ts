@@ -6,6 +6,10 @@ import type {
 import { getErrorMessage } from '../../../shared/errors';
 import { formatHotkeyForDisplay } from '../../ui/hotkeyDisplay';
 import { applyRendererTheme } from '../themes/themeApplicator';
+import {
+  hideThemeSelectionModal,
+  showThemeSelectionModal
+} from '../themes/themeSelectionUi';
 import { createHotkeyRecorder } from './hotkeyRecorder';
 import type { HotkeyRecorder } from './hotkeyRecorder';
 import {
@@ -51,12 +55,14 @@ export interface SettingsController {
   applySelectedTheme: () => Promise<void>;
   applyTheme: () => Promise<void>;
   closeSettingsModal: () => void;
+  closeThemeSelectionModal: () => void;
   getSettings: () => Settings;
   hotkeyRecorder: Pick<HotkeyRecorder, 'handleKeydown' | 'isRecording' | 'record' | 'stop'>;
   loadSettings: () => Promise<void>;
   resetHotkeys: () => Promise<void>;
   saveSettings: () => Promise<void>;
   showSettingsModal: () => void;
+  showThemeSelection: () => void;
   updateTheme: (themeId: string) => Promise<void>;
   updateThemeSelector: () => void;
   updateTransparency: (value: unknown) => void;
@@ -125,6 +131,10 @@ export function createSettingsController(options: SettingsControllerOptions): Se
     hideSettingsModal();
   }
 
+  function closeThemeSelectionModal(): void {
+    hideThemeSelectionModal();
+  }
+
   function updateTransparencyControls(supportsTransparency: boolean): void {
     setTransparencyControlsEnabled(supportsTransparency, settings.transparency);
   }
@@ -148,6 +158,7 @@ export function createSettingsController(options: SettingsControllerOptions): Se
       ...settings,
       theme: themeId
     };
+    renderThemeSelector(options.getThemes(), settings.theme);
     await applyTheme();
 
     if (options.getIsInteractiveMode()) {
@@ -185,6 +196,16 @@ export function createSettingsController(options: SettingsControllerOptions): Se
     }
   }
 
+  function showThemeSelection(): void {
+    showThemeSelectionModal({
+      api: options.api,
+      currentThemeId: settings.theme,
+      onApply: updateTheme,
+      themes: options.getThemes(),
+      transparency: settings.transparency
+    });
+  }
+
   async function saveSettings(): Promise<void> {
     try {
       logger.log('Saving settings...');
@@ -212,12 +233,14 @@ export function createSettingsController(options: SettingsControllerOptions): Se
     applySelectedTheme,
     applyTheme,
     closeSettingsModal,
+    closeThemeSelectionModal,
     getSettings,
     hotkeyRecorder,
     loadSettings,
     resetHotkeys,
     saveSettings,
     showSettingsModal,
+    showThemeSelection,
     updateTheme,
     updateThemeSelector,
     updateTransparency

@@ -242,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     closeSaveTemplateModal: templateController.closeSaveTemplateModal,
     closeSettingsModal: settingsController.closeSettingsModal,
     closeSubTaskModal: subtaskController.closeSubTaskModal,
+    closeThemeSelectionModal: settingsController.closeThemeSelectionModal,
     closeTriggersModal: triggerController.closeTriggersModal,
     deleteTemplate: templateController.deleteTemplate,
     exportTemplate: templateController.exportTemplate,
@@ -263,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showImportModal: templateController.showImportModal,
     showSaveTemplateModal: templateController.showSaveTemplateModal,
     showSettingsModal: settingsController.showSettingsModal,
+    showThemeSelection: settingsController.showThemeSelection,
     toggleInteractiveMode: () => toggleOverlayInteractiveMode(ipc, console),
     updateTheme: settingsController.updateTheme,
     updateTransparency: settingsController.updateTransparency

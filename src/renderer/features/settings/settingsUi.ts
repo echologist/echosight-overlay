@@ -36,22 +36,10 @@ export function hideSettingsModal(): void {
 }
 
 export function renderThemeSelector(themes: Theme[], selectedThemeId: string): void {
-  const select = getSelectElement('themeSelect');
-  if (!select) {
-    return;
-  }
-
-  select.replaceChildren();
-  themes.forEach(theme => {
-    const option = document.createElement('option');
-    option.value = theme.id;
-    option.textContent = theme.name;
-    if (theme.description) {
-      option.title = theme.description;
-    }
-    select.appendChild(option);
-  });
-  select.value = selectedThemeId;
+  const selectedTheme = themes.find(theme => theme.id === selectedThemeId);
+  setInputValue('themeSelect', selectedThemeId);
+  setTextContent('selectedThemeName', selectedTheme?.name ?? selectedThemeId);
+  setTextContent('selectedThemeId', selectedTheme?.id ?? selectedThemeId);
 }
 
 export function writeSettingsControls(settings: Settings): void {
