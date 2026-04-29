@@ -1,7 +1,7 @@
 {
   "name": "Winamp Classic",
   "id": "winamp-classic",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Community",
   "description": "Classic Winamp-inspired theme with authentic retro styling",
   "isDefault": false,
@@ -91,6 +91,13 @@
         "background": "rgba(16, 16, 16, 0.8)",
         "border": "1px solid rgba(64, 64, 64, 0.8)"
       }
+    }
+  },
+  "sounds": {
+    "enabled": true,
+    "volume": 0.8,
+    "events": {
+      "taskCompleted": "complete.wav"
     }
   },
   "cssFile": "styles.css"
