@@ -73,6 +73,9 @@ describe('task workflow controller', () => {
     expect(harness.backgroundTasks.clearAllExpirationTimers).toHaveBeenCalledTimes(2);
     expect(harness.backgroundTasks.restartExpirationTimers).toHaveBeenCalledTimes(2);
     expect(harness.saveTasks).toHaveBeenCalledTimes(3);
+    expect(harness.playThemeSound).toHaveBeenCalledWith('taskCompleted');
+    expect(harness.playThemeSound).toHaveBeenCalledWith('undo');
+    expect(harness.playThemeSound).toHaveBeenCalledWith('redo');
   });
 });
 
@@ -97,6 +100,7 @@ async function createWorkflowHarness(options: WorkflowHarnessOptions) {
   const renderTasks = vi.fn();
   const saveTasks = vi.fn();
   const updateProgress = vi.fn();
+  const playThemeSound = vi.fn();
 
   const workflow = createTaskWorkflowController({
     backgroundTasks,
@@ -106,6 +110,7 @@ async function createWorkflowHarness(options: WorkflowHarnessOptions) {
     },
     isInteractive: () => false,
     logger: silentLogger,
+    playThemeSound,
     renderTasks,
     saveTasks,
     taskState,
@@ -119,6 +124,7 @@ async function createWorkflowHarness(options: WorkflowHarnessOptions) {
     saveTasks,
     taskState,
     updateProgress,
+    playThemeSound,
     workflow
   };
 }

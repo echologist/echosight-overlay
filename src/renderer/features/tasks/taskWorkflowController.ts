@@ -1,4 +1,7 @@
-import type { Task } from '../../../shared/types';
+import type {
+  Task,
+  ThemeSoundEvent
+} from '../../../shared/types';
 import type { BackgroundTaskController } from './backgroundTaskController';
 import {
   clearTaskInput,
@@ -17,6 +20,7 @@ import {
 } from '../../ui/dialogTypes';
 
 type LogSink = Pick<Console, 'log' | 'error'>;
+type ThemeSoundHandler = (event: ThemeSoundEvent) => void | Promise<void>;
 
 export interface TaskWorkflowControllerOptions {
   alertUser?: AlertHandler;
@@ -24,6 +28,7 @@ export interface TaskWorkflowControllerOptions {
   confirmUser?: ConfirmHandler;
   isInteractive: () => boolean;
   logger?: LogSink;
+  playThemeSound?: ThemeSoundHandler;
   renderTasks: () => void;
   saveTasks: () => void | Promise<void>;
   taskState: TaskStateController;
@@ -71,6 +76,10 @@ export function createTaskWorkflowController(
     options.backgroundTasks.deactivateTriggeredTasks(task);
   }
 
+  function playThemeSound(event: ThemeSoundEvent): void {
+    void options.playThemeSound?.(event);
+  }
+
   function completeNextTask(): void {
     try {
       const result = options.taskState.completeNextTask();
@@ -86,6 +95,7 @@ export function createTaskWorkflowController(
       });
 
       persistTaskChanges();
+      playThemeSound('taskCompleted');
       logger.log('Completed task:', task.text);
 
       if (options.isInteractive()) {
@@ -152,6 +162,7 @@ export function createTaskWorkflowController(
       result.completedParents.forEach(parent => {
         activateTriggeredTasks(parent);
       });
+      playThemeSound('taskCompleted');
     } else {
       deactivateTriggeredTasks(result.task);
       result.uncheckedParents.forEach(parent => {
@@ -233,6 +244,7 @@ export function createTaskWorkflowController(
     options.backgroundTasks.clearAllExpirationTimers();
     options.backgroundTasks.restartExpirationTimers();
     persistTaskChanges();
+    playThemeSound('undo');
     logger.log('Undid task action:', result.label);
   }
 
@@ -246,6 +258,7 @@ export function createTaskWorkflowController(
     options.backgroundTasks.clearAllExpirationTimers();
     options.backgroundTasks.restartExpirationTimers();
     persistTaskChanges();
+    playThemeSound('redo');
     logger.log('Forwarded task action:', result.label);
   }
 

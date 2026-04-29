@@ -47,6 +47,58 @@ describe('theme validation', () => {
     ]);
   });
 
+  test('validates optional theme sounds', () => {
+    const valid = validateTheme({
+      id: 'sound-theme',
+      name: 'Sound Theme',
+      sounds: {
+        enabled: true,
+        volume: 0.8,
+        events: {
+          taskCompleted: 'complete.ogg',
+          backgroundActivated: {
+            file: 'alert.wav',
+            volume: 0.5
+          },
+          unsupported: 'ignored.mp3'
+        }
+      }
+    });
+
+    expect(valid.errors).toEqual([]);
+    expect(valid.warnings).toEqual([
+      'sounds.events.unsupported is not a supported sound event; event will be ignored'
+    ]);
+
+    const invalid = validateTheme({
+      id: 'bad-sound-theme',
+      name: 'Bad Sound Theme',
+      sounds: {
+        enabled: 'yes',
+        volume: 2,
+        events: {
+          taskCompleted: '../complete.ogg',
+          backgroundActivated: 'audio/alert.wav',
+          undo: {
+            file: 'undo.txt',
+            volume: -1
+          },
+          redo: []
+        }
+      }
+    });
+
+    expect(invalid.errors).toEqual([
+      'sounds.enabled must be a boolean',
+      'sounds.volume must be a number between 0 and 1',
+      'sounds.events.taskCompleted must be a relative path inside the theme folder',
+      'sounds.events.backgroundActivated must be a file name in the theme folder',
+      'sounds.events.undo.file must point to a supported audio file',
+      'sounds.events.undo.volume must be a number between 0 and 1',
+      'sounds.events.redo must be a sound file string or object'
+    ]);
+  });
+
   test('rejects unsafe css file paths', () => {
     expect(validateTheme({
       id: 'unsafe',

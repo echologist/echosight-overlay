@@ -152,6 +152,21 @@
             Browse themes in a larger preview window, or add custom themes as .json files in the themes folder
           </div>
         </div>
+
+        <div class="setting-group compact">
+          <label class="setting-label">Theme Sounds:</label>
+          <div class="checkbox-group">
+            <label class="checkbox-row">
+              <input type="checkbox" id="themeSoundsEnabled"> Enable optional theme sounds
+            </label>
+          </div>
+          <input type="range" id="themeSoundVolumeSlider" min="0" max="100" value="60" class="range-input">
+          <div class="range-labels">
+            <span>Muted</span>
+            <span id="themeSoundVolumeValue">60% volume</span>
+            <span>Louder</span>
+          </div>
+        </div>
       </div>
 
       <!-- Hotkey Settings -->

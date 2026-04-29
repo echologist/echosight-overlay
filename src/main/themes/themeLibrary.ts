@@ -6,7 +6,8 @@ import { readJsonFile } from '../utils/jsonStorage';
 import { resolveChildPath } from '../utils/pathSafety';
 import {
   createVariantTheme,
-  getAssetType
+  getAssetType,
+  getSupportedThemeAssetExtensions
 } from './themeHelpers';
 import {
   formatThemeValidationMessages,
@@ -232,7 +233,7 @@ export class ThemeLibrary {
 
   private async loadThemeAssets(themeFolderPath: string): Promise<Record<string, ThemeAsset>> {
     const assets: Record<string, ThemeAsset> = {};
-    const supportedExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'];
+    const supportedExtensions = getSupportedThemeAssetExtensions();
 
     try {
       const files = await fs.readdir(themeFolderPath);
@@ -248,7 +249,7 @@ export class ThemeLibrary {
           assets[assetName] = {
             path: assetPath,
             relativePath: `themes/${path.basename(themeFolderPath)}/${file}`,
-            type: getAssetType(assetName),
+            type: getAssetType(assetName, ext),
             extension: ext
           };
         }

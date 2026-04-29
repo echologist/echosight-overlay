@@ -61,11 +61,17 @@ export interface HotkeySettings {
   redoLastAction: string;
 }
 
+export interface SoundSettings {
+  enabled: boolean;
+  volume: number;
+}
+
 export interface Settings {
   settingsVersion: number;
   transparency: number;
   theme: string;
   hotkeys: HotkeySettings;
+  sounds: SoundSettings;
   backgroundColor?: string;
 }
 
@@ -103,6 +109,25 @@ export interface ThemeAssetData {
   isText: boolean;
 }
 
+export type ThemeSoundEvent =
+  'taskCompleted' |
+  'backgroundActivated' |
+  'undo' |
+  'redo';
+
+export interface ThemeSoundObject {
+  file: string;
+  volume?: number;
+}
+
+export type ThemeSoundDefinition = string | ThemeSoundObject;
+
+export interface ThemeSoundConfig {
+  enabled?: boolean;
+  volume?: number;
+  events?: Partial<Record<ThemeSoundEvent, ThemeSoundDefinition>>;
+}
+
 export interface Theme {
   id: string;
   name: string;
@@ -110,6 +135,7 @@ export interface Theme {
   assets?: Record<string, ThemeAsset>;
   loadedAssets?: Record<string, string>;
   cssFile?: string;
+  sounds?: ThemeSoundConfig;
   folderPath?: string;
   path?: string;
   [key: string]: unknown;

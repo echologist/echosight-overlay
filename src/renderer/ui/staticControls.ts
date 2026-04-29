@@ -52,6 +52,8 @@ export interface RendererControlHandlers {
   showSettingsModal: CommandHandler;
   showThemeSelection: CommandHandler;
   toggleInteractiveMode: CommandHandler;
+  updateSoundEnabled: ValueHandler;
+  updateSoundVolume: ValueHandler;
   updateTheme: ValueHandler;
   updateTransparency: ValueHandler;
 }
@@ -102,6 +104,11 @@ export function setupRendererControls(handlers: RendererControlHandlers): void {
   bindClick('saveTriggersButton', handlers.saveTriggers);
 
   bindValueInput('transparencySlider', handlers.updateTransparency);
+  bindValueInput('themeSoundVolumeSlider', handlers.updateSoundVolume);
+  bindEvent('themeSoundsEnabled', 'change', event => {
+    const target = event.currentTarget;
+    return handlers.updateSoundEnabled(target instanceof HTMLInputElement && target.checked ? 'true' : 'false');
+  });
   bindValueChange('themeSelect', handlers.updateTheme);
   bindEvent('importFileInput', 'change', handlers.handleFileImport);
 

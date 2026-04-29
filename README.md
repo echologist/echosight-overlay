@@ -74,7 +74,7 @@ Template data preserves hierarchy, background task configuration, and trigger re
 
 ## Themes
 
-Echosight ships with several bundled themes and supports custom theme folders. Themes are stored under the application data directory and can include JSON configuration, CSS, and image assets.
+Echosight ships with several bundled themes and supports custom theme folders. Themes are stored under the application data directory and can include JSON configuration, CSS, image assets, and optional sound assets.
 
 Use the settings window to open the local themes folder or reload themes after editing them.
 
@@ -127,7 +127,7 @@ npm run build-linux
 
 ### Theme Authoring
 
-Custom theme structure, validation rules, assets, `cssFile`, variants, and `customCSS` are documented in [docs/themes.md](docs/themes.md).
+Custom theme structure, validation rules, assets, `cssFile`, variants, `customCSS`, and optional sounds are documented in [docs/themes.md](docs/themes.md).
 
 ## Project Structure
 

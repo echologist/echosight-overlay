@@ -31,6 +31,9 @@ describe('settings UI', () => {
     expect(getElement('selectedThemeId').textContent).toBe('echosight');
     expect(getInput('transparencySlider').value).toBe('70');
     expect(getElement('transparencyValue').textContent).toBe('70% visible');
+    expect(getInput('themeSoundsEnabled').checked).toBe(true);
+    expect(getInput('themeSoundVolumeSlider').value).toBe('45');
+    expect(getElement('themeSoundVolumeValue').textContent).toBe('45% volume');
     expect(getInput('undoLastActionHotkey').value).toBe('Ctrl+Shift+Z');
     expect(getInput('redoLastActionHotkey').value).toBe('Ctrl+Shift+Y');
 
@@ -44,11 +47,17 @@ describe('settings UI', () => {
 
     getInput('transparencySlider').value = '75';
     getInput('themeSelect').value = 'dark';
+    getInput('themeSoundsEnabled').checked = false;
+    getInput('themeSoundVolumeSlider').value = '30';
     getInput('redoLastActionHotkey').value = 'Alt+Y';
 
     expect(readSettingsControls(settingsFixture)).toEqual({
       transparency: '75',
       theme: 'dark',
+      sounds: {
+        enabled: false,
+        volume: '30'
+      },
       hotkeys: {
         toggleVisibility: 'Ctrl+Shift+T',
         toggleInteractive: 'Ctrl+Shift+I',
@@ -90,9 +99,13 @@ describe('settings UI', () => {
 });
 
 const settingsFixture: Settings = {
-  settingsVersion: 1,
+  settingsVersion: 2,
   transparency: 70,
   theme: 'echosight',
+  sounds: {
+    enabled: true,
+    volume: 45
+  },
   hotkeys: {
     toggleVisibility: 'Ctrl+Shift+T',
     toggleInteractive: 'Ctrl+Shift+I',
@@ -123,6 +136,9 @@ function renderSettingsFixture(): void {
     <input id="themeSelect" type="hidden">
     <span id="selectedThemeName"></span>
     <span id="selectedThemeId"></span>
+    <input id="themeSoundsEnabled" type="checkbox">
+    <input id="themeSoundVolumeSlider" type="range">
+    <span id="themeSoundVolumeValue"></span>
     <input id="toggleVisibilityHotkey">
     <input id="toggleInteractiveHotkey">
     <input id="completeNextTaskHotkey">

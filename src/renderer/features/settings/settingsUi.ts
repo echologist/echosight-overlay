@@ -23,6 +23,10 @@ export interface SettingsControlValues {
   transparency: string;
   theme: string;
   hotkeys: HotkeySettings;
+  sounds: {
+    enabled: boolean;
+    volume: string;
+  };
 }
 
 export function renderSettingsModal(settings: Settings, themes: Theme[]): void {
@@ -46,6 +50,9 @@ export function writeSettingsControls(settings: Settings): void {
   setInputValue('transparencySlider', String(settings.transparency));
   setTextContent('transparencyValue', formatTransparencyLabel(settings.transparency));
   setInputValue('themeSelect', settings.theme);
+  setCheckboxChecked('themeSoundsEnabled', settings.sounds.enabled);
+  setInputValue('themeSoundVolumeSlider', String(settings.sounds.volume));
+  setSoundVolumeDisplay(settings.sounds.volume);
   writeHotkeyControls(settings.hotkeys);
 }
 
@@ -53,6 +60,10 @@ export function readSettingsControls(fallback: Settings): SettingsControlValues 
   return {
     transparency: readInputValue('transparencySlider', String(fallback.transparency)),
     theme: readInputValue('themeSelect', fallback.theme),
+    sounds: {
+      enabled: readCheckboxValue('themeSoundsEnabled', fallback.sounds.enabled),
+      volume: readInputValue('themeSoundVolumeSlider', String(fallback.sounds.volume))
+    },
     hotkeys: {
       toggleVisibility: readInputValue(HOTKEY_INPUT_IDS.toggleVisibility, fallback.hotkeys.toggleVisibility),
       toggleInteractive: readInputValue(HOTKEY_INPUT_IDS.toggleInteractive, fallback.hotkeys.toggleInteractive),
@@ -77,6 +88,10 @@ export function writeHotkeyControls(hotkeys: HotkeySettings): void {
 
 export function setTransparencyDisplay(transparency: number): void {
   setTextContent('transparencyValue', formatTransparencyLabel(transparency));
+}
+
+export function setSoundVolumeDisplay(volume: number): void {
+  setTextContent('themeSoundVolumeValue', formatSoundVolumeLabel(volume));
 }
 
 export function setTransparencyControlsEnabled(supportsTransparency: boolean, transparency: number): void {
@@ -150,15 +165,31 @@ function formatTransparencyLabel(transparency: number): string {
   return `${transparency}% visible`;
 }
 
+function formatSoundVolumeLabel(volume: number): string {
+  return `${volume}% volume`;
+}
+
 function readInputValue(id: string, fallback = ''): string {
   const input = getInputElement(id) || getSelectElement(id);
   return input?.value ?? fallback;
+}
+
+function readCheckboxValue(id: string, fallback: boolean): boolean {
+  const input = getInputElement(id);
+  return input?.type === 'checkbox' ? input.checked : fallback;
 }
 
 function setInputValue(id: string, value: string): void {
   const input = getInputElement(id) || getSelectElement(id);
   if (input) {
     input.value = value;
+  }
+}
+
+function setCheckboxChecked(id: string, checked: boolean): void {
+  const input = getInputElement(id);
+  if (input?.type === 'checkbox') {
+    input.checked = checked;
   }
 }
 

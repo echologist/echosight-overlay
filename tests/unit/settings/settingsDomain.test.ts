@@ -9,10 +9,14 @@ describe('settings domain', () => {
 
     expect(createDefaultSettings().theme).toBe('echosight');
     expect(createDefaultSettings().transparency).toBe(70);
-    expect(createDefaultSettings().settingsVersion).toBe(1);
+    expect(createDefaultSettings().settingsVersion).toBe(2);
+    expect(createDefaultSettings().sounds).toEqual({
+      enabled: false,
+      volume: 60
+    });
     expect(normalizeSettings(null).theme).toBe('echosight');
     expect(normalizeSettings(null).transparency).toBe(70);
-    expect(normalizeSettings(null).settingsVersion).toBe(1);
+    expect(normalizeSettings(null).settingsVersion).toBe(2);
     expect(normalizeSettings({ theme: '' }).theme).toBe('echosight');
   });
 
@@ -33,7 +37,7 @@ describe('settings domain', () => {
     const settings = normalizeSettings(legacySettings);
 
     expect(settings).toEqual({
-      settingsVersion: 1,
+      settingsVersion: 2,
       transparency: 78,
       theme: 'echosight',
       hotkeys: {
@@ -42,10 +46,40 @@ describe('settings domain', () => {
         completeNextTask: 'Alt+N',
         undoLastAction: 'Alt+Z',
         redoLastAction: 'Ctrl+Shift+Y'
+      },
+      sounds: {
+        enabled: false,
+        volume: 60
       }
     });
     expect(shouldPersistSettingsMigration(legacySettings, settings)).toBe(true);
     expect(shouldPersistSettingsMigration(settings, settings)).toBe(false);
+  });
+
+  test('normalizes sound settings', async () => {
+    const {
+      normalizeSettings
+    } = await importSettingsDomain('Win32');
+
+    expect(normalizeSettings({
+      sounds: {
+        enabled: true,
+        volume: '74.5'
+      }
+    }).sounds).toEqual({
+      enabled: true,
+      volume: 75
+    });
+
+    expect(normalizeSettings({
+      sounds: {
+        enabled: 'yes',
+        volume: 500
+      }
+    }).sounds).toEqual({
+      enabled: false,
+      volume: 100
+    });
   });
 
   test('uses Cmd labels for default hotkeys on macOS', async () => {

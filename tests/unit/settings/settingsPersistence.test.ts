@@ -18,7 +18,7 @@ describe('settings persistence', () => {
     const settings = await loadSettingsState(api, fallbackSettings, silentLogger);
 
     expect(settings).toEqual({
-      settingsVersion: 1,
+      settingsVersion: 2,
       transparency: 64,
       theme: 'dark',
       hotkeys: {
@@ -27,6 +27,10 @@ describe('settings persistence', () => {
         completeNextTask: 'Alt+N',
         undoLastAction: 'Ctrl+Shift+Z',
         redoLastAction: 'Ctrl+Shift+Y'
+      },
+      sounds: {
+        enabled: false,
+        volume: 60
       }
     });
     expect(api.saveSettings).toHaveBeenCalledWith(settings);
@@ -42,7 +46,7 @@ describe('settings persistence', () => {
 });
 
 const fallbackSettings: Settings = {
-  settingsVersion: 1,
+  settingsVersion: 2,
   transparency: 70,
   theme: 'echosight',
   hotkeys: {
@@ -51,6 +55,10 @@ const fallbackSettings: Settings = {
     completeNextTask: 'Ctrl+Shift+N',
     undoLastAction: 'Ctrl+Shift+Z',
     redoLastAction: 'Ctrl+Shift+Y'
+  },
+  sounds: {
+    enabled: false,
+    volume: 60
   }
 };
 

@@ -16,6 +16,7 @@ import {
   createDefaultHotkeys,
   createDefaultSettings,
   normalizeSettings,
+  normalizeSoundVolume,
   normalizeTransparency
 } from './settingsDomain';
 import {
@@ -26,6 +27,7 @@ import {
   renderThemeSelector,
   setTransparencyControlsEnabled,
   setTransparencyDisplay,
+  setSoundVolumeDisplay,
   writeHotkeyControls
 } from './settingsUi';
 import {
@@ -49,6 +51,8 @@ export interface SettingsControllerOptions {
   getThemes: () => Theme[];
   logger?: LogSink;
   onInteractiveRefresh: () => void;
+  onSoundSettingsChanged?: (settings: Settings) => void;
+  onThemeApplied?: (theme: Theme, settings: Settings) => void;
 }
 
 export interface SettingsController {
@@ -63,6 +67,8 @@ export interface SettingsController {
   saveSettings: () => Promise<void>;
   showSettingsModal: () => void;
   showThemeSelection: () => void;
+  updateSoundEnabled: (value: unknown) => void;
+  updateSoundVolume: (value: unknown) => void;
   updateTheme: (themeId: string) => Promise<void>;
   updateThemeSelector: () => void;
   updateTransparency: (value: unknown) => void;
@@ -152,6 +158,30 @@ export function createSettingsController(options: SettingsControllerOptions): Se
     void applyTheme();
   }
 
+  function updateSoundEnabled(value: unknown): void {
+    settings = {
+      ...settings,
+      sounds: {
+        ...settings.sounds,
+        enabled: value === true || value === 'true'
+      }
+    };
+    options.onSoundSettingsChanged?.(settings);
+  }
+
+  function updateSoundVolume(value: unknown): void {
+    const volume = normalizeSoundVolume(value, settings.sounds.volume);
+    settings = {
+      ...settings,
+      sounds: {
+        ...settings.sounds,
+        volume
+      }
+    };
+    setSoundVolumeDisplay(volume);
+    options.onSoundSettingsChanged?.(settings);
+  }
+
   async function updateTheme(themeId: string): Promise<void> {
     logger.log('Theme changed to:', themeId);
     settings = {
@@ -190,6 +220,8 @@ export function createSettingsController(options: SettingsControllerOptions): Se
 
       if (theme) {
         updateTransparencyControls(theme.supportsTransparency !== false);
+        options.onThemeApplied?.(theme, settings);
+        options.onSoundSettingsChanged?.(settings);
       }
     } catch (error) {
       logger.error('Failed to apply theme:', error);
@@ -215,6 +247,7 @@ export function createSettingsController(options: SettingsControllerOptions): Se
       }
 
       settings = normalizeSettings(readSettingsControls(settings), settings);
+      options.onSoundSettingsChanged?.(settings);
       await saveSettingsState(options.api, settings, logger);
 
       closeSettingsModal();
@@ -227,6 +260,7 @@ export function createSettingsController(options: SettingsControllerOptions): Se
 
   async function loadSettings(): Promise<void> {
     settings = await loadSettingsState(options.api, settings, logger);
+    options.onSoundSettingsChanged?.(settings);
   }
 
   return {
@@ -241,6 +275,8 @@ export function createSettingsController(options: SettingsControllerOptions): Se
     saveSettings,
     showSettingsModal,
     showThemeSelection,
+    updateSoundEnabled,
+    updateSoundVolume,
     updateTheme,
     updateThemeSelector,
     updateTransparency

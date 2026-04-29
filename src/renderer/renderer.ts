@@ -40,6 +40,9 @@ import {
 import {
   createDialogService
 } from './ui/dialogService.ts';
+import {
+  createThemeSoundController
+} from './features/themes/themeSounds.ts';
 import type {
   EchosightApi,
   TaskTemplate
@@ -47,6 +50,10 @@ import type {
 
 const ipc = getRequiredEchosightApi();
 const dialogs = createDialogService();
+const themeSounds = createThemeSoundController({
+  api: ipc,
+  logger: console
+});
 
 const taskController = createTaskStateController({
   api: ipc,
@@ -60,7 +67,10 @@ const backgroundTaskController = createBackgroundTaskController({
     updateProgress();
     saveTasks();
   },
-  onActivated: showBackgroundTaskNotification,
+  onActivated: count => {
+    showBackgroundTaskNotification(count);
+    void themeSounds.play('backgroundActivated');
+  },
   logger: console
 });
 let settingsController: SettingsController;
@@ -78,6 +88,7 @@ taskWorkflowController = createTaskWorkflowController({
   confirmUser: dialogs.confirm,
   isInteractive: () => overlayController.isInteractive(),
   logger: console,
+  playThemeSound: event => themeSounds.play(event),
   renderTasks,
   saveTasks,
   taskState: taskController,
@@ -152,6 +163,8 @@ settingsController = createSettingsController({
   getThemes: () => themeController.getThemes(),
   getIsInteractiveMode: () => overlayController.isInteractive(),
   onInteractiveRefresh: () => overlayController.refreshInteractiveVisuals(true),
+  onSoundSettingsChanged: settings => themeSounds.updateSettings(settings.sounds),
+  onThemeApplied: (theme, settings) => themeSounds.applyTheme(theme, settings.sounds),
   logger: console,
   alertUser: dialogs.alert,
   confirmUser: dialogs.confirm
@@ -266,6 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
     showSettingsModal: settingsController.showSettingsModal,
     showThemeSelection: settingsController.showThemeSelection,
     toggleInteractiveMode: () => toggleOverlayInteractiveMode(ipc, console),
+    updateSoundEnabled: settingsController.updateSoundEnabled,
+    updateSoundVolume: settingsController.updateSoundVolume,
     updateTheme: settingsController.updateTheme,
     updateTransparency: settingsController.updateTransparency
   });

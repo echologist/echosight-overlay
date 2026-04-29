@@ -1,6 +1,6 @@
 import path from 'path';
 import { defu } from 'defu';
-import type { Theme } from '../../shared/types';
+import type { Theme, ThemeSoundConfig } from '../../shared/types';
 
 const MIME_TYPES: Record<string, string> = {
   '.png': 'image/png',
@@ -8,10 +8,29 @@ const MIME_TYPES: Record<string, string> = {
   '.jpeg': 'image/jpeg',
   '.gif': 'image/gif',
   '.svg': 'image/svg+xml',
-  '.webp': 'image/webp'
+  '.webp': 'image/webp',
+  '.mp3': 'audio/mpeg',
+  '.ogg': 'audio/ogg',
+  '.wav': 'audio/wav',
+  '.m4a': 'audio/mp4'
 };
 
-export function getAssetType(assetName: string): string {
+const AUDIO_EXTENSIONS = new Set(['.mp3', '.ogg', '.wav', '.m4a']);
+const IMAGE_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp']);
+
+export function getSupportedThemeAssetExtensions(): string[] {
+  return [...IMAGE_EXTENSIONS, ...AUDIO_EXTENSIONS];
+}
+
+export function isAudioAssetExtension(extension: string): boolean {
+  return AUDIO_EXTENSIONS.has(extension.toLowerCase());
+}
+
+export function getAssetType(assetName: string, extension = ''): string {
+  if (isAudioAssetExtension(extension)) {
+    return 'sound';
+  }
+
   const name = assetName.toLowerCase();
 
   if (name.includes('background') || name.includes('bg')) return 'background';
@@ -69,6 +88,9 @@ export function createVariantTheme(
   }
   if (variantConfig.customCSS) {
     variantTheme.customCSS = mergeThemeSection(variantTheme.customCSS, variantConfig.customCSS);
+  }
+  if (variantConfig.sounds) {
+    variantTheme.sounds = mergeThemeSection(variantTheme.sounds, variantConfig.sounds) as ThemeSoundConfig;
   }
 
   delete variantTheme.variants;

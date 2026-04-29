@@ -1,4 +1,8 @@
-import type { HotkeySettings, Settings } from '../../../shared/types';
+import type {
+  HotkeySettings,
+  Settings,
+  SoundSettings
+} from '../../../shared/types';
 import {
   CURRENT_SETTINGS_VERSION,
   createDefaultSettingsState
@@ -24,6 +28,14 @@ export function createDefaultSettings(): Settings {
 }
 
 export function normalizeTransparency(value: unknown, fallback = 70): number {
+  return normalizePercentage(value, fallback);
+}
+
+export function normalizeSoundVolume(value: unknown, fallback = 60): number {
+  return normalizePercentage(value, fallback);
+}
+
+function normalizePercentage(value: unknown, fallback: number): number {
   const numericValue = Number(value);
   if (!Number.isFinite(numericValue)) {
     return fallback;
@@ -88,7 +100,8 @@ export function normalizeSettings(input: unknown, fallback: Settings = createDef
     settingsVersion: CURRENT_SETTINGS_VERSION,
     transparency: normalizeTransparency(source.transparency, fallback.transparency),
     theme,
-    hotkeys: normalizeHotkeys(source.hotkeys, fallback.hotkeys)
+    hotkeys: normalizeHotkeys(source.hotkeys, fallback.hotkeys),
+    sounds: normalizeSoundSettings(source.sounds, fallback.sounds)
   };
 }
 
@@ -103,7 +116,8 @@ export function shouldPersistSettingsMigration(input: unknown, settings: Setting
 
   return input.transparency !== settings.transparency ||
     input.theme !== settings.theme ||
-    !areHotkeysEqual(input.hotkeys, settings.hotkeys);
+    !areHotkeysEqual(input.hotkeys, settings.hotkeys) ||
+    !areSoundSettingsEqual(input.sounds, settings.sounds);
 }
 
 function normalizeHotkeys(input: unknown, fallback: HotkeySettings): HotkeySettings {
@@ -128,6 +142,24 @@ function areHotkeysEqual(input: unknown, hotkeys: HotkeySettings): boolean {
     input.completeNextTask === hotkeys.completeNextTask &&
     input.undoLastAction === hotkeys.undoLastAction &&
     input.redoLastAction === hotkeys.redoLastAction;
+}
+
+function normalizeSoundSettings(input: unknown, fallback: SoundSettings): SoundSettings {
+  const source = isRecord(input) ? input : {};
+
+  return {
+    enabled: typeof source.enabled === 'boolean' ? source.enabled : fallback.enabled,
+    volume: normalizeSoundVolume(source.volume, fallback.volume)
+  };
+}
+
+function areSoundSettingsEqual(input: unknown, sounds: SoundSettings): boolean {
+  if (!isRecord(input)) {
+    return false;
+  }
+
+  return input.enabled === sounds.enabled &&
+    input.volume === sounds.volume;
 }
 
 function normalizeString(value: unknown, fallback: string): string {

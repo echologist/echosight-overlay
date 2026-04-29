@@ -32,6 +32,10 @@ export async function loadThemeAssets(
   theme.loadedAssets = {};
 
   for (const [assetName, assetInfo] of Object.entries(theme.assets)) {
+    if (assetInfo.type === 'sound') {
+      continue;
+    }
+
     try {
       const assetData = await loadAsset(theme.id, assetName);
       if (!assetData) {

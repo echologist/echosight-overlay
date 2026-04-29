@@ -83,6 +83,28 @@ describe('theme asset loaders', () => {
     await expect(loadThemeAssetData(theme, 'outside')).resolves.toBeNull();
   });
 
+  test('loads audio theme assets with audio mime types', async () => {
+    const assetPath = path.join(themeDir, 'complete.ogg');
+    await fs.writeFile(assetPath, 'audio-data', 'utf8');
+
+    await expect(loadThemeAssetData(createTheme({
+      assets: {
+        complete: {
+          path: assetPath,
+          relativePath: 'themes/custom/complete.ogg',
+          type: 'sound',
+          extension: '.ogg'
+        }
+      }
+    }), 'complete')).resolves.toMatchObject({
+      data: Buffer.from('audio-data').toString('base64'),
+      type: 'sound',
+      extension: '.ogg',
+      mimeType: 'audio/ogg',
+      isText: false
+    });
+  });
+
   function createTheme(overrides: Partial<Theme> = {}): Theme {
     return {
       id: 'custom',

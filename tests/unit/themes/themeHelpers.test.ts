@@ -85,9 +85,11 @@ describe('theme helpers', () => {
 
   test('classifies theme assets and resolves theme directories', () => {
     expect(getAssetType('boss-background.webp')).toBe('background');
+    expect(getAssetType('complete', '.ogg')).toBe('sound');
     expect(getAssetType('button-frame.png')).toBe('button');
     expect(getAssetType('unknown.bin')).toBe('misc');
     expect(getMimeType('.WEBP')).toBe('image/webp');
+    expect(getMimeType('.OGG')).toBe('audio/ogg');
     expect(getMimeType('.bin')).toBe('application/octet-stream');
     expect(getThemeDirectory({ folderPath: '/themes/custom' })).toBe('/themes/custom');
     expect(getThemeDirectory({ path: '/themes/base/theme.json' })).toBe('/themes/base');

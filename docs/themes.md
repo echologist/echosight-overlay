@@ -51,6 +51,7 @@ Common optional fields:
 - `supportsTransparency`: boolean. Set `false` for opaque themes.
 - `cssFile`: relative path to a `.css` file inside the theme folder.
 - `customCSS`: CSS string or an object of named CSS snippets.
+- `sounds`: optional sound event mapping for folder themes.
 
 ## Folder Themes And Assets
 
@@ -72,6 +73,12 @@ Supported image asset extensions:
 - `.svg`
 - `.webp`
 
+Supported audio asset extensions:
+- `.mp3`
+- `.ogg`
+- `.wav`
+- `.m4a`
+
 Assets are loaded automatically and exposed to generated CSS as custom properties. For example, `main_bg.svg` becomes:
 
 ```css
@@ -83,6 +90,7 @@ Asset names are inferred from filenames:
 - names containing `button` become button assets
 - names containing `progress` become progress assets
 - names containing `icon`, `texture`, or `border` get matching asset types
+- audio file extensions become sound assets
 
 ## CSS Files
 
@@ -138,6 +146,40 @@ Object values can also be property maps. A key named `compact` becomes a `.theme
 }
 ```
 
+## Optional Sounds
+
+Themes can map app events to audio files. Sounds are optional and only play when the user enables theme sounds in Settings.
+
+```json
+{
+  "sounds": {
+    "enabled": true,
+    "volume": 0.8,
+    "events": {
+      "taskCompleted": "complete.ogg",
+      "backgroundActivated": {
+        "file": "alert.wav",
+        "volume": 0.7
+      },
+      "undo": "undo.mp3",
+      "redo": "redo.mp3"
+    }
+  }
+}
+```
+
+Rules:
+- Sound files must live at the root of the theme folder.
+- Sound references are file names such as `complete.ogg`, not nested paths.
+- Theme and event `volume` values use `0` to `1`.
+- Missing sound files are ignored at runtime.
+
+Supported sound events:
+- `taskCompleted`
+- `backgroundActivated`
+- `undo`
+- `redo`
+
 ## Generated Sections
 
 The renderer understands these object sections:
@@ -150,6 +192,7 @@ The renderer understands these object sections:
 - `backgrounds`
 - `layout`
 - `animations`
+- `sounds`
 - `compatibility`
 - `metadata`
 
@@ -223,6 +266,7 @@ Common validation failures:
 - `cssFile must be a relative path inside the theme folder`
 - `cssFile must point to a .css file`
 - `customCSS must be a string or object`
+- `sounds.events.taskCompleted must point to a supported audio file`
 - `variants.someVariant must be an object; variant will be ignored`
 
 If a theme has validation errors, it is skipped. If only a variant has validation errors, only that variant is skipped.

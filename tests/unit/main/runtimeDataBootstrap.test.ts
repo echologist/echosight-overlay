@@ -98,7 +98,7 @@ describe('runtime data bootstrap', () => {
 });
 
 const settingsFixture: Settings = {
-  settingsVersion: 1,
+  settingsVersion: 2,
   transparency: 70,
   theme: 'echosight',
   hotkeys: {
@@ -107,6 +107,10 @@ const settingsFixture: Settings = {
     completeNextTask: 'CommandOrControl+Shift+N',
     undoLastAction: 'CommandOrControl+Shift+Z',
     redoLastAction: 'CommandOrControl+Shift+Y'
+  },
+  sounds: {
+    enabled: false,
+    volume: 60
   }
 };
 

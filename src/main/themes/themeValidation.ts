@@ -1,5 +1,5 @@
 import path from 'path';
-import type { Theme } from '../../shared/types';
+import type { Theme, ThemeSoundEvent } from '../../shared/types';
 
 export interface ThemeValidationResult {
   theme: Theme | null;
@@ -47,6 +47,14 @@ const VARIANT_RECORD_FIELDS = [
   'animations'
 ];
 
+const THEME_SOUND_EVENTS = new Set<ThemeSoundEvent>([
+  'taskCompleted',
+  'backgroundActivated',
+  'undo',
+  'redo'
+]);
+const SOUND_FILE_EXTENSIONS = new Set(['.mp3', '.ogg', '.wav', '.m4a']);
+
 export function validateTheme(value: unknown): ThemeValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -65,6 +73,7 @@ export function validateTheme(value: unknown): ThemeValidationResult {
   validateOptionalBooleanFields(value, OPTIONAL_BOOLEAN_FIELDS, errors);
   validateCssFile(value.cssFile, errors);
   validateCustomCss(value.customCSS, errors);
+  validateSounds(value.sounds, errors, warnings);
   validateColors(value.colors, errors);
   validateRecordFields(value, RECORD_FIELDS, errors);
   validateVariants(value.variants, warnings);
@@ -94,6 +103,7 @@ export function validateThemeVariantConfig(
 
   validateOptionalStringFields(value, ['name', 'description'], errors, variantPath);
   validateCustomCss(value.customCSS, errors, variantPath);
+  validateSounds(value.sounds, errors, warnings, variantPath);
   validateVariantRecordFields(value, VARIANT_RECORD_FIELDS, errors, variantPath);
 
   if (errors.length > 0) {
@@ -188,6 +198,94 @@ function validateCustomCss(value: unknown, errors: string[], prefix?: string): v
 
     errors.push(`${fieldPath} must be a CSS string or object`);
   });
+}
+
+function validateSounds(
+  value: unknown,
+  errors: string[],
+  warnings: string[],
+  prefix?: string
+): void {
+  if (value === undefined) {
+    return;
+  }
+
+  const soundsPath = formatPath('sounds', prefix);
+  if (!isRecord(value)) {
+    errors.push(`${soundsPath} must be an object`);
+    return;
+  }
+
+  if (value.enabled !== undefined && typeof value.enabled !== 'boolean') {
+    errors.push(`${soundsPath}.enabled must be a boolean`);
+  }
+
+  validateVolume(value.volume, errors, `${soundsPath}.volume`);
+
+  if (value.events === undefined) {
+    return;
+  }
+
+  if (!isRecord(value.events)) {
+    errors.push(`${soundsPath}.events must be an object`);
+    return;
+  }
+
+  Object.entries(value.events).forEach(([eventName, definition]) => {
+    const eventPath = `${soundsPath}.events.${eventName}`;
+    if (!THEME_SOUND_EVENTS.has(eventName as ThemeSoundEvent)) {
+      warnings.push(`${eventPath} is not a supported sound event; event will be ignored`);
+      return;
+    }
+
+    validateSoundDefinition(definition, errors, eventPath);
+  });
+}
+
+function validateSoundDefinition(value: unknown, errors: string[], prefix: string): void {
+  if (typeof value === 'string') {
+    validateSoundFile(value, errors, prefix);
+    return;
+  }
+
+  if (!isRecord(value)) {
+    errors.push(`${prefix} must be a sound file string or object`);
+    return;
+  }
+
+  validateSoundFile(value.file, errors, `${prefix}.file`);
+  validateVolume(value.volume, errors, `${prefix}.volume`);
+}
+
+function validateSoundFile(value: unknown, errors: string[], prefix: string): void {
+  if (typeof value !== 'string' || !value.trim()) {
+    errors.push(`${prefix} must be a non-empty sound file string`);
+    return;
+  }
+
+  if (hasUnsafePathSegment(value)) {
+    errors.push(`${prefix} must be a relative path inside the theme folder`);
+    return;
+  }
+
+  if (hasPathSeparator(value)) {
+    errors.push(`${prefix} must be a file name in the theme folder`);
+    return;
+  }
+
+  if (!SOUND_FILE_EXTENSIONS.has(path.extname(value).toLowerCase())) {
+    errors.push(`${prefix} must point to a supported audio file`);
+  }
+}
+
+function validateVolume(value: unknown, errors: string[], prefix: string): void {
+  if (value === undefined) {
+    return;
+  }
+
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 1) {
+    errors.push(`${prefix} must be a number between 0 and 1`);
+  }
 }
 
 function validateColors(value: unknown, errors: string[], prefix = 'colors'): void {
@@ -285,6 +383,10 @@ function hasUnsafePathSegment(value: string): boolean {
 
   const normalizedPath = value.replace(/\\/g, '/');
   return normalizedPath.split('/').some(segment => segment === '..');
+}
+
+function hasPathSeparator(value: string): boolean {
+  return value.includes('/') || value.includes('\\');
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
