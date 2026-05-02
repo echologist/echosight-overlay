@@ -33,3 +33,5 @@ pids
 docs/superpowers/
 instructions/
 .codex
+.agents
+PRODUCT.md

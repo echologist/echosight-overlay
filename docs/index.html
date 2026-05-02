@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Echosight — PoE Task Overlay</title>
-  <meta name="description" content="A lightweight, customizable task management overlay designed for Path of Exile players. Track league starts, progression, and endgame goals without leaving the game." />
-  <meta property="og:title" content="Echosight — PoE Task Overlay" />
-  <meta property="og:description" content="Lightweight task management overlay for Path of Exile. Track league starts, progression, endgame goals." />
+  <title>Echosight, open-source task overlay</title>
+  <meta name="description" content="A lightweight, open-source task overlay for Path of Exile players and focused desktop workflows. Keep checklists visible without capturing your game input." />
+  <meta property="og:title" content="Echosight, open-source task overlay" />
+  <meta property="og:description" content="Lightweight open-source task overlay for Path of Exile players and focused desktop workflows." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://echologist.github.io/echoesight-overlay/" />
   <meta name="theme-color" content="#0b0a14" />
@@ -29,21 +29,18 @@
     a { color: inherit; text-decoration: none; }
     img, svg { display: block; max-width: 100%; }
     button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 3px;
+    }
 
     :root {
-      --bg-0: #07060d;
-      --bg-1: #0d0b18;
-      --bg-2: #14111f;
-      --panel: rgba(15, 12, 24, 0.78);
-      --panel-edge: rgba(255, 200, 120, 0.18);
       --gold: #d4a857;
       --gold-soft: #b89148;
       --gold-pale: #f1d990;
       --teal: #5fd8c8;
       --teal-deep: #2a8e84;
       --ember: #e3804a;
-      --ember-deep: #b34a1f;
-      --rune: #8b6f3a;
       --text: #d8d2c2;
       --text-dim: #97907d;
       --text-faint: #6c6553;
@@ -55,67 +52,19 @@
       inset: 0;
       z-index: -2;
       background:
-        radial-gradient(ellipse at 50% -10%, rgba(95, 216, 200, 0.08), transparent 55%),
-        radial-gradient(ellipse at 10% 30%, rgba(227, 128, 74, 0.10), transparent 45%),
-        radial-gradient(ellipse at 90% 60%, rgba(212, 168, 87, 0.07), transparent 45%),
-        linear-gradient(180deg, #06050b 0%, #0a0815 40%, #07060d 100%);
+        radial-gradient(ellipse at 55% -10%, rgba(95, 216, 200, 0.06), transparent 50%),
+        radial-gradient(ellipse at 10% 30%, rgba(227, 128, 74, 0.06), transparent 42%),
+        linear-gradient(180deg, #08070f 0%, #0b0914 44%, #07060d 100%);
     }
     .grain {
       position: fixed;
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      opacity: 0.35;
+      opacity: 0.22;
       mix-blend-mode: overlay;
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
     }
-
-    /* ---------- Browser frame (decorative) ---------- */
-    .browser {
-      max-width: 1200px;
-      margin: 28px auto 0;
-      padding: 0 16px;
-    }
-    .browser-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      background: linear-gradient(180deg, #18141f, #110e1a);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-bottom: 0;
-      border-radius: 10px 10px 0 0;
-    }
-    .browser-dots { display: flex; gap: 6px; }
-    .browser-dots span {
-      width: 11px; height: 11px; border-radius: 50%;
-      background: #2a2535;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
-    }
-    .browser-dots span:nth-child(1) { background: #c0463a; }
-    .browser-dots span:nth-child(2) { background: #c8973f; }
-    .browser-dots span:nth-child(3) { background: #4f9a4a; }
-    .browser-url {
-      flex: 1;
-      text-align: center;
-      color: var(--text-dim);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12.5px;
-      letter-spacing: 0.02em;
-      padding: 4px 12px;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.04);
-      border-radius: 999px;
-      max-width: 520px;
-      margin: 0 auto;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .browser-actions {
-      display: flex; gap: 10px; color: var(--text-faint);
-    }
-    .browser-actions svg { width: 16px; height: 16px; }
 
     /* ---------- Nav ---------- */
     .nav {
@@ -189,18 +138,18 @@
       inset: 0;
       z-index: 0;
       background:
-        radial-gradient(ellipse 60% 50% at 30% 70%, rgba(227, 128, 74, 0.18), transparent 60%),
-        radial-gradient(ellipse 60% 50% at 75% 30%, rgba(95, 216, 200, 0.10), transparent 60%);
+        radial-gradient(ellipse 55% 42% at 28% 72%, rgba(227, 128, 74, 0.10), transparent 62%),
+        radial-gradient(ellipse 55% 45% at 76% 28%, rgba(95, 216, 200, 0.08), transparent 62%);
       pointer-events: none;
     }
     .ember {
       position: absolute;
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: #ffb066;
-      box-shadow: 0 0 8px #ff8a3d, 0 0 18px #ff6a1c;
-      opacity: 0.7;
-      animation: rise 9s linear infinite;
+      background: #d4a857;
+      box-shadow: 0 0 8px rgba(212,168,87,0.42);
+      opacity: 0.45;
+      animation: rise 12s linear infinite;
     }
     .ember.e2 { left: 18%; bottom: 10%; animation-delay: -2s; opacity: 0.55; }
     .ember.e3 { left: 28%; bottom: 8%;  animation-delay: -5s; opacity: 0.6; }
@@ -234,12 +183,8 @@
       font-size: clamp(56px, 9vw, 116px);
       line-height: 0.95;
       letter-spacing: 0.02em;
-      color: #f3e6c4;
-      background: linear-gradient(180deg, #fff2cf 0%, #d4a857 55%, #8a6420 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 4px 24px rgba(212, 168, 87, 0.18));
+      color: #f1dfb2;
+      text-shadow: 0 4px 28px rgba(212, 168, 87, 0.16);
       margin-bottom: 6px;
     }
     .hero-subtitle {
@@ -257,9 +202,9 @@
       opacity: 0.85;
     }
     .hero-desc {
-      max-width: 460px;
+      max-width: 500px;
       color: var(--text-dim);
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.75;
       margin-bottom: 32px;
     }
@@ -287,16 +232,16 @@
       color: #1a0a04;
       background: linear-gradient(180deg, #f0a06a 0%, #d6663a 50%, #a13614 100%);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.35),
+        inset 0 1px 0 rgba(247,226,188,0.32),
         0 0 0 1px #6f2a10,
-        0 8px 24px rgba(214, 102, 58, 0.35);
+        0 8px 24px rgba(214, 102, 58, 0.24);
     }
     .btn-primary:hover {
       filter: brightness(1.08);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.45),
+        inset 0 1px 0 rgba(247,226,188,0.42),
         0 0 0 1px #6f2a10,
-        0 12px 32px rgba(214, 102, 58, 0.5);
+        0 12px 32px rgba(214, 102, 58, 0.34);
     }
     .btn-secondary {
       color: var(--teal);
@@ -329,6 +274,7 @@
     /* ---------- Mock overlay panel (mirrors real Echosight theme) ---------- */
     .mock {
       position: relative;
+      width: min(100%, 460px);
       max-width: 460px;
       margin-left: auto;
       border-radius: 6px;
@@ -338,8 +284,6 @@
         0 0 0 1px rgba(0,0,0,0.4),
         0 24px 48px -12px rgba(0,0,0,0.8),
         0 0 32px rgba(95,216,200,0.10);
-      backdrop-filter: blur(14px) saturate(140%);
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
       overflow: hidden;
     }
     .mock::before, .mock::after {
@@ -376,7 +320,7 @@
       font-weight: 700;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      font-size: 13px;
+      font-size: 12px;
       color: var(--gold-pale);
       text-shadow: 0 0 12px rgba(212,168,87,0.25), 0 1px 2px rgba(0,0,0,0.6);
     }
@@ -393,7 +337,7 @@
     }
     .mock-head-btns { display: flex; gap: 5px; }
     .mock-head-btn {
-      width: 22px; height: 22px;
+      width: 32px; height: 32px;
       border-radius: 4px;
       background: rgba(212,168,87,0.12);
       color: var(--gold-pale);
@@ -415,7 +359,7 @@
       background: linear-gradient(180deg, rgba(11,9,18,0.5), rgba(11,9,18,0.3));
       border-bottom: 1px solid rgba(255,255,255,0.04);
     }
-    .mock-tpl-row { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+    .mock-tpl-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
     .mock-tpl-row + .mock-tpl-row { margin-top: 6px; }
     .mock-tpl-btn {
       background: linear-gradient(180deg, rgba(20,40,46,0.9), rgba(10,18,22,0.95));
@@ -426,7 +370,8 @@
       letter-spacing: 0.06em;
       font-size: 10.5px;
       font-weight: 600;
-      padding: 4px 9px;
+      min-height: 32px;
+      padding: 5px 10px;
       cursor: pointer;
       transition: all .2s ease;
       white-space: nowrap;
@@ -455,7 +400,8 @@
       border: 1px solid rgba(212,168,87,0.18);
       color: var(--text);
       border-radius: 4px;
-      padding: 6px 10px;
+      min-height: 36px;
+      padding: 7px 10px;
       font-size: 12px;
       font-family: 'Inter', sans-serif;
       transition: border-color .2s, box-shadow .2s;
@@ -565,6 +511,8 @@
       border: 1px solid rgba(197,74,58,0.35);
       border-radius: 3px;
       font-size: 10px;
+      min-width: 28px;
+      min-height: 24px;
       padding: 1px 6px;
       cursor: pointer;
       opacity: 0;
@@ -575,23 +523,103 @@
     .mock-list li:hover .x { opacity: 0.7; }
     .mock-list li .x:hover { opacity: 1 !important; background: rgba(227,128,74,0.4); color: #ffe1d6; border-color: rgba(227,128,74,0.7); }
 
-    /* Background-task variant: ember left rail */
+    /* Background-task variant */
     .mock-list-bg li {
-      border-left: 2px solid rgba(227,128,74,0.5);
-      margin-left: 4px;
+      background: rgba(227,128,74,0.055);
+      box-shadow: inset 0 0 0 1px rgba(227,128,74,0.12);
+      margin-top: 4px;
       padding-left: 8px;
     }
     .mock-list-bg li.priority {
-      border-left-color: var(--ember);
-      box-shadow: -2px 0 12px rgba(227,128,74,0.3);
+      background: rgba(227,128,74,0.09);
+      box-shadow: inset 0 0 0 1px rgba(227,128,74,0.24), 0 8px 22px rgba(227,128,74,0.08);
     }
     .mock-list-bg li .meta { color: var(--ember); }
+
+    @media (max-width: 560px) {
+      .hero {
+        padding: 52px 22px 66px;
+      }
+      .hero-grid {
+        gap: 38px;
+      }
+      .hero-title {
+        font-size: clamp(38px, 12vw, 46px);
+        line-height: 1;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+      }
+      .hero-subtitle {
+        font-size: clamp(15px, 5vw, 20px);
+        letter-spacing: 0.08em;
+        margin-bottom: 18px;
+      }
+      .hero-rule {
+        width: min(220px, 64vw);
+        margin-bottom: 20px;
+      }
+      .hero-desc {
+        font-size: 15px;
+        line-height: 1.68;
+        margin-bottom: 26px;
+      }
+      .hero-cta {
+        gap: 10px;
+      }
+      .hero-cta .btn {
+        width: 100%;
+        justify-content: center;
+        padding-inline: 18px;
+      }
+      .hero-repo {
+        max-width: 100%;
+        font-size: 11.5px;
+        overflow-wrap: anywhere;
+      }
+      .mock {
+        margin-left: 0;
+      }
+      .mock-head {
+        align-items: flex-start;
+      }
+      .mock-title {
+        max-width: 190px;
+        line-height: 1.35;
+      }
+      .mock-title small {
+        display: block;
+        margin: 2px 0 0;
+      }
+      .mock-head-btn {
+        width: 30px;
+        height: 30px;
+      }
+      .mock-tpl-select {
+        flex-basis: 100%;
+      }
+      .mock-add {
+        flex-wrap: wrap;
+      }
+      .mock-add input,
+      .mock-add-btn {
+        width: 100%;
+      }
+      .mock-list li {
+        align-items: flex-start;
+      }
+      .mock-list li .meta {
+        display: none;
+      }
+      .mock-list li .x {
+        opacity: 0.72;
+      }
+    }
 
     /* ---------- Section common ---------- */
     section { position: relative; }
     .section-header {
       text-align: center;
-      max-width: 720px;
+      max-width: 760px;
       margin: 0 auto 56px;
     }
     .section-eyebrow {
@@ -624,14 +652,6 @@
       font-size: 15px;
     }
 
-    .divider-orn {
-      display: block;
-      width: 280px;
-      max-width: 60%;
-      margin: 0 auto 48px;
-      opacity: 0.7;
-    }
-
     /* ---------- Features ---------- */
     .features {
       padding: 100px 28px 60px;
@@ -642,20 +662,19 @@
       max-width: 1200px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
     }
-    @media (max-width: 1100px) { .feat-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 720px)  { .feat-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 920px) { .feat-grid { grid-template-columns: 1fr; } }
     @media (max-width: 460px)  { .feat-grid { grid-template-columns: 1fr; } }
 
     .feat-card {
       position: relative;
-      padding: 32px 22px 28px;
-      background: linear-gradient(180deg, rgba(20,17,31,0.7), rgba(11,9,18,0.85));
+      padding: 30px 26px 28px;
+      background: linear-gradient(180deg, rgba(20,17,31,0.64), rgba(11,9,18,0.78));
       border: 1px solid rgba(212,168,87,0.12);
       border-radius: 6px;
-      text-align: center;
+      text-align: left;
       transition: transform .3s, border-color .3s, box-shadow .3s;
       overflow: hidden;
     }
@@ -676,18 +695,18 @@
     .feat-card:hover::before { opacity: 1; }
 
     .feat-icon {
-      width: 56px; height: 56px;
-      margin: 0 auto 22px;
+      width: 42px; height: 42px;
+      margin: 0 0 22px;
       color: var(--gold);
-      filter: drop-shadow(0 0 12px rgba(212,168,87,0.35));
+      filter: drop-shadow(0 0 10px rgba(212,168,87,0.22));
       position: relative;
       z-index: 1;
     }
     .feat-name {
       font-family: 'Cinzel', serif;
       font-weight: 700;
-      font-size: 13px;
-      letter-spacing: 0.18em;
+      font-size: 14px;
+      letter-spacing: 0.11em;
       color: var(--gold-pale);
       text-transform: uppercase;
       margin-bottom: 12px;
@@ -695,8 +714,8 @@
       z-index: 1;
     }
     .feat-desc {
-      font-size: 13px;
-      line-height: 1.65;
+      font-size: 14px;
+      line-height: 1.7;
       color: var(--text-dim);
       position: relative;
       z-index: 1;
@@ -728,34 +747,72 @@
       margin: 0 auto 18px;
       max-width: 640px;
     }
-    .action-stats {
+    .proof-list {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
       margin: 40px auto 0;
       max-width: 720px;
+      text-align: left;
     }
     @media (max-width: 720px) {
-      .action-stats { grid-template-columns: repeat(2, 1fr); }
+      .proof-list { grid-template-columns: 1fr; }
     }
-    .stat {
-      padding: 20px 16px;
+    .proof-item {
+      padding: 18px 18px;
       background: rgba(13,11,24,0.6);
       border: 1px solid rgba(212,168,87,0.12);
       border-radius: 4px;
     }
-    .stat-num {
+    .proof-title {
       font-family: 'Cinzel', serif;
-      font-size: 26px;
-      color: var(--teal);
+      font-size: 13px;
+      color: var(--gold-pale);
       font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .stat-label {
-      font-size: 11px;
       letter-spacing: 0.12em;
-      color: var(--text-faint);
       text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+    .proof-copy {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+
+    /* ---------- FAQ ---------- */
+    .faq {
+      padding: 100px 28px;
+      border-top: 1px solid rgba(212,168,87,0.06);
+    }
+    .faq-list {
+      max-width: 880px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+    .faq-item {
+      background: rgba(13,11,24,0.6);
+      border: 1px solid rgba(212,168,87,0.12);
+      border-radius: 6px;
+      padding: 18px 22px;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      color: var(--gold-pale);
+      list-style: none;
+    }
+    .faq-item p {
+      margin-top: 12px;
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .faq-item code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--teal);
     }
 
     /* ---------- Footer / Tech bar ---------- */
@@ -802,6 +859,7 @@
     @media (max-width: 880px) { .os-badges { justify-content: center; } }
     .os-badge {
       display: inline-flex; align-items: center; gap: 8px;
+      min-height: 44px;
       padding: 9px 16px;
       background: linear-gradient(180deg, rgba(20,17,31,0.85), rgba(11,9,18,0.9));
       border: 1px solid rgba(212,168,87,0.18);
@@ -857,8 +915,8 @@
       </a>
       <div class="nav-links">
         <a href="#features">Features</a>
-        <a href="#screenshots">Screenshots</a>
-        <a href="#install">Installation</a>
+        <a href="#demo">Demo</a>
+        <a href="#install">Download</a>
         <a href="#faq">FAQ</a>
         <a href="#contributing">Contributing</a>
         <a href="https://github.com/echologist/echoesight-overlay" aria-label="GitHub">
@@ -881,7 +939,7 @@
     <div class="hero-grid">
       <div>
         <h1 class="hero-title">Echosight</h1>
-        <div class="hero-subtitle">PoE Task Overlay</div>
+        <div class="hero-subtitle">Open-source task overlay</div>
         <svg class="hero-rule" viewBox="0 0 220 18" fill="none" aria-hidden="true">
           <path d="M2 9 L90 9" stroke="#b89148" stroke-width="1"/>
           <path d="M130 9 L218 9" stroke="#b89148" stroke-width="1"/>
@@ -889,8 +947,8 @@
           <circle cx="110" cy="9" r="2" fill="#d4a857"/>
         </svg>
         <p class="hero-desc">
-          A lightweight, customizable task management overlay designed for Path of Exile players.
-          Track league starts, progression, and endgame goals without ever leaving the game.
+          Keep a compact checklist above Path of Exile, live work, or any focused desktop session.
+          Echosight stays manual, local, and visible only when it helps.
         </p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="https://github.com/echologist/echoesight-overlay/releases/latest">
@@ -908,10 +966,10 @@
         </a>
       </div>
 
-      <!-- Mock overlay (interactive — click any task to tick it) -->
-      <div class="mock" id="screenshots" data-mock>
+      <!-- Mock overlay: click any task to tick it -->
+      <div class="mock" id="demo" data-mock>
         <div class="mock-head">
-          <div class="mock-title">Echosight <small>(Interactive Mode &mdash; Ctrl+Shift+I to exit)</small></div>
+          <div class="mock-title">Echosight <small>(Interactive mode, Ctrl+Shift+I exits)</small></div>
           <div class="mock-head-btns">
             <button class="mock-head-btn" type="button" title="Settings" aria-label="Settings">&#9881;</button>
             <button class="mock-head-btn" type="button" title="Hide" aria-label="Hide">&minus;</button>
@@ -928,13 +986,9 @@
             </select>
             <button class="mock-tpl-btn" type="button">Load</button>
             <button class="mock-tpl-btn" type="button">Save</button>
-            <button class="mock-tpl-btn" type="button">Export</button>
-            <button class="mock-tpl-btn" type="button">Import</button>
-            <button class="mock-tpl-btn danger" type="button">Delete</button>
-            <button class="mock-tpl-btn danger" type="button">Clear All</button>
+            <button class="mock-tpl-btn" type="button">Share</button>
           </div>
           <div class="mock-tpl-row">
-            <button class="mock-tpl-btn" type="button">Community Templates</button>
             <button class="mock-tpl-btn" type="button">Click-Through Mode</button>
           </div>
         </div>
@@ -947,7 +1001,7 @@
 
           <div class="mock-progress"><div class="mock-progress-fill"></div></div>
           <div class="mock-progress-text">
-            <span class="mock-progress-count">0 / 0</span> tasks completed &middot;
+            <span class="mock-progress-count">0 / 0</span> tasks completed,
             <span class="mock-progress-pct">0%</span>
           </div>
 
@@ -975,9 +1029,9 @@
   <!-- Features -->
   <section class="features" id="features">
     <div class="section-header reveal">
-      <div class="section-eyebrow">Built for Exiles</div>
-      <h2 class="section-title">Powerful Features</h2>
-      <p class="section-subtitle">Powerful features to keep you focused on your journey</p>
+      <div class="section-eyebrow">Focused by design</div>
+      <h2 class="section-title">A checklist that stays out of the fight</h2>
+      <p class="section-subtitle">Echosight keeps common task flows close without turning the overlay into another app to manage.</p>
     </div>
 
     <div class="feat-grid">
@@ -987,8 +1041,8 @@
           <circle cx="32" cy="32" r="9"/>
           <circle cx="32" cy="32" r="3.5" fill="currentColor"/>
         </svg>
-        <h3 class="feat-name">Smart Overlay System</h3>
-        <p class="feat-desc">Click-through mode, auto-detection, always on top.</p>
+        <h3 class="feat-name">Run focused</h3>
+        <p class="feat-desc">Always-on-top visibility when you need it, click-through mode when the game or work window should receive every input.</p>
       </article>
 
       <article class="feat-card reveal">
@@ -999,8 +1053,8 @@
           <path d="m18 40 5 5 9-10"/>
           <path d="M36 40h12"/>
         </svg>
-        <h3 class="feat-name">Task Management</h3>
-        <p class="feat-desc">Custom tasks, progress tracking, drag-and-drop, sub-tasks.</p>
+        <h3 class="feat-name">Shape your checklist</h3>
+        <p class="feat-desc">Custom tasks, subtasks, drag-and-drop order, progress tracking, and undo support for fast changes during a session.</p>
       </article>
 
       <article class="feat-card reveal">
@@ -1011,30 +1065,8 @@
           <path d="M44 6c0 14-24 14-24 26s24 14 24 26"/>
           <path d="M26 50h12"/>
         </svg>
-        <h3 class="feat-name">Background Tasks</h3>
-        <p class="feat-desc">Triggered attaches, priority indicators, timers, notifications.</p>
-      </article>
-
-      <article class="feat-card reveal">
-        <svg class="feat-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="8" y="14" width="48" height="40" rx="3"/>
-          <path d="M8 24h48"/>
-          <path d="M20 8v10"/>
-          <path d="M44 8v10"/>
-          <path d="M18 36h20"/>
-          <path d="M18 44h28"/>
-        </svg>
-        <h3 class="feat-name">Template System</h3>
-        <p class="feat-desc">Save, load, import, export community templates.</p>
-      </article>
-
-      <article class="feat-card reveal">
-        <svg class="feat-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="32" cy="32" r="8"/>
-          <path d="M32 4v8M32 52v8M4 32h8M52 32h8M11.7 11.7l5.7 5.7M46.6 46.6l5.7 5.7M11.7 52.3l5.7-5.7M46.6 17.4l5.7-5.7"/>
-        </svg>
-        <h3 class="feat-name">Fully Customizable</h3>
-        <p class="feat-desc">Hotkeys, transparency, themes, draggable position.</p>
+        <h3 class="feat-name">Reuse good plans</h3>
+        <p class="feat-desc">Save templates for league starts, endgame goals, study routines, or recurring work. Import and export JSON when a list is worth sharing.</p>
       </article>
     </div>
   </section>
@@ -1042,38 +1074,38 @@
   <!-- Action -->
   <section class="action" id="action">
     <div class="section-header reveal">
-      <div class="section-eyebrow">Overlay In Action</div>
-      <h2 class="section-title">Sleek. Informative. Never in the Way.</h2>
+      <div class="section-eyebrow">Manual and local</div>
+      <h2 class="section-title">Visible information, not automation</h2>
     </div>
 
     <div class="action-grid">
       <div class="action-text reveal">
-        <h3>A high-contrast overlay built for combat.</h3>
+        <h3>A compact overlay built for focused sessions.</h3>
         <p>
-          A high-contrast overlay that blends into your adventure while keeping
-          your gaze front and center. Click-through enabled means the game always
-          gets your input first.
+          Echosight does not read game memory, send inputs, modify files, or inspect
+          network traffic. It behaves like a small checklist layered above the app
+          you are already using.
         </p>
         <p>
-          No gameplay interruption. 100% focus on your clicks — toggle interactive
-          mode only when you need to manage tasks.
+          Toggle interactive mode to edit. Toggle click-through mode when the
+          underlying window should receive the mouse.
         </p>
-        <div class="action-stats">
-          <div class="stat">
-            <div class="stat-num">~30 MB</div>
-            <div class="stat-label">RAM footprint</div>
+        <div class="proof-list">
+          <div class="proof-item">
+            <div class="proof-title">Local data</div>
+            <div class="proof-copy">Tasks, templates, settings, and themes stay on your machine.</div>
           </div>
-          <div class="stat">
-            <div class="stat-num">~1%</div>
-            <div class="stat-label">CPU usage</div>
+          <div class="proof-item">
+            <div class="proof-title">Manual control</div>
+            <div class="proof-copy">Hotkeys complete checklist actions only. They do not automate gameplay or work apps.</div>
           </div>
-          <div class="stat">
-            <div class="stat-num">0 ms</div>
-            <div class="stat-label">Game impact</div>
+          <div class="proof-item">
+            <div class="proof-title">Open source</div>
+            <div class="proof-copy">MIT licensed, inspectable, and built with Electron, TypeScript, and Vite.</div>
           </div>
-          <div class="stat">
-            <div class="stat-num">3</div>
-            <div class="stat-label">Platforms</div>
+          <div class="proof-item">
+            <div class="proof-title">Cross-platform</div>
+            <div class="proof-copy">Packaged for Windows, macOS, and Linux from GitHub Releases.</div>
           </div>
         </div>
       </div>
@@ -1081,27 +1113,27 @@
   </section>
 
   <!-- FAQ -->
-  <section class="faq" id="faq" style="padding: 100px 28px; border-top: 1px solid rgba(212,168,87,0.06);">
+  <section class="faq" id="faq">
     <div class="section-header reveal">
       <div class="section-eyebrow">Common Questions</div>
       <h2 class="section-title">FAQ</h2>
     </div>
-    <div style="max-width: 880px; margin: 0 auto; display: grid; gap: 14px;">
-      <details class="reveal" style="background: rgba(13,11,24,0.6); border: 1px solid rgba(212,168,87,0.12); border-radius: 6px; padding: 18px 22px;">
-        <summary style="cursor: pointer; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.08em; color: var(--gold-pale); list-style: none;">Is Echosight safe to use with Path of Exile?</summary>
-        <p style="margin-top: 12px; color: var(--text-dim); font-size: 14px; line-height: 1.7;">Yes. Echosight is a pure overlay — it does not read game memory, send keystrokes, modify files, or automate gameplay. It behaves like Discord overlay or a hardware monitor: just visible information layered on top.</p>
+    <div class="faq-list">
+      <details class="faq-item reveal">
+        <summary>Is Echosight safe to use with Path of Exile?</summary>
+        <p>Yes. Echosight is a pure overlay: it does not read game memory, send keystrokes, modify files, or automate gameplay. It behaves like Discord overlay or a hardware monitor: visible information layered on top.</p>
       </details>
-      <details class="reveal" style="background: rgba(13,11,24,0.6); border: 1px solid rgba(212,168,87,0.12); border-radius: 6px; padding: 18px 22px;">
-        <summary style="cursor: pointer; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.08em; color: var(--gold-pale); list-style: none;">What hotkeys does it use?</summary>
-        <p style="margin-top: 12px; color: var(--text-dim); font-size: 14px; line-height: 1.7;">Defaults: <code style="font-family: 'JetBrains Mono', monospace; color: var(--teal);">Ctrl+Shift+T</code> show/hide overlay, <code style="font-family: 'JetBrains Mono', monospace; color: var(--teal);">Ctrl+Shift+I</code> toggle interactive mode, <code style="font-family: 'JetBrains Mono', monospace; color: var(--teal);">Ctrl+Shift+N</code> advance the next task, <code style="font-family: 'JetBrains Mono', monospace; color: var(--teal);">Ctrl+Shift+Z</code> undo the last task action, and <code style="font-family: 'JetBrains Mono', monospace; color: var(--teal);">Ctrl+Shift+Y</code> forward it again. All bindings are user-configurable.</p>
+      <details class="faq-item reveal">
+        <summary>What hotkeys does it use?</summary>
+        <p>Defaults: <code>Ctrl+Shift+T</code> show/hide overlay, <code>Ctrl+Shift+I</code> toggle interactive mode, <code>Ctrl+Shift+N</code> advance the next task, <code>Ctrl+Shift+Z</code> undo the last task action, and <code>Ctrl+Shift+Y</code> forward it again. All bindings are user-configurable.</p>
       </details>
-      <details class="reveal" style="background: rgba(13,11,24,0.6); border: 1px solid rgba(212,168,87,0.12); border-radius: 6px; padding: 18px 22px;">
-        <summary style="cursor: pointer; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.08em; color: var(--gold-pale); list-style: none;">What are background tasks?</summary>
-        <p style="margin-top: 12px; color: var(--text-dim); font-size: 14px; line-height: 1.7;">Tasks that stay dormant until a trigger task completes — for example, "watch for 4-link drops" activates after you finish Act 2. They appear in a separate section below the main list and don't interrupt main-chain progression.</p>
+      <details class="faq-item reveal">
+        <summary>What are background tasks?</summary>
+        <p>Tasks that stay dormant until a trigger task completes. For example, "watch for 4-link drops" activates after you finish Act 2. They appear below the main list and do not interrupt main-chain progression.</p>
       </details>
-      <details class="reveal" style="background: rgba(13,11,24,0.6); border: 1px solid rgba(212,168,87,0.12); border-radius: 6px; padding: 18px 22px;">
-        <summary style="cursor: pointer; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.08em; color: var(--gold-pale); list-style: none;">Which platforms are supported?</summary>
-        <p style="margin-top: 12px; color: var(--text-dim); font-size: 14px; line-height: 1.7;">Windows (portable .exe), macOS (.dmg, Intel + Apple Silicon), and Linux (AppImage + .deb). Grab the latest build from the GitHub Releases page.</p>
+      <details class="faq-item reveal">
+        <summary>Which platforms are supported?</summary>
+        <p>Windows (portable .exe), macOS (.dmg, Intel + Apple Silicon), and Linux (AppImage + .deb). Grab the latest build from the GitHub Releases page.</p>
       </details>
     </div>
   </section>
@@ -1152,7 +1184,7 @@
 
   <footer class="footer" id="contributing">
     <p>
-      Echosight is open source under the MIT License —
+      Echosight is open source under the MIT License:
       <a href="https://github.com/echologist/echoesight-overlay">contribute on GitHub</a>.
       Not affiliated with Grinding Gear Games.
     </p>
@@ -1165,7 +1197,7 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // Interactive mock overlays — tick tasks, add, delete, update progress live
+    // Interactive mock overlay: tick tasks, add, delete, update progress live
     function initMock(mock) {
       const fill  = mock.querySelector('.mock-progress-fill');
       const count = mock.querySelector('.mock-progress-count');
@@ -1212,7 +1244,7 @@
 
       mock.querySelectorAll('.mock-list li').forEach(wireRow);
 
-      // Demo Add button — append new task to Main list
+      // Demo Add button: append new task to Main list
       const addInput = mock.querySelector('.mock-add input');
       const addBtn   = mock.querySelector('.mock-add-btn');
       const mainList = mock.querySelector('.mock-list-main');
