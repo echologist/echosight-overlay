@@ -31,6 +31,7 @@ import { createPoe2Monitor } from './game/poe2Monitor';
 import type { Poe2Monitor } from './game/poe2Monitor';
 import { ThemeLibrary } from './themes/themeLibrary';
 import { initializeRuntimeData } from './storage/runtimeDataBootstrap';
+import { ensureSingleInstance } from './lifecycle/singleInstance';
 
 let overlayWindow: BrowserWindow | null = null;
 let gameMonitor: Poe2Monitor | null = null;
@@ -248,26 +249,50 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-// Initialize overlay
-const overlay = new PoE2TaskOverlay();
+let overlay!: PoE2TaskOverlay;
+let initialization!: Promise<void>;
 
-app.whenReady().then(() => {
-  overlay.initialize();
-});
+if (ensureSingleInstance(app, () => {
+  manuallyHidden = false;
+  void initialization
+    .then(() => {
+      const window = getOverlayWindow();
+      if (window) {
+        showOverlayWindow(window);
+        return;
+      }
 
-app.on('window-all-closed', () => {
-  overlay.cleanup();
-  if (process.platform !== 'darwin') {
+      overlay.openOverlayWindow();
+      const reopenedWindow = getOverlayWindow();
+      if (reopenedWindow) {
+        showOverlayWindow(reopenedWindow);
+      }
+    })
+    .catch(error => {
+      console.error('Failed to reveal Echosight for second instance:', error);
+    });
+})) {
+  overlay = new PoE2TaskOverlay();
+  initialization = app.whenReady().then(() => overlay.initialize());
+  void initialization.catch(error => {
+    console.error('Failed to initialize Echosight:', error);
     app.quit();
-  }
-});
+  });
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    overlay.openOverlayWindow();
-  }
-});
+  app.on('window-all-closed', () => {
+    overlay.cleanup();
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
+  });
 
-app.on('will-quit', () => {
-  unregisterOverlayHotkeys();
-});
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      overlay.openOverlayWindow();
+    }
+  });
+
+  app.on('will-quit', () => {
+    unregisterOverlayHotkeys();
+  });
+}

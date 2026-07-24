@@ -41,12 +41,16 @@ import {
   createDialogService
 } from './ui/dialogService.ts';
 import {
+  showReorderFeedback
+} from './ui/feedbackUi.ts';
+import {
   createThemeSoundController
 } from './features/themes/themeSounds.ts';
 import type {
   EchosightApi,
   TaskTemplate
 } from '../shared/types';
+import { getErrorMessage } from '../shared/errors';
 
 const ipc = getRequiredEchosightApi();
 const dialogs = createDialogService();
@@ -59,6 +63,7 @@ const taskController = createTaskStateController({
   api: ipc,
   logger: console
 });
+let taskPersistenceReady = false;
 let templates: TaskTemplate[] = [];
 const backgroundTaskController = createBackgroundTaskController({
   getTasks: () => taskController.getTasks(),
@@ -182,7 +187,7 @@ function getRequiredEchosightApi(): EchosightApi {
 async function initializeApp(): Promise<void> {
   try {
     console.log('Initializing app...');
-    await loadTasks();
+    await loadTasksForInitialization();
     taskWorkflowController.migrateTaskStructure();
     await loadTemplates();
     await themeController.loadThemes();
@@ -199,6 +204,18 @@ async function initializeApp(): Promise<void> {
   } catch (error) {
     console.error('Error initializing app:', error);
     void dialogs.alert('Error initializing app. Check console for details.');
+  }
+}
+
+export async function loadTasksForInitialization(): Promise<void> {
+  try {
+    await loadTasks();
+  } catch (error) {
+    console.error('Failed to load task data; task saving is disabled:', error);
+    void dialogs.alert(
+      `Could not read task data: ${getErrorMessage(error)}\n\nSaving is disabled until this is fixed.`,
+      { title: 'Task Data Unavailable', tone: 'danger' }
+    );
   }
 }
 
@@ -231,12 +248,29 @@ function updateProgress(): void {
 }
 
 // Data persistence
-async function loadTasks(): Promise<void> {
-  await taskController.loadTasks();
+export async function loadTasks(): Promise<void> {
+  taskPersistenceReady = false;
+  const loaded = await taskController.loadTasks();
+  taskPersistenceReady = true;
+  if (loaded.corruptBackupPath) {
+    void dialogs.alert(
+      `Task data was corrupt and has been moved to:\n${loaded.corruptBackupPath}\n\nEchosight started with an empty task list.`,
+      { title: 'Task Data Recovered', tone: 'danger' }
+    );
+  }
 }
 
-async function saveTasks(): Promise<void> {
-  await taskController.saveTasks();
+export async function saveTasks(): Promise<boolean> {
+  if (!taskPersistenceReady) {
+    showReorderFeedback('Cannot save tasks until task data loads successfully.');
+    return false;
+  }
+
+  const saved = await taskController.saveTasks();
+  if (!saved) {
+    showReorderFeedback('Failed to save tasks. Changes may not persist.');
+  }
+  return saved;
 }
 
 async function loadTemplates(): Promise<void> {

@@ -24,7 +24,8 @@ import {
 } from './taskMutations';
 import {
   loadTaskState,
-  saveTaskState
+  saveTaskState,
+  type LoadedTaskState
 } from './taskPersistence';
 import {
   calculateTaskProgress,
@@ -55,12 +56,12 @@ export interface TaskStateController {
   findTaskById: (id: number, taskList?: Task[]) => Task | null;
   getProgress: () => TaskProgress;
   getTasks: () => Task[];
-  loadTasks: () => Promise<void>;
+  loadTasks: () => Promise<LoadedTaskState>;
   migrateTaskStructure: () => boolean;
   moveTask: (draggedId: number, targetId: number, insertAbove: boolean, makeSubtask?: boolean) => MoveTaskResult;
   replaceTasks: (nextTasks: Task[], nextCurrentTemplate: string | null) => void;
   redoLastAction: () => UndoTaskActionResult;
-  saveTasks: () => Promise<void>;
+  saveTasks: () => Promise<boolean>;
   toggleTask: (taskId: number) => ToggleTaskResult | null;
   undoLastAction: () => UndoTaskActionResult;
 }
@@ -93,15 +94,16 @@ export function createTaskStateController(options: TaskStateControllerOptions): 
     currentTemplate = nextCurrentTemplate;
   }
 
-  async function loadTasks(): Promise<void> {
+  async function loadTasks(): Promise<LoadedTaskState> {
     const taskState = await loadTaskState(options.api, logger);
     replaceTasks(taskState.tasks, taskState.currentTemplate);
     snapshots = taskState.snapshots.slice(-MAX_AUTO_SAVE_SNAPSHOTS);
+    return taskState;
   }
 
-  async function saveTasks(): Promise<void> {
+  async function saveTasks(): Promise<boolean> {
     recordAutoSaveSnapshot();
-    await saveTaskState(options.api, {
+    return saveTaskState(options.api, {
       tasks,
       currentTemplate,
       snapshots

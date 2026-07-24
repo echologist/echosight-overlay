@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 import type {
   EchosightApi,
   Task,
+  TaskLoadData,
   TaskSaveData
 } from '../../../src/shared/types';
 import { createTaskStateController } from '../../../src/renderer/features/tasks/taskStateController';
@@ -101,6 +102,34 @@ describe('task state history', () => {
     expect(latestSave?.snapshots).toHaveLength(5);
     expect(latestSave?.snapshots?.at(-1)?.state.tasks[0].text).toBe('Snapshot target');
   });
+
+  test('returns corrupt backup path from loadTasks', async () => {
+    const api = createTaskApi({
+      tasks: [],
+      currentTemplate: null,
+      snapshots: [],
+      corruptBackupPath: '/data/tasks.json.corrupt-2026'
+    });
+    const controller = createTaskStateController({ api, logger: silentLogger });
+
+    await expect(controller.loadTasks()).resolves.toMatchObject({
+      corruptBackupPath: '/data/tasks.json.corrupt-2026'
+    });
+  });
+
+  test('returns false when persistence reports save failure', async () => {
+    const api = createTaskApi({
+      tasks: [],
+      currentTemplate: null,
+      snapshots: []
+    });
+    api.saveTasks = async () => ({ success: false, error: 'disk full' });
+    const controller = createTaskStateController({ api, logger: silentLogger });
+
+    await controller.loadTasks();
+
+    await expect(controller.saveTasks()).resolves.toBe(false);
+  });
 });
 
 const silentLogger = {
@@ -126,7 +155,7 @@ function createTask(overrides: Partial<Task> & Pick<Task, 'id' | 'text'>): Task 
   };
 }
 
-function createTaskApi(initialState: TaskSaveData): EchosightApi & { saved: TaskSaveData[] } {
+function createTaskApi(initialState: TaskLoadData): EchosightApi & { saved: TaskSaveData[] } {
   const saved: TaskSaveData[] = [];
 
   return {
