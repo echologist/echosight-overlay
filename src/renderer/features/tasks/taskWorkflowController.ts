@@ -30,7 +30,7 @@ export interface TaskWorkflowControllerOptions {
   logger?: LogSink;
   playThemeSound?: ThemeSoundHandler;
   renderTasks: () => void;
-  saveTasks: () => void | Promise<void>;
+  saveTasks: () => Promise<boolean>;
   taskState: TaskStateController;
   updateProgress: () => void;
 }

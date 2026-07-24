@@ -43,7 +43,7 @@ export interface TemplateControllerOptions {
   logger?: LogSink;
   onTasksChanged: () => void;
   replaceTasks: (tasks: Task[], currentTemplate: string | null) => void;
-  saveTasks: () => Promise<void>;
+  saveTasks: () => Promise<boolean>;
   setTemplates: (templates: TaskTemplate[]) => void;
   alertUser?: AlertHandler;
   confirmUser?: ConfirmHandler;

@@ -89,6 +89,10 @@ export interface TaskSaveData extends TaskStateSnapshot {
   snapshots?: TaskSnapshot[];
 }
 
+export interface TaskLoadData extends TaskSaveData {
+  corruptBackupPath?: string;
+}
+
 export interface SaveResult {
   success: boolean;
   error?: string;
@@ -144,7 +148,7 @@ export interface Theme {
 export type Unsubscribe = () => void;
 
 export interface EchosightApi {
-  loadTasks: () => Promise<TaskSaveData>;
+  loadTasks: () => Promise<TaskLoadData>;
   saveTasks: (tasksData: TaskSaveData) => Promise<SaveResult>;
   loadTemplates: () => Promise<unknown>;
   saveTemplates: (templates: TaskTemplate[]) => Promise<SaveResult>;
