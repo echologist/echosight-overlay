@@ -1,11 +1,21 @@
 {
   "name": "Exile's Corruption",
   "id": "exiles_corruption",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Echosight",
   "description": "Dark corruption theme inspired by PoE's corruption mechanics with deep purples and red accents",
   "isDefault": false,
   "supportsTransparency": false,
+  "sounds": {
+    "enabled": true,
+    "volume": 0.8,
+    "events": {
+      "taskCompleted": "taskCompleted.wav",
+      "backgroundActivated": "backgroundActivated.wav",
+      "undo": "undo.wav",
+      "redo": "redo.wav"
+    }
+  },
   "fonts": {
     "primary": {
       "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",

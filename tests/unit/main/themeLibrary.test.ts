@@ -64,6 +64,59 @@ describe('theme library', () => {
     expect(copiedTheme.supportsTransparency).toBe(false);
   });
 
+  test('replaces an older single-file bundled theme when it becomes a folder theme', async () => {
+    const paths = await createThemePaths();
+    const bundledThemeDir = path.join(paths.defaultThemesDir, 'exiles_corruption');
+    await fs.mkdir(bundledThemeDir, { recursive: true });
+    await writeTheme(bundledThemeDir, 'theme.json', {
+      id: 'exiles_corruption',
+      name: "Exile's Corruption",
+      author: 'Echosight',
+      version: '1.1.0'
+    });
+    await fs.writeFile(path.join(bundledThemeDir, 'taskCompleted.wav'), 'sound');
+    await writeTheme(paths.themesDir, 'exiles_corruption.json', {
+      id: 'exiles_corruption',
+      name: "Exile's Corruption",
+      author: 'Echosight',
+      version: '1.0.1'
+    });
+
+    const library = createLibrary(paths);
+    await library.initialize();
+
+    await expect(fs.access(path.join(paths.themesDir, 'exiles_corruption.json'))).rejects.toThrow();
+    expect(library.themes.get('exiles_corruption')?.version).toBe('1.1.0');
+    await expect(fs.access(path.join(paths.themesDir, 'exiles_corruption', 'taskCompleted.wav'))).resolves.toBeUndefined();
+  });
+
+  test('keeps a newer single-file theme during a bundled folder migration', async () => {
+    const paths = await createThemePaths();
+    const bundledThemeDir = path.join(paths.defaultThemesDir, 'exiles_corruption');
+    await fs.mkdir(bundledThemeDir, { recursive: true });
+    await writeTheme(bundledThemeDir, 'theme.json', {
+      id: 'exiles_corruption',
+      name: "Exile's Corruption",
+      author: 'Echosight',
+      version: '1.1.0'
+    });
+    await writeTheme(paths.themesDir, 'exiles_corruption.json', {
+      id: 'exiles_corruption',
+      name: "Exile's Corruption Custom",
+      author: 'Echosight',
+      version: '2.0.0'
+    });
+
+    const library = createLibrary(paths);
+    await library.initialize();
+
+    await expect(fs.access(path.join(paths.themesDir, 'exiles_corruption.json'))).resolves.toBeUndefined();
+    const preservedTheme = JSON.parse(await fs.readFile(path.join(paths.themesDir, 'exiles_corruption.json'), 'utf8'));
+    expect(preservedTheme.version).toBe('2.0.0');
+    expect(library.themes.get('exiles_corruption')?.version).toBe('2.0.0');
+    await expect(fs.access(path.join(paths.themesDir, 'exiles_corruption'))).rejects.toThrow();
+  });
+
   test('skips invalid theme files with validation warnings', async () => {
     const paths = await createThemePaths();
     const warnings: string[] = [];
@@ -82,6 +135,40 @@ describe('theme library', () => {
 
     expect(library.themes.has('broken')).toBe(false);
     expect(warnings).toContain('Invalid theme file broken.json: colors must be an object');
+  });
+
+  test('loads the bundled Exile\'s Corruption sound assets', async () => {
+    const paths = await createThemePaths();
+    const library = createLibrary({
+      ...paths,
+      defaultThemesDir: path.resolve(process.cwd(), 'data/themes')
+    });
+
+    await library.initialize();
+
+    const theme = library.themes.get('exiles_corruption');
+    expect(theme?.sounds?.events).toEqual({
+      taskCompleted: 'taskCompleted.wav',
+      backgroundActivated: 'backgroundActivated.wav',
+      undo: 'undo.wav',
+      redo: 'redo.wav'
+    });
+    expect(theme?.assets?.taskCompleted).toMatchObject({
+      type: 'sound',
+      relativePath: 'themes/exiles_corruption/taskCompleted.wav'
+    });
+    expect(theme?.assets?.backgroundActivated).toMatchObject({
+      type: 'sound',
+      relativePath: 'themes/exiles_corruption/backgroundActivated.wav'
+    });
+    expect(theme?.assets?.undo).toMatchObject({
+      type: 'sound',
+      relativePath: 'themes/exiles_corruption/undo.wav'
+    });
+    expect(theme?.assets?.redo).toMatchObject({
+      type: 'sound',
+      relativePath: 'themes/exiles_corruption/redo.wav'
+    });
   });
 
   async function createThemePaths() {

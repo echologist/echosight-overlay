@@ -100,12 +100,18 @@ export class ThemeLibrary {
   }
 
   private async syncDefaultThemeFolder(sourcePath: string, targetPath: string, themeName: string): Promise<void> {
+    const sourceThemePath = path.join(sourcePath, 'theme.json');
+    const targetThemePath = path.join(targetPath, 'theme.json');
+    const legacyThemePath = `${targetPath}.json`;
+
+    if (await this.shouldKeepSingleFileTheme(sourceThemePath, legacyThemePath)) {
+      this.logger.log(`Keeping same-version or newer theme file: ${themeName}.json`);
+      return;
+    }
+
     try {
       await fs.access(targetPath);
-      if (await this.shouldUpdateBundledTheme(
-        path.join(sourcePath, 'theme.json'),
-        path.join(targetPath, 'theme.json')
-      )) {
+      if (await this.shouldUpdateBundledTheme(sourceThemePath, targetThemePath)) {
         this.logger.log(`Updating bundled default theme folder: ${themeName}`);
         await this.copyFolderRecursively(sourcePath, targetPath);
       } else {
@@ -114,6 +120,59 @@ export class ThemeLibrary {
     } catch {
       this.logger.log(`Copying default theme folder: ${themeName}`);
       await this.copyFolderRecursively(sourcePath, targetPath);
+    }
+
+    await this.removeReplacedSingleFileTheme(
+      sourceThemePath,
+      targetThemePath,
+      legacyThemePath,
+      themeName
+    );
+  }
+
+  private async shouldKeepSingleFileTheme(sourceThemePath: string, legacyThemePath: string): Promise<boolean> {
+    try {
+      const sourceTheme = await readJsonFile<Partial<Theme>>(sourceThemePath);
+      const legacyTheme = await readJsonFile<Partial<Theme>>(legacyThemePath);
+      if (!hasThemeIdentity(sourceTheme) || !hasThemeIdentity(legacyTheme)) {
+        return false;
+      }
+
+      return sourceTheme.id === legacyTheme.id
+        && sourceTheme.author === legacyTheme.author
+        && compareThemeVersion(legacyTheme.version, sourceTheme.version) >= 0;
+    } catch {
+      return false;
+    }
+  }
+
+  private async removeReplacedSingleFileTheme(
+    sourceThemePath: string,
+    targetThemePath: string,
+    legacyThemePath: string,
+    themeName: string
+  ): Promise<void> {
+    try {
+      const sourceTheme = await readJsonFile<Partial<Theme>>(sourceThemePath);
+      const targetTheme = await readJsonFile<Partial<Theme>>(targetThemePath);
+      const legacyTheme = await readJsonFile<Partial<Theme>>(legacyThemePath);
+      if (!hasThemeIdentity(sourceTheme) || !hasThemeIdentity(targetTheme) || !hasThemeIdentity(legacyTheme)) {
+        return;
+      }
+
+      const targetMatchesSource = sourceTheme.id === targetTheme.id
+        && sourceTheme.author === targetTheme.author
+        && compareThemeVersion(targetTheme.version, sourceTheme.version) >= 0;
+      const sourceReplacesLegacy = sourceTheme.id === legacyTheme.id
+        && sourceTheme.author === legacyTheme.author
+        && compareThemeVersion(sourceTheme.version, legacyTheme.version) > 0;
+
+      if (targetMatchesSource && sourceReplacesLegacy) {
+        this.logger.log(`Removing replaced bundled default theme file: ${themeName}.json`);
+        await fs.rm(legacyThemePath);
+      }
+    } catch {
+      // A legacy single-file copy is optional.
     }
   }
 
