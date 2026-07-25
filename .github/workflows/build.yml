@@ -80,7 +80,66 @@ jobs:
       run: npm ci
 
     - name: Audit build dependencies
-      run: npm audit --audit-level=high
+      shell: bash
+      run: |
+        set -euo pipefail
+        audit_json="$(mktemp)"
+        trap 'rm -f "$audit_json"' EXIT
+
+        npm audit --json --audit-level=high > "$audit_json" || true
+        cat "$audit_json"
+
+        node - "$audit_json" <<'NODE'
+        const { readFileSync } = require('node:fs');
+
+        function assess(report) {
+          const counts = report.metadata?.vulnerabilities;
+          if (!report.vulnerabilities || !counts) {
+            console.error('npm audit did not return a vulnerability report.');
+            return 1;
+          }
+
+          const acceptedUrl = 'https://github.com/advisories/GHSA-mh99-v99m-4gvg';
+          const advisories = Object.entries(report.vulnerabilities).flatMap(
+            ([dependency, vulnerability]) =>
+              (vulnerability.via ?? [])
+                .filter((via) => typeof via === 'object' && via !== null)
+                .filter((via) => ['high', 'critical'].includes(via.severity))
+                .map((via) => ({ dependency, name: via.name, url: via.url }))
+          );
+          const urls = [...new Set(advisories.map(({ url }) => url ?? '(missing advisory URL)'))];
+
+          if ((counts.high ?? 0) + (counts.critical ?? 0) === 0 && advisories.length === 0) {
+            console.log('No high or critical vulnerabilities found.');
+            return 0;
+          }
+
+          if (urls.length === 0) urls.push('(missing advisory URL)');
+
+          if (
+            urls.length === 1 &&
+            urls[0] === acceptedUrl &&
+            advisories.every(
+              ({ dependency, name }) =>
+                dependency === 'brace-expansion' && name === 'brace-expansion'
+            )
+          ) {
+            console.log(
+              'Assessed and accepted: GHSA-mh99-v99m-4gvg is a build-time-only DoS in ' +
+                "brace-expansion within electron-builder's packaging chain. No adversarial input " +
+                'reaches it, so Echosight has no practical attack surface. Tracked as accepted in issue #9.'
+            );
+            return 0;
+          }
+
+          console.error('Unassessed high or critical advisory URLs:');
+          for (const url of urls) console.error(`- ${url}`);
+          return 1;
+        }
+
+        const report = JSON.parse(readFileSync(process.argv[2], 'utf8'));
+        process.exitCode = assess(report);
+        NODE
 
   build:
     needs:
