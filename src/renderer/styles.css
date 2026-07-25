@@ -1476,6 +1476,10 @@ background: #888;
   flex: 1;
 }
 
+.trigger-task-edit {
+  margin-left: 10px;
+}
+
 .trigger-badge {
   font-size: 9px;
   margin-left: 4px;
