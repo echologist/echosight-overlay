@@ -90,12 +90,18 @@
   },
   "devDependencies": {
     "electron": "^41.3.0",
-    "electron-builder": "^26.8.1",
+    "electron-builder": "^26.15.7",
     "electron-vite": "^5.0.0",
     "jsdom": "^29.1.0",
     "typescript": "^6.0.3",
-    "vite": "^7.3.2",
-    "vitest": "^4.1.5"
+    "vite": "^7.3.6",
+    "vitest": "^4.1.5",
+    "yaml": "2.9.0"
+  },
+  "overrides": {
+    "brace-expansion@^1.0.0": "1.1.16",
+    "brace-expansion@^2.0.0": "2.1.2",
+    "brace-expansion@^5.0.0": "5.0.8"
   },
   "keywords": [
     "path-of-exile",

@@ -1,16 +1,16 @@
-# .github/workflows/build.yml
 name: Build Cross-Platform
 
 on:
+  pull_request:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
   workflow_dispatch:
 
-# Granting workflow permissions to create releases
 permissions:
-  contents: write
-  actions: read
+  contents: read
 
 env:
   NODE_VERSION: '22.12.0'
@@ -21,31 +21,85 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
     - name: Download actionlint
-      id: get_actionlint
       shell: bash
-      run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) 1.7.12
+      run: |
+        set -euo pipefail
+        ACTIONLINT_VERSION='1.7.12'
+        ACTIONLINT_ARCHIVE="/tmp/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+        curl -fsSL \
+          "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz" \
+          -o "$ACTIONLINT_ARCHIVE"
+        echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  $ACTIONLINT_ARCHIVE" |
+          sha256sum --check
+        tar -xzf "$ACTIONLINT_ARCHIVE" -C /tmp actionlint
 
     - name: Check workflow files
       shell: bash
-      run: ${{ steps.get_actionlint.outputs.executable }} -color
+      run: /tmp/actionlint -color
+
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Verify source
+      run: npm run verify
+
+    - name: Smoke-test Linux unpacked package
+      run: npx electron-builder --linux --dir --publish=never
+
+  audit-build-chain:
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v'))
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Audit build dependencies
+      run: npm audit --audit-level=high
 
   build:
-    needs: lint-workflows
+    needs:
+      - lint-workflows
+      - verify
+      - audit-build-chain
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v'))
     strategy:
-      fail-fast: false  # Don't cancel other jobs if one fails :)
+      fail-fast: false
       matrix:
         include:
           - os: macos-latest
-            build_script: "build-mac"
-            artifacts: "dist/*.dmg"
+            build_script: build-mac
+            artifacts: dist/*.dmg
           - os: windows-latest
-            build_script: "build-win"
-            artifacts: "dist/*.exe"
+            build_script: build-win
+            artifacts: dist/*.exe
           - os: ubuntu-latest
-            build_script: "build-linux"
+            build_script: build-linux
             artifacts: |
               dist/*.AppImage
               dist/*.deb
@@ -54,13 +108,13 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
       with:
         node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
+        cache: npm
 
     - name: Install dependencies
       run: npm ci
@@ -71,81 +125,30 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y libarchive-tools
 
-    - name: Create missing icon files (if needed)
-      shell: bash
-      run: |
-        # Create assets directory if it doesn't exist
-        mkdir -p assets
-
-        # Create a simple PNG icon if missing (for testing)
-        if [ ! -f "assets/icon.png" ]; then
-          echo "Creating placeholder icon.png"
-          # This creates a simple 256x256 colored square as PNG
-          # You should replace this with your actual icon later
-          if command -v convert >/dev/null 2>&1; then
-            convert -size 256x256 xc:blue assets/icon.png
-          else
-            # Download a simple placeholder if ImageMagick not available
-            curl -L "https://via.placeholder.com/256x256/0066cc/ffffff?text=POE" -o assets/icon.png || echo "Could not create icon"
-          fi
-        fi
-
-        # Create ICN file for Mac (convert from PNG)
-        if [ ! -f "assets/icon.icns" ] && [ -f "assets/icon.png" ]; then
-          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            # On Mac, create proper ICNS file
-            mkdir -p icon.iconset
-            sips -z 16 16     assets/icon.png --out icon.iconset/icon_16x16.png
-            sips -z 32 32     assets/icon.png --out icon.iconset/icon_16x16@2x.png
-            sips -z 32 32     assets/icon.png --out icon.iconset/icon_32x32.png
-            sips -z 64 64     assets/icon.png --out icon.iconset/icon_32x32@2x.png
-            sips -z 128 128   assets/icon.png --out icon.iconset/icon_128x128.png
-            sips -z 256 256   assets/icon.png --out icon.iconset/icon_128x128@2x.png
-            sips -z 256 256   assets/icon.png --out icon.iconset/icon_256x256.png
-            sips -z 512 512   assets/icon.png --out icon.iconset/icon_256x256@2x.png
-            sips -z 512 512   assets/icon.png --out icon.iconset/icon_512x512.png
-            sips -z 1024 1024 assets/icon.png --out icon.iconset/icon_512x512@2x.png
-            iconutil -c icns icon.iconset -o assets/icon.icns
-            rm -rf icon.iconset
-          else
-            # On other systems, just copy the PNG as ICNS (not ideal but works)
-            cp assets/icon.png assets/icon.icns
-          fi
-        fi
-
     - name: Build application
       run: npm run ${{ matrix.build_script }}
 
-    - name: List build outputs (debug)
-      if: always()
-      shell: bash
-      run: |
-        echo "Contents of dist directory:"
-        ls -la dist/ || echo "dist/ not found"
-        echo ""
-        echo "Searching for build artifacts:"
-        find . -name "*.AppImage" -o -name "*.deb" -o -name "*.dmg" -o -name "*.exe" | head -20
-
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: ${{ matrix.os }}-build
         path: ${{ matrix.artifacts }}
-        if-no-files-found: warn
-        retention-days: 7  # Increased retention for release process
+        if-no-files-found: error
+        retention-days: 7
 
-  # Release job - only runs when a v* tag is pushed
   release:
     needs: build
-    runs-on: ubuntu-latest
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
       with:
         node-version: ${{ env.NODE_VERSION }}
 
@@ -155,14 +158,16 @@ jobs:
         VERSION="$(node -p "require('./package.json').version")"
         echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
-    - name: Validate release tag
+    - name: Verify tag matches package version
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PACKAGE_VERSION: ${{ steps.package_version.outputs.version }}
+        TAG_NAME: ${{ github.ref_name }}
       run: |
-        TAG="v${{ steps.package_version.outputs.version }}"
+        TAG="v${PACKAGE_VERSION}"
 
-        if [ "$TAG" != "${{ github.ref_name }}" ]; then
-          echo "::error::Tag ${{ github.ref_name }} does not match package.json version ${{ steps.package_version.outputs.version }}."
+        if [ "$TAG" != "$TAG_NAME" ]; then
+          echo "::error::Tag $TAG_NAME does not match package.json version $PACKAGE_VERSION."
           exit 1
         fi
 
@@ -172,45 +177,55 @@ jobs:
         fi
 
     - name: Download all artifacts
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
       with:
         path: ./artifacts
 
-    - name: Display downloaded artifacts
-      run: ls -la ./artifacts/
-
     - name: Prepare release assets
+      shell: bash
       run: |
+        set -euo pipefail
+        shopt -s globstar nullglob
+
+        exe=(./artifacts/**/*.exe)
+        dmg=(./artifacts/**/*.dmg)
+        appimage=(./artifacts/**/*.AppImage)
+        deb=(./artifacts/**/*.deb)
+        x64_dmg=()
+        arm64_dmg=()
+
+        require_count() {
+          local expected="$1"
+          local label="$2"
+          shift 2
+          if [ "$#" -ne "$expected" ]; then
+            echo "::error::Expected $expected $label, found $#."
+            exit 1
+          fi
+        }
+
+        require_count 1 'Windows .exe' "${exe[@]}"
+        require_count 2 'macOS .dmg files' "${dmg[@]}"
+        require_count 1 'Linux .AppImage' "${appimage[@]}"
+        require_count 1 'Linux .deb' "${deb[@]}"
+
+        for file in "${dmg[@]}"; do
+          case "$(basename "$file")" in
+            *-arm64.dmg) arm64_dmg+=("$file") ;;
+            *.dmg) x64_dmg+=("$file") ;;
+          esac
+        done
+        require_count 1 'macOS x64 .dmg' "${x64_dmg[@]}"
+        require_count 1 'macOS arm64 .dmg' "${arm64_dmg[@]}"
+
         mkdir -p ./release-assets
-
-        # Debug: Show the actual artifact structure
-        echo "Artifact directory structure:"
-        find ./artifacts -type f -name "*.exe" -o -name "*.dmg" -o -name "*.AppImage" -o -name "*.deb" | head -20
-
-        # Copy files using the correct artifact structure
-        # The artifacts are downloaded to subdirectories named after the artifact names
-        find ./artifacts -name "*.exe" -exec cp {} ./release-assets/ \;
-        find ./artifacts -name "*.dmg" -exec cp {} ./release-assets/ \;
-        find ./artifacts -name "*.AppImage" -exec cp {} ./release-assets/ \;
-        find ./artifacts -name "*.deb" -exec cp {} ./release-assets/ \;
-
-        # List what we're about to release
-        echo "Release assets:"
-        ls -la ./release-assets/
-
-        # Check if we have any files to release
-        if [ ! "$(ls -A ./release-assets/)" ]; then
-          echo "WARNING: No release assets found!"
-          echo "Artifact structure:"
-          find ./artifacts -type f | head -10
-          exit 1
-        fi
+        cp -- "${exe[@]}" "${dmg[@]}" "${appimage[@]}" "${deb[@]}" ./release-assets/
 
     - name: Create Release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
       with:
         tag_name: v${{ steps.package_version.outputs.version }}
-        name: "Echosight v${{ steps.package_version.outputs.version }}"
+        name: Echosight v${{ steps.package_version.outputs.version }}
         body: |
           ## Echosight PoE2 Task Overlay v${{ steps.package_version.outputs.version }}
 
