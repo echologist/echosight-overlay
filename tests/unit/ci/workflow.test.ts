@@ -1,4 +1,5 @@
 import {
+  chmodSync,
   existsSync,
   mkdirSync,
   mkdtempSync,
@@ -20,7 +21,8 @@ type Step = {
   name?: string;
   uses?: string;
   run?: string;
-  with?: Record<string, string>;
+  shell?: string;
+  with?: Record<string, boolean | string>;
 };
 
 type Job = {
@@ -85,6 +87,55 @@ function runReleasePreparation(files: string[]) {
   return { status: result.status, output: `${result.stdout}${result.stderr}`, released };
 }
 
+function runTagValidation(httpStatus: string, curlExit = 0, tagName = 'v2.0.0') {
+  const directory = mkdtempSync(join(tmpdir(), 'echosight-tag-test-'));
+  const bin = join(directory, 'bin');
+  mkdirSync(bin);
+  const curl = join(bin, 'curl');
+  writeFileSync(
+    curl,
+    `#!/usr/bin/env bash
+set -u
+output=''
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -o|--output) output="$2"; shift 2 ;;
+    -w|--write-out) shift 2 ;;
+    *) shift ;;
+  esac
+done
+if [ "$FAKE_CURL_EXIT" -ne 0 ]; then
+  exit "$FAKE_CURL_EXIT"
+fi
+printf '{"status":"fake"}' > "$output"
+printf '%s' "$FAKE_HTTP_STATUS"
+`
+  );
+  chmodSync(curl, 0o755);
+  const gh = join(bin, 'gh');
+  writeFileSync(gh, '#!/usr/bin/env bash\nexit 1\n');
+  chmodSync(gh, 0o755);
+
+  const validation = step(workflow.jobs.release, 'Verify tag matches package version')?.run ?? '';
+  const result = spawnSync('bash', ['-c', `set -euo pipefail\n${validation}`], {
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      FAKE_CURL_EXIT: String(curlExit),
+      FAKE_HTTP_STATUS: httpStatus,
+      GH_TOKEN: 'test-token',
+      GITHUB_API_URL: 'https://api.github.test',
+      GITHUB_REPOSITORY: 'echologist/echoesight-overlay',
+      PACKAGE_VERSION: '2.0.0',
+      PATH: `${bin}:${process.env.PATH}`,
+      TAG_NAME: tagName
+    }
+  });
+  rmSync(directory, { recursive: true, force: true });
+
+  return { status: result.status, output: `${result.stdout}${result.stderr}` };
+}
+
 describe('release workflow', () => {
   test('runs verification for pull requests, main pushes, tags, and manual dispatches', () => {
     expect(workflow.on).toHaveProperty('pull_request');
@@ -147,7 +198,43 @@ describe('release workflow', () => {
     const tagCheck = step(workflow.jobs.release, 'Verify tag matches package version');
     expect(tagCheck?.env?.TAG_NAME).toContain('github.ref_name');
     expect(tagCheck?.run).not.toContain('${{');
-    expect(releaseScripts).toContain('gh release view');
+    expect(tagCheck?.run).toContain(
+      '$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/releases/tags/$TAG'
+    );
+  });
+
+  test('fails closed when checking whether a release exists', () => {
+    expect(runTagValidation('404').status).toBe(0);
+
+    for (const [name, result] of [
+      ['existing release', runTagValidation('200')],
+      ['server error', runTagValidation('500')],
+      ['transport failure', runTagValidation('000', 7)],
+      ['tag mismatch', runTagValidation('404', 0, 'v2.0.1')]
+    ] as const) {
+      expect.soft(result.status, `${name}: ${result.output}`).not.toBe(0);
+    }
+  });
+
+  test('keeps GitHub expressions out of shell scripts', () => {
+    for (const [jobName, job] of Object.entries(workflow.jobs)) {
+      for (const candidate of job.steps ?? []) {
+        expect(candidate.run ?? '', `${jobName}: ${candidate.name}`).not.toContain('${{');
+      }
+    }
+
+    const build = step(workflow.jobs.build, 'Build application');
+    expect(workflow.jobs.build.strategy?.matrix?.include).toEqual(
+      expect.arrayContaining([expect.objectContaining({ os: 'windows-latest' })])
+    );
+    expect(build?.shell).toBe('bash');
+    expect(build?.env?.BUILD_SCRIPT).toBe('${{ matrix.build_script }}');
+    expect(build?.run).toBe('npm run "$BUILD_SCRIPT"');
+  });
+
+  test('does not persist the write token during release checkout', () => {
+    const checkout = step(workflow.jobs.release, 'Checkout code');
+    expect(checkout?.with?.['persist-credentials']).toBe(false);
   });
 
   test('pins every external action to a commit', () => {
@@ -226,11 +313,29 @@ describe('release workflow', () => {
   });
 
   test('keeps brace expansion compatible across packaging dependency generations', () => {
-    const require = createRequire(import.meta.url);
-    const owners = ['@electron/asar', '@electron/universal', 'dir-compare', 'filelist', 'glob'];
+    const rootRequire = createRequire(import.meta.url);
+    const expectedVersions = {
+      '@electron/asar': '1.1.16',
+      '@electron/universal': '2.1.2',
+      'dir-compare': '1.1.16',
+      filelist: '2.1.2',
+      glob: '1.1.16'
+    };
+    const packageJson = JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf8')) as {
+      overrides?: Record<string, string>;
+    };
+    const lockfile = JSON.parse(readFileSync(join(process.cwd(), 'package-lock.json'), 'utf8')) as {
+      packages: Record<string, { version?: string }>;
+    };
 
-    for (const owner of owners) {
-      const ownerRequire = createRequire(require.resolve(owner));
+    expect(packageJson.overrides).toEqual({
+      'brace-expansion@^1.0.0': '1.1.16',
+      'brace-expansion@^2.0.0': '2.1.2',
+      'brace-expansion@^5.0.0': '5.0.8'
+    });
+
+    for (const [owner, version] of Object.entries(expectedVersions)) {
+      const ownerRequire = createRequire(rootRequire.resolve(owner));
       const loaded = ownerRequire('minimatch') as
         | ((value: string, pattern: string) => boolean)
         | {
@@ -239,10 +344,29 @@ describe('release workflow', () => {
           };
       const matcher = typeof loaded === 'function' ? loaded : loaded.minimatch ?? loaded.default;
 
+      expect(
+        (ownerRequire('brace-expansion/package.json') as { version: string }).version,
+        `${owner} installed brace-expansion`
+      ).toBe(version);
+      expect(
+        lockfile.packages[`node_modules/${owner}/node_modules/brace-expansion`]?.version,
+        `${owner} locked brace-expansion`
+      ).toBe(version);
       expect(matcher, `${owner} minimatch export`).toBeTypeOf('function');
       expect(matcher?.('a/b', 'a/{b,c}'), owner).toBe(true);
       expect(matcher?.('a/02', 'a/{01..03}'), `${owner} padded range`).toBe(true);
     }
+
+    const rootMinimatchRequire = createRequire(rootRequire.resolve('minimatch'));
+    expect(
+      (rootMinimatchRequire('brace-expansion/package.json') as { version: string }).version
+    ).toBe('5.0.8');
+    expect(lockfile.packages['node_modules/brace-expansion']?.version).toBe('5.0.8');
+  });
+
+  test('uses only the official npm registry in the lockfile', () => {
+    const lockfile = readFileSync(join(process.cwd(), 'package-lock.json'), 'utf8');
+    expect(lockfile).not.toContain('registry.npmmirror.com');
   });
 
   test('never generates placeholder icons', () => {
