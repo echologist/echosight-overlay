@@ -171,14 +171,93 @@ describe('release workflow', () => {
     );
   });
 
-  test('blocks packaging when the build dependency audit fails', () => {
+  test('blocks packaging when the assessed build dependency audit fails', () => {
     const audit = workflow.jobs['audit-build-chain'];
+    const auditStep = step(audit, 'Audit build dependencies');
 
     expect(expression(audit.if)).toBe(
       "github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v'))"
     );
-    expect(step(audit, 'Audit build dependencies')?.run).toBe('npm audit --audit-level=high');
+    expect(auditStep).toBeDefined();
+    expect(auditStep?.shell).toBe('bash');
+    expect(auditStep?.run).toContain('npm audit --json');
+  });
 
+  test('assesses only the known brace-expansion advisory', () => {
+    const auditStep = step(workflow.jobs['audit-build-chain'], 'Audit build dependencies');
+
+    expect(auditStep?.run).toContain('GHSA-mh99-v99m-4gvg');
+  });
+
+  test('executes the shipped build dependency assessment', () => {
+    const auditStep = step(workflow.jobs['audit-build-chain'], 'Audit build dependencies');
+    const heredoc = auditStep?.run?.match(/<<'NODE'\n([\s\S]*?)\nNODE(?:\n|$)/)?.[1];
+    if (!heredoc) throw new Error('Audit assessment heredoc not found.');
+
+    const start = heredoc.indexOf('function assess(report) {');
+    const end = heredoc.indexOf('\n\nconst report =', start);
+    if (start < 0 || end < 0) throw new Error('Audit assess function not found.');
+
+    const directory = mkdtempSync(join(tmpdir(), 'echosight-audit-test-'));
+    const script = join(directory, 'assess.cjs');
+    writeFileSync(
+      script,
+      `${heredoc.slice(start, end)}
+process.exitCode = assess(JSON.parse(process.argv[2]));
+`
+    );
+
+    const acceptedUrl = 'https://github.com/advisories/GHSA-mh99-v99m-4gvg';
+    const accepted = {
+      metadata: { vulnerabilities: { high: 1, critical: 0 } },
+      vulnerabilities: {
+        'brace-expansion': {
+          via: [{ name: 'brace-expansion', severity: 'high', url: acceptedUrl }]
+        }
+      }
+    };
+    const unknown = {
+      name: 'other-package',
+      severity: 'critical',
+      url: 'https://github.com/advisories/GHSA-unknown'
+    };
+    const reports = [
+      ['accepted only', accepted, 0],
+      [
+        'accepted and unknown',
+        {
+          metadata: { vulnerabilities: { high: 1, critical: 1 } },
+          vulnerabilities: {
+            ...accepted.vulnerabilities,
+            'other-package': { via: [unknown] }
+          }
+        },
+        1
+      ],
+      ['empty report', {}, 1],
+      [
+        'finding despite zero metadata counts',
+        {
+          metadata: { vulnerabilities: { high: 0, critical: 0 } },
+          vulnerabilities: { 'other-package': { via: [unknown] } }
+        },
+        1
+      ]
+    ] as const;
+
+    try {
+      for (const [name, report, status] of reports) {
+        const result = spawnSync(process.execPath, [script, JSON.stringify(report)], {
+          encoding: 'utf8'
+        });
+        expect.soft(result.status, `${name}: ${result.stdout}${result.stderr}`).toBe(status);
+      }
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  });
+
+  test('never bypasses a failed job or step', () => {
     for (const job of Object.values(workflow.jobs)) {
       expect(job['continue-on-error']).not.toBe(true);
       for (const candidate of job.steps ?? []) {
