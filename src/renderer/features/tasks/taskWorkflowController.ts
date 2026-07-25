@@ -8,6 +8,11 @@ import {
   readTaskInput
 } from './taskInputUi';
 import {
+  closeTaskEditModal,
+  readTaskEditForm,
+  showTaskEditModal
+} from './taskEditUi';
+import {
   showCompletedTaskFeedback
 } from './taskProgressUi';
 import type { TaskStateController } from './taskStateController';
@@ -18,12 +23,14 @@ import {
   type AlertHandler,
   type ConfirmHandler
 } from '../../ui/dialogTypes';
+import type { FocusOverlayApi } from '../../ui/windowFocus';
 
 type LogSink = Pick<Console, 'log' | 'error'>;
 type ThemeSoundHandler = (event: ThemeSoundEvent) => void | Promise<void>;
 
 export interface TaskWorkflowControllerOptions {
   alertUser?: AlertHandler;
+  api?: FocusOverlayApi;
   backgroundTasks: BackgroundTaskController;
   confirmUser?: ConfirmHandler;
   isInteractive: () => boolean;
@@ -41,8 +48,10 @@ export interface TaskWorkflowController {
   clearAllTasks: () => Promise<void>;
   completeNextTask: () => void;
   deleteTask: (taskId: number) => Promise<void>;
+  closeTaskEditor: () => void;
   findTaskById: (id: number, taskList?: Task[]) => Task | null;
   migrateTaskStructure: () => void;
+  openTaskEditor: (taskId: number) => void;
   redoLastAction: () => void;
   reorderTasksAdvanced: (
     draggedId: number,
@@ -51,6 +60,7 @@ export interface TaskWorkflowController {
     makeSubtask?: boolean
   ) => void;
   restartExpirationTimers: () => void;
+  saveTaskEdit: () => void;
   toggleTask: (taskId: number) => void;
   undoLastAction: () => void;
 }
@@ -61,6 +71,7 @@ export function createTaskWorkflowController(
   const logger = options.logger || console;
   const alertUser = options.alertUser || ignoreAlert;
   const confirmUser = options.confirmUser || denyConfirm;
+  let editingTaskId: number | null = null;
 
   function persistTaskChanges(): void {
     options.renderTasks();
@@ -145,6 +156,46 @@ export function createTaskWorkflowController(
 
   function addBackgroundTask(text: string, taskOptions: unknown = {}): Task {
     return options.taskState.addBackgroundTask(text, taskOptions);
+  }
+
+  function openTaskEditor(taskId: number): void {
+    const task = options.taskState.findTaskById(taskId);
+    if (task && showTaskEditModal(task, options.api)) {
+      editingTaskId = taskId;
+    }
+  }
+
+  function closeTaskEditor(): void {
+    closeTaskEditModal();
+    editingTaskId = null;
+  }
+
+  function saveTaskEdit(): void {
+    if (editingTaskId === null) {
+      return;
+    }
+
+    const task = options.taskState.findTaskById(editingTaskId);
+    if (!task) {
+      closeTaskEditor();
+      return;
+    }
+
+    const form = readTaskEditForm();
+    if (!form.text) {
+      void alertUser('Please enter a task name!');
+      return;
+    }
+
+    const changed = options.taskState.editTask(
+      editingTaskId,
+      form.text,
+      task.mode === 'background' ? (form.highPriority ? 'high' : 'normal') : undefined
+    );
+    if (changed) {
+      persistTaskChanges();
+    }
+    closeTaskEditor();
   }
 
   function restartExpirationTimers(): void {
@@ -266,13 +317,16 @@ export function createTaskWorkflowController(
     addBackgroundTask,
     addTask,
     clearAllTasks,
+    closeTaskEditor,
     completeNextTask,
     deleteTask,
     findTaskById: (id, taskList) => options.taskState.findTaskById(id, taskList),
     migrateTaskStructure,
+    openTaskEditor,
     redoLastAction,
     reorderTasksAdvanced,
     restartExpirationTimers,
+    saveTaskEdit,
     toggleTask,
     undoLastAction
   };

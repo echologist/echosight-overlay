@@ -567,7 +567,8 @@ textarea {
   overflow-y: auto;
 }
 
-.modal-content-subtask {
+.modal-content-subtask,
+.modal-content-task-edit {
   max-width: 350px;
 }
 
@@ -1233,13 +1234,20 @@ background: #888;
 }
 
 .context-menu div:first-child:before {
-  content: "➕";
+  content: "✎";
   margin-right: 8px;
   font-size: 10px;
   opacity: 0.7;
 }
 
 .context-menu div:nth-child(2):before {
+  content: "➕";
+  margin-right: 8px;
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.context-menu div:nth-child(3):before {
   content: "⚡";
   margin-right: 8px;
   font-size: 10px;
@@ -1466,6 +1474,10 @@ background: #888;
 .trigger-task-text {
   font-size: 13px;
   flex: 1;
+}
+
+.trigger-task-edit {
+  margin-left: 10px;
 }
 
 .trigger-badge {

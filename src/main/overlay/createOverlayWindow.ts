@@ -84,10 +84,6 @@ export function createOverlayWindow(options: CreateOverlayWindowOptions): Browse
 
   window.setIgnoreMouseEvents(false);
 
-  window.on('blur', () => {
-    keepOverlayOnTop(window);
-  });
-
   window.on('focus', () => {
     keepOverlayOnTop(window);
   });

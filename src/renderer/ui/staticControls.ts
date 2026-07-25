@@ -28,6 +28,7 @@ export interface RendererControlHandlers {
   closeSaveTemplateModal: CommandHandler;
   closeSettingsModal: CommandHandler;
   closeSubTaskModal: CommandHandler;
+  closeTaskEditor: CommandHandler;
   closeThemeSelectionModal: CommandHandler;
   closeTriggersModal: CommandHandler;
   deleteTemplate: CommandHandler;
@@ -45,6 +46,7 @@ export interface RendererControlHandlers {
   resetPosition: CommandHandler;
   saveSettings: CommandHandler;
   saveSubTask: CommandHandler;
+  saveTaskEdit: CommandHandler;
   saveTemplate: CommandHandler;
   saveTriggers: CommandHandler;
   showImportModal: CommandHandler;
@@ -99,6 +101,8 @@ export function setupRendererControls(handlers: RendererControlHandlers): void {
 
   bindClick('closeSubTaskButton', handlers.closeSubTaskModal);
   bindClick('saveSubTaskButton', handlers.saveSubTask);
+  bindClick('cancelTaskEditButton', handlers.closeTaskEditor);
+  bindClick('saveTaskEditButton', handlers.saveTaskEdit);
   bindClick('addNewBgTaskButton', handlers.addNewBackgroundTaskFromTriggerModal);
   bindClick('closeTriggersButton', handlers.closeTriggersModal);
   bindClick('saveTriggersButton', handlers.saveTriggers);
@@ -115,6 +119,7 @@ export function setupRendererControls(handlers: RendererControlHandlers): void {
   bindEnterKey('taskInput', handlers.addTask);
   bindEnterKey('importTemplateInput', handlers.importTemplate, { primaryModifier: true });
   bindEnterKey('subTaskInput', handlers.saveSubTask);
+  bindEnterKey('taskEditInput', handlers.saveTaskEdit);
   bindEnterKey('newBgTaskInput', handlers.addNewBackgroundTaskFromTriggerModal);
   bindEnterKey('templateNameInput', handlers.saveTemplate);
 

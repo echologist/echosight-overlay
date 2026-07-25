@@ -1,4 +1,7 @@
-import type { Task } from '../../../shared/types';
+import type {
+  BackgroundPriority,
+  Task
+} from '../../../shared/types';
 import { createTask } from './taskCreation';
 import {
   collectTaskIds,
@@ -45,6 +48,39 @@ export function deleteTaskFromList(taskId: number, taskList: Task[]): DeleteTask
     removed: removeTaskFromParent(taskId, taskList),
     removedTaskIds
   };
+}
+
+export function editTaskInList(
+  taskId: number,
+  taskList: Task[],
+  text: string,
+  priority?: BackgroundPriority
+): boolean {
+  const normalizedText = text.trim();
+  if (!normalizedText) {
+    return false;
+  }
+
+  const task = findTaskById(taskId, taskList);
+  if (!task) {
+    return false;
+  }
+
+  const priorityChanged = task.mode === 'background' &&
+    priority !== undefined &&
+    priority !== (task.backgroundOptions?.priority ?? 'normal');
+  if (normalizedText === task.text && !priorityChanged) {
+    return false;
+  }
+
+  task.text = normalizedText;
+  if (priorityChanged) {
+    task.backgroundOptions = {
+      expiresAfterMinutes: task.backgroundOptions?.expiresAfterMinutes ?? null,
+      priority
+    };
+  }
+  return true;
 }
 
 function removeTriggerReferences(taskList: Task[], removedTaskIds: Set<number>): void {

@@ -438,6 +438,24 @@
     </div>
   </div>
 
+  <!-- Edit Task Modal -->
+  <div class="modal" id="taskEditModal" aria-hidden="true">
+    <div class="modal-content modal-content-task-edit">
+      <h3 class="modal-title">Edit Task</h3>
+      <label class="setting-label" for="taskEditInput">Task name</label>
+      <input type="text" class="modal-input" id="taskEditInput" maxlength="100">
+      <div class="checkbox-group" id="taskEditBackgroundOptions" hidden>
+        <label class="checkbox-row">
+          <input type="checkbox" id="taskEditHighPriority"> High Priority
+        </label>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" id="cancelTaskEditButton" data-modal-close>Cancel</button>
+        <button class="modal-btn primary" id="saveTaskEditButton">Save</button>
+      </div>
+    </div>
+  </div>
+
   <!-- App Dialog Modal -->
   <div class="modal app-dialog-modal" id="appDialogModal" aria-hidden="true" role="alertdialog"
     aria-labelledby="appDialogTitle" aria-describedby="appDialogMessage">

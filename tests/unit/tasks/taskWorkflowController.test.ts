@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 import type {
   EchosightApi,
   Task,
@@ -9,6 +9,159 @@ import { createTaskStateController } from '../../../src/renderer/features/tasks/
 import { createTaskWorkflowController } from '../../../src/renderer/features/tasks/taskWorkflowController';
 
 describe('task workflow controller', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    document.body.replaceChildren();
+  });
+
+  test('edits a nested normal task through the modal and persists once', async () => {
+    vi.useFakeTimers();
+    installTaskEditFixture();
+    const harness = await createWorkflowHarness({
+      initialState: {
+        tasks: [
+          createTask({
+            id: 1,
+            text: 'Parent',
+            children: [createTask({ id: 2, text: 'Old child' })]
+          })
+        ],
+        currentTemplate: null
+      },
+      confirmResult: false
+    });
+
+    harness.workflow.openTaskEditor(2);
+    vi.advanceTimersByTime(50);
+
+    const input = getInput('taskEditInput');
+    expect(input.value).toBe('Old child');
+    expect(input.selectionStart).toBe(0);
+    expect(input.selectionEnd).toBe('Old child'.length);
+    expect(getElement('taskEditBackgroundOptions').hidden).toBe(true);
+
+    input.value = '  Renamed child  ';
+    harness.workflow.saveTaskEdit();
+
+    expect(harness.taskState.getTasks()[0].children[0].text).toBe('Renamed child');
+    expect(harness.renderTasks).toHaveBeenCalledOnce();
+    expect(harness.updateProgress).toHaveBeenCalledOnce();
+    expect(harness.saveTasks).toHaveBeenCalledOnce();
+    expect(getElement('taskEditModal').classList.contains('is-visible')).toBe(false);
+  });
+
+  test('edits background text and priority while preserving activation and expiration', async () => {
+    installTaskEditFixture();
+    const backgroundTask = createTask({
+      id: 20,
+      text: 'Old background',
+      mode: 'background',
+      activated: true,
+      activatedAt: '2026-04-27T02:00:00.000Z',
+      backgroundOptions: {
+        expiresAfterMinutes: 15,
+        priority: 'normal'
+      }
+    });
+    const harness = await createWorkflowHarness({
+      initialState: {
+        tasks: [backgroundTask],
+        currentTemplate: null
+      },
+      confirmResult: false
+    });
+
+    harness.workflow.openTaskEditor(20);
+
+    expect(getElement('taskEditBackgroundOptions').hidden).toBe(false);
+    expect(getInput('taskEditHighPriority').checked).toBe(false);
+
+    getInput('taskEditInput').value = '  New background  ';
+    getInput('taskEditHighPriority').checked = true;
+    harness.workflow.saveTaskEdit();
+
+    expect(harness.taskState.getTasks()[0]).toMatchObject({
+      text: 'New background',
+      activated: true,
+      activatedAt: '2026-04-27T02:00:00.000Z',
+      backgroundOptions: {
+        expiresAfterMinutes: 15,
+        priority: 'high'
+      }
+    });
+    expect(harness.renderTasks).toHaveBeenCalledOnce();
+    expect(harness.updateProgress).toHaveBeenCalledOnce();
+    expect(harness.saveTasks).toHaveBeenCalledOnce();
+  });
+
+  test('rejects empty edit text without closing, mutating, or persisting', async () => {
+    installTaskEditFixture();
+    const harness = await createWorkflowHarness({
+      initialState: {
+        tasks: [createTask({ id: 1, text: 'Keep me' })],
+        currentTemplate: null
+      },
+      confirmResult: false
+    });
+    const previousState = clone(harness.taskState.getTasks());
+
+    harness.workflow.openTaskEditor(1);
+    getInput('taskEditInput').value = '   ';
+    harness.workflow.saveTaskEdit();
+
+    expect(harness.alertMessages).toEqual(['Please enter a task name!']);
+    expect(getElement('taskEditModal').classList.contains('is-visible')).toBe(true);
+    expect(harness.taskState.getTasks()).toEqual(previousState);
+    expect(harness.taskState.undoLastAction()).toEqual({ restored: false });
+    expect(harness.renderTasks).not.toHaveBeenCalled();
+    expect(harness.updateProgress).not.toHaveBeenCalled();
+    expect(harness.saveTasks).not.toHaveBeenCalled();
+  });
+
+  test('cancels changed edit controls without mutating or persisting', async () => {
+    installTaskEditFixture();
+    const harness = await createWorkflowHarness({
+      initialState: {
+        tasks: [createTask({ id: 1, text: 'Keep me' })],
+        currentTemplate: null
+      },
+      confirmResult: false
+    });
+    const previousState = clone(harness.taskState.getTasks());
+
+    harness.workflow.openTaskEditor(1);
+    getInput('taskEditInput').value = 'Changed';
+    getInput('taskEditHighPriority').checked = true;
+    harness.workflow.closeTaskEditor();
+
+    expect(getElement('taskEditModal').classList.contains('is-visible')).toBe(false);
+    expect(harness.taskState.getTasks()).toEqual(previousState);
+    expect(harness.taskState.undoLastAction()).toEqual({ restored: false });
+    expect(harness.renderTasks).not.toHaveBeenCalled();
+    expect(harness.saveTasks).not.toHaveBeenCalled();
+  });
+
+  test('closes a normalized no-op edit without history or persistence', async () => {
+    installTaskEditFixture();
+    const harness = await createWorkflowHarness({
+      initialState: {
+        tasks: [createTask({ id: 1, text: 'Keep me' })],
+        currentTemplate: null
+      },
+      confirmResult: false
+    });
+
+    harness.workflow.openTaskEditor(1);
+    getInput('taskEditInput').value = '  Keep me  ';
+    harness.workflow.saveTaskEdit();
+
+    expect(getElement('taskEditModal').classList.contains('is-visible')).toBe(false);
+    expect(harness.taskState.undoLastAction()).toEqual({ restored: false });
+    expect(harness.renderTasks).not.toHaveBeenCalled();
+    expect(harness.updateProgress).not.toHaveBeenCalled();
+    expect(harness.saveTasks).not.toHaveBeenCalled();
+  });
+
   test('delete cancellation leaves task state untouched', async () => {
     const harness = await createWorkflowHarness({
       initialState: {
@@ -96,6 +249,7 @@ async function createWorkflowHarness(options: WorkflowHarnessOptions) {
     clearExpirationTimer: vi.fn(),
     clearAllExpirationTimers: vi.fn()
   };
+  const alertMessages: string[] = [];
   const confirmMessages: string[] = [];
   const renderTasks = vi.fn();
   const saveTasks = vi.fn();
@@ -103,6 +257,12 @@ async function createWorkflowHarness(options: WorkflowHarnessOptions) {
   const playThemeSound = vi.fn();
 
   const workflow = createTaskWorkflowController({
+    alertUser: message => {
+      alertMessages.push(message);
+    },
+    api: {
+      focusWindow: vi.fn()
+    },
     backgroundTasks,
     confirmUser: message => {
       confirmMessages.push(message);
@@ -118,6 +278,7 @@ async function createWorkflowHarness(options: WorkflowHarnessOptions) {
   });
 
   return {
+    alertMessages,
     backgroundTasks,
     confirmMessages,
     renderTasks,
@@ -127,6 +288,35 @@ async function createWorkflowHarness(options: WorkflowHarnessOptions) {
     playThemeSound,
     workflow
   };
+}
+
+function installTaskEditFixture(): void {
+  document.body.innerHTML = `
+    <div class="modal" id="taskEditModal" aria-hidden="true">
+      <div class="modal-content">
+        <input id="taskEditInput">
+        <div id="taskEditBackgroundOptions" hidden>
+          <input type="checkbox" id="taskEditHighPriority">
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function getElement(id: string): HTMLElement {
+  const element = document.getElementById(id);
+  if (!element) {
+    throw new Error(`Missing element ${id}`);
+  }
+  return element;
+}
+
+function getInput(id: string): HTMLInputElement {
+  const element = getElement(id);
+  if (!(element instanceof HTMLInputElement)) {
+    throw new Error(`Element ${id} is not an input`);
+  }
+  return element;
 }
 
 const silentLogger = {

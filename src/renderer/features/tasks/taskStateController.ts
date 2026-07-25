@@ -1,4 +1,5 @@
 import type {
+  BackgroundPriority,
   EchosightApi,
   Task,
   TaskSnapshot,
@@ -19,6 +20,7 @@ import {
 import {
   addTaskToList,
   deleteTaskFromList,
+  editTaskInList,
   type AddTaskResult,
   type DeleteTaskResult
 } from './taskMutations';
@@ -53,6 +55,7 @@ export interface TaskStateController {
   clearTasks: () => void;
   completeNextTask: () => CompleteTaskResult | null;
   deleteTask: (taskId: number) => DeleteTaskResult;
+  editTask: (taskId: number, text: string, priority?: BackgroundPriority) => boolean;
   findTaskById: (id: number, taskList?: Task[]) => Task | null;
   getProgress: () => TaskProgress;
   getTasks: () => Task[];
@@ -238,6 +241,12 @@ export function createTaskStateController(options: TaskStateControllerOptions): 
       withUndo('complete next task', () => completeNextTaskInList(tasks), result => result !== null),
     deleteTask: taskId =>
       withUndo('delete task', () => deleteTaskFromList(taskId, tasks), result => result.removed),
+    editTask: (taskId, text, priority) =>
+      withUndo(
+        'edit task',
+        () => editTaskInList(taskId, tasks, text, priority),
+        changed => changed
+      ),
     findTaskById: (id, taskList = tasks) => findTaskById(id, taskList),
     getProgress: () => calculateTaskProgress(tasks),
     getTasks,

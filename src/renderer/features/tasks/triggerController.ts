@@ -23,6 +23,7 @@ export interface TriggerControllerOptions {
   findTaskById: (taskId: number) => Task | null;
   getTasks: () => Task[];
   onChanged: () => void;
+  openTaskEditor: (taskId: number) => void;
 }
 
 export interface TriggerController {
@@ -45,7 +46,7 @@ export function createTriggerController(options: TriggerControllerOptions): Trig
 
     const backgroundTasks = flattenTasks(options.getTasks())
       .filter(currentTask => currentTask.mode === 'background');
-    showTriggerConfigModal(task, backgroundTasks, options.api);
+    showTriggerConfigModal(task, backgroundTasks, options.api, options.openTaskEditor);
   }
 
   function closeTriggersModal(): void {

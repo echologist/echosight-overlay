@@ -1,6 +1,7 @@
 export interface TaskContextMenuActions {
   onAddSubTask: (taskId: number) => void;
   onConfigureTriggers: (taskId: number) => void;
+  onEditTask: (taskId: number) => void;
 }
 
 let activeContextMenu: HTMLDivElement | null = null;
@@ -15,6 +16,11 @@ export function showTaskContextMenu(
 
   activeContextMenu = document.createElement('div');
   activeContextMenu.className = 'context-menu';
+
+  activeContextMenu.appendChild(createMenuItem('Edit task', () => {
+    closeTaskContextMenu();
+    actions.onEditTask(taskId);
+  }));
 
   activeContextMenu.appendChild(createMenuItem('Add sub-task', () => {
     closeTaskContextMenu();

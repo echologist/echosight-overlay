@@ -89,6 +89,7 @@ const taskDragController = createTaskDragController({
 });
 taskWorkflowController = createTaskWorkflowController({
   alertUser: dialogs.alert,
+  api: ipc,
   backgroundTasks: backgroundTaskController,
   confirmUser: dialogs.confirm,
   isInteractive: () => overlayController.isInteractive(),
@@ -110,6 +111,7 @@ const triggerController = createTriggerController({
     updateProgress();
     saveTasks();
   },
+  openTaskEditor: taskWorkflowController.openTaskEditor,
   alertUser: dialogs.alert
 });
 const subtaskController = createSubtaskController({
@@ -239,7 +241,8 @@ function renderTasks(): void {
 function showContextMenu(event: MouseEvent, taskId: number, isParent: boolean): void {
   showTaskContextMenu(event, taskId, {
     onAddSubTask: subtaskController.addSubTask,
-    onConfigureTriggers: configureTriggers
+    onConfigureTriggers: configureTriggers,
+    onEditTask: taskWorkflowController.openTaskEditor
   });
 }
 
@@ -289,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
     closeSaveTemplateModal: templateController.closeSaveTemplateModal,
     closeSettingsModal: settingsController.closeSettingsModal,
     closeSubTaskModal: subtaskController.closeSubTaskModal,
+    closeTaskEditor: taskWorkflowController.closeTaskEditor,
     closeThemeSelectionModal: settingsController.closeThemeSelectionModal,
     closeTriggersModal: triggerController.closeTriggersModal,
     deleteTemplate: templateController.deleteTemplate,
@@ -306,6 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetPosition: () => resetOverlayPosition(ipc, dialogs.alert, console),
     saveSettings: settingsController.saveSettings,
     saveSubTask: subtaskController.saveSubTask,
+    saveTaskEdit: taskWorkflowController.saveTaskEdit,
     saveTemplate: templateController.saveTemplate,
     saveTriggers: triggerController.saveTriggers,
     showImportModal: templateController.showImportModal,
