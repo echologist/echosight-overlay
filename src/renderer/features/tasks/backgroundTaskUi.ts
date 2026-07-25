@@ -24,7 +24,8 @@ export function showBackgroundTaskNotification(count: number): void {
 export function renderTriggerTaskList(
   container: HTMLElement,
   task: Task,
-  backgroundTasks: Task[]
+  backgroundTasks: Task[],
+  onEditBackgroundTask?: (taskId: number) => void
 ): void {
   container.replaceChildren();
 
@@ -34,14 +35,15 @@ export function renderTriggerTaskList(
   }
 
   backgroundTasks.forEach(backgroundTask => {
-    container.appendChild(createTriggerTaskRow(task, backgroundTask));
+    container.appendChild(createTriggerTaskRow(task, backgroundTask, onEditBackgroundTask));
   });
 }
 
 export function showTriggerConfigModal(
   task: Task,
   backgroundTasks: Task[],
-  api?: FocusOverlayApi
+  api?: FocusOverlayApi,
+  onEditBackgroundTask?: (taskId: number) => void
 ): boolean {
   const modal = document.getElementById('configureTriggersModal');
   const listContainer = document.getElementById('triggerTaskList');
@@ -49,7 +51,7 @@ export function showTriggerConfigModal(
     return false;
   }
 
-  renderTriggerTaskList(listContainer, task, backgroundTasks);
+  renderTriggerTaskList(listContainer, task, backgroundTasks, onEditBackgroundTask);
   clearNewBackgroundTaskInput();
   showModal('configureTriggersModal', {
     focusSelector: '#newBgTaskInput',
@@ -109,7 +111,11 @@ function createEmptyTriggerMessage(): HTMLParagraphElement {
   return emptyMessage;
 }
 
-function createTriggerTaskRow(task: Task, backgroundTask: Task): HTMLDivElement {
+function createTriggerTaskRow(
+  task: Task,
+  backgroundTask: Task,
+  onEditBackgroundTask?: (taskId: number) => void
+): HTMLDivElement {
   const row = document.createElement('div');
   row.className = 'trigger-task-row';
 
@@ -125,7 +131,24 @@ function createTriggerTaskRow(task: Task, backgroundTask: Task): HTMLDivElement 
     backgroundTask.activated ? 'trigger-badge-active' : 'trigger-badge-dormant'
   ));
 
+  if (onEditBackgroundTask) {
+    row.appendChild(createEditButton(backgroundTask, onEditBackgroundTask));
+  }
+
   return row;
+}
+
+function createEditButton(
+  backgroundTask: Task,
+  onEditBackgroundTask: (taskId: number) => void
+): HTMLButtonElement {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'modal-btn secondary compact-action trigger-task-edit';
+  button.textContent = 'Edit';
+  button.setAttribute('aria-label', `Edit ${backgroundTask.text}`);
+  button.addEventListener('click', () => onEditBackgroundTask(backgroundTask.id));
+  return button;
 }
 
 function createTriggerCheckbox(task: Task, backgroundTask: Task): HTMLInputElement {

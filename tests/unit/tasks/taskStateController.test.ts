@@ -8,6 +8,110 @@ import type {
 import { createTaskStateController } from '../../../src/renderer/features/tasks/taskStateController';
 
 describe('task state history', () => {
+  test('edits a nested task in place without changing its state or hierarchy', async () => {
+    const child = createTask({
+      id: 2,
+      text: 'Old child',
+      completed: true,
+      createdAt: '2026-04-27T01:00:00.000Z',
+      triggers: [20],
+      activated: false,
+      activatedAt: '2026-04-27T02:00:00.000Z',
+      backgroundOptions: {
+        expiresAfterMinutes: 10,
+        priority: 'normal'
+      }
+    });
+    const api = createTaskApi({
+      tasks: [createTask({ id: 1, text: 'Parent', children: [child] })],
+      currentTemplate: null
+    });
+    const controller = createTaskStateController({ api, logger: silentLogger });
+
+    await controller.loadTasks();
+    const nestedTask = controller.getTasks()[0].children[0];
+    const previousState = clone(nestedTask);
+
+    expect(controller.editTask(2, '  Renamed child  ', 'high')).toBe(true);
+    expect(controller.getTasks()[0].children[0]).toBe(nestedTask);
+    expect(nestedTask).toEqual({
+      ...previousState,
+      text: 'Renamed child'
+    });
+  });
+
+  test('edits and restores background text and priority without changing other fields', async () => {
+    const backgroundTask = createTask({
+      id: 20,
+      text: 'Old background',
+      completed: true,
+      createdAt: '2026-04-27T01:00:00.000Z',
+      children: [createTask({ id: 21, text: 'Background child' })],
+      mode: 'background',
+      triggers: [30],
+      activated: true,
+      activatedAt: '2026-04-27T02:00:00.000Z',
+      backgroundOptions: {
+        expiresAfterMinutes: 15,
+        priority: 'normal'
+      }
+    });
+    const api = createTaskApi({
+      tasks: [backgroundTask],
+      currentTemplate: null
+    });
+    const controller = createTaskStateController({ api, logger: silentLogger });
+
+    await controller.loadTasks();
+    const previousState = clone(controller.getTasks()[0]);
+
+    expect(controller.editTask(20, '  New background  ', 'high')).toBe(true);
+    expect(controller.getTasks()[0]).toEqual({
+      ...previousState,
+      text: 'New background',
+      backgroundOptions: {
+        expiresAfterMinutes: 15,
+        priority: 'high'
+      }
+    });
+
+    expect(controller.undoLastAction()).toEqual({
+      restored: true,
+      label: 'edit task'
+    });
+    expect(controller.getTasks()[0]).toEqual(previousState);
+
+    expect(controller.redoLastAction()).toEqual({
+      restored: true,
+      label: 'edit task'
+    });
+    expect(controller.getTasks()[0]).toEqual({
+      ...previousState,
+      text: 'New background',
+      backgroundOptions: {
+        expiresAfterMinutes: 15,
+        priority: 'high'
+      }
+    });
+  });
+
+  test('rejects empty, missing, and normalized no-op edits without history', async () => {
+    const api = createTaskApi({
+      tasks: [createTask({ id: 1, text: 'Keep me' })],
+      currentTemplate: null
+    });
+    const controller = createTaskStateController({ api, logger: silentLogger });
+
+    await controller.loadTasks();
+    const previousState = clone(controller.getTasks());
+
+    expect(controller.editTask(1, '   ')).toBe(false);
+    expect(controller.editTask(999, 'Missing')).toBe(false);
+    expect(controller.editTask(1, '  Keep me  ', 'high')).toBe(false);
+    expect(controller.getTasks()).toEqual(previousState);
+    expect(controller.undoLastAction()).toEqual({ restored: false });
+  });
+
   test('undo and forward restore task completion state', async () => {
     const api = createTaskApi({
       tasks: [createTask({ id: 1, text: 'Open map' })],
