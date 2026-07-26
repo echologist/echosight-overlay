@@ -17,7 +17,12 @@ const mocks = vi.hoisted(() => {
       requestSingleInstanceLock: vi.fn(() => true),
       whenReady: vi.fn(async () => undefined)
     },
+    appTray: {
+      destroy: vi.fn()
+    },
+    createAppTray: vi.fn(),
     createOverlayWindow: vi.fn(() => overlayWindow),
+    hideOverlayWindow: vi.fn(),
     showOverlayWindow: vi.fn(),
     monitor: {
       start: vi.fn(),
@@ -54,7 +59,7 @@ vi.mock('../../../src/main/utils/jsonStorage', () => ({
 }));
 
 vi.mock('../../../src/main/overlay/windowActions', () => ({
-  hideOverlayWindow: vi.fn(),
+  hideOverlayWindow: mocks.hideOverlayWindow,
   isOverlayWindowReady: vi.fn((window: unknown) => window !== null),
   keepOverlayOnTop: vi.fn(),
   setOverlayInteractive: vi.fn(),
@@ -67,6 +72,12 @@ vi.mock('../../../src/main/overlay/createOverlayWindow', () => ({
 
 vi.mock('../../../src/main/menu/overlayMenu', () => ({
   installOverlayMenu: vi.fn()
+}));
+
+vi.mock('../../../src/main/tray/appTray', () => ({
+  createAppTray: mocks.createAppTray,
+  getTrayIconPath: vi.fn(() => '/tmp/echosight-icon.png'),
+  shouldCreateAppTray: vi.fn(() => true)
 }));
 
 vi.mock('../../../src/main/hotkeys/globalHotkeys', () => ({
@@ -96,6 +107,26 @@ describe('main second-instance listener', () => {
     vi.resetModules();
     vi.clearAllMocks();
     mocks.listeners.clear();
+    mocks.createAppTray.mockReturnValue(mocks.appTray);
+  });
+
+  test('wires tray show, hide, and exit actions into the app lifecycle', async () => {
+    await import('../../../src/main/index');
+    await vi.waitFor(() => expect(mocks.createAppTray).toHaveBeenCalledOnce());
+
+    const trayOptions = mocks.createAppTray.mock.calls[0]?.[0];
+    expect(trayOptions.iconPath).toBe('/tmp/echosight-icon.png');
+
+    trayOptions.onHide();
+    expect(mocks.hideOverlayWindow).toHaveBeenCalledWith(mocks.overlayWindow);
+
+    trayOptions.onShow();
+    expect(mocks.showOverlayWindow).toHaveBeenCalledWith(mocks.overlayWindow);
+
+    trayOptions.onExit();
+    expect(mocks.monitor.stop).toHaveBeenCalled();
+    expect(mocks.appTray.destroy).toHaveBeenCalled();
+    expect(mocks.app.quit).toHaveBeenCalled();
   });
 
   test('returns void and handles reveal failures inside its promise chain', async () => {
