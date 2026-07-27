@@ -32,6 +32,11 @@ import type { Poe2Monitor } from './game/poe2Monitor';
 import { ThemeLibrary } from './themes/themeLibrary';
 import { initializeRuntimeData } from './storage/runtimeDataBootstrap';
 import { ensureSingleInstance } from './lifecycle/singleInstance';
+import {
+  createAppTray,
+  getTrayIconPath,
+  shouldCreateAppTray
+} from './tray/appTray';
 
 let overlayWindow: BrowserWindow | null = null;
 let gameMonitor: Poe2Monitor | null = null;
@@ -55,6 +60,7 @@ const DEFAULT_THEMES_DIR = path.join(DEFAULT_DATA_DIR, 'themes');
 
 class PoE2TaskOverlay {
   private readonly themeLibrary: ThemeLibrary;
+  private appTray: ReturnType<typeof createAppTray> | null = null;
 
   constructor() {
     this.themeLibrary = new ThemeLibrary({
@@ -80,6 +86,7 @@ class PoE2TaskOverlay {
     await this.initializeDataDirectory();
     await this.loadSettingsOnStartup();
     this.openOverlayWindow();
+    this.setupTray();
     this.setupIPC();
   }
 
@@ -127,6 +134,45 @@ class PoE2TaskOverlay {
         manuallyHidden = hidden;
       },
       toggleInteractiveMode: () => this.toggleInteractiveMode()
+    });
+  }
+
+  setupTray() {
+    if (!shouldCreateAppTray(process.platform) || this.appTray) {
+      return;
+    }
+
+    this.appTray = createAppTray({
+      iconPath: getTrayIconPath({
+        isPackaged: app.isPackaged,
+        resourcesPath: process.resourcesPath,
+        mainDirectory: __dirname
+      }),
+      onShow: () => {
+        manuallyHidden = false;
+        const window = getOverlayWindow();
+        if (window) {
+          showOverlayWindow(window);
+          return;
+        }
+
+        this.openOverlayWindow();
+        const reopenedWindow = getOverlayWindow();
+        if (reopenedWindow) {
+          showOverlayWindow(reopenedWindow);
+        }
+      },
+      onHide: () => {
+        const window = getOverlayWindow();
+        if (window) {
+          hideOverlayWindow(window);
+          manuallyHidden = true;
+        }
+      },
+      onExit: () => {
+        this.cleanup();
+        app.quit();
+      }
     });
   }
 
@@ -237,6 +283,8 @@ class PoE2TaskOverlay {
   cleanup() {
     gameMonitor?.stop();
     gameMonitor = null;
+    this.appTray?.destroy();
+    this.appTray = null;
     unregisterOverlayHotkeys();
   }
 }
@@ -293,6 +341,6 @@ if (ensureSingleInstance(app, () => {
   });
 
   app.on('will-quit', () => {
-    unregisterOverlayHotkeys();
+    overlay.cleanup();
   });
 }
