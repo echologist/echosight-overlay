@@ -1,0 +1,1149 @@
+[
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Snapshot target",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": "Mapping",
+      "snapshots": [
+        {
+          "createdAt": "legacy-3",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Old 3"
+          }
+        },
+        {
+          "createdAt": "legacy-4",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Old 4"
+          }
+        },
+        {
+          "createdAt": "legacy-5",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Old 5"
+          }
+        },
+        {
+          "createdAt": "legacy-6",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Old 6"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot target",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot target",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": true,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 0",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Snapshot 0",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": "Mapping",
+      "snapshots": [
+        {
+          "createdAt": "legacy-4",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Old 4"
+          }
+        },
+        {
+          "createdAt": "legacy-5",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Old 5"
+          }
+        },
+        {
+          "createdAt": "legacy-6",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Old 6"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot target",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:02.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 0",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 0",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": true,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 1",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Snapshot 1",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": "Mapping",
+      "snapshots": [
+        {
+          "createdAt": "legacy-5",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Old 5"
+          }
+        },
+        {
+          "createdAt": "legacy-6",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Old 6"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot target",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:02.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 0",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:04.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 1",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 1",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": true,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 2",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Snapshot 2",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": "Mapping",
+      "snapshots": [
+        {
+          "createdAt": "legacy-6",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Old 6"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot target",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:02.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 0",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:04.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 1",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:06.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 2",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 2",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": true,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 3",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Snapshot 3",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": "Mapping",
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot target",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:02.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 0",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:04.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 1",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:06.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 2",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:08.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 3",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 3",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": true,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 4",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Snapshot 4",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": "Mapping",
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:02.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 0",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:04.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 1",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:06.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 2",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:08.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 3",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:10.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 4",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 4",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": true,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 5",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Snapshot 5",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": "Mapping",
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:04.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 1",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:06.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 2",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:08.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 3",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:10.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 4",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:12.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 5",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 5",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "edit task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 4",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Snapshot 4",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": "Mapping",
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:06.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 2",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:08.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 3",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:10.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 4",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:12.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 5",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:14.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Snapshot 4",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Mapping"
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Snapshot 4",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  }
+]

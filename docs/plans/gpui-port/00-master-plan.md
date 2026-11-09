@@ -39,10 +39,10 @@
 Everything below is Verified in the inventories unless marked.
 
 ### 2.1 Data compatibility (no user loses data)
-1. Same directory: `<appData>/echosight/data/` (`%APPDATA%\echosight\data`, `~/Library/Application Support/echosight/data`, `~/.config/echosight/data`). Same files: `current_tasks.json`, `templates.json`, `settings.json`, `themes/`. (Path is Inferred from Electron semantics; **Task 0.6 verifies it on Miles's Windows machine before anything else.**)
+1. Same existing directory, once identified. **Unresolved:** Miles reported that `%APPDATA%\echosight` does not exist; the initially inferred app identity is not verified. Obtain packaged `app.getPath('userData')` evidence or an explicit user-selected directory before enabling in-place access. Do not silently select between candidate roots. Same files: `current_tasks.json`, `templates.json`, `settings.json`, `themes/`. The bounded storage slice accepts an explicit directory only; real-data acceptance remains blocked, not pure-core development.
 2. Serialization: 2-space indent, LF, no trailing newline, UTF-8 no BOM, key insertion order preserved (`serde_json` with `preserve_order` + custom pretty printer), f64 ids round-trip (`1749938954072.5596`).
 3. Atomic write: temp `.<name>.<pid>.<uuid>.tmp` in same dir, exclusive create, fsync, rename; per-path write serialization; destination untouched on failure.
-4. Parse leniency mirrors `destr` strict: trimmed input, bare `null/true/false/number` accepted at top level, empty/truncated = corrupt, `__proto__`/`constructor` keys = corrupt.
+4. Parse behavior mirrors the installed `destr` strict implementation, including its pre-trim quoted-string fast path and prototype-pollution checks, rather than assuming plain JSON.parse. The bounded Rust Value slice fails closed without quarantine for valid JS values it cannot represent; see `parity-storage.md`. Unsupported cases remain a full-parity gate.
 5. Quarantine: copy bytes to `<file>.corrupt-<ISO ts with : and . replaced by ->`, write fallback (`{tasks:[],currentTemplate:null,snapshots:[]}` / `[]` / `null`), return `corruptBackupPath` only for tasks; block saves after failed load until a load succeeds.
 6. Bootstrap: create-if-missing only; seed tasks/templates from bundled defaults; settings from code defaults (v2, transparency 70, theme `echosight`, sounds off/60, `CommandOrControl+Shift+T/I/N/Z/Y`).
 7. Settings tolerance: missing `settingsVersion`, legacy `backgroundColor` to `theme`, missing hotkeys filled, clamp 0..100 and round, hotkeys in any of `CommandOrControl|Ctrl|Control|Cmd|Command` spellings, persist normalized v2 only when changed.
@@ -53,8 +53,8 @@ Everything below is Verified in the inventories unless marked.
 ### 2.2 Behaviour (from renderer inventory sections 4 to 8, 11, 12)
 - Task tree: ids `now_ms*1000 + rand(0..999)` (f64), subtasks inherit mode, background children activated iff parent activated, delete strips descendant ids from all `triggers`, no cross-list moves, no move into own subtree, legacy migration fills defaults and triggers a save.
 - Undo/redo: 20 deep per stack, deep-clone snapshots of `{tasks,currentTemplate}`, redo cleared on new mutation, 10 labelled operations, undo/redo restart expiry timers and play `undo`/`redo` sounds.
-- Progress: counts main tasks (all depths) + activated background tasks (all depths); `completed/total*100`.
-- Complete-next: first incomplete main task in pre-order; recursive completion of descendants; activates triggered background tasks; `taskCompleted` sound; 2 s "✓ Completed: <t>" feedback.
+- Progress: filters roots into main tasks and activated background tasks, then counts every descendant of each included root without re-filtering descendant mode/activation; `completed/total*100` (0 when empty). Preserve this source quirk, including mixed-mode legacy trees.
+- Complete-next: first incomplete non-background **leaf**, searching children before advancing to the next root and skipping completed subtrees; completes parents when all their children are complete. Toggling a parent complete, not complete-next, recursively completes its descendants. Shell side effects activate triggers, play `taskCompleted`, and show 2 s "✓ Completed: <t>" feedback.
 - Background tasks: activation on trigger completion, `expiresAfterMinutes` timers keyed by id, `priority` badge `HIGH`, toast `N background task(s) activated!`, `backgroundActivated` sound. Dormant tasks visible only in Configure Triggers.
 - Templates: incomplete tasks only, flat pre-order `triggerIndices`, fresh ids on load, upsert by name (Save overwrites silently; import/community confirm `Template "<n>" already exists. Replace it?`), export version `2.0` iff any background task, filename `poe2-template-<slug>.json`, import limits (empty, >100000 chars, shape, >=1 valid task), 6 community templates (League Start Essentials 8, Endgame Progression 9, New Character Setup 8, Currency Goals 8, HC/SSF Priorities 8, Crafting Checklist 8).
 - Drag and drop: midpoint/half-width intent (reorder vs make-subtask vs promote), nearest-row snapping within 50 px, placeholder row, intent labels `Drop here to reorder` / `Drop to make subtask` / `Make subtask of target` / `Reorder within same level` / `Promote to higher level` / `Reorder as sibling`.
@@ -137,7 +137,7 @@ git worktree add -b gpui-port /home/agent/code/echosight-gpui origin/main
 cd /home/agent/code/echosight-gpui && git config core.fileMode false
 git log --oneline -1   # expect d96c2d5
 ```
-Branch protection (Miles, GitHub UI): require PR for `main`; `gpui-port` accepts PRs from `gpui-port/<topic>` branches. Commit message convention: `feat(core): ...`, `feat(ui): ...`, `spike(win): ...`, `docs(port): ...`. **No trailers.**
+Branch protection (Miles, GitHub UI): require PR for `main`; `gpui-port` accepts PRs from `gpui-port-<topic>` branches (the existing `gpui-port` ref prevents a slash namespace). Commit message convention: `feat(core): ...`, `feat(ui): ...`, `spike(win): ...`, `docs(port): ...`. **No trailers.**
 
 ### Task 0.2: Sounds branch decision (done)
 Miles discarded `feat/exiles-corruption-sounds` (PR #15 closed). Theme inventory is frozen at `main` d96c2d5: 7 single-file JSON themes + 4 folder themes.
@@ -155,7 +155,7 @@ Options (from the research report): (a) git dependency `gpui_platform` + `gpui` 
 Procedure: try (a) and (b) in `crates/echosight-ui` hello-world; record clean build time, incremental build time, binary size (release, stripped), and whether `examples/window_shadow.rs`-style CSD works. Write `docs/plans/gpui-port/adr-001-gpui-source.md`. Default recommendation: **(a) git rev pinned in `Cargo.toml` with `[patch]`-free exact `rev`**, refreshed deliberately once per phase, unless gpui-component is adopted (then its `gpui-pre` pin wins, ADR-002).
 
 ### Task 0.6: Verify the real Windows data path (Miles, 5 minutes)
-On the Windows machine with Echosight 2.1.1 installed: confirm `%APPDATA%\echosight\data\current_tasks.json` exists and zip the whole `echosight` folder as `fixtures/windows-userdata-v2.1.1.zip` (strip personal task text if wanted). This becomes a Phase 1 golden input. If the folder has a different name, section 2.1 item 1 changes and a path-migration task is added.
+Miles reported the proposed `%APPDATA%\echosight` directory does not exist. The actual packaged runtime path must be observed or selected by Miles, not guessed from productName or another app identity. Once located, use a sanitized, explicitly authorized copy for real-data acceptance; never commit private tasks into the public repository. TypeScript-generated fixtures permit pure-core work to continue meanwhile.
 
 ### Spikes S1..S7 (go/no-go; each is a tiny bin under `crates/echosight-platform/examples/`)
 

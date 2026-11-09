@@ -1,0 +1,653 @@
+[
+  {
+    "result": null,
+    "tasks": [],
+    "progress": {
+      "completed": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "clear all tasks"
+    },
+    "tasks": [],
+    "progress": {
+      "completed": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [],
+      "currentTemplate": "Empty template",
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:02.000Z",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Empty template"
+          }
+        }
+      ]
+    },
+    "tasks": [],
+    "progress": {
+      "completed": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "clear all tasks"
+    },
+    "tasks": [],
+    "progress": {
+      "completed": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  },
+  {
+    "result": null,
+    "tasks": [],
+    "progress": {
+      "completed": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "clear all tasks"
+    },
+    "tasks": [],
+    "progress": {
+      "completed": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  },
+  {
+    "result": null,
+    "tasks": [],
+    "progress": {
+      "completed": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  },
+  {
+    "result": null,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2.5,
+            "text": "Branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 3,
+                "text": "Leaf A",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              },
+              {
+                "id": 4,
+                "text": "Leaf B",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 5,
+            "text": "Leaf C",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 6,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "configure triggers"
+    },
+    "tasks": [],
+    "progress": {
+      "completed": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [],
+      "currentTemplate": "Empty template",
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:02.000Z",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Empty template"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:09.000Z",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Empty template"
+          }
+        }
+      ]
+    },
+    "tasks": [],
+    "progress": {
+      "completed": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "configure triggers"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2.5,
+            "text": "Branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 3,
+                "text": "Leaf A",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              },
+              {
+                "id": 4,
+                "text": "Leaf B",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 5,
+            "text": "Leaf C",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 6,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Root",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [
+            {
+              "id": 2.5,
+              "text": "Branch",
+              "completed": false,
+              "createdAt": "2026-04-27T00:00:00.000Z",
+              "children": [
+                {
+                  "id": 3,
+                  "text": "Leaf A",
+                  "completed": false,
+                  "createdAt": "2026-04-27T00:00:00.000Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                },
+                {
+                  "id": 4,
+                  "text": "Leaf B",
+                  "completed": false,
+                  "createdAt": "2026-04-27T00:00:00.000Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                }
+              ],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            },
+            {
+              "id": 5,
+              "text": "Leaf C",
+              "completed": false,
+              "createdAt": "2026-04-27T00:00:00.000Z",
+              "children": [],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 6,
+          "text": "Other",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": "Replacement",
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:02.000Z",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Empty template"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:09.000Z",
+          "state": {
+            "tasks": [],
+            "currentTemplate": "Empty template"
+          }
+        },
+        {
+          "createdAt": "2027-01-15T08:00:11.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Root",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [
+                  {
+                    "id": 2.5,
+                    "text": "Branch",
+                    "completed": false,
+                    "createdAt": "2026-04-27T00:00:00.000Z",
+                    "children": [
+                      {
+                        "id": 3,
+                        "text": "Leaf A",
+                        "completed": false,
+                        "createdAt": "2026-04-27T00:00:00.000Z",
+                        "children": [],
+                        "mode": "main",
+                        "triggers": [],
+                        "activated": true,
+                        "activatedAt": null,
+                        "backgroundOptions": null
+                      },
+                      {
+                        "id": 4,
+                        "text": "Leaf B",
+                        "completed": false,
+                        "createdAt": "2026-04-27T00:00:00.000Z",
+                        "children": [],
+                        "mode": "main",
+                        "triggers": [],
+                        "activated": true,
+                        "activatedAt": null,
+                        "backgroundOptions": null
+                      }
+                    ],
+                    "mode": "main",
+                    "triggers": [],
+                    "activated": true,
+                    "activatedAt": null,
+                    "backgroundOptions": null
+                  },
+                  {
+                    "id": 5,
+                    "text": "Leaf C",
+                    "completed": false,
+                    "createdAt": "2026-04-27T00:00:00.000Z",
+                    "children": [],
+                    "mode": "main",
+                    "triggers": [],
+                    "activated": true,
+                    "activatedAt": null,
+                    "backgroundOptions": null
+                  }
+                ],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              },
+              {
+                "id": 6,
+                "text": "Other",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": "Replacement"
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2.5,
+            "text": "Branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 3,
+                "text": "Leaf A",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              },
+              {
+                "id": 4,
+                "text": "Leaf B",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 5,
+            "text": "Leaf C",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 6,
+      "percentage": 0
+    }
+  },
+  {
+    "result": null,
+    "tasks": [],
+    "progress": {
+      "completed": 0,
+      "total": 0,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "clear all tasks"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2.5,
+            "text": "Branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 3,
+                "text": "Leaf A",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              },
+              {
+                "id": 4,
+                "text": "Leaf B",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 5,
+            "text": "Leaf C",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 6,
+      "percentage": 0
+    }
+  }
+]

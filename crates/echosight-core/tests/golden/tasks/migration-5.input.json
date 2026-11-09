@@ -1,0 +1,17 @@
+{
+  "kind": "migration",
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Already migrated",
+      "completed": false,
+      "createdAt": "2026-04-27T00:00:00.000Z",
+      "children": [],
+      "mode": "main",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    }
+  ]
+}

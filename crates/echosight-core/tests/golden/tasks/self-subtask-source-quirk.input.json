@@ -1,0 +1,53 @@
+{
+  "kind": "state",
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Self",
+      "completed": false,
+      "createdAt": "2026-04-27T00:00:00.000Z",
+      "children": [],
+      "mode": "main",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    },
+    {
+      "id": 2,
+      "text": "Other",
+      "completed": false,
+      "createdAt": "2026-04-27T00:00:00.000Z",
+      "children": [],
+      "mode": "main",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    }
+  ],
+  "currentTemplate": null,
+  "snapshots": [],
+  "ops": [
+    {
+      "op": "move",
+      "id": 1,
+      "target": 1,
+      "above": false,
+      "subtask": true,
+      "nowMs": 1800000000000,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "undo",
+      "nowMs": 1800000001000,
+      "nowIso": "2027-01-15T08:00:01.000Z"
+    },
+    {
+      "op": "redo",
+      "nowMs": 1800000002000,
+      "nowIso": "2027-01-15T08:00:02.000Z"
+    }
+  ]
+}

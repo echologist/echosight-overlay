@@ -1,0 +1,723 @@
+[
+  {
+    "result": {
+      "task": {
+        "id": 9,
+        "text": "Main grandchild",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "completedParents": [
+        {
+          "id": 8,
+          "text": "Nested background",
+          "completed": true,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [
+            {
+              "id": 9,
+              "text": "Main grandchild",
+              "completed": true,
+              "createdAt": "2026-04-27T00:00:00.000Z",
+              "children": [],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "background",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 7,
+          "text": "Main root",
+          "completed": true,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [
+            {
+              "id": 8,
+              "text": "Nested background",
+              "completed": true,
+              "createdAt": "2026-04-27T00:00:00.000Z",
+              "children": [
+                {
+                  "id": 9,
+                  "text": "Main grandchild",
+                  "completed": true,
+                  "createdAt": "2026-04-27T00:00:00.000Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                }
+              ],
+              "mode": "background",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Done ancestor",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "Not visited",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 3,
+        "text": "Incomplete parent with done children",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 4,
+            "text": "Done leaf",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 5,
+        "text": "Background root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 6,
+            "text": "Main child",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 7,
+        "text": "Main root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 8,
+            "text": "Nested background",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 9,
+                "text": "Main grandchild",
+                "completed": true,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "background",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 5,
+      "total": 7,
+      "percentage": 71.42857142857143
+    }
+  },
+  {
+    "result": null,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Done ancestor",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "Not visited",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 3,
+        "text": "Incomplete parent with done children",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 4,
+            "text": "Done leaf",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 5,
+        "text": "Background root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 6,
+            "text": "Main child",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 7,
+        "text": "Main root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 8,
+            "text": "Nested background",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 9,
+                "text": "Main grandchild",
+                "completed": true,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "background",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 5,
+      "total": 7,
+      "percentage": 71.42857142857143
+    }
+  },
+  {
+    "result": true,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Done ancestor",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "Not visited",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 3,
+        "text": "Incomplete parent with done children",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 4,
+            "text": "Done leaf",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 5,
+        "text": "Background root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 6,
+            "text": "Main child",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 7,
+        "text": "Main root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 8,
+            "text": "Nested background",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 9,
+                "text": "Main grandchild",
+                "completed": true,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "background",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 5,
+      "total": 7,
+      "percentage": 71.42857142857143
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 5,
+        "text": "Background root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 6,
+            "text": "Main child",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "completedParents": [],
+      "uncheckedParents": []
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Done ancestor",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "Not visited",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 3,
+        "text": "Incomplete parent with done children",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 4,
+            "text": "Done leaf",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 5,
+        "text": "Background root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 6,
+            "text": "Main child",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 7,
+        "text": "Main root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 8,
+            "text": "Nested background",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 9,
+                "text": "Main grandchild",
+                "completed": true,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "background",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 5,
+      "total": 7,
+      "percentage": 71.42857142857143
+    }
+  },
+  {
+    "result": null,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Done ancestor",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "Not visited",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 3,
+        "text": "Incomplete parent with done children",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 4,
+            "text": "Done leaf",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 5,
+        "text": "Background root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 6,
+            "text": "Main child",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 7,
+        "text": "Main root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 8,
+            "text": "Nested background",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 9,
+                "text": "Main grandchild",
+                "completed": true,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "background",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 5,
+      "total": 7,
+      "percentage": 71.42857142857143
+    }
+  }
+]

@@ -1,0 +1,157 @@
+{
+  "kind": "state",
+  "epoch": 1800000000000,
+  "tasks": [],
+  "currentTemplate": "Empty template",
+  "snapshots": [],
+  "ops": [
+    {
+      "op": "clear",
+      "nowMs": 1800000000000,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "undo",
+      "nowMs": 1800000001000,
+      "nowIso": "2027-01-15T08:00:01.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000002000,
+      "nowIso": "2027-01-15T08:00:02.000Z"
+    },
+    {
+      "op": "redo",
+      "nowMs": 1800000003000,
+      "nowIso": "2027-01-15T08:00:03.000Z"
+    },
+    {
+      "op": "clear",
+      "nowMs": 1800000004000,
+      "nowIso": "2027-01-15T08:00:04.000Z"
+    },
+    {
+      "op": "undo",
+      "nowMs": 1800000005000,
+      "nowIso": "2027-01-15T08:00:05.000Z"
+    },
+    {
+      "op": "capture",
+      "label": "configure triggers",
+      "nowMs": 1800000006000,
+      "nowIso": "2027-01-15T08:00:06.000Z"
+    },
+    {
+      "op": "replace",
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Root",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [
+            {
+              "id": 2.5,
+              "text": "Branch",
+              "completed": false,
+              "createdAt": "2026-04-27T00:00:00.000Z",
+              "children": [
+                {
+                  "id": 3,
+                  "text": "Leaf A",
+                  "completed": false,
+                  "createdAt": "2026-04-27T00:00:00.000Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                },
+                {
+                  "id": 4,
+                  "text": "Leaf B",
+                  "completed": false,
+                  "createdAt": "2026-04-27T00:00:00.000Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                }
+              ],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            },
+            {
+              "id": 5,
+              "text": "Leaf C",
+              "completed": false,
+              "createdAt": "2026-04-27T00:00:00.000Z",
+              "children": [],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 6,
+          "text": "Other",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": "Replacement",
+      "nowMs": 1800000007000,
+      "nowIso": "2027-01-15T08:00:07.000Z"
+    },
+    {
+      "op": "undo",
+      "nowMs": 1800000008000,
+      "nowIso": "2027-01-15T08:00:08.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000009000,
+      "nowIso": "2027-01-15T08:00:09.000Z"
+    },
+    {
+      "op": "redo",
+      "nowMs": 1800000010000,
+      "nowIso": "2027-01-15T08:00:10.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000011000,
+      "nowIso": "2027-01-15T08:00:11.000Z"
+    },
+    {
+      "op": "clear",
+      "nowMs": 1800000012000,
+      "nowIso": "2027-01-15T08:00:12.000Z"
+    },
+    {
+      "op": "undo",
+      "nowMs": 1800000013000,
+      "nowIso": "2027-01-15T08:00:13.000Z"
+    }
+  ]
+}

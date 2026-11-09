@@ -1,0 +1,386 @@
+[
+  {
+    "result": {
+      "task": {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "parentTask": null
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "parentTask": null
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "completedParents": []
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 1,
+      "total": 2,
+      "percentage": 50
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "completedParents": []
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 2,
+      "total": 2,
+      "percentage": 100
+    }
+  },
+  {
+    "result": null,
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 2,
+      "total": 2,
+      "percentage": 100
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "complete next task"
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 1,
+      "total": 2,
+      "percentage": 50
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "complete next task"
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 2,
+      "total": 2,
+      "percentage": 100
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1800000000000017,
+          "text": "First",
+          "completed": true,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 1800000000000017,
+          "text": "Second",
+          "completed": true,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": null,
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1800000000000017,
+                "text": "First",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              },
+              {
+                "id": 1800000000000017,
+                "text": "Second",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": null
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 2,
+      "total": 2,
+      "percentage": 100
+    }
+  }
+]

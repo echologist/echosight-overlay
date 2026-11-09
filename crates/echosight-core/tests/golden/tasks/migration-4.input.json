@@ -1,0 +1,33 @@
+{
+  "kind": "migration",
+  "tasks": [
+    {
+      "id": 1749938954072.5596,
+      "text": "Legacy",
+      "completed": false,
+      "createdAt": "old",
+      "extra": {
+        "keep": true
+      },
+      "children": [
+        {
+          "id": 2.5,
+          "text": "Child",
+          "children": "broken",
+          "mode": "",
+          "triggers": {},
+          "activated": null,
+          "activatedAt": null,
+          "backgroundOptions": {}
+        },
+        null,
+        7
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Background legacy",
+      "mode": "background"
+    }
+  ]
+}

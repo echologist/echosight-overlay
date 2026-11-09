@@ -1,0 +1,1802 @@
+[
+  {
+    "name": "boss-background.webp .png",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".png"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/png",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-bg .png",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".png"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/png",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-progress-icon .png",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".png"
+    },
+    "expected": {
+      "assetType": "button",
+      "mimeType": "image/png",
+      "audio": false
+    }
+  },
+  {
+    "name": "progress-icon .png",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".png"
+    },
+    "expected": {
+      "assetType": "progress",
+      "mimeType": "image/png",
+      "audio": false
+    }
+  },
+  {
+    "name": "icon-texture .png",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".png"
+    },
+    "expected": {
+      "assetType": "icon",
+      "mimeType": "image/png",
+      "audio": false
+    }
+  },
+  {
+    "name": "texture-border .png",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".png"
+    },
+    "expected": {
+      "assetType": "texture",
+      "mimeType": "image/png",
+      "audio": false
+    }
+  },
+  {
+    "name": "border .png",
+    "input": {
+      "assetName": "border",
+      "extension": ".png"
+    },
+    "expected": {
+      "assetType": "border",
+      "mimeType": "image/png",
+      "audio": false
+    }
+  },
+  {
+    "name": "unknown.bin .png",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".png"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/png",
+      "audio": false
+    }
+  },
+  {
+    "name": "BG .png",
+    "input": {
+      "assetName": "BG",
+      "extension": ".png"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/png",
+      "audio": false
+    }
+  },
+  {
+    "name": "complete .png",
+    "input": {
+      "assetName": "complete",
+      "extension": ".png"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/png",
+      "audio": false
+    }
+  },
+  {
+    "name": "boss-background.webp .jpg",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".jpg"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-bg .jpg",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".jpg"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-progress-icon .jpg",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".jpg"
+    },
+    "expected": {
+      "assetType": "button",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "progress-icon .jpg",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".jpg"
+    },
+    "expected": {
+      "assetType": "progress",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "icon-texture .jpg",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".jpg"
+    },
+    "expected": {
+      "assetType": "icon",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "texture-border .jpg",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".jpg"
+    },
+    "expected": {
+      "assetType": "texture",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "border .jpg",
+    "input": {
+      "assetName": "border",
+      "extension": ".jpg"
+    },
+    "expected": {
+      "assetType": "border",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "unknown.bin .jpg",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".jpg"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "BG .jpg",
+    "input": {
+      "assetName": "BG",
+      "extension": ".jpg"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "complete .jpg",
+    "input": {
+      "assetName": "complete",
+      "extension": ".jpg"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "boss-background.webp .jpeg",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".jpeg"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-bg .jpeg",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".jpeg"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-progress-icon .jpeg",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".jpeg"
+    },
+    "expected": {
+      "assetType": "button",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "progress-icon .jpeg",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".jpeg"
+    },
+    "expected": {
+      "assetType": "progress",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "icon-texture .jpeg",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".jpeg"
+    },
+    "expected": {
+      "assetType": "icon",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "texture-border .jpeg",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".jpeg"
+    },
+    "expected": {
+      "assetType": "texture",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "border .jpeg",
+    "input": {
+      "assetName": "border",
+      "extension": ".jpeg"
+    },
+    "expected": {
+      "assetType": "border",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "unknown.bin .jpeg",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".jpeg"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "BG .jpeg",
+    "input": {
+      "assetName": "BG",
+      "extension": ".jpeg"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "complete .jpeg",
+    "input": {
+      "assetName": "complete",
+      "extension": ".jpeg"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/jpeg",
+      "audio": false
+    }
+  },
+  {
+    "name": "boss-background.webp .gif",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".gif"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/gif",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-bg .gif",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".gif"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/gif",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-progress-icon .gif",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".gif"
+    },
+    "expected": {
+      "assetType": "button",
+      "mimeType": "image/gif",
+      "audio": false
+    }
+  },
+  {
+    "name": "progress-icon .gif",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".gif"
+    },
+    "expected": {
+      "assetType": "progress",
+      "mimeType": "image/gif",
+      "audio": false
+    }
+  },
+  {
+    "name": "icon-texture .gif",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".gif"
+    },
+    "expected": {
+      "assetType": "icon",
+      "mimeType": "image/gif",
+      "audio": false
+    }
+  },
+  {
+    "name": "texture-border .gif",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".gif"
+    },
+    "expected": {
+      "assetType": "texture",
+      "mimeType": "image/gif",
+      "audio": false
+    }
+  },
+  {
+    "name": "border .gif",
+    "input": {
+      "assetName": "border",
+      "extension": ".gif"
+    },
+    "expected": {
+      "assetType": "border",
+      "mimeType": "image/gif",
+      "audio": false
+    }
+  },
+  {
+    "name": "unknown.bin .gif",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".gif"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/gif",
+      "audio": false
+    }
+  },
+  {
+    "name": "BG .gif",
+    "input": {
+      "assetName": "BG",
+      "extension": ".gif"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/gif",
+      "audio": false
+    }
+  },
+  {
+    "name": "complete .gif",
+    "input": {
+      "assetName": "complete",
+      "extension": ".gif"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/gif",
+      "audio": false
+    }
+  },
+  {
+    "name": "boss-background.webp .svg",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".svg"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/svg+xml",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-bg .svg",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".svg"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/svg+xml",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-progress-icon .svg",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".svg"
+    },
+    "expected": {
+      "assetType": "button",
+      "mimeType": "image/svg+xml",
+      "audio": false
+    }
+  },
+  {
+    "name": "progress-icon .svg",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".svg"
+    },
+    "expected": {
+      "assetType": "progress",
+      "mimeType": "image/svg+xml",
+      "audio": false
+    }
+  },
+  {
+    "name": "icon-texture .svg",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".svg"
+    },
+    "expected": {
+      "assetType": "icon",
+      "mimeType": "image/svg+xml",
+      "audio": false
+    }
+  },
+  {
+    "name": "texture-border .svg",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".svg"
+    },
+    "expected": {
+      "assetType": "texture",
+      "mimeType": "image/svg+xml",
+      "audio": false
+    }
+  },
+  {
+    "name": "border .svg",
+    "input": {
+      "assetName": "border",
+      "extension": ".svg"
+    },
+    "expected": {
+      "assetType": "border",
+      "mimeType": "image/svg+xml",
+      "audio": false
+    }
+  },
+  {
+    "name": "unknown.bin .svg",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".svg"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/svg+xml",
+      "audio": false
+    }
+  },
+  {
+    "name": "BG .svg",
+    "input": {
+      "assetName": "BG",
+      "extension": ".svg"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/svg+xml",
+      "audio": false
+    }
+  },
+  {
+    "name": "complete .svg",
+    "input": {
+      "assetName": "complete",
+      "extension": ".svg"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/svg+xml",
+      "audio": false
+    }
+  },
+  {
+    "name": "boss-background.webp .webp",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".webp"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-bg .webp",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".webp"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-progress-icon .webp",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".webp"
+    },
+    "expected": {
+      "assetType": "button",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "progress-icon .webp",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".webp"
+    },
+    "expected": {
+      "assetType": "progress",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "icon-texture .webp",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".webp"
+    },
+    "expected": {
+      "assetType": "icon",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "texture-border .webp",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".webp"
+    },
+    "expected": {
+      "assetType": "texture",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "border .webp",
+    "input": {
+      "assetName": "border",
+      "extension": ".webp"
+    },
+    "expected": {
+      "assetType": "border",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "unknown.bin .webp",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".webp"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "BG .webp",
+    "input": {
+      "assetName": "BG",
+      "extension": ".webp"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "complete .webp",
+    "input": {
+      "assetName": "complete",
+      "extension": ".webp"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "boss-background.webp .mp3",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".mp3"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mpeg",
+      "audio": true
+    }
+  },
+  {
+    "name": "button-bg .mp3",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".mp3"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mpeg",
+      "audio": true
+    }
+  },
+  {
+    "name": "button-progress-icon .mp3",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".mp3"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mpeg",
+      "audio": true
+    }
+  },
+  {
+    "name": "progress-icon .mp3",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".mp3"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mpeg",
+      "audio": true
+    }
+  },
+  {
+    "name": "icon-texture .mp3",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".mp3"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mpeg",
+      "audio": true
+    }
+  },
+  {
+    "name": "texture-border .mp3",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".mp3"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mpeg",
+      "audio": true
+    }
+  },
+  {
+    "name": "border .mp3",
+    "input": {
+      "assetName": "border",
+      "extension": ".mp3"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mpeg",
+      "audio": true
+    }
+  },
+  {
+    "name": "unknown.bin .mp3",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".mp3"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mpeg",
+      "audio": true
+    }
+  },
+  {
+    "name": "BG .mp3",
+    "input": {
+      "assetName": "BG",
+      "extension": ".mp3"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mpeg",
+      "audio": true
+    }
+  },
+  {
+    "name": "complete .mp3",
+    "input": {
+      "assetName": "complete",
+      "extension": ".mp3"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mpeg",
+      "audio": true
+    }
+  },
+  {
+    "name": "boss-background.webp .ogg",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "button-bg .ogg",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "button-progress-icon .ogg",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "progress-icon .ogg",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "icon-texture .ogg",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "texture-border .ogg",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "border .ogg",
+    "input": {
+      "assetName": "border",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "unknown.bin .ogg",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "BG .ogg",
+    "input": {
+      "assetName": "BG",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "complete .ogg",
+    "input": {
+      "assetName": "complete",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "boss-background.webp .wav",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".wav"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/wav",
+      "audio": true
+    }
+  },
+  {
+    "name": "button-bg .wav",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".wav"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/wav",
+      "audio": true
+    }
+  },
+  {
+    "name": "button-progress-icon .wav",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".wav"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/wav",
+      "audio": true
+    }
+  },
+  {
+    "name": "progress-icon .wav",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".wav"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/wav",
+      "audio": true
+    }
+  },
+  {
+    "name": "icon-texture .wav",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".wav"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/wav",
+      "audio": true
+    }
+  },
+  {
+    "name": "texture-border .wav",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".wav"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/wav",
+      "audio": true
+    }
+  },
+  {
+    "name": "border .wav",
+    "input": {
+      "assetName": "border",
+      "extension": ".wav"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/wav",
+      "audio": true
+    }
+  },
+  {
+    "name": "unknown.bin .wav",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".wav"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/wav",
+      "audio": true
+    }
+  },
+  {
+    "name": "BG .wav",
+    "input": {
+      "assetName": "BG",
+      "extension": ".wav"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/wav",
+      "audio": true
+    }
+  },
+  {
+    "name": "complete .wav",
+    "input": {
+      "assetName": "complete",
+      "extension": ".wav"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/wav",
+      "audio": true
+    }
+  },
+  {
+    "name": "boss-background.webp .m4a",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".m4a"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mp4",
+      "audio": true
+    }
+  },
+  {
+    "name": "button-bg .m4a",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".m4a"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mp4",
+      "audio": true
+    }
+  },
+  {
+    "name": "button-progress-icon .m4a",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".m4a"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mp4",
+      "audio": true
+    }
+  },
+  {
+    "name": "progress-icon .m4a",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".m4a"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mp4",
+      "audio": true
+    }
+  },
+  {
+    "name": "icon-texture .m4a",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".m4a"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mp4",
+      "audio": true
+    }
+  },
+  {
+    "name": "texture-border .m4a",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".m4a"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mp4",
+      "audio": true
+    }
+  },
+  {
+    "name": "border .m4a",
+    "input": {
+      "assetName": "border",
+      "extension": ".m4a"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mp4",
+      "audio": true
+    }
+  },
+  {
+    "name": "unknown.bin .m4a",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".m4a"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mp4",
+      "audio": true
+    }
+  },
+  {
+    "name": "BG .m4a",
+    "input": {
+      "assetName": "BG",
+      "extension": ".m4a"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mp4",
+      "audio": true
+    }
+  },
+  {
+    "name": "complete .m4a",
+    "input": {
+      "assetName": "complete",
+      "extension": ".m4a"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/mp4",
+      "audio": true
+    }
+  },
+  {
+    "name": "boss-background.webp .WEBP",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".WEBP"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-bg .WEBP",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".WEBP"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-progress-icon .WEBP",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".WEBP"
+    },
+    "expected": {
+      "assetType": "button",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "progress-icon .WEBP",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".WEBP"
+    },
+    "expected": {
+      "assetType": "progress",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "icon-texture .WEBP",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".WEBP"
+    },
+    "expected": {
+      "assetType": "icon",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "texture-border .WEBP",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".WEBP"
+    },
+    "expected": {
+      "assetType": "texture",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "border .WEBP",
+    "input": {
+      "assetName": "border",
+      "extension": ".WEBP"
+    },
+    "expected": {
+      "assetType": "border",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "unknown.bin .WEBP",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".WEBP"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "BG .WEBP",
+    "input": {
+      "assetName": "BG",
+      "extension": ".WEBP"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "complete .WEBP",
+    "input": {
+      "assetName": "complete",
+      "extension": ".WEBP"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "image/webp",
+      "audio": false
+    }
+  },
+  {
+    "name": "boss-background.webp .OGG",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".OGG"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "button-bg .OGG",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".OGG"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "button-progress-icon .OGG",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".OGG"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "progress-icon .OGG",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".OGG"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "icon-texture .OGG",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".OGG"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "texture-border .OGG",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".OGG"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "border .OGG",
+    "input": {
+      "assetName": "border",
+      "extension": ".OGG"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "unknown.bin .OGG",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".OGG"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "BG .OGG",
+    "input": {
+      "assetName": "BG",
+      "extension": ".OGG"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "complete .OGG",
+    "input": {
+      "assetName": "complete",
+      "extension": ".OGG"
+    },
+    "expected": {
+      "assetType": "sound",
+      "mimeType": "audio/ogg",
+      "audio": true
+    }
+  },
+  {
+    "name": "boss-background.webp .bin",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ".bin"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-bg .bin",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ".bin"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-progress-icon .bin",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ".bin"
+    },
+    "expected": {
+      "assetType": "button",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "progress-icon .bin",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ".bin"
+    },
+    "expected": {
+      "assetType": "progress",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "icon-texture .bin",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ".bin"
+    },
+    "expected": {
+      "assetType": "icon",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "texture-border .bin",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ".bin"
+    },
+    "expected": {
+      "assetType": "texture",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "border .bin",
+    "input": {
+      "assetName": "border",
+      "extension": ".bin"
+    },
+    "expected": {
+      "assetType": "border",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "unknown.bin .bin",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ".bin"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "BG .bin",
+    "input": {
+      "assetName": "BG",
+      "extension": ".bin"
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "complete .bin",
+    "input": {
+      "assetName": "complete",
+      "extension": ".bin"
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "boss-background.webp ",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": ""
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-bg ",
+    "input": {
+      "assetName": "button-bg",
+      "extension": ""
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-progress-icon ",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": ""
+    },
+    "expected": {
+      "assetType": "button",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "progress-icon ",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": ""
+    },
+    "expected": {
+      "assetType": "progress",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "icon-texture ",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": ""
+    },
+    "expected": {
+      "assetType": "icon",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "texture-border ",
+    "input": {
+      "assetName": "texture-border",
+      "extension": ""
+    },
+    "expected": {
+      "assetType": "texture",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "border ",
+    "input": {
+      "assetName": "border",
+      "extension": ""
+    },
+    "expected": {
+      "assetType": "border",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "unknown.bin ",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": ""
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "BG ",
+    "input": {
+      "assetName": "BG",
+      "extension": ""
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "complete ",
+    "input": {
+      "assetName": "complete",
+      "extension": ""
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "boss-background.webp .",
+    "input": {
+      "assetName": "boss-background.webp",
+      "extension": "."
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-bg .",
+    "input": {
+      "assetName": "button-bg",
+      "extension": "."
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "button-progress-icon .",
+    "input": {
+      "assetName": "button-progress-icon",
+      "extension": "."
+    },
+    "expected": {
+      "assetType": "button",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "progress-icon .",
+    "input": {
+      "assetName": "progress-icon",
+      "extension": "."
+    },
+    "expected": {
+      "assetType": "progress",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "icon-texture .",
+    "input": {
+      "assetName": "icon-texture",
+      "extension": "."
+    },
+    "expected": {
+      "assetType": "icon",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "texture-border .",
+    "input": {
+      "assetName": "texture-border",
+      "extension": "."
+    },
+    "expected": {
+      "assetType": "texture",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "border .",
+    "input": {
+      "assetName": "border",
+      "extension": "."
+    },
+    "expected": {
+      "assetType": "border",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "unknown.bin .",
+    "input": {
+      "assetName": "unknown.bin",
+      "extension": "."
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "BG .",
+    "input": {
+      "assetName": "BG",
+      "extension": "."
+    },
+    "expected": {
+      "assetType": "background",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  },
+  {
+    "name": "complete .",
+    "input": {
+      "assetName": "complete",
+      "extension": "."
+    },
+    "expected": {
+      "assetType": "misc",
+      "mimeType": "application/octet-stream",
+      "audio": false
+    }
+  }
+]

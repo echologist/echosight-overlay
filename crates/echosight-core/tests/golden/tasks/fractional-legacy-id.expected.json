@@ -1,0 +1,179 @@
+[
+  {
+    "result": {
+      "id": 1749938954072.5596,
+      "text": "Legacy",
+      "completed": false,
+      "createdAt": "2026-04-27T00:00:00.000Z",
+      "children": [],
+      "mode": "main",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    },
+    "tasks": [
+      {
+        "id": 1749938954072.5596,
+        "text": "Legacy",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": true,
+    "tasks": [
+      {
+        "id": 1749938954072.5596,
+        "text": "Still fractional",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1749938954072.5596,
+        "text": "Still fractional",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "completedParents": [],
+      "uncheckedParents": []
+    },
+    "tasks": [
+      {
+        "id": 1749938954072.5596,
+        "text": "Still fractional",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 1,
+      "total": 1,
+      "percentage": 100
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "toggle task"
+    },
+    "tasks": [
+      {
+        "id": 1749938954072.5596,
+        "text": "Still fractional",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1749938954072.5596,
+          "text": "Still fractional",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": null,
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:04.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1749938954072.5596,
+                "text": "Still fractional",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": null
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1749938954072.5596,
+        "text": "Still fractional",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  }
+]

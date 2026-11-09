@@ -3,7 +3,7 @@ name = "echosight-ui"
 description = "GPUI views and components for the Echosight overlay"
 version.workspace = true
 edition.workspace = true
-license.workspace = true
+license = "MIT AND Apache-2.0"
 repository.workspace = true
 rust-version.workspace = true
 
@@ -11,3 +11,7 @@ rust-version.workspace = true
 echosight-core.workspace = true
 log.workspace = true
 gpui.workspace = true
+unicode-segmentation = "1.12"
+
+[dev-dependencies]
+gpui = { workspace = true, features = ["test-support"] }

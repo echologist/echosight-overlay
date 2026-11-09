@@ -1,0 +1,114 @@
+{
+  "kind": "state",
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Parent",
+      "completed": false,
+      "createdAt": "2026-04-27T00:00:00.000Z",
+      "children": [
+        {
+          "id": 2,
+          "text": "Old child",
+          "completed": true,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [
+            20
+          ],
+          "activated": false,
+          "activatedAt": "2026-04-27T02:00:00.000Z",
+          "backgroundOptions": {
+            "expiresAfterMinutes": 10,
+            "priority": "normal"
+          }
+        }
+      ],
+      "mode": "main",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    },
+    {
+      "id": 20,
+      "text": "Old background",
+      "completed": true,
+      "createdAt": "2026-04-27T00:00:00.000Z",
+      "children": [
+        {
+          "id": 21,
+          "text": "Background child",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "mode": "background",
+      "triggers": [
+        30
+      ],
+      "activated": true,
+      "activatedAt": "2026-04-27T02:00:00.000Z",
+      "backgroundOptions": {
+        "expiresAfterMinutes": 15,
+        "priority": "normal"
+      }
+    }
+  ],
+  "currentTemplate": null,
+  "snapshots": [],
+  "ops": [
+    {
+      "op": "edit",
+      "id": 2,
+      "text": "  Renamed child  ",
+      "priority": "high",
+      "nowMs": 1800000000000,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "edit",
+      "id": 20,
+      "text": "﻿ New background  ",
+      "priority": "high",
+      "nowMs": 1800000001000,
+      "nowIso": "2027-01-15T08:00:01.000Z"
+    },
+    {
+      "op": "undo",
+      "nowMs": 1800000002000,
+      "nowIso": "2027-01-15T08:00:02.000Z"
+    },
+    {
+      "op": "redo",
+      "nowMs": 1800000003000,
+      "nowIso": "2027-01-15T08:00:03.000Z"
+    },
+    {
+      "op": "edit",
+      "id": 20,
+      "text": "New background",
+      "priority": "normal",
+      "nowMs": 1800000004000,
+      "nowIso": "2027-01-15T08:00:04.000Z"
+    },
+    {
+      "op": "undo",
+      "nowMs": 1800000005000,
+      "nowIso": "2027-01-15T08:00:05.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000006000,
+      "nowIso": "2027-01-15T08:00:06.000Z"
+    }
+  ]
+}
