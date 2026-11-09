@@ -1,6 +1,8 @@
 {
   "stamp": "2025-01-02T03:04:05.000Z",
   "provenance": {
+    "tools/golden/theme-library.gen.test.ts": "8851362da2f19f55509a5a4f866193c4a216d6aeade05f528debb56714a6e46f",
+    "tools/golden/vitest.theme-library.config.ts": "7beaa4636a7a2456195505de3d7fe222a3ed417ac9d66f78b3014983c9ad0f08",
     "src/main/themes/themeLibrary.ts": "4c00bf2b788595191666014d02b1de57eb3021f8cdbf6dd144e2be6faf8d4ddb",
     "src/main/themes/themeAssetLoaders.ts": "2f773187cdd81f31b6da760d8c406cc0504f21b82a7947a15a8a2eb3d29a7dba",
     "src/main/themes/themeHelpers.ts": "e775c6065e2891a142893fc571e42cb426505e5f633de2a92dd42d103591788e",
@@ -9,8 +11,12 @@
     "src/main/utils/jsonStorage.ts": "cf4c06f7ef2d96c33b7c1b43df71809b52c18cce4103a63f3e8e3531f9dffbd6",
     "src/shared/errors.ts": "656e34e98810ea3f569768c59adecfa0a56ba876fb8c304c0794f48ab2a29a2b",
     "src/renderer/features/themes/themeSounds.ts": "25ee3446af17ded486ee1c9ad427f0680b632cb5a54875d9677210bd96ee893f",
+    "node_modules/defu/package.json": "a2cf72e05920ca73e75922ddc8696cdc58c7d5dd6f3e013b5a494f4011bfbeb7",
     "node_modules/defu/dist/defu.mjs": "f10f93fff8a70c6f3ad73ff665441d7c3d18d339b480f1fd8a85669f03f8160f",
+    "node_modules/defu/dist/defu.cjs": "c6641de176ea5fb5a29d057d407efcd408ed489e791fb0117da3aa76a0a4afa6",
+    "node_modules/destr/package.json": "5a2d60148ed6f5fee2ee4c069ad8d445edafca6846bad19edb8a572053d70b5e",
     "node_modules/destr/dist/index.mjs": "0e8124257d21e0f4ef6af2abbd636f48e9fb39a428efcb741420fe390a4b8f5e",
+    "node_modules/destr/dist/index.cjs": "70d2ce0e1108b924fe9886f734585bb68e2dce8df5ffe966ccbcb138521b8ecc",
     "data/themes/cs16.json": "92bef3dd34f03e0b0dbabc72873c4a8523621756e7e51278cce6b62adcbccade",
     "data/themes/dark.json": "4f1c5f1020bb77466d953522e158290037c8dc3cfe08e296413a6cd90a817640",
     "data/themes/echosight.json": "85d2235490a927af091c27065e07bbd332559ad36dc91a8aec7bd8691f9be3da",
@@ -50,6 +56,9 @@
         "path-variants/variants/nested/child/a.wav": "child",
         "abort-variants/theme.json": "{\"id\":\"abort-variants\",\"name\":\"abort-variants\",\"variants\":{\"good\":{},\"../../../escape\":{}}}",
         "broken.json": "{ nope",
+        "bom.json": "﻿{\"id\":\"bom\",\"name\":\"bom\"}",
+        "not-object.json": "null",
+        "proto.json": "{\"id\":\"proto\",\"name\":\"proto\",\"__proto__\":{\"polluted\":true}}",
         "not-json.JSON": "{\"id\":\"ignored\",\"name\":\"ignored\"}",
         "empty/readme.txt": "no theme",
         "folder/theme.json": "{\"id\":\"folder\",\"name\":\"folder\",\"author\":\"test\",\"sounds\":{\"enabled\":false,\"events\":{\"undo\":\"complete.ogg\",\"future\":\"a.wav\"}},\"cssFile\":\"styles.css\",\"animations\":{},\"colors\":{\"a\":\"base\"},\"variants\":{\"2\":{},\"10\":{\"name\":\"ten\"},\"red\":{\"colors\":{\"a\":\"red\"},\"sounds\":{\"enabled\":true}},\"bad\":{\"colors\":4},\"scalar\":7}}",
@@ -599,11 +608,14 @@
         "Theme warning in variant folder/bad: Skipping invalid variant folder/bad",
         "Invalid variant folder/bad: variants.bad.colors must be an object",
         "Invalid variant config for folder/scalar",
-        "Invalid theme file many-errors.json: id must be a non-empty string; name must be a non-empty string; supportsTransparency must be a boolean; colors must be an object"
+        "Invalid theme file many-errors.json: id must be a non-empty string; name must be a non-empty string; supportsTransparency must be a boolean; colors must be an object",
+        "Invalid theme file not-object.json: theme must be a JSON object"
       ],
       "errors": [
         "Failed to load theme variants:",
-        "Failed to load theme file broken.json:"
+        "Failed to load theme file bom.json:",
+        "Failed to load theme file broken.json:",
+        "Failed to load theme file proto.json:"
       ],
       "deliveries": [
         {
@@ -962,6 +974,9 @@
         "invalid-version.json": "{\"id\":\"invalid-version\",\"name\":\"invalid-version\",\"author\":\"bundled\",\"version\":\"1\",\"custom\":true}",
         "no-author.json": "{\"id\":\"no-author\",\"name\":\"no-author\",\"version\":\"1\",\"custom\":true}",
         "suffix.json": "{\"id\":\"suffix\",\"name\":\"suffix\",\"author\":\"bundled\",\"version\":\"1\",\"custom\":true}",
+        "numeric-author.json": "{\"id\":\"numeric\",\"name\":\"numeric\",\"author\":1,\"version\":\"1\"}",
+        "object-author.json": "{\"id\":\"object-author\",\"name\":\"object-author\",\"author\":{},\"version\":\"1\"}",
+        "null-author.json": "{\"id\":\"null-author\",\"name\":\"null-author\",\"version\":\"1\"}",
         "broken.json": "{ bad",
         "folder/theme.json": "{\"id\":\"folder\",\"name\":\"folder\",\"version\":\"1\"}",
         "folder/nested/a.svg": "old",
@@ -977,6 +992,9 @@
         "no-author.json": "{\"id\":\"no-author\",\"name\":\"no-author\",\"version\":\"2\"}",
         "suffix.json": "{\"id\":\"suffix\",\"name\":\"suffix\",\"author\":\"bundled\",\"version\":\"2beta\"}",
         "missing.json": "{\"id\":\"missing\",\"name\":\"missing\"}",
+        "numeric-author.json": "{\"id\":\"numeric\",\"name\":\"numeric\",\"author\":1.0,\"version\":\"2\"}",
+        "object-author.json": "{\"id\":\"object-author\",\"name\":\"object-author\",\"author\":{},\"version\":\"2\"}",
+        "null-author.json": "{\"id\":\"null-author\",\"name\":\"null-author\",\"author\":null,\"version\":\"2\"}",
         "broken.json": "{\"id\":\"broken\",\"name\":\"broken\",\"version\":\"2\"}",
         "folder/theme.json": "{\"id\":\"folder\",\"name\":\"folder\",\"version\":\"2\"}",
         "folder/nested/a.svg": "new",
@@ -1095,6 +1113,13 @@
           "path": "$ROOT/sync/themes/no-author.json"
         },
         {
+          "id": "null-author",
+          "name": "null-author",
+          "version": "1",
+          "assets": {},
+          "path": "$ROOT/sync/themes/null-author.json"
+        },
+        {
           "id": "older",
           "name": "older",
           "author": "bundled",
@@ -1112,7 +1137,10 @@
           "path": "$ROOT/sync/themes/suffix.json"
         }
       ],
-      "warnings": [],
+      "warnings": [
+        "Invalid theme file numeric-author.json: author must be a string",
+        "Invalid theme file object-author.json: author must be a string"
+      ],
       "errors": [
         "Failed to load theme file broken.json:"
       ],
@@ -1131,6 +1159,9 @@
         "missing.json": "eyJpZCI6Im1pc3NpbmciLCJuYW1lIjoibWlzc2luZyJ9",
         "newer.json": "eyJpZCI6Im5ld2VyIiwibmFtZSI6Im5ld2VyIiwiYXV0aG9yIjoiYnVuZGxlZCIsInZlcnNpb24iOiIyLjAifQ==",
         "no-author.json": "eyJpZCI6Im5vLWF1dGhvciIsIm5hbWUiOiJuby1hdXRob3IiLCJ2ZXJzaW9uIjoiMiJ9",
+        "null-author.json": "eyJpZCI6Im51bGwtYXV0aG9yIiwibmFtZSI6Im51bGwtYXV0aG9yIiwidmVyc2lvbiI6IjEifQ==",
+        "numeric-author.json": "eyJpZCI6Im51bWVyaWMiLCJuYW1lIjoibnVtZXJpYyIsImF1dGhvciI6MS4wLCJ2ZXJzaW9uIjoiMiJ9",
+        "object-author.json": "eyJpZCI6Im9iamVjdC1hdXRob3IiLCJuYW1lIjoib2JqZWN0LWF1dGhvciIsImF1dGhvciI6e30sInZlcnNpb24iOiIxIn0=",
         "older.json": "eyJpZCI6Im9sZGVyIiwibmFtZSI6Im9sZGVyIiwiYXV0aG9yIjoiYnVuZGxlZCIsInZlcnNpb24iOiIyIiwiY3VzdG9tIjp0cnVlfQ==",
         "suffix.json": "eyJpZCI6InN1ZmZpeCIsIm5hbWUiOiJzdWZmaXgiLCJhdXRob3IiOiJidW5kbGVkIiwidmVyc2lvbiI6IjJiZXRhIn0="
       }
@@ -4600,6 +4631,719 @@
       "definition": null,
       "requests": [],
       "played": []
+    }
+  ],
+  "assetFiles": {
+    "style.css": "url(./😀.svg) url(./.png) url(./﻿.png)",
+    ".css": "hidden",
+    "image.svg": "<svg/>",
+    "audio.wav": "audio",
+    "audio.mp3": "mp3",
+    "audio.m4a": "m4a",
+    "blob.bin": "binary"
+  },
+  "assetCases": [
+    {
+      "theme": {
+        "id": "asset",
+        "name": "asset",
+        "folderPath": "$ROOT/asset-cases",
+        "assets": {
+          "asset": {
+            "path": "$ROOT/asset-cases/style.css",
+            "relativePath": "style.css",
+            "extension": ".css",
+            "type": "css"
+          }
+        }
+      },
+      "kind": "asset",
+      "name": "asset",
+      "result": {
+        "data": "url(./😀.svg) url(./.png) url(./﻿.png)",
+        "type": "css",
+        "extension": ".css",
+        "mimeType": "text/css",
+        "isText": true
+      }
+    },
+    {
+      "theme": {
+        "id": "asset",
+        "name": "asset",
+        "folderPath": "$ROOT/asset-cases",
+        "assets": {
+          "asset": {
+            "path": "$ROOT/asset-cases/image.svg",
+            "relativePath": "image.svg",
+            "extension": ".svg",
+            "type": "misc"
+          }
+        }
+      },
+      "kind": "asset",
+      "name": "asset",
+      "result": {
+        "data": "PHN2Zy8+",
+        "type": "misc",
+        "extension": ".svg",
+        "mimeType": "image/svg+xml",
+        "isText": false
+      }
+    },
+    {
+      "theme": {
+        "id": "asset",
+        "name": "asset",
+        "folderPath": "$ROOT/asset-cases",
+        "assets": {
+          "asset": {
+            "path": "$ROOT/asset-cases/audio.wav",
+            "relativePath": "audio.wav",
+            "extension": ".wav",
+            "type": "sound"
+          }
+        }
+      },
+      "kind": "asset",
+      "name": "asset",
+      "result": {
+        "data": "YXVkaW8=",
+        "type": "sound",
+        "extension": ".wav",
+        "mimeType": "audio/wav",
+        "isText": false
+      }
+    },
+    {
+      "theme": {
+        "id": "asset",
+        "name": "asset",
+        "folderPath": "$ROOT/asset-cases",
+        "assets": {
+          "asset": {
+            "path": "$ROOT/asset-cases/audio.mp3",
+            "relativePath": "audio.mp3",
+            "extension": ".mp3",
+            "type": "sound"
+          }
+        }
+      },
+      "kind": "asset",
+      "name": "asset",
+      "result": {
+        "data": "bXAz",
+        "type": "sound",
+        "extension": ".mp3",
+        "mimeType": "audio/mpeg",
+        "isText": false
+      }
+    },
+    {
+      "theme": {
+        "id": "asset",
+        "name": "asset",
+        "folderPath": "$ROOT/asset-cases",
+        "assets": {
+          "asset": {
+            "path": "$ROOT/asset-cases/audio.m4a",
+            "relativePath": "audio.m4a",
+            "extension": ".m4a",
+            "type": "sound"
+          }
+        }
+      },
+      "kind": "asset",
+      "name": "asset",
+      "result": {
+        "data": "bTRh",
+        "type": "sound",
+        "extension": ".m4a",
+        "mimeType": "audio/mp4",
+        "isText": false
+      }
+    },
+    {
+      "theme": {
+        "id": "asset",
+        "name": "asset",
+        "folderPath": "$ROOT/asset-cases",
+        "assets": {
+          "asset": {
+            "path": "$ROOT/asset-cases/blob.bin",
+            "relativePath": "blob.bin",
+            "extension": ".bin",
+            "type": "misc"
+          }
+        }
+      },
+      "kind": "asset",
+      "name": "asset",
+      "result": {
+        "data": "YmluYXJ5",
+        "type": "misc",
+        "extension": ".bin",
+        "mimeType": "application/octet-stream",
+        "isText": false
+      }
+    },
+    {
+      "theme": {
+        "id": "css",
+        "name": "css",
+        "folderPath": "$ROOT/asset-cases",
+        "cssFile": "style.css"
+      },
+      "kind": "css",
+      "name": "style.css",
+      "result": "var(--asset---) var(--asset--) url(./﻿.png)"
+    },
+    {
+      "theme": {
+        "id": "css",
+        "name": "css",
+        "folderPath": "$ROOT/asset-cases",
+        "cssFile": ".css"
+      },
+      "kind": "css",
+      "name": ".css",
+      "result": null
+    },
+    {
+      "theme": {
+        "id": "css",
+        "name": "css",
+        "folderPath": "$ROOT/asset-cases",
+        "cssFile": "../outside.css"
+      },
+      "kind": "css",
+      "name": "../outside.css",
+      "result": null
+    },
+    {
+      "theme": {
+        "id": "css",
+        "name": "css",
+        "folderPath": "$ROOT/asset-cases",
+        "cssFile": "C:\\evil.css"
+      },
+      "kind": "css",
+      "name": "C:\\evil.css",
+      "result": null
+    }
+  ],
+  "soundVolumes": [
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "undo": "audio.wav"
+          }
+        }
+      },
+      "event": "undo",
+      "settingsPercent": "NaN",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "redo": "audio.wav"
+          }
+        }
+      },
+      "event": "redo",
+      "settingsPercent": "NaN",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "taskCompleted": "audio.wav"
+          }
+        }
+      },
+      "event": "taskCompleted",
+      "settingsPercent": "NaN",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "backgroundActivated": "audio.wav"
+          }
+        }
+      },
+      "event": "backgroundActivated",
+      "settingsPercent": "NaN",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "undo": "audio.wav"
+          }
+        }
+      },
+      "event": "undo",
+      "settingsPercent": "Infinity",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "redo": "audio.wav"
+          }
+        }
+      },
+      "event": "redo",
+      "settingsPercent": "Infinity",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "taskCompleted": "audio.wav"
+          }
+        }
+      },
+      "event": "taskCompleted",
+      "settingsPercent": "Infinity",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "backgroundActivated": "audio.wav"
+          }
+        }
+      },
+      "event": "backgroundActivated",
+      "settingsPercent": "Infinity",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "undo": "audio.wav"
+          }
+        }
+      },
+      "event": "undo",
+      "settingsPercent": "-Infinity",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "redo": "audio.wav"
+          }
+        }
+      },
+      "event": "redo",
+      "settingsPercent": "-Infinity",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "taskCompleted": "audio.wav"
+          }
+        }
+      },
+      "event": "taskCompleted",
+      "settingsPercent": "-Infinity",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "backgroundActivated": "audio.wav"
+          }
+        }
+      },
+      "event": "backgroundActivated",
+      "settingsPercent": "-Infinity",
+      "volume": 0.6
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "undo": "audio.wav"
+          }
+        }
+      },
+      "event": "undo",
+      "settingsPercent": "50",
+      "volume": 0.5
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "redo": "audio.wav"
+          }
+        }
+      },
+      "event": "redo",
+      "settingsPercent": "50",
+      "volume": 0.5
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "taskCompleted": "audio.wav"
+          }
+        }
+      },
+      "event": "taskCompleted",
+      "settingsPercent": "50",
+      "volume": 0.5
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "backgroundActivated": "audio.wav"
+          }
+        }
+      },
+      "event": "backgroundActivated",
+      "settingsPercent": "50",
+      "volume": 0.5
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "undo": "audio.wav"
+          }
+        }
+      },
+      "event": "undo",
+      "settingsPercent": "-10",
+      "volume": 0
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "redo": "audio.wav"
+          }
+        }
+      },
+      "event": "redo",
+      "settingsPercent": "-10",
+      "volume": 0
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "taskCompleted": "audio.wav"
+          }
+        }
+      },
+      "event": "taskCompleted",
+      "settingsPercent": "-10",
+      "volume": 0
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "backgroundActivated": "audio.wav"
+          }
+        }
+      },
+      "event": "backgroundActivated",
+      "settingsPercent": "-10",
+      "volume": 0
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "undo": "audio.wav"
+          }
+        }
+      },
+      "event": "undo",
+      "settingsPercent": "150",
+      "volume": 1
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "redo": "audio.wav"
+          }
+        }
+      },
+      "event": "redo",
+      "settingsPercent": "150",
+      "volume": 1
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "taskCompleted": "audio.wav"
+          }
+        }
+      },
+      "event": "taskCompleted",
+      "settingsPercent": "150",
+      "volume": 1
+    },
+    {
+      "theme": {
+        "id": "s",
+        "name": "s",
+        "sounds": {
+          "events": {
+            "backgroundActivated": "audio.wav"
+          }
+        }
+      },
+      "event": "backgroundActivated",
+      "settingsPercent": "150",
+      "volume": 1
+    }
+  ],
+  "resolvedSounds": [
+    {
+      "theme": {
+        "id": "sound-assets",
+        "name": "sound-assets",
+        "folderPath": "$ROOT/asset-cases",
+        "sounds": {
+          "volume": 0.8,
+          "events": {
+            "undo": "audio.wav",
+            "redo": "missing.ogg",
+            "taskCompleted": "image.svg",
+            "backgroundActivated": {
+              "file": "audio.wav",
+              "volume": 0.5
+            }
+          }
+        },
+        "assets": {
+          "audio": {
+            "path": "$ROOT/asset-cases/audio.wav",
+            "relativePath": "audio.wav",
+            "type": "sound",
+            "extension": ".wav"
+          },
+          "image": {
+            "path": "$ROOT/asset-cases/image.svg",
+            "relativePath": "image.svg",
+            "type": "misc",
+            "extension": ".svg"
+          },
+          "missing": {
+            "path": "$ROOT/asset-cases/missing.ogg",
+            "relativePath": "missing.ogg",
+            "type": "sound",
+            "extension": ".ogg"
+          }
+        }
+      },
+      "event": "undo",
+      "played": [
+        {
+          "source": "data:audio/wav;base64,YXVkaW8=",
+          "volume": 0.4
+        }
+      ]
+    },
+    {
+      "theme": {
+        "id": "sound-assets",
+        "name": "sound-assets",
+        "folderPath": "$ROOT/asset-cases",
+        "sounds": {
+          "volume": 0.8,
+          "events": {
+            "undo": "audio.wav",
+            "redo": "missing.ogg",
+            "taskCompleted": "image.svg",
+            "backgroundActivated": {
+              "file": "audio.wav",
+              "volume": 0.5
+            }
+          }
+        },
+        "assets": {
+          "audio": {
+            "path": "$ROOT/asset-cases/audio.wav",
+            "relativePath": "audio.wav",
+            "type": "sound",
+            "extension": ".wav"
+          },
+          "image": {
+            "path": "$ROOT/asset-cases/image.svg",
+            "relativePath": "image.svg",
+            "type": "misc",
+            "extension": ".svg"
+          },
+          "missing": {
+            "path": "$ROOT/asset-cases/missing.ogg",
+            "relativePath": "missing.ogg",
+            "type": "sound",
+            "extension": ".ogg"
+          }
+        }
+      },
+      "event": "redo",
+      "played": []
+    },
+    {
+      "theme": {
+        "id": "sound-assets",
+        "name": "sound-assets",
+        "folderPath": "$ROOT/asset-cases",
+        "sounds": {
+          "volume": 0.8,
+          "events": {
+            "undo": "audio.wav",
+            "redo": "missing.ogg",
+            "taskCompleted": "image.svg",
+            "backgroundActivated": {
+              "file": "audio.wav",
+              "volume": 0.5
+            }
+          }
+        },
+        "assets": {
+          "audio": {
+            "path": "$ROOT/asset-cases/audio.wav",
+            "relativePath": "audio.wav",
+            "type": "sound",
+            "extension": ".wav"
+          },
+          "image": {
+            "path": "$ROOT/asset-cases/image.svg",
+            "relativePath": "image.svg",
+            "type": "misc",
+            "extension": ".svg"
+          },
+          "missing": {
+            "path": "$ROOT/asset-cases/missing.ogg",
+            "relativePath": "missing.ogg",
+            "type": "sound",
+            "extension": ".ogg"
+          }
+        }
+      },
+      "event": "taskCompleted",
+      "played": []
+    },
+    {
+      "theme": {
+        "id": "sound-assets",
+        "name": "sound-assets",
+        "folderPath": "$ROOT/asset-cases",
+        "sounds": {
+          "volume": 0.8,
+          "events": {
+            "undo": "audio.wav",
+            "redo": "missing.ogg",
+            "taskCompleted": "image.svg",
+            "backgroundActivated": {
+              "file": "audio.wav",
+              "volume": 0.5
+            }
+          }
+        },
+        "assets": {
+          "audio": {
+            "path": "$ROOT/asset-cases/audio.wav",
+            "relativePath": "audio.wav",
+            "type": "sound",
+            "extension": ".wav"
+          },
+          "image": {
+            "path": "$ROOT/asset-cases/image.svg",
+            "relativePath": "image.svg",
+            "type": "misc",
+            "extension": ".svg"
+          },
+          "missing": {
+            "path": "$ROOT/asset-cases/missing.ogg",
+            "relativePath": "missing.ogg",
+            "type": "sound",
+            "extension": ".ogg"
+          }
+        }
+      },
+      "event": "backgroundActivated",
+      "played": [
+        {
+          "source": "data:audio/wav;base64,YXVkaW8=",
+          "volume": 0.2
+        }
+      ]
     }
   ]
 }

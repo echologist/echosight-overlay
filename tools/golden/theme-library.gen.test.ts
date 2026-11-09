@@ -24,6 +24,9 @@ const fixture = {
   'path-variants/variants/nested/child/a.wav': 'child',
   'abort-variants/theme.json': theme('abort-variants', { variants: { good: {}, '../../../escape': {} } }),
   'broken.json': '{ nope',
+  'bom.json': '\ufeff' + theme('bom'),
+  'not-object.json': 'null',
+  'proto.json': '{"id":"proto","name":"proto","__proto__":{"polluted":true}}',
   'not-json.JSON': theme('ignored'),
   'empty/readme.txt': 'no theme',
   'folder/theme.json': theme('folder', {
@@ -55,6 +58,12 @@ for (const [name, source, target] of [
   targets[`${name}.json`] = theme(name, { author: 'bundled', ...target, custom: true });
 }
 defaults['missing.json'] = theme('missing');
+defaults['numeric-author.json'] = '{"id":"numeric","name":"numeric","author":1.0,"version":"2"}';
+targets['numeric-author.json'] = '{"id":"numeric","name":"numeric","author":1,"version":"1"}';
+defaults['object-author.json'] = theme('object-author', { author: {}, version: '2' });
+targets['object-author.json'] = theme('object-author', { author: {}, version: '1' });
+defaults['null-author.json'] = theme('null-author', { author: null, version: '2' });
+targets['null-author.json'] = theme('null-author', { version: '1' });
 defaults['broken.json'] = theme('broken', { version: '2' }); targets['broken.json'] = '{ bad';
 defaults['folder/theme.json'] = theme('folder', { version: '2' });
 defaults['folder/nested/a.svg'] = 'new'; targets['folder/theme.json'] = theme('folder', { version: '1' });
@@ -74,19 +83,24 @@ async function tree(root: string): Promise<Record<string, string>> {
   }
   return files;
 }
-async function provenance() {
-  const files = ['src/main/themes/themeLibrary.ts', 'src/main/themes/themeAssetLoaders.ts', 'src/main/themes/themeHelpers.ts',
+async function provenance(base = '.') {
+  const files = ['tools/golden/theme-library.gen.test.ts', 'tools/golden/vitest.theme-library.config.ts', 'src/main/themes/themeLibrary.ts', 'src/main/themes/themeAssetLoaders.ts', 'src/main/themes/themeHelpers.ts',
     'src/main/themes/themeValidation.ts', 'src/main/utils/pathSafety.ts', 'src/main/utils/jsonStorage.ts', 'src/shared/errors.ts',
-    'src/renderer/features/themes/themeSounds.ts', 'node_modules/defu/dist/defu.mjs', 'node_modules/destr/dist/index.mjs'];
+    'src/renderer/features/themes/themeSounds.ts', 'node_modules/defu/package.json', 'node_modules/defu/dist/defu.mjs', 'node_modules/defu/dist/defu.cjs', 'node_modules/destr/package.json', 'node_modules/destr/dist/index.mjs', 'node_modules/destr/dist/index.cjs'];
   const result: Record<string, string> = {};
-  for (const file of files) result[file] = createHash('sha256').update(await fs.readFile(file)).digest('hex');
-  for (const [file, bytes] of Object.entries(await tree('data/themes'))) result[`data/themes/${file}`] = createHash('sha256').update(Buffer.from(bytes, 'base64')).digest('hex');
+  for (const file of files) result[file] = createHash('sha256').update(await fs.readFile(path.join(base, file))).digest('hex');
+  for (const [file, bytes] of Object.entries(await tree(path.join(base, 'data/themes')))) result[`data/themes/${file}`] = createHash('sha256').update(Buffer.from(bytes, 'base64')).digest('hex');
   return result;
 }
 async function generate() {
   const root = await fs.mkdtemp(path.join(process.env.TMPDIR || os.tmpdir(), 'theme-library-'));
   vi.useFakeTimers({ toFake: ['Date'] }); vi.setSystemTime(new Date(stamp));
-  const normalize = (value: unknown) => JSON.parse(JSON.stringify(value).split(root).join('$ROOT'));
+  const normalize = (value: unknown): unknown => {
+    if (typeof value === 'string') { const result = value.split(root).join('$ROOT'); return result.startsWith('$ROOT') ? result.replace(/\\/g, '/') : result; }
+    if (Array.isArray(value)) return value.map(normalize);
+    if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, value]) => [key, normalize(value)]));
+    return value;
+  };
   try {
     const cases = [];
     for (const [name, before, bundled] of [['discovery', fixture, {}], ['sync', targets, defaults], ['bundled', {}, {}]] as const) {
@@ -125,9 +139,71 @@ async function generate() {
         }
       }
     }
-    return { stamp, provenance: await provenance(), cases, sounds };
+    const assetFiles: Files = {
+      'style.css': 'url(./😀.svg) url(./\u0085.png) url(./\ufeff.png)',
+      '.css': 'hidden', 'image.svg': '<svg/>', 'audio.wav': 'audio',
+      'audio.mp3': 'mp3', 'audio.m4a': 'm4a', 'blob.bin': 'binary'
+    };
+    const assetRoot = path.join(root, 'asset-cases'); await writeFiles(assetRoot, assetFiles);
+    const assetCases = [];
+    for (const [file, extension, type] of [['style.css', '.css', 'css'], ['image.svg', '.svg', 'misc'], ['audio.wav', '.wav', 'sound'], ['audio.mp3', '.mp3', 'sound'], ['audio.m4a', '.m4a', 'sound'], ['blob.bin', '.bin', 'misc']]) {
+      const t = { id: 'asset', name: 'asset', folderPath: assetRoot, assets: { asset: { path: path.join(assetRoot, file), relativePath: file, extension, type } } } as Theme;
+      assetCases.push(normalize({ theme: t, kind: 'asset', name: 'asset', result: await loadThemeAssetData(t, 'asset') }));
+    }
+    for (const cssFile of ['style.css', '.css', '../outside.css', 'C:\\evil.css']) {
+      const t = { id: 'css', name: 'css', folderPath: assetRoot, cssFile };
+      assetCases.push(normalize({ theme: t, kind: 'css', name: cssFile, result: await loadThemeCssFile(t, cssFile) }));
+    }
+    const soundVolumes = [];
+    for (const [tag, volume] of [['NaN', NaN], ['Infinity', Infinity], ['-Infinity', -Infinity], ['50', 50], ['-10', -10], ['150', 150]] as const) {
+      for (const event of ['undo', 'redo', 'taskCompleted', 'backgroundActivated'] as const) {
+        const t = { id: 's', name: 's', sounds: { events: { [event]: 'audio.wav' } } } as Theme;
+        let actual: number | null = null;
+        const controller = createThemeSoundController({
+          api: { async getThemeAsset() { return { data: 'YQ==', mimeType: 'audio/wav', extension: '.wav', type: 'sound', isText: false }; } },
+          createAudio() { return { currentTime: 0, volume: 0, play() { actual = this.volume; } }; }
+        });
+        controller.applyTheme(t, { enabled: true, volume }); await controller.play(event);
+        soundVolumes.push({ theme: t, event, settingsPercent: tag, volume: actual });
+      }
+    }
+    const resolvedSounds = [];
+    for (const event of ['undo', 'redo', 'taskCompleted', 'backgroundActivated'] as const) {
+      const t = { id: 'sound-assets', name: 'sound-assets', folderPath: assetRoot,
+        sounds: { volume: .8, events: { undo: 'audio.wav', redo: 'missing.ogg', taskCompleted: 'image.svg', backgroundActivated: { file: 'audio.wav', volume: .5 } } },
+        assets: { audio: { path: path.join(assetRoot, 'audio.wav'), relativePath: 'audio.wav', type: 'sound', extension: '.wav' }, image: { path: path.join(assetRoot, 'image.svg'), relativePath: 'image.svg', type: 'misc', extension: '.svg' }, missing: { path: path.join(assetRoot, 'missing.ogg'), relativePath: 'missing.ogg', type: 'sound', extension: '.ogg' } }
+      } as Theme;
+      const played: { source: string; volume: number }[] = [];
+      const controller = createThemeSoundController({
+        api: { async getThemeAsset(_id, asset) { return loadThemeAssetData(t, asset); } },
+        createAudio(source) { return { currentTime: 0, volume: 0, play() { played.push({ source, volume: this.volume }); } }; },
+        logger: { warn() {}, error() {} }
+      });
+      controller.applyTheme(t, { enabled: true, volume: 50 }); await controller.play(event);
+      resolvedSounds.push(normalize({ theme: t, event, played }));
+    }
+    return { stamp, provenance: await provenance(), cases, sounds, assetFiles, assetCases, soundVolumes, resolvedSounds };
   } finally { vi.useRealTimers(); await fs.rm(root, { recursive: true, force: true }); }
 }
+
+test('freshness rejects copied source and dependency mutations without rewriting the oracle', async () => {
+  const expected = await provenance();
+  const root = await fs.mkdtemp(path.join(process.env.TMPDIR || os.tmpdir(), 'theme-library-provenance-'));
+  try {
+    for (const file of Object.keys(expected)) {
+      await fs.mkdir(path.dirname(path.join(root, file)), { recursive: true });
+      await fs.copyFile(file, path.join(root, file));
+    }
+    expect(await provenance(root)).toEqual(expected);
+    for (const file of ['src/main/themes/themeLibrary.ts', 'node_modules/defu/dist/defu.mjs', 'node_modules/destr/dist/index.cjs']) {
+      await fs.appendFile(path.join(root, file), '\n// mutation probe\n');
+      const probe = await provenance(root);
+      expect(() => expect(probe).toEqual(expected)).toThrow();
+      await fs.copyFile(file, path.join(root, file));
+    }
+    expect(await provenance()).toEqual(expected);
+  } finally { await fs.rm(root, { recursive: true, force: true }); }
+});
 
 test('real TypeScript filesystem oracle is fresh, deterministic, and leaves bundled sources untouched', async () => {
   const before = await provenance();

@@ -15,25 +15,39 @@ use std::{
 #[derive(Debug, Clone)]
 pub struct ThemeRoot {
     path: PathBuf,
+    canonical: PathBuf,
 }
 impl ThemeRoot {
     pub fn new(path: impl AsRef<Path>) -> io::Result<Self> {
-        let path = fs::canonicalize(path)?;
-        if !path.is_dir() {
+        let mut path = std::path::absolute(path)?;
+        let canonical = fs::canonicalize(&path)?;
+        if !canonical.is_dir() {
             return Err(io::Error::other("theme root is not a directory"));
         }
-        Ok(Self { path })
+        if path.components().any(|c| matches!(c, Component::ParentDir)) {
+            path = canonical.clone();
+        }
+        Ok(Self { path, canonical })
     }
     pub fn path(&self) -> &Path {
         &self.path
     }
     pub fn existing(&self, path: &Path) -> io::Result<PathBuf> {
-        lexical_inside(&self.path, path)?;
+        lexical_inside(&self.path, path).or_else(|_| lexical_inside(&self.canonical, path))?;
         let canonical = fs::canonicalize(path)?;
-        if !canonical.starts_with(&self.path) {
+        if !canonical.starts_with(&self.canonical) {
             return Err(denied());
         }
         Ok(canonical)
+    }
+    pub(super) fn existing_in(&self, directory: &Path, path: &Path) -> io::Result<PathBuf> {
+        lexical_inside(directory, path)?;
+        let directory = self.existing(directory)?;
+        let path = self.existing(path)?;
+        if !path.starts_with(directory) {
+            return Err(denied());
+        }
+        Ok(path)
     }
     /// Check every existing ancestor, including a dangling final symlink, before
     /// creating missing children. Used only for the explicitly supplied sync root.
@@ -72,7 +86,7 @@ impl ThemeRoot {
                     .filter(|s| !s.is_empty())
                     .and_then(|s| Path::new(s).parent().map(Path::to_path_buf))
             });
-        directory.map(|p| self.existing(&p)).transpose()
+        directory.map(|p| self.existing(&p).map(|_| p)).transpose()
     }
     pub fn load_asset(&self, theme: Option<&Theme>, name: &Value) -> io::Result<Option<Value>> {
         let Some(theme) = theme else { return Ok(None) };
@@ -97,11 +111,10 @@ impl ThemeRoot {
         if lexical_inside(&directory, path).is_err() {
             return Ok(None);
         }
-        let canonical = match self.existing(path) {
-            Ok(p) if p.starts_with(&directory) => p,
+        let canonical = match self.existing_in(&directory, path) {
+            Ok(p) => p,
             Err(e) if e.kind() == io::ErrorKind::PermissionDenied => return Ok(None),
             Err(e) => return Err(e),
-            _ => return Ok(None),
         };
         let bytes = fs::read(canonical)?;
         let is_text = asset.get("type").and_then(Value::as_str) == Some("css");
@@ -129,16 +142,16 @@ impl ThemeRoot {
             _ => return Ok(None),
         };
         let path = directory.join(declared);
-        let path = match self.existing(&path) {
-            Ok(p) if p.starts_with(&directory) => p,
+        let path = match self.existing_in(&directory, &path) {
+            Ok(p) => p,
             Err(e) if e.kind() == io::ErrorKind::PermissionDenied => return Ok(None),
             Err(e) => return Err(e),
-            _ => return Ok(None),
         };
         let bytes = fs::read(path)?;
         let css = String::from_utf8_lossy(&bytes);
-        static URL: LazyLock<Regex> =
-            LazyLock::new(|| Regex::new(r#"url\(['"]?\./([^'")\s]+)['"]?\)"#).unwrap());
+        static URL: LazyLock<Regex> = LazyLock::new(|| {
+            Regex::new(r#"url\(['"]?\./([^'")\x09-\x0d\x20\u{00a0}\u{1680}\u{2000}-\u{200a}\u{2028}\u{2029}\u{202f}\u{205f}\u{3000}\u{feff}]+)['"]?\)"#).unwrap()
+        });
         static EXT: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"\.[^.]+$").unwrap());
         Ok(Some(
             URL.replace_all(&css, |captures: &regex::Captures<'_>| {
@@ -192,5 +205,8 @@ fn normalize_css_path(value: &str) -> Option<String> {
         }
     }
     let path = parts.join("/");
-    path.to_ascii_lowercase().ends_with(".css").then_some(path)
+    Path::new(&path)
+        .extension()
+        .is_some_and(|ext| ext.eq_ignore_ascii_case("css"))
+        .then_some(path)
 }

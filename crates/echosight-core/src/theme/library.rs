@@ -173,8 +173,8 @@ impl ThemeLibrary {
             // Canonicalize every asset; don't advertise outside links or directories.
             if !self
                 .root
-                .existing(&path)
-                .is_ok_and(|p| p.is_file() && p.starts_with(directory))
+                .existing_in(directory, &path)
+                .is_ok_and(|p| p.is_file())
             {
                 continue;
             }
@@ -194,16 +194,15 @@ impl ThemeLibrary {
             let path = directory.join(file);
             if self
                 .root
-                .existing(&path)
-                .is_ok_and(|p| p.is_file() && p.starts_with(directory))
+                .existing_in(directory, &path)
+                .is_ok_and(|p| p.is_file())
             {
                 theme.insert("preview".into(), json!({ "path":path,"relativePath":format!("themes/{}/{file}",directory.file_name().unwrap_or_default().to_string_lossy()) }));
                 break;
             }
         }
         for file in ["README.md", "readme.txt", "info.txt"] {
-            if let Ok(path) = self.root.existing(&directory.join(file))
-                && path.starts_with(directory)
+            if let Ok(path) = self.root.existing_in(directory, &directory.join(file))
                 && let Ok(bytes) = fs::read(path)
             {
                 theme.insert(
@@ -255,11 +254,7 @@ impl ThemeLibrary {
                 self.failure("Failed to load theme variants:", "unsafe variant path");
                 return;
             };
-            if self
-                .root
-                .existing(&path)
-                .is_ok_and(|p| p.starts_with(directory))
-            {
+            if self.root.existing_in(directory, &path).is_ok() {
                 let assets = self.load_assets(&path);
                 variant
                     .get_mut("assets")

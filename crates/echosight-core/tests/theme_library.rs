@@ -23,16 +23,50 @@ fn copy_tree(source: &Path, target: &Path) {
         }
     }
 }
-fn normalize(value: Value, root: &Path) -> Value {
-    serde_json::from_str(
-        &serde_json::to_string(&value)
-            .unwrap()
-            .replace(root.to_str().unwrap(), "$ROOT"),
-    )
-    .unwrap()
+fn map_strings(value: &mut Value, f: &impl Fn(&str) -> String) {
+    match value {
+        Value::String(s) => *s = f(s),
+        Value::Array(a) => a.iter_mut().for_each(|v| map_strings(v, f)),
+        Value::Object(o) => o.values_mut().for_each(|v| map_strings(v, f)),
+        _ => {}
+    }
+}
+fn normalize(mut value: Value, root: &Path) -> Value {
+    map_strings(&mut value, &|s| {
+        let s = s.replace(root.to_str().unwrap(), "$ROOT");
+        if s.starts_with("$ROOT") {
+            s.replace('\\', "/")
+        } else {
+            s
+        }
+    });
+    value
+}
+fn tree(root: &Path) -> Value {
+    use base64::{Engine, engine::general_purpose::STANDARD};
+    fn visit(root: &Path, current: &Path, result: &mut serde_json::Map<String, Value>) {
+        for entry in fs::read_dir(current).unwrap() {
+            let entry = entry.unwrap();
+            let path = entry.path();
+            if entry.file_type().unwrap().is_dir() {
+                visit(root, &path, result);
+            } else {
+                result.insert(
+                    path.strip_prefix(root)
+                        .unwrap()
+                        .to_str()
+                        .unwrap()
+                        .replace('\\', "/"),
+                    json!(STANDARD.encode(fs::read(path).unwrap())),
+                );
+            }
+        }
+    }
+    let mut files = serde_json::Map::new();
+    visit(root, root, &mut files);
+    Value::Object(files)
 }
 fn actual_pipeline(root: &Path, case: &Value, stamp: &str) -> Value {
-    use base64::{Engine, engine::general_purpose::STANDARD};
     use echosight_core::theme::{ThemeLibrary, ThemeRoot};
     let mut library = ThemeLibrary::new(root.join("themes")).unwrap();
     library.initialize(&ThemeRoot::new(root.join("defaults")).unwrap(), stamp);
@@ -49,14 +83,7 @@ fn actual_pipeline(root: &Path, case: &Value, stamp: &str) -> Value {
         deliveries.push(request);
     }
     let after = if case["after"].is_object() {
-        let mut files = serde_json::Map::new();
-        for name in case["after"].as_object().unwrap().keys() {
-            files.insert(
-                name.clone(),
-                json!(STANDARD.encode(fs::read(root.join("themes").join(name)).unwrap())),
-            );
-        }
-        Value::Object(files)
+        tree(&root.join("themes"))
     } else {
         Value::Null
     };
@@ -69,6 +96,28 @@ fn actual_pipeline(root: &Path, case: &Value, stamp: &str) -> Value {
 #[test]
 fn actual_typescript_filesystem_pipeline() {
     let oracle = fixture();
+    let originals = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../data/themes");
+    let original_bytes = tree(&originals);
+    let entries = fs::read_dir(&originals)
+        .unwrap()
+        .map(Result::unwrap)
+        .collect::<Vec<_>>();
+    assert_eq!(
+        entries
+            .iter()
+            .filter(|e| e.file_type().unwrap().is_dir())
+            .count(),
+        4
+    );
+    assert_eq!(
+        entries
+            .iter()
+            .filter(|e| e.file_type().unwrap().is_file()
+                && e.path().extension().is_some_and(|x| x == "json"))
+            .count(),
+        7
+    );
+    assert!(!originals.join("exiles_corruption").exists());
     for case in oracle["cases"].as_array().unwrap() {
         let temp = tempfile::tempdir().unwrap();
         let dir = temp.path().join(case["name"].as_str().unwrap());
@@ -93,6 +142,63 @@ fn actual_typescript_filesystem_pipeline() {
             json!({"themes":case["themes"],"warnings":case["warnings"],"errors":case["errors"],"deliveries":case["deliveries"],"after":case["after"]}),
             "{}",
             case["name"]
+        );
+        assert_eq!(
+            tree(&originals),
+            original_bytes,
+            "bundled originals must not be written"
+        );
+    }
+}
+
+#[test]
+fn actual_typescript_css_and_asset_delivery_edges() {
+    use echosight_core::theme::ThemeRoot;
+    let oracle = fixture();
+    let temp = tempfile::tempdir().unwrap();
+    write_files(&temp.path().join("asset-cases"), &oracle["assetFiles"]);
+    let root = ThemeRoot::new(temp.path().join("asset-cases")).unwrap();
+    for case in oracle["assetCases"].as_array().unwrap() {
+        let mut theme = case["theme"].clone();
+        map_strings(&mut theme, &|s| {
+            s.replace("$ROOT", temp.path().to_str().unwrap())
+        });
+        let actual = if case["kind"] == "css" {
+            json!(root.load_css(theme.as_object(), &case["name"]).unwrap())
+        } else {
+            json!(root.load_asset(theme.as_object(), &case["name"]).unwrap())
+        };
+        assert_eq!(actual, case["result"], "{case}");
+    }
+    for case in oracle["resolvedSounds"].as_array().unwrap() {
+        let mut theme = case["theme"].clone();
+        map_strings(&mut theme, &|s| {
+            s.replace("$ROOT", temp.path().to_str().unwrap())
+        });
+        let sound = echosight_core::theme::sounds::resolve_sound(
+            &root,
+            theme.as_object(),
+            case["event"].as_str().unwrap(),
+            true,
+            50.0,
+        )
+        .unwrap();
+        let played = sound.map(|s| json!({"source":format!("data:{};base64,{}", s.asset["mimeType"].as_str().unwrap(), s.asset["data"].as_str().unwrap()),"volume":s.volume})).into_iter().collect::<Vec<_>>();
+        assert_eq!(json!(played), case["played"]);
+    }
+}
+
+#[test]
+fn actual_typescript_nonfinite_volume_fallbacks_and_all_events() {
+    use echosight_core::theme::sounds::{playback_volume, resolve_theme_sound_definition};
+    for case in fixture()["soundVolumes"].as_array().unwrap() {
+        let theme = case["theme"].as_object().unwrap();
+        let def =
+            resolve_theme_sound_definition(Some(theme), case["event"].as_str().unwrap()).unwrap();
+        let percent: f64 = case["settingsPercent"].as_str().unwrap().parse().unwrap();
+        assert_eq!(
+            playback_volume(percent, theme, &def),
+            case["volume"].as_f64().unwrap()
         );
     }
 }

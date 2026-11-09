@@ -25,9 +25,11 @@ pub fn should_update(source: &Value, target: &Value) -> bool {
     else {
         return false;
     };
-    if target.get("id").and_then(Value::as_str) != Some(id)
-        || source.get("author") != target.get("author")
-    {
+    let authors_equal = match (source.get("author"), target.get("author")) {
+        (Some(Value::Number(a)), Some(Value::Number(b))) => a.as_f64() == b.as_f64(),
+        (a, b) => a == b,
+    };
+    if target.get("id").and_then(Value::as_str) != Some(id) || !authors_equal {
         return false;
     }
     // JS strict equality never equates independently parsed object/array authors.
