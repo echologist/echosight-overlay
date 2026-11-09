@@ -53,6 +53,12 @@ impl ThemeRoot {
     /// creating missing children. Used only for the explicitly supplied sync root.
     pub(super) fn destination(&self, path: &Path) -> io::Result<()> {
         lexical_inside(&self.path, path)?;
+        // Revalidate the root itself before checking descendants: all of them
+        // may be missing after a sequential root retarget. Preserve a stable
+        // authorized alias, but reject even a retarget to a contained subfolder.
+        if fs::canonicalize(&self.path)? != self.canonical {
+            return Err(denied());
+        }
         let mut current = self.path.clone();
         for part in path
             .strip_prefix(&self.path)

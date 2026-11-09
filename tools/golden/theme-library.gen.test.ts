@@ -182,7 +182,41 @@ async function generate() {
       controller.applyTheme(t, { enabled: true, volume: 50 }); await controller.play(event);
       resolvedSounds.push(normalize({ theme: t, event, played }));
     }
-    return { stamp, provenance: await provenance(), cases, sounds, assetFiles, assetCases, soundVolumes, resolvedSounds };
+    // Separate observation, not a parity case: JS prototype-backed assets cannot
+    // be represented faithfully by a plain JSON map. Run the unchanged library
+    // and delivery/sound pipeline; never emulate prototype mutation here.
+    const prototypeFiles: Files = {
+      'folder/theme.json': theme('prototype-asset', {
+        sounds: { events: { undo: '__proto__.wav' } }, variants: { inherited: {}, override: {} }
+      }),
+      'folder/__proto__.wav': 'base audio',
+      'folder/variants/override/__proto__.wav': 'variant audio'
+    };
+    const prototypeDir = path.join(root, 'prototype-assets');
+    const prototypeThemes = path.join(prototypeDir, 'themes');
+    const prototypeDefaults = path.join(prototypeDir, 'defaults');
+    await writeFiles(prototypeThemes, prototypeFiles); await fs.mkdir(prototypeDefaults, { recursive: true });
+    const prototypeLibrary = new ThemeLibrary({ dataDir: prototypeDir, themesDir: prototypeThemes,
+      defaultThemesDir: prototypeDefaults, isPackaged: false, platform: 'linux',
+      logger: { log() {}, warn() {}, error() {} } });
+    await prototypeLibrary.initialize();
+    const prototypeObservations = [];
+    for (const t of prototypeLibrary.themes.values()) {
+      const played: { source: string; volume: number }[] = [];
+      const controller = createThemeSoundController({
+        api: { async getThemeAsset(_id, asset) { return loadThemeAssetData(t, asset); } },
+        createAudio(source) { return { currentTime: 0, volume: 0, play() { played.push({ source, volume: this.volume }); } }; },
+        logger: { warn() {}, error() {} }
+      });
+      controller.applyTheme(t, { enabled: true, volume: 50 }); await controller.play('undo');
+      prototypeObservations.push(normalize({ theme: t, ownAssetNames: Object.keys(t.assets || {}),
+        hasOwnPrototypeAsset: Object.prototype.hasOwnProperty.call(t.assets, '__proto__'),
+        prototypeIsAsset: Object.getPrototypeOf(t.assets)?.relativePath?.endsWith('/__proto__.wav') === true,
+        delivery: await loadThemeAssetData(t, '__proto__'), played }));
+    }
+    const prototypeAssetBoundary = { status: 'unresolved-compatibility-bound-not-an-accepted-delta',
+      files: prototypeFiles, observations: prototypeObservations };
+    return { stamp, provenance: await provenance(), cases, sounds, assetFiles, assetCases, soundVolumes, resolvedSounds, prototypeAssetBoundary };
   } finally { vi.useRealTimers(); await fs.rm(root, { recursive: true, force: true }); }
 }
 
