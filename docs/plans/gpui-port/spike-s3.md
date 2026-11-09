@@ -1,6 +1,6 @@
 # Spike S3: hide / show / move / topmost / focus without recreating the window
 
-Status: **awaiting Windows run**. Go/no-go spike (master plan, Phase 0).
+Status: **passed on Windows (2026-11-09, Milan)**. Blanket confirmation "everything worked" for S1 to S4; per-step rows below were not filled individually. Open detail to confirm on the next Windows build: the `ECHOSIGHT_SPIKE_CYCLE=1` stress (step 5), DPI scaling offset (step 8) and `SetForegroundWindow` outcome (step 10). Go/no-go spike (master plan, Phase 0).
 GPUI source: zed `4ed72e0135aaab74a43914491c915dd6cbd10c67` (ADR-001).
 
 ## Purpose

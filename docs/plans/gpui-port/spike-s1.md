@@ -1,6 +1,6 @@
 # Spike S1: frameless, transparent, topmost, resizable overlay window
 
-Status: **awaiting Windows run**. Go/no-go spike (master plan, Phase 0).
+Status: **passed on Windows (2026-11-09, Milan)**. Blanket confirmation "everything worked" for S1 to S4; per-step rows below were not filled individually. Open detail to confirm on the next Windows build: edge resize of the `PopUp` window (step 8) and multi-monitor placement (step 14). Go/no-go spike (master plan, Phase 0).
 GPUI source: zed `4ed72e0135aaab74a43914491c915dd6cbd10c67` (ADR-001).
 
 ## Purpose

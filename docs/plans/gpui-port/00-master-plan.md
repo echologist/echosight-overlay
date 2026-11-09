@@ -24,7 +24,7 @@
 
 - Repo: `https://github.com/echologist/echosight-overlay`, local `/home/agent/code/echosight-overlay`.
 - **Port baseline = `origin/main` @ `d96c2d5` (v2.1.1).** It contains: Windows-only tray (`src/main/tray/appTray.ts`: Show / Hide / Exit, tooltip `Echosight`, left-click = show, icon `assets/tray-icon.ico`), simplified theme sync (legacy single-file to folder migration removed), `CHANGELOG.md`.
-- Unmerged input: `feat/exiles-corruption-sounds` @ `5a63e5c` (turns `exiles_corruption.json` into a folder theme with 4 WAVs). **Recommendation: merge it to `main` before Phase 2 freezes the theme set** (small PR, already green: 145 tests). Until then the port treats exiles_corruption as having sounds.
+- `feat/exiles-corruption-sounds` @ `5a63e5c` (folder theme with 4 WAVs) was **discarded by Miles on 2026-11-09** (PR #15 closed, branch deleted). `exiles_corruption` stays the single-file JSON theme on `main`; no bundled theme ships sounds except winamp-classic (`complete.wav`).
 - Local worktree note: the 172 "modified" files are file-mode-only changes caused by filesystem ACLs (`git diff --stat` shows 0 insertions/deletions; `core.fileMode=false` shows clean). Do not commit them. Use `git -c core.fileMode=false` or set it in the new worktree.
 - Baseline gates verified on 2026-11-09: `tsc --noEmit` clean, Vitest 34 files / 145 tests pass (on 5a63e5c; main has +appTray tests).
 - Four evidence reports (every claim cited `file:line`, Verified vs Inferred) live next to this plan and must be copied into the repo in Task 0.4:
@@ -139,8 +139,8 @@ git log --oneline -1   # expect d96c2d5
 ```
 Branch protection (Miles, GitHub UI): require PR for `main`; `gpui-port` accepts PRs from `gpui-port/<topic>` branches. Commit message convention: `feat(core): ...`, `feat(ui): ...`, `spike(win): ...`, `docs(port): ...`. **No trailers.**
 
-### Task 0.2: Merge `feat/exiles-corruption-sounds` into `main` (recommendation)
-PR from existing branch to `main`; it is independent of the port and freezes the theme inventory. If Miles declines, the port treats the folder form as canonical anyway.
+### Task 0.2: Sounds branch decision (done)
+Miles discarded `feat/exiles-corruption-sounds` (PR #15 closed). Theme inventory is frozen at `main` d96c2d5: 7 single-file JSON themes + 4 folder themes.
 
 ### Task 0.3: Workspace skeleton
 Files: `Cargo.toml` (workspace, `resolver = "3"`, members above, `[workspace.package] version = "3.0.0-dev" license = "MIT" edition = "2024"`), `rust-toolchain.toml`, `.gitignore` (+`/target`), empty crates with `lib.rs` and one passing test each.
@@ -237,7 +237,7 @@ Adopt the proposal in the theme inventory section 6.2 with these fixed vocabular
 | cs16 | converter + review | ~92% | 1 px hard text shadow via `text.shadow`, drop checkbox drop-shadow |
 | echosight | converter + hand tune | ~80% | bundle Cinzel/Inter/JetBrains Mono (OFL, add `assets/fonts/LICENSES`), hairline to `divider`, `windowBlur: system` |
 | glass | converter + hand tune | ~55% | `windowBlur: system`; accept loss of nested per-section blur (document in CHANGELOG) |
-| exiles_corruption | converter + hand tune | ~85% | sounds verbatim, radial modal gradient via `radial` |
+| exiles_corruption | converter + hand tune | ~85% | radial modal gradient via `radial` (no sounds; branch discarded) |
 | winamp-classic | hand-authored | ~90% | SVG skins via `images` (stretch for bg/titlebar, nineSlice for buttons), uppercase header, hover inversion, `complete.wav` |
 | windows-98, windows-xp | hand-authored | ~93..95% | bevel tokens (raised/sunken), dotted focus ring approximated by `ring.style: dashed`, pixel font: check licence of "Pixelated MS Sans Serif" (98.css ships it under MIT? verify) else fall back to system `MS Sans Serif`/`Tahoma` |
 | windows-7 | hand-authored | ~75% | glass overlay as second fill layer in `window.interactive`, footer hairline as `divider`, checkbox glyph app-drawn, multi-stop gradients with positions, focus ring via `ring` |
@@ -329,7 +329,7 @@ New `.github/workflows/rust.yml` (SHA-pinned actions, `permissions: contents: re
 
 ## 6. Open questions for Miles (answer before the phase that needs them)
 
-1. (Phase 0) Merge `feat/exiles-corruption-sounds` into `main` now? Recommended yes.
+1. (Phase 0) Sounds branch: answered, discarded.
 2. (Phase 0) OK to run the Windows spikes from CI-built artifacts, or do you want a Rust toolchain on the Windows PC (`rustup` + VS Build Tools + CMake)?
 3. (Phase 2) Keep the `glass` theme at all, given its defining blur becomes window-level only? Recommended keep, with the delta noted.
 4. (Phase 2) Who owns the hand-authored win98/xp/7/winamp v2 files: agent drafts + your screenshot approval (default), or you want to author them?

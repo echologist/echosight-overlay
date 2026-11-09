@@ -9,7 +9,6 @@
 //! is pumped for the run's duration (tray-icon needs it; in the real app GPUI's
 //! `GetMessageW` loop on the main thread does this job).
 
-use std::path::PathBuf;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::{Duration, Instant};
@@ -46,9 +45,10 @@ impl log::Log for StderrLogger {
 
 static LOGGER: StderrLogger = StderrLogger;
 
-fn repo_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
-}
+// Assets are embedded: the spike runs on machines that do not have the repo
+// checkout (CI builds it, Milan runs it), so build-time paths must not leak.
+const COMPLETE_WAV: &[u8] = include_bytes!("../../../data/themes/winamp-classic/complete.wav");
+const TRAY_ICO: &[u8] = include_bytes!("../../../assets/tray-icon.ico");
 
 fn main() {
     let _ = log::set_logger(&LOGGER).map(|()| log::set_max_level(log::LevelFilter::Info));
@@ -80,17 +80,14 @@ fn main() {
     // `S6_SKIP_AUDIO=1` leaves the device alone (useful to measure monitor CPU
     // on boxes where opening ALSA spins for seconds).
     let player = SoundPlayer::new();
-    let wav_path = repo_root().join("data/themes/winamp-classic/complete.wav");
     if std::env::var_os("S6_SKIP_AUDIO").is_some() {
         println!("audio skipped (S6_SKIP_AUDIO set)");
     } else {
-        match std::fs::read(&wav_path) {
-            Ok(bytes) => {
-                println!("requested playback of {} at volume 0.5", wav_path.display());
-                player.play(Arc::from(bytes), 0.5);
-            }
-            Err(err) => println!("could not read {}: {err}", wav_path.display()),
-        }
+        println!(
+            "requested playback of embedded winamp-classic/complete.wav ({} bytes) at volume 0.5",
+            COMPLETE_WAV.len()
+        );
+        player.play(Arc::from(COMPLETE_WAV), 0.5);
     }
 
     // 3. Tray (Windows only unless built with `tray-everywhere`).
@@ -105,10 +102,8 @@ fn main() {
                 exit_flag.store(true, Ordering::SeqCst);
             },
         );
-        let icon_path = repo_root().join("assets/tray-icon.ico");
-        let tray = std::fs::read(&icon_path)
+        let tray = TrayIconRgba::from_ico_bytes(TRAY_ICO)
             .map_err(|e| e.to_string())
-            .and_then(|bytes| TrayIconRgba::from_ico_bytes(&bytes).map_err(|e| e.to_string()))
             .and_then(|icon| AppTray::new(icon, callbacks).map_err(|e| e.to_string()));
         match tray {
             Ok(tray) => {

@@ -1,7 +1,14 @@
 # Spike S6: supporting crates next to GPUI (audio, game monitor, single instance, tray)
 
-Branch: `gpui-port-spike-support` (git refuses `gpui-port/spike-support` because
-`gpui-port` already exists as a branch ref). Crate: `echosight-platform`.
+Branch: merged into `gpui-port` (developed on `gpui-port-spike-support`). Crate: `echosight-platform`.
+
+Status: **partial on Windows (2026-11-09, Milan)**. Single instance acquired
+(`Local\Echosight.SingleInstance` + `\\.\pipe\echosight-reveal`) and the process scan ran
+(`matching processes: none`). Audio and tray did **not** run: the first build resolved
+`complete.wav` and `tray-icon.ico` through the build machine's `CARGO_MANIFEST_DIR`
+(`D:\a\echosight-overlay\...`, os error 3 on the test PC). Fixed by embedding both assets with
+`include_bytes!`; steps 2, 7 and 8 need a re-run with the rebuilt exe. Lesson: spike binaries
+never read repo paths at runtime.
 
 ## Purpose
 

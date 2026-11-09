@@ -1,6 +1,6 @@
 # Spike S2: runtime click-through while GPUI keeps rendering
 
-Status: **awaiting Windows run**. Go/no-go spike (master plan, Phase 0).
+Status: **passed on Windows (2026-11-09, Milan)**. Blanket confirmation "everything worked" for S1 to S4; per-step rows below were not filled individually. Open detail to confirm on the next Windows build: whether both `ECHOSIGHT_SPIKE_LAYERED=1` and `=0` were exercised (steps 4 and 9) and the borderless-game pass (step 10). Go/no-go spike (master plan, Phase 0).
 GPUI source: zed `4ed72e0135aaab74a43914491c915dd6cbd10c67` (ADR-001).
 
 ## Purpose
