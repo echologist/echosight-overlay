@@ -56,7 +56,9 @@ test('generate template normalization, transfer, operations, persistence and com
     entropy = repeats ? [0.5] : randoms;
     randomIndex = 0;
     // Clone NOW, not after later mutations to referenced tasks/templates.
-    const expected = clone(run());
+    let expected: any;
+    try { expected = clone(run()); }
+    catch (error) { expected = { thrown: { name: (error as Error).name, message: (error as Error).message } }; }
     cases.push({ name, op, input: clone(input), expected, randoms: clone(entropy) });
   };
   const task = (id: number, text: string, extra: Partial<Task> = {}): Task => ({
@@ -96,6 +98,59 @@ test('generate template normalization, transfer, operations, persistence and com
     const collection = [null, { tasks: [] }, { id: null, tasks: ['x'] }, { tasks: ['y'] }, { tasks: ['z'] }];
     for (const input of [null, {}, collection]) add('collection ' + JSON.stringify(input), 'normalizeCollection', input,
       () => domain.normalizeTemplateCollection(input), true);
+    // Real Number/production observations, including rejected JSON primitives.
+    const numberBits = (number: number) => {
+      const view = new DataView(new ArrayBuffer(8));
+      view.setFloat64(0, number);
+      return view.getBigUint64(0).toString(16).padStart(16, '0');
+    };
+    const observeNumber = (input: unknown) => {
+      const number = Number(input);
+      return Number.isNaN(number) ? { kind: 'NaN' }
+        : !Number.isFinite(number) ? { kind: number > 0 ? 'Infinity' : '-Infinity' }
+        : { kind: 'finite', bits: numberBits(number) };
+    };
+    const radixValues = [
+      0n, (1n << 53n) - 1n, (1n << 53n) + 1n, (1n << 53n) + 3n,
+      0x200000000000011n, (1n << 57n) + 16n, (1n << 57n) + 48n,
+      (1n << 1000n) + (1n << 947n) + 1n,
+      (1n << 1024n) - (1n << 971n),
+      (1n << 1024n) - (1n << 970n) - 1n,
+      (1n << 1024n) - (1n << 970n), 1n << 1100n
+    ];
+    for (const [radix, prefix] of [[2, '0b'], [8, '0o'], [16, '0x']] as const) {
+      for (const integer of radixValues) {
+        const input = prefix + integer.toString(radix);
+        add('radix number ' + input, 'number', input, () => observeNumber(input));
+        add('radix id ' + input, 'parseNumberId', input, () => {
+          const id = ops.parseTemplateId(input);
+          return id === null ? null : numberBits(id);
+        });
+      }
+      const invalid = prefix + '1'.repeat(1100) + 'z';
+      add('invalid radix suffix ' + prefix, 'number', invalid, () => observeNumber(invalid));
+    }
+    for (const poison of [{ toString: null }, { toString: 0 }, { toString: {} }, [[{ toString: null }]]]) {
+      add('number rejects ' + JSON.stringify(poison), 'number', poison, () => observeNumber(poison));
+      const task = { text: 'x', triggerIndices: [poison] };
+      const options = { text: 'x', backgroundOptions: { expiresAfterMinutes: poison } };
+      for (const input of [task, options]) {
+        add('task rejects ' + JSON.stringify(input), 'normalizeTask', input, () => domain.normalizeTemplateTask(input));
+        const data = { name: 'x', tasks: [input] };
+        add('data rejects ' + JSON.stringify(input), 'normalizeData', data, () => domain.normalizeTemplateData(data));
+        const text = JSON.stringify(data);
+        add('import rejects ' + text, 'import', { text }, () => {
+          try { return { ok: domain.parseTemplateImport(text) }; }
+          catch (error) { return { error: (error as Error).message }; }
+        });
+      }
+      const saved = { id: poison, tasks: ['x'] };
+      add('saved rejects ' + JSON.stringify(poison), 'normalizeSaved', saved, () => domain.normalizeSavedTemplate(saved));
+      add('collection rejects ' + JSON.stringify(poison), 'normalizeCollection', [saved], () => domain.normalizeTemplateCollection([saved]));
+    }
+    for (const input of [{}, { valueOf: null }, [{ valueOf: 0 }], [null], [[null]], [1, 2]]) {
+      add('number accepts ' + JSON.stringify(input), 'number', input, () => observeNumber(input));
+    }
     for (const input of ['', ' ', '\uFEFF', '0', '-0', ' 0x10 ', '0b11', '0o10', '1.25', '1e3', 'Infinity', 'NaN', 'no', '\u0085']) {
       add('parse id ' + input, 'parseId', input, () => ops.parseTemplateId(input));
     }
@@ -199,7 +254,22 @@ test('generate template normalization, transfer, operations, persistence and com
       '{"name":"x","tasks":["\\ud800"]}',
       '{"name":"x","tasks":["a"],"unused":1e400}'
     ].map(input => ({ input, outputJson: JSON.stringify(domain.parseTemplateImport(input)) }));
-    const document = { sources: sourceHashes(), nowMs, nowIso, cases, syntaxErrors, unsupported };
+    // The renderer catches normalization exceptions and returns an empty list
+    // plus a diagnostic. Keep that observation separate from Rust's fail-closed
+    // Result (never a successful empty collection eligible for persistence).
+    const loadRejections = [];
+    for (const input of [
+      [{ id: { toString: null }, tasks: ['x'] }],
+      [{ tasks: [{ text: 'x', triggerIndices: [[{ toString: 0 }]] }] }],
+      [{ tasks: [{ text: 'x', backgroundOptions: { expiresAfterMinutes: { toString: null } } }] }]
+    ]) {
+      const logs: string[][] = [];
+      const logger = { error: (prefix: string, error: Error) => logs.push([prefix, error.name, error.message]) };
+      const api = { loadTemplates: async () => input } as unknown as EchosightApi;
+      const result = clone(await loadTemplateState(api, logger));
+      loadRejections.push({ input, result, logs });
+    }
+    const document = { sources: sourceHashes(), nowMs, nowIso, cases, syntaxErrors, unsupported, loadRejections };
     const bytes = JSON.stringify(document, null, 2) + '\n';
     if (process.env.TEMPLATES_GOLDEN_CHECK === '1') checkedBytes(readFileSync(`${output}/cases.json`, 'utf8'), bytes);
     else { mkdirSync(output, { recursive: true }); writeFileSync(`${output}/cases.json`, bytes); }

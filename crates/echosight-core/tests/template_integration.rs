@@ -39,6 +39,26 @@ fn unsupported_js_values_fail_closed_without_lossy_replacement() {
 }
 
 #[test]
+fn numeric_load_rejections_never_produce_a_persistable_collection() {
+    let fixture: Value = serde_json::from_str(include_str!("golden/templates/cases.json")).unwrap();
+    let mut env = Env {
+        ms: 1749938954072.0,
+    };
+    for case in fixture["loadRejections"].as_array().unwrap() {
+        // Actual TS fallback/diagnostics, not a fabricated normalized document.
+        assert_eq!(case["result"], json!([]));
+        assert_eq!(case["logs"][0][0], "Failed to load templates:");
+        assert_eq!(case["logs"][0][1], "TypeError");
+        match resolve_template_load(Ok(&case["input"]), &mut env) {
+            Err(TemplateError::NumericCoercion(error)) => {
+                assert_eq!(case["logs"][0][2], error.to_string());
+            }
+            other => panic!("load must fail without a normalized collection: {other:?}"),
+        }
+    }
+}
+
+#[test]
 fn syntax_errors_are_rejected_without_fabricating_v8_diagnostics() {
     let fixture: Value = serde_json::from_str(include_str!("golden/templates/cases.json")).unwrap();
     for case in fixture["syntaxErrors"].as_array().unwrap() {

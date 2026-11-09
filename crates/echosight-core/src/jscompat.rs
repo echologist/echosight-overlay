@@ -33,8 +33,39 @@ pub fn is_js_whitespace(c: char) -> bool {
     )
 }
 
-/// `Number(value)` for JSON values. Arrays use Array.toString (join) before
-/// numeric conversion; `[true]` therefore becomes `"true"`, not the number 1.
+/// JavaScript's OrdinaryToPrimitive failure for a JSON object whose own
+/// non-callable `toString` shadows Object.prototype.toString. JSON cannot carry
+/// callable valueOf/toString overrides that could otherwise return a primitive.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, thiserror::Error)]
+#[error("Cannot convert object to primitive value")]
+pub struct JsNumberError;
+
+/// `Number(value)` for arbitrary JSON, including failures while Array.join
+/// converts nested elements. An error is NOT NaN: callers must not default/save.
+pub fn checked_js_number(value: &Value) -> Result<f64, JsNumberError> {
+    fn check_primitive_conversion(value: &Value) -> Result<(), JsNumberError> {
+        match value {
+            Value::Object(object) if object.contains_key("toString") => Err(JsNumberError),
+            Value::Array(items) => {
+                for item in items {
+                    check_primitive_conversion(item)?;
+                }
+                Ok(())
+            }
+            _ => Ok(()),
+        }
+    }
+    check_primitive_conversion(value)?;
+    Ok(js_number(value))
+}
+
+/// Infallible numeric conversion ONLY for JSON whose primitive conversion cannot
+/// throw (no own `toString` on an object reached directly or through arrays).
+/// Prefer `checked_js_number` at raw JSON boundaries. Retained for the legacy
+/// task-creation slice, whose fixtures/typed UI options bound its supported
+/// inputs; arbitrary raw task options remain a separate parity gate. Templates
+/// validate the coerced field before calling that legacy sanitizer.
+/// Arrays use Array.toString (join); `[true]` becomes "true", not the number 1.
 pub fn js_number(value: &Value) -> f64 {
     match value {
         Value::Null => 0.0,
@@ -103,14 +134,44 @@ fn parse_radix(digits: &str, radix: u32) -> f64 {
     if digits.is_empty() {
         return f64::NAN;
     }
-    let mut value = 0.0f64;
+    // Radices here are powers of two. Keep the leading 53 significant bits,
+    // then a guard bit and sticky remainder; round ONCE, nearest/ties-to-even.
+    // Iterative f64 multiply/add rounds too early (e.g. 0x200000000000011).
+    let width = radix.ilog2();
+    let mut length = 0u32;
+    let mut significand = 0u64;
+    let mut guard = false;
+    let mut sticky = false;
     for c in digits.chars() {
-        match c.to_digit(radix) {
-            Some(d) => value = value * radix as f64 + d as f64,
-            None => return f64::NAN,
+        let Some(digit) = c.to_digit(radix) else {
+            return f64::NAN;
+        };
+        for shift in (0..width).rev() {
+            let bit = (digit >> shift) & 1;
+            if length == 0 && bit == 0 {
+                continue;
+            }
+            // Still validate every digit after overflow; a bad suffix is NaN.
+            length = (length + 1).min(1025);
+            match length {
+                1..=53 => significand = (significand << 1) | u64::from(bit),
+                54 => guard = bit != 0,
+                _ => sticky |= bit != 0,
+            }
         }
     }
-    value
+    if length <= 53 {
+        return significand as f64;
+    }
+    if length > 1024 {
+        return f64::INFINITY;
+    }
+    if guard && (sticky || significand & 1 != 0) {
+        significand += 1;
+    }
+    // Both factors are exact; carry out of the significand also handles the
+    // max-finite/infinity midpoint correctly without intermediate overflow.
+    significand as f64 * 2.0f64.powi(length as i32 - 53)
 }
 
 /// StrUnsignedDecimalLiteral: `digits[.digits][e[+-]digits]`, `.digits[e..]`.

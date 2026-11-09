@@ -132,6 +132,8 @@ pub struct TemplateExportData {
 
 #[derive(Debug, thiserror::Error)]
 pub enum TemplateError {
+    #[error(transparent)]
+    NumericCoercion(#[from] crate::jscompat::JsNumberError),
     #[error("{0}")]
     Invalid(String),
     /// Valid JS values that cannot be carried by Rust strings/serde_json. Do

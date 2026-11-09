@@ -27,6 +27,15 @@ impl TaskEnvironment for Env {
 fn value(value: impl Serialize) -> Value {
     serde_json::to_value(value).unwrap()
 }
+fn normalized<T: Serialize>(result: Result<T, TemplateError>) -> Value {
+    match result {
+        Ok(result) => value(result),
+        Err(TemplateError::NumericCoercion(error)) => {
+            json!({"thrown": {"name": "TypeError", "message": error.to_string()}})
+        }
+        Err(error) => panic!("unexpected template error: {error}"),
+    }
+}
 fn outcome<T: Serialize>(outcome: PersistenceOutcome<T>) -> Value {
     let logs: Vec<_> = outcome
         .diagnostic
@@ -44,10 +53,20 @@ fn run_case(case: &Value, fixture: &Value) -> Value {
     };
     let input = &case["input"];
     match case["op"].as_str().unwrap() {
-        "normalizeTask" => value(normalize_template_task(input).unwrap()),
-        "normalizeData" => value(normalize_template_data(input).unwrap()),
-        "normalizeSaved" => value(normalize_saved_template(input, &mut env).unwrap()),
-        "normalizeCollection" => value(normalize_template_collection(input, &mut env).unwrap()),
+        "normalizeTask" => normalized(normalize_template_task(input)),
+        "normalizeData" => normalized(normalize_template_data(input)),
+        "normalizeSaved" => normalized(normalize_saved_template(input, &mut env)),
+        "normalizeCollection" => normalized(normalize_template_collection(input, &mut env)),
+        "number" => {
+            let number = match echosight_core::jscompat::checked_js_number(input) {
+                Ok(number) => number,
+                Err(error) => return json!({"thrown": {"name": "TypeError", "message": error.to_string()}}),
+            };
+            if number.is_nan() { json!({"kind": "NaN"}) }
+            else if number.is_infinite() { json!({"kind": if number > 0.0 { "Infinity" } else { "-Infinity" }}) }
+            else { json!({"kind": "finite", "bits": format!("{:016x}", number.to_bits())}) }
+        }
+        "parseNumberId" => value(parse_template_id(input.as_str().unwrap()).map(|id| format!("{:016x}", id.0.to_bits()))),
         "parseId" => value(parse_template_id(input.as_str().unwrap())),
         "filename" => value(create_template_export_filename(input.as_str().unwrap())),
         "import" => {
@@ -110,7 +129,7 @@ macro_rules! oracle_tests {
 oracle_tests! {
     normalize_tasks => "normalizeTask", normalize_data => "normalizeData",
     normalize_saved => "normalizeSaved", normalize_collection => "normalizeCollection",
-    parse_ids => "parseId", filenames => "filename", import_validation => "import",
+    numbers => "number", radix_ids => "parseNumberId", parse_ids => "parseId", filenames => "filename", import_validation => "import",
     incomplete_preorder => "strip", create_templates => "create", instantiate => "instantiate",
     export_bytes => "export", recursive_inspection => "inspect", upsert => "upsert",
     remove => "remove", find_id => "findId", find_name => "findName",
