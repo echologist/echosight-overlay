@@ -1,4 +1,14 @@
 //! Platform integration for the overlay. Spike binaries live under `examples/`.
+//!
+//! * [`overlay`]: per-window operations GPUI does not expose (click-through, hide/show,
+//!   move, topmost, focus) via the raw window handle. Windows only for now; X11/Wayland
+//!   follow in spike S7.
+
+pub mod error;
+pub mod overlay;
+
+pub use error::PlatformError;
+pub use overlay::{ClickThroughMode, OverlayWindowHandle};
 
 /// Normalises a process-list line the way `poe2Monitor.ts` does and checks for Path of Exile.
 pub fn is_path_of_exile_process(name: &str) -> bool {
