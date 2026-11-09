@@ -4,5 +4,6 @@
 //! proven against golden fixtures generated from the TypeScript implementation.
 
 pub mod jscompat;
+pub mod storage;
 pub mod task;
 pub mod window;
