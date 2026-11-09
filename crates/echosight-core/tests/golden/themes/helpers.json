@@ -1680,10 +1680,10 @@
     }
   },
   {
-    "name": "boss-background.webp wav",
+    "name": "boss-background.webp .",
     "input": {
       "assetName": "boss-background.webp",
-      "extension": "wav"
+      "extension": "."
     },
     "expected": {
       "assetType": "background",
@@ -1692,10 +1692,10 @@
     }
   },
   {
-    "name": "button-bg wav",
+    "name": "button-bg .",
     "input": {
       "assetName": "button-bg",
-      "extension": "wav"
+      "extension": "."
     },
     "expected": {
       "assetType": "background",
@@ -1704,10 +1704,10 @@
     }
   },
   {
-    "name": "button-progress-icon wav",
+    "name": "button-progress-icon .",
     "input": {
       "assetName": "button-progress-icon",
-      "extension": "wav"
+      "extension": "."
     },
     "expected": {
       "assetType": "button",
@@ -1716,10 +1716,10 @@
     }
   },
   {
-    "name": "progress-icon wav",
+    "name": "progress-icon .",
     "input": {
       "assetName": "progress-icon",
-      "extension": "wav"
+      "extension": "."
     },
     "expected": {
       "assetType": "progress",
@@ -1728,10 +1728,10 @@
     }
   },
   {
-    "name": "icon-texture wav",
+    "name": "icon-texture .",
     "input": {
       "assetName": "icon-texture",
-      "extension": "wav"
+      "extension": "."
     },
     "expected": {
       "assetType": "icon",
@@ -1740,10 +1740,10 @@
     }
   },
   {
-    "name": "texture-border wav",
+    "name": "texture-border .",
     "input": {
       "assetName": "texture-border",
-      "extension": "wav"
+      "extension": "."
     },
     "expected": {
       "assetType": "texture",
@@ -1752,10 +1752,10 @@
     }
   },
   {
-    "name": "border wav",
+    "name": "border .",
     "input": {
       "assetName": "border",
-      "extension": "wav"
+      "extension": "."
     },
     "expected": {
       "assetType": "border",
@@ -1764,10 +1764,10 @@
     }
   },
   {
-    "name": "unknown.bin wav",
+    "name": "unknown.bin .",
     "input": {
       "assetName": "unknown.bin",
-      "extension": "wav"
+      "extension": "."
     },
     "expected": {
       "assetType": "misc",
@@ -1776,10 +1776,10 @@
     }
   },
   {
-    "name": "BG wav",
+    "name": "BG .",
     "input": {
       "assetName": "BG",
-      "extension": "wav"
+      "extension": "."
     },
     "expected": {
       "assetType": "background",
@@ -1788,10 +1788,10 @@
     }
   },
   {
-    "name": "complete wav",
+    "name": "complete .",
     "input": {
       "assetName": "complete",
-      "extension": "wav"
+      "extension": "."
     },
     "expected": {
       "assetType": "misc",

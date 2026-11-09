@@ -1,7 +1,8 @@
 // Run from the repository root:
 // npx vitest run --config tools/golden/vitest.themes.config.ts
 // Expected values come only from shipped TS functions / the installed defu.
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import vm from 'node:vm';
 import { createHash } from 'node:crypto';
@@ -14,13 +15,151 @@ import {
   getSupportedThemeAssetExtensions
 } from '../../src/main/themes/themeHelpers';
 import type { Theme } from '../../src/shared/types';
+import { ThemeLibrary } from '../../src/main/themes/themeLibrary';
+import { loadThemeAssetData } from '../../src/main/themes/themeAssetLoaders';
 
-type Case = { name: string; input: unknown; expected: unknown };
+type Case = { name: string; input: unknown; expected: unknown;
+  contract?: 'path-extension' | 'outside-extension-contract' };
 const output = path.resolve('crates/echosight-core/tests/golden/themes');
+const checkOnly = process.env.THEMES_GOLDEN_CHECK === '1';
 const minimal = { id: 'base', name: 'Base' };
 const clone = <T>(value: T): T => structuredClone(value);
+// Keep original repository/dependency paths: basename-only provenance is ambiguous.
+const sources = ['src/main/themes/themeValidation.ts', 'src/main/themes/themeHelpers.ts',
+  'src/main/themes/themeLibrary.ts', 'node_modules/defu/dist/defu.mjs',
+  'src/main/themes/themeAssetLoaders.ts', 'src/main/ipc/themeIpc.ts', 'src/main/index.ts',
+  'tools/golden/themes.gen.test.ts', 'tools/golden/vitest.themes.config.ts',
+  'node_modules/typescript/lib/typescript.js'];
+type NumericObservation = { kind: 'finite'; value: number } |
+  { kind: 'nan' | '+infinity' | '-infinity' };
+function encodeNumber(value: number): NumericObservation {
+  if (Number.isNaN(value)) return { kind: 'nan' };
+  if (value === Infinity) return { kind: '+infinity' };
+  if (value === -Infinity) return { kind: '-infinity' };
+  return { kind: 'finite', value };
+}
+function observeMime(extension: string): unknown {
+  // The TS annotation says string, but ordinary object lookup can return inherited
+  // runtime objects. Describe their types/identities; never stringify them as MIME.
+  const value: unknown = getMimeType(extension);
+  if (typeof value === 'string') return { type: 'string', value };
+  if (value === Object.prototype) return { type: 'object', identity: 'Object.prototype' };
+  if (value === Object) return { type: 'function', identity: 'Object' };
+  throw new Error(`unclassified MIME oracle result for ${extension}: ${typeof value}`);
+}
+
+function sourceHashes(root = '.'): Record<string, string> {
+  return Object.fromEntries(sources.map(file => [file,
+    createHash('sha256').update(readFileSync(path.join(root, file))).digest('hex')]));
+}
+function assertSourceProvenance(recorded: Record<string, string>, root = '.'): void {
+  expect(recorded, 'stale source/dependency provenance; regenerate theme goldens')
+    .toEqual(sourceHashes(root));
+}
+
+test('numeric observations survive JSON without conflating nonfinite results', () => {
+  for (const [value, expected] of [
+    [42, { kind: 'finite', value: 42 }], [NaN, { kind: 'nan' }],
+    [Infinity, { kind: '+infinity' }], [-Infinity, { kind: '-infinity' }]
+  ] as const) {
+    expect(JSON.parse(JSON.stringify(encodeNumber(value)))).toEqual(expected);
+  }
+});
+
+test.each(['src/main/themes/themeHelpers.ts', 'node_modules/defu/dist/defu.mjs'])(
+  'provenance rejects changed bytes at original path %s', changed => {
+    const root = mkdtempSync(path.join(tmpdir(), 'theme-provenance-'));
+    try {
+      const recorded = Object.fromEntries(sources.map(file => {
+        const bytes = readFileSync(file);
+        const target = path.join(root, file);
+        mkdirSync(path.dirname(target), { recursive: true });
+        writeFileSync(target, bytes);
+        return [file, createHash('sha256').update(bytes).digest('hex')];
+      }));
+      expect(() => assertSourceProvenance(recorded, root)).not.toThrow();
+      writeFileSync(path.join(root, changed), 'changed source or dependency bytes');
+      expect(() => assertSourceProvenance(recorded, root)).toThrow();
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  }
+);
+
+// This is a boundary regression against shipped TS, not Rust loader parity.
+test('production asset discovery replaces declared extensions before MIME loading', async () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'theme-mime-boundary-'));
+  try {
+    const folder = path.join(root, 'folder');
+    const variantFolder = path.join(folder, 'variants', 'ember');
+    mkdirSync(variantFolder, { recursive: true });
+    const declaredAssets = {
+      poison: { path: path.join(folder, 'safe.png'), type: 'misc', extension: 'constructor' }
+    };
+    writeFileSync(path.join(root, 'single.json'), JSON.stringify({
+      id: 'single', name: 'Single', assets: declaredAssets
+    }));
+    writeFileSync(path.join(folder, 'theme.json'), JSON.stringify({
+      id: 'folder', name: 'Folder', assets: declaredAssets,
+      variants: { ember: { assets: declaredAssets } }
+    }));
+    for (const name of ['safe.png', '__proto__', 'constructor', 'asset.__proto__', 'asset.constructor']) {
+      writeFileSync(path.join(folder, name), 'test asset bytes');
+    }
+    writeFileSync(path.join(variantFolder, 'variant.wav'), 'test audio bytes');
+    const errors: unknown[][] = [];
+    const library = new ThemeLibrary({ dataDir: root, themesDir: root, defaultThemesDir: root,
+      isPackaged: false, platform: process.platform,
+      logger: { log() {}, warn() {}, error(...args) { errors.push(args); } } });
+    await library.reloadThemes();
+    expect(errors).toEqual([]);
+    expect([...library.themes.keys()].sort()).toEqual(['folder', 'folder-ember', 'single']);
+    expect(library.themes.get('single')?.assets).toEqual({});
+    for (const id of ['folder', 'folder-ember']) {
+      const theme = library.themes.get(id)!;
+      expect(Object.keys(theme.assets!).sort()).toEqual(
+        id === 'folder' ? ['safe'] : ['safe', 'variant']);
+      for (const [name, asset] of Object.entries(theme.assets!)) {
+        expect(typeof asset.path).toBe('string');
+        expect(asset.extension).toBe(path.extname(asset.path!).toLowerCase());
+        const loaded = await loadThemeAssetData(theme, name);
+        expect(loaded?.mimeType).toBe(getMimeType(asset.extension));
+        expect(typeof loaded?.mimeType).toBe('string');
+      }
+      expect(await loadThemeAssetData(theme, 'poison')).toBeNull();
+      expect(await loadThemeAssetData(theme, '__proto__')).toBeNull();
+      expect(await loadThemeAssetData(theme, 'constructor')).toBeNull();
+    }
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+function writeGolden(file: string, value: unknown, check = checkOnly): void {
+  const bytes = JSON.stringify(value, null, 2) + '\n';
+  if (check) {
+    expect(readFileSync(file, 'utf8'), `stale fixture: ${file}`).toBe(bytes);
+  } else {
+    writeFileSync(file, bytes);
+  }
+}
+
+test('check mode rejects stale fixture bytes without rewriting them', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'theme-check-'));
+  try {
+    const file = path.join(root, 'fixture.json');
+    writeGolden(file, { value: 'recorded' }, false);
+    const before = readFileSync(file, 'utf8');
+    expect(() => writeGolden(file, { value: 'recorded' }, true)).not.toThrow();
+    expect(() => writeGolden(file, { value: 'changed' }, true)).toThrow();
+    expect(readFileSync(file, 'utf8')).toBe(before);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 function save(name: string, cases: Case[]): void {
-  writeFileSync(path.join(output, `${name}.json`), JSON.stringify(cases, null, 2) + '\n');
+  writeGolden(path.join(output, `${name}.json`), cases);
 }
 
 // This private pure function is not exported. Transpile its exact source tail,
@@ -36,7 +175,12 @@ const compareVersion = vm.runInNewContext(`${comparatorJs}\ncompareThemeVersion`
   (left: unknown, right: unknown) => number;
 
 test('generate v1 validation and helper goldens from real TypeScript', () => {
-  mkdirSync(output, { recursive: true });
+  if (checkOnly) {
+    const provenance = JSON.parse(readFileSync(path.join(output, 'provenance.json'), 'utf8'));
+    assertSourceProvenance(provenance.sources);
+  } else {
+    mkdirSync(output, { recursive: true });
+  }
   const validation: Case[] = [];
   const add = (name: string, input: unknown) => {
     validation.push({ name, input, expected: validateTheme(input) });
@@ -158,7 +302,7 @@ test('generate v1 validation and helper goldens from real TypeScript', () => {
   save('defu', defuCases);
 
   const helpers: Case[] = [];
-  const extensions = [...getSupportedThemeAssetExtensions(), '.WEBP', '.OGG', '.bin', '', 'wav'];
+  const extensions = [...getSupportedThemeAssetExtensions(), '.WEBP', '.OGG', '.bin', '', '.'];
   for (const extension of extensions) for (const assetName of [
     'boss-background.webp', 'button-bg', 'button-progress-icon', 'progress-icon',
     'icon-texture', 'texture-border', 'border', 'unknown.bin', 'BG', 'complete'
@@ -170,13 +314,32 @@ test('generate v1 validation and helper goldens from real TypeScript', () => {
   save('extensions', [{ name: 'supported extensions in source order', input: null,
     expected: getSupportedThemeAssetExtensions() }]);
 
+  const mimeBoundary: Case[] = [];
+  for (const flavor of ['posix', 'win32'] as const) {
+    for (const filename of ['', '__proto__', 'constructor', '.hidden', 'asset.__proto__',
+      'asset.constructor', 'asset.', 'asset.PNG', 'asset.tar.gz', 'C:\\assets\\asset.OGG']) {
+      const extension = path[flavor].extname(filename).toLowerCase();
+      expect(extension === '' || extension.startsWith('.')).toBe(true);
+      expect(typeof getMimeType(extension)).toBe('string');
+      mimeBoundary.push({ name: `${flavor} extname ${JSON.stringify(filename)}`,
+        contract: 'path-extension', input: { flavor, filename, extension },
+        expected: observeMime(extension) });
+    }
+  }
+  for (const extension of ['wav', '__proto__', 'constructor', '__PROTO__', 'CONSTRUCTOR']) {
+    mimeBoundary.push({ name: `outside extension contract ${extension}`,
+      contract: 'outside-extension-contract', input: { extension },
+      expected: observeMime(extension) });
+  }
+  save('mime-boundary', mimeBoundary);
+
   const versions: Case[] = [];
   const versionValues = ['1', '1.0.0', '1.2.3', '1.12', '2.0', '  +2x.03beta',
     '1e2.3', '0x10', '-1.2', '', 'v1.0', '1..0', '1.', null, 2, '9007199254740993',
-    '9'.repeat(310), '\uFEFF2.0', '\u00852.0'];
+    '9'.repeat(310), '\uFEFF2.0', '\u00852.0', '1' + '0'.repeat(308), '-' + '1' + '0'.repeat(308)];
   for (const left of versionValues) for (const right of versionValues) {
     versions.push({ name: `version ${versions.length}`, input: { left, right },
-      expected: compareVersion(left, right) });
+      expected: encodeNumber(compareVersion(left, right)) });
   }
   save('versions', versions);
 
@@ -194,14 +357,19 @@ test('generate v1 validation and helper goldens from real TypeScript', () => {
   expect(bundled.some(c => c.name === 'data/themes/exiles_corruption.json')).toBe(true);
   save('bundled', bundled);
 
-  const sources = ['src/main/themes/themeValidation.ts', 'src/main/themes/themeHelpers.ts',
-    'src/main/themes/themeLibrary.ts', 'node_modules/defu/dist/defu.mjs'];
-  writeFileSync(path.join(output, 'provenance.json'), JSON.stringify({
-    schema: 1, runtimePlatform: process.platform, node: process.version,
-    sources: Object.fromEntries(sources.map(file => [file,
-      createHash('sha256').update(readFileSync(file)).digest('hex')])),
+  const provenance = {
+    schema: 2, runtimePlatform: process.platform, node: process.version,
+    sources: sourceHashes(),
     counts: { validation: validation.length, variants: variants.length, merges: merges.length,
       defu: defuCases.length, helpers: helpers.length, extensions: 1,
-      versions: versions.length, bundled: bundled.length }
-  }, null, 2) + '\n');
+      versions: versions.length, bundled: bundled.length, 'mime-boundary': mimeBoundary.length }
+  };
+  const provenanceFile = path.join(output, 'provenance.json');
+  if (checkOnly) {
+    // Node version is informational; source hashes and generated bytes are not.
+    const recorded = JSON.parse(readFileSync(provenanceFile, 'utf8'));
+    expect({ ...recorded, node: process.version }).toEqual(provenance);
+  } else {
+    writeGolden(provenanceFile, provenance);
+  }
 });

@@ -33,6 +33,13 @@ pub fn get_asset_type(asset_name: &str, extension: &str) -> &'static str {
     "misc"
 }
 
+/// MIME lookup for a Node `path.extname` result (empty or beginning with `.`).
+/// TS parity is bounded to these extension strings, case-insensitively. The
+/// production TS library constructs asset extensions with `path.extname`; JSON
+/// declarations cannot override them. Bare prototype names such as `__proto__`
+/// and `constructor` are outside this contract: TS can return an object/function,
+/// while this total string API returns `application/octet-stream`. That fallback
+/// is not an assertion of arbitrary-string TS parity or an accepted product delta.
 pub fn get_mime_type(extension: &str) -> &'static str {
     match extension.to_ascii_lowercase().as_str() {
         ".png" => "image/png",
@@ -157,7 +164,8 @@ fn js_truthy(value: &Value) -> bool {
 /// Numeric difference of the first unequal `parseInt(part, 10)` component,
 /// not semver ordering. Missing trailing components are zero. Invalid versions
 /// compare equal; suffix text after a numeric prefix is ignored. f64 intentionally
-/// mirrors JS Number rounding (including integers beyond the safe range).
+/// mirrors JS Number rounding (including integers beyond the safe range). Parsed
+/// components must be finite, but their difference can overflow to +/-infinity.
 pub fn compare_theme_version(left: &Value, right: &Value) -> f64 {
     let (Some(left), Some(right)) = (parse_version(left), parse_version(right)) else {
         return 0.0;
