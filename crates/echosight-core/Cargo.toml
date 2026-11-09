@@ -1,0 +1,14 @@
+[package]
+name = "echosight-core"
+description = "Echosight domain logic, storage and theme loading (no UI, no FFI)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+log.workspace = true

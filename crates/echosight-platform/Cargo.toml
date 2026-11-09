@@ -1,0 +1,12 @@
+[package]
+name = "echosight-platform"
+description = "Overlay window FFI, global hotkeys, game monitor, single instance, audio, tray"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+echosight-core.workspace = true
+log.workspace = true

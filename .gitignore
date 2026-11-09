@@ -35,3 +35,6 @@ instructions/
 .codex
 .agents
 PRODUCT.md
+# Rust
+/target/
+**/*.rs.bk

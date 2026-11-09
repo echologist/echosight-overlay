@@ -1,0 +1,15 @@
+[package]
+name = "echosight-theme-cli"
+description = "Theme tooling: validate, convert v1 to v2, inspect a data directory"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "echosight-theme"
+path = "src/main.rs"
+
+[dependencies]
+echosight-core.workspace = true

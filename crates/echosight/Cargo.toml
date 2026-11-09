@@ -1,0 +1,18 @@
+[package]
+name = "echosight"
+description = "Echosight desktop task overlay"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "echosight"
+path = "src/main.rs"
+
+[dependencies]
+echosight-core.workspace = true
+echosight-platform.workspace = true
+echosight-ui.workspace = true
+log.workspace = true

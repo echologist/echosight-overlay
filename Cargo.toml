@@ -1,0 +1,32 @@
+[workspace]
+resolver = "3"
+members = [
+  "crates/echosight-core",
+  "crates/echosight-theme-cli",
+  "crates/echosight-platform",
+  "crates/echosight-ui",
+  "crates/echosight",
+]
+
+[workspace.package]
+version = "3.0.0-dev"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/echologist/echosight-overlay"
+rust-version = "1.99"
+
+[workspace.dependencies]
+echosight-core = { path = "crates/echosight-core" }
+echosight-platform = { path = "crates/echosight-platform" }
+echosight-ui = { path = "crates/echosight-ui" }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order", "float_roundtrip"] }
+thiserror = "2"
+log = "0.4"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true
+panic = "abort"
