@@ -88,8 +88,26 @@ snapshot contents/timestamps beyond the five-entry limit.
 
 Initial green checkpoint gates: Vitest **31 tests / 2 files**, Rust **7 unit
 + 1 fixture interpreter test**, no failed tests; core clippy with `-D warnings`
-passed. Final verification and regeneration results are recorded below when
-complete.
+passed.
+
+### Final verification
+
+- `cargo fmt --all --check`: exit 0.
+- `cargo test -p echosight-core`: exit 0; 7 unit tests and 1 integration test
+  passed, 0 failures. The integration test compares every one of the 22 pairs.
+- `cargo clippy -p echosight-core --all-targets -- -D warnings`: exit 0.
+- Regenerated via the isolated Vitest config: 2 files / 31 tests passed;
+  SHA-256 comparison proved **all 44 fixture files unchanged**.
+- Aggregate SHA-256 (sorted JSON name-to-SHA256 map, Python `json.dumps` default
+  separators): `f1316977384aacdcf13e4a435ebb38c4f5ba928e7b77e1102356e031233090dd`.
+- `git diff --check`: exit 0. No Cargo manifest or lockfile change was needed.
+- Optional standalone TypeScript typecheck was **blocked before execution** by
+  the tool lifecycle scanner: installed `typescript/lib/_tsc.js` exceeds its
+  1 MiB scan cap. This is not a typecheck pass. Real TS execution via Vitest
+  succeeded; the required Rust gates were rerun separately and passed.
+- Independent review/integration belongs to the parent lane. No push or merge,
+  Windows runtime validation, full workspace build, or full Phase 1 acceptance
+  is claimed by this slice.
 
 ### Existing state-controller test mapping
 
