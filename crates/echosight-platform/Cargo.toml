@@ -7,6 +7,49 @@ license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
 
+[features]
+# Parity with v2.1.1 creates the tray on Windows only. This feature makes
+# `tray::should_create` return true everywhere and, on Linux/BSD, compiles the
+# pure-Rust `ksni` (StatusNotifierItem over D-Bus) backend of `tray-icon` so the
+# default Linux build needs no GTK/libappindicator system libraries.
+tray-everywhere = ["dep:tray-icon"]
+
 [dependencies]
 echosight-core.workspace = true
 log.workspace = true
+thiserror.workspace = true
+# Decoding the Windows `.ico` tray icon to RGBA.
+image = { version = "0.25", default-features = false, features = ["ico"] }
+# Feature names verified against rodio 0.23.0's Cargo.toml:
+# `playback` = cpal output, `wav` = symphonia-wav + symphonia-pcm,
+# `vorbis` = symphonia-ogg + symphonia-vorbis, `mp3` = symphonia-mp3,
+# `mp4` = symphonia-isomp4 + symphonia-aac (covers `.m4a`).
+rodio = { version = "0.23", default-features = false, features = [
+  "playback",
+  "wav",
+  "vorbis",
+  "mp3",
+  "mp4",
+] }
+sysinfo = { version = "0.40", default-features = false, features = ["system"] }
+
+# tray-icon compiles without system libraries on Windows and macOS, so it is
+# always available there (creation is still gated by `tray::should_create`).
+[target.'cfg(any(windows, target_os = "macos"))'.dependencies]
+tray-icon = { version = "0.26", default-features = false }
+
+# On Linux/BSD the default `libappindicator` backend needs GTK 3 at build time;
+# the `ksni` backend is pure Rust but heavy (zbus), so it is opt-in.
+[target.'cfg(not(any(windows, target_os = "macos")))'.dependencies]
+tray-icon = { version = "0.26", default-features = false, features = ["ksni"], optional = true }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = [
+  "Win32_Foundation",
+  "Win32_Security",
+  "Win32_Storage_FileSystem",
+  "Win32_System_IO",
+  "Win32_System_Pipes",
+  "Win32_System_Threading",
+  "Win32_UI_WindowsAndMessaging",
+] }
