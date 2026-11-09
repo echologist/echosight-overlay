@@ -1,7 +1,7 @@
 {
   "stamp": "2025-01-02T03:04:05.000Z",
   "provenance": {
-    "tools/golden/theme-library.gen.test.ts": "8851362da2f19f55509a5a4f866193c4a216d6aeade05f528debb56714a6e46f",
+    "tools/golden/theme-library.gen.test.ts": "29389fab7200695b078c66c337022c33fc0622c15af279ff5f7543a0a443a529",
     "tools/golden/vitest.theme-library.config.ts": "7beaa4636a7a2456195505de3d7fe222a3ed417ac9d66f78b3014983c9ad0f08",
     "src/main/themes/themeLibrary.ts": "4c00bf2b788595191666014d02b1de57eb3021f8cdbf6dd144e2be6faf8d4ddb",
     "src/main/themes/themeAssetLoaders.ts": "2f773187cdd81f31b6da760d8c406cc0504f21b82a7947a15a8a2eb3d29a7dba",
@@ -5345,5 +5345,131 @@
         }
       ]
     }
-  ]
+  ],
+  "prototypeAssetBoundary": {
+    "status": "unresolved-compatibility-bound-not-an-accepted-delta",
+    "files": {
+      "folder/theme.json": "{\"id\":\"prototype-asset\",\"name\":\"prototype-asset\",\"sounds\":{\"events\":{\"undo\":\"__proto__.wav\"}},\"variants\":{\"inherited\":{},\"override\":{}}}",
+      "folder/__proto__.wav": "base audio",
+      "folder/variants/override/__proto__.wav": "variant audio"
+    },
+    "observations": [
+      {
+        "theme": {
+          "id": "prototype-asset-inherited",
+          "name": "prototype-asset (inherited)",
+          "sounds": {
+            "events": {
+              "undo": "__proto__.wav"
+            }
+          },
+          "assets": {},
+          "folderPath": "$ROOT/prototype-assets/themes/folder",
+          "path": "$ROOT/prototype-assets/themes/folder/theme.json",
+          "metadata": {
+            "loadedAt": "2025-01-02T03:04:05.000Z",
+            "assetCount": 0,
+            "hasVariants": true,
+            "hasPreview": false,
+            "hasDocumentation": false,
+            "isAdvanced": false,
+            "compatibility": {
+              "minVersion": "1.0.0",
+              "maxVersion": "*"
+            },
+            "isVariant": true,
+            "baseTheme": "prototype-asset",
+            "variantId": "inherited"
+          },
+          "description": "prototype-asset - inherited variant"
+        },
+        "ownAssetNames": [],
+        "hasOwnPrototypeAsset": false,
+        "prototypeIsAsset": false,
+        "delivery": null,
+        "played": []
+      },
+      {
+        "theme": {
+          "id": "prototype-asset-override",
+          "name": "prototype-asset (override)",
+          "sounds": {
+            "events": {
+              "undo": "__proto__.wav"
+            }
+          },
+          "assets": {},
+          "folderPath": "$ROOT/prototype-assets/themes/folder",
+          "path": "$ROOT/prototype-assets/themes/folder/theme.json",
+          "metadata": {
+            "loadedAt": "2025-01-02T03:04:05.000Z",
+            "assetCount": 0,
+            "hasVariants": true,
+            "hasPreview": false,
+            "hasDocumentation": false,
+            "isAdvanced": false,
+            "compatibility": {
+              "minVersion": "1.0.0",
+              "maxVersion": "*"
+            },
+            "isVariant": true,
+            "baseTheme": "prototype-asset",
+            "variantId": "override"
+          },
+          "description": "prototype-asset - override variant"
+        },
+        "ownAssetNames": [],
+        "hasOwnPrototypeAsset": false,
+        "prototypeIsAsset": false,
+        "delivery": null,
+        "played": []
+      },
+      {
+        "theme": {
+          "id": "prototype-asset",
+          "name": "prototype-asset",
+          "sounds": {
+            "events": {
+              "undo": "__proto__.wav"
+            }
+          },
+          "variants": {
+            "inherited": {},
+            "override": {}
+          },
+          "assets": {},
+          "folderPath": "$ROOT/prototype-assets/themes/folder",
+          "path": "$ROOT/prototype-assets/themes/folder/theme.json",
+          "metadata": {
+            "loadedAt": "2025-01-02T03:04:05.000Z",
+            "assetCount": 0,
+            "hasVariants": true,
+            "hasPreview": false,
+            "hasDocumentation": false,
+            "isAdvanced": false,
+            "compatibility": {
+              "minVersion": "1.0.0",
+              "maxVersion": "*"
+            }
+          }
+        },
+        "ownAssetNames": [],
+        "hasOwnPrototypeAsset": false,
+        "prototypeIsAsset": true,
+        "delivery": {
+          "data": "YmFzZSBhdWRpbw==",
+          "type": "sound",
+          "extension": ".wav",
+          "mimeType": "audio/wav",
+          "isText": false
+        },
+        "played": [
+          {
+            "source": "data:audio/wav;base64,YmFzZSBhdWRpbw==",
+            "volume": 0.5
+          }
+        ]
+      }
+    ]
+  }
 }

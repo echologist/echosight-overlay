@@ -175,6 +175,149 @@ fn symlinks_cannot_read_outside_assets_css_metadata_or_variants() {
 }
 
 #[cfg(unix)]
+fn assert_sync_rejects_retargeted_root(file: &str, existing: bool, initial_alias: bool) {
+    use echosight_core::theme::sync::sync_bundled;
+    use std::{io::ErrorKind, os::unix::fs::symlink};
+    let temp = tempfile::tempdir().unwrap();
+    let bundled = temp.path().join("bundled");
+    let authorized = temp.path().join("authorized");
+    let selected = temp.path().join("selected");
+    let outside = temp.path().join("outside");
+    fs::create_dir(&authorized).unwrap();
+    fs::create_dir(&outside).unwrap();
+    write(&bundled.join(file), r#"{"id":"s","version":"2"}"#);
+    write(&outside.join("sentinel"), "untouched");
+    let old = r#"{"id":"s","version":"1"}"#;
+    if existing {
+        write(&outside.join(file), old);
+    }
+    if initial_alias {
+        symlink(&authorized, &selected).unwrap();
+    } else {
+        fs::create_dir(&selected).unwrap();
+    }
+    let source = ThemeRoot::new(&bundled).unwrap();
+    let target = ThemeRoot::new(&selected).unwrap();
+    // Sequential replacement after authorization, before sync: no race needed.
+    if initial_alias {
+        fs::remove_file(&selected).unwrap();
+    } else {
+        fs::remove_dir(&selected).unwrap();
+    }
+    symlink(&outside, &selected).unwrap();
+    assert_eq!(
+        target.existing(&selected).unwrap_err().kind(),
+        ErrorKind::PermissionDenied
+    );
+    let result = sync_bundled(&source, &target);
+    // Check side effects before the return value, so RED proves the actual escape.
+    assert_eq!(
+        fs::read_to_string(outside.join("sentinel")).unwrap(),
+        "untouched"
+    );
+    if existing {
+        assert_eq!(fs::read_to_string(outside.join(file)).unwrap(), old);
+    } else {
+        let first = Path::new(file).components().next().unwrap();
+        assert!(
+            !outside.join(first).exists(),
+            "sync wrote outside the authorized root: {file}; result: {result:?}"
+        );
+    }
+    assert_eq!(fs::read_dir(&authorized).unwrap().count(), 0);
+    assert_eq!(result.unwrap_err().kind(), ErrorKind::PermissionDenied);
+}
+
+#[cfg(unix)]
+#[test]
+fn sync_rejects_retargeted_root_before_missing_file_write() {
+    assert_sync_rejects_retargeted_root("new.json", false, true);
+}
+
+#[cfg(unix)]
+#[test]
+fn sync_rejects_retargeted_root_before_missing_nested_directory_creation() {
+    assert_sync_rejects_retargeted_root("folder/nested/new.json", false, true);
+}
+
+#[cfg(unix)]
+#[test]
+fn sync_rejects_retargeted_root_with_existing_destination() {
+    assert_sync_rejects_retargeted_root("theme.json", true, true);
+}
+
+#[cfg(unix)]
+#[test]
+fn sync_rejects_authorized_directory_replaced_by_symlink() {
+    assert_sync_rejects_retargeted_root("new.json", false, false);
+}
+
+#[cfg(unix)]
+#[test]
+fn sync_rejects_root_alias_retargeted_to_authorized_descendant() {
+    use echosight_core::theme::sync::sync_bundled;
+    use std::{io::ErrorKind, os::unix::fs::symlink};
+    let temp = tempfile::tempdir().unwrap();
+    let bundled = temp.path().join("bundled");
+    let authorized = temp.path().join("authorized");
+    let child = authorized.join("child");
+    let selected = temp.path().join("selected");
+    fs::create_dir_all(&child).unwrap();
+    write(&bundled.join("new.json"), "bundled");
+    symlink(&authorized, &selected).unwrap();
+    let source = ThemeRoot::new(&bundled).unwrap();
+    let target = ThemeRoot::new(&selected).unwrap();
+    fs::remove_file(&selected).unwrap();
+    symlink(&child, &selected).unwrap();
+    // Still contained, but it is no longer the root that was authorized.
+    assert_eq!(
+        target.existing(&selected).unwrap(),
+        fs::canonicalize(&child).unwrap()
+    );
+    let result = sync_bundled(&source, &target);
+    assert!(!child.join("new.json").exists());
+    assert_eq!(result.unwrap_err().kind(), ErrorKind::PermissionDenied);
+}
+
+#[cfg(unix)]
+#[test]
+fn sync_allows_stable_authorized_root_alias() {
+    use echosight_core::theme::sync::sync_bundled;
+    use std::os::unix::fs::symlink;
+    let temp = tempfile::tempdir().unwrap();
+    let bundled = temp.path().join("bundled");
+    let authorized = temp.path().join("authorized");
+    let selected = temp.path().join("selected");
+    fs::create_dir(&authorized).unwrap();
+    let new = r#"{"id":"s","version":"2"}"#;
+    write(&bundled.join("theme.json"), new);
+    write(&bundled.join("folder/nested/a.wav"), "audio");
+    write(
+        &authorized.join("theme.json"),
+        r#"{"id":"s","version":"1"}"#,
+    );
+    symlink(&authorized, &selected).unwrap();
+    let source = ThemeRoot::new(&bundled).unwrap();
+    let target = ThemeRoot::new(&selected).unwrap();
+    sync_bundled(&source, &target).unwrap();
+    assert_eq!(
+        fs::read_to_string(authorized.join("theme.json")).unwrap(),
+        new
+    );
+    assert_eq!(
+        fs::read_to_string(authorized.join("folder/nested/a.wav")).unwrap(),
+        "audio"
+    );
+    assert!(
+        fs::symlink_metadata(&selected)
+            .unwrap()
+            .file_type()
+            .is_symlink()
+    );
+    assert_eq!(target.path(), selected);
+}
+
+#[cfg(unix)]
 #[test]
 fn sync_rejects_destination_and_source_symlinks_without_outside_writes() {
     use echosight_core::theme::sync::sync_bundled;
