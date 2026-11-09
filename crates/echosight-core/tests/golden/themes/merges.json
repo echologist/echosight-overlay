@@ -1,0 +1,551 @@
+[
+  {
+    "name": "nested merge without base mutation",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base",
+        "description": "Base theme",
+        "path": "C:\\themes\\base.json",
+        "colors": {
+          "background": {
+            "primary": "#000",
+            "secondary": "#111"
+          },
+          "text": {
+            "primary": "#fff"
+          }
+        },
+        "components": {
+          "button": {
+            "border": "1px solid #fff",
+            "colors": {
+              "text": "#fff"
+            }
+          }
+        },
+        "variants": {
+          "ember": {}
+        },
+        "future": {
+          "keep": [
+            1,
+            null
+          ]
+        }
+      },
+      "variantId": "ember",
+      "config": {
+        "name": "Ember",
+        "colors": {
+          "background": {
+            "primary": "#300"
+          }
+        },
+        "components": {
+          "button": {
+            "colors": {
+              "text": "#f90"
+            }
+          }
+        },
+        "ignored": "not applied",
+        "id": "not-applied"
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "Ember",
+      "description": "Base theme - ember variant",
+      "path": "C:\\themes\\base.json",
+      "colors": {
+        "background": {
+          "primary": "#300",
+          "secondary": "#111"
+        },
+        "text": {
+          "primary": "#fff"
+        }
+      },
+      "components": {
+        "button": {
+          "border": "1px solid #fff",
+          "colors": {
+            "text": "#f90"
+          }
+        }
+      },
+      "future": {
+        "keep": [
+          1,
+          null
+        ]
+      }
+    }
+  },
+  {
+    "name": "minimal override null",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base"
+      },
+      "variantId": "ember",
+      "config": {
+        "name": null,
+        "description": null,
+        "colors": null,
+        "effects": null,
+        "fonts": null,
+        "styles": null,
+        "components": null,
+        "backgrounds": null,
+        "layout": null,
+        "animations": null,
+        "customCSS": null,
+        "sounds": null
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "Base (ember)",
+      "description": "Base - ember variant"
+    }
+  },
+  {
+    "name": "minimal override false",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base"
+      },
+      "variantId": "ember",
+      "config": {
+        "name": false,
+        "description": false,
+        "colors": false,
+        "effects": false,
+        "fonts": false,
+        "styles": false,
+        "components": false,
+        "backgrounds": false,
+        "layout": false,
+        "animations": false,
+        "customCSS": false,
+        "sounds": false
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "Base (ember)",
+      "description": "Base - ember variant",
+      "colors": false,
+      "effects": false,
+      "fonts": false,
+      "styles": false,
+      "components": false
+    }
+  },
+  {
+    "name": "minimal override 0",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base"
+      },
+      "variantId": "ember",
+      "config": {
+        "name": 0,
+        "description": 0,
+        "colors": 0,
+        "effects": 0,
+        "fonts": 0,
+        "styles": 0,
+        "components": 0,
+        "backgrounds": 0,
+        "layout": 0,
+        "animations": 0,
+        "customCSS": 0,
+        "sounds": 0
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "Base (ember)",
+      "description": "Base - ember variant",
+      "colors": 0,
+      "effects": 0,
+      "fonts": 0,
+      "styles": 0,
+      "components": 0
+    }
+  },
+  {
+    "name": "minimal override \"\"",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base"
+      },
+      "variantId": "ember",
+      "config": {
+        "name": "",
+        "description": "",
+        "colors": "",
+        "effects": "",
+        "fonts": "",
+        "styles": "",
+        "components": "",
+        "backgrounds": "",
+        "layout": "",
+        "animations": "",
+        "customCSS": "",
+        "sounds": ""
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "Base (ember)",
+      "description": "Base - ember variant",
+      "colors": "",
+      "effects": "",
+      "fonts": "",
+      "styles": "",
+      "components": ""
+    }
+  },
+  {
+    "name": "minimal override \" \"",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base"
+      },
+      "variantId": "ember",
+      "config": {
+        "name": " ",
+        "description": " ",
+        "colors": " ",
+        "effects": " ",
+        "fonts": " ",
+        "styles": " ",
+        "components": " ",
+        "backgrounds": " ",
+        "layout": " ",
+        "animations": " ",
+        "customCSS": " ",
+        "sounds": " "
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": " ",
+      "description": " ",
+      "colors": " ",
+      "effects": " ",
+      "fonts": " ",
+      "styles": " ",
+      "components": " ",
+      "backgrounds": " ",
+      "layout": " ",
+      "animations": " ",
+      "customCSS": " ",
+      "sounds": " "
+    }
+  },
+  {
+    "name": "minimal override \"css string\"",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base"
+      },
+      "variantId": "ember",
+      "config": {
+        "name": "css string",
+        "description": "css string",
+        "colors": "css string",
+        "effects": "css string",
+        "fonts": "css string",
+        "styles": "css string",
+        "components": "css string",
+        "backgrounds": "css string",
+        "layout": "css string",
+        "animations": "css string",
+        "customCSS": "css string",
+        "sounds": "css string"
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "css string",
+      "description": "css string",
+      "colors": "css string",
+      "effects": "css string",
+      "fonts": "css string",
+      "styles": "css string",
+      "components": "css string",
+      "backgrounds": "css string",
+      "layout": "css string",
+      "animations": "css string",
+      "customCSS": "css string",
+      "sounds": "css string"
+    }
+  },
+  {
+    "name": "minimal override []",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base"
+      },
+      "variantId": "ember",
+      "config": {
+        "name": [],
+        "description": [],
+        "colors": [],
+        "effects": [],
+        "fonts": [],
+        "styles": [],
+        "components": [],
+        "backgrounds": [],
+        "layout": [],
+        "animations": [],
+        "customCSS": [],
+        "sounds": []
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "Base (ember)",
+      "description": "Base - ember variant",
+      "colors": [],
+      "effects": [],
+      "fonts": [],
+      "styles": [],
+      "components": [],
+      "backgrounds": [],
+      "layout": [],
+      "animations": [],
+      "customCSS": [],
+      "sounds": []
+    }
+  },
+  {
+    "name": "minimal override {}",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base"
+      },
+      "variantId": "ember",
+      "config": {
+        "name": {},
+        "description": {},
+        "colors": {},
+        "effects": {},
+        "fonts": {},
+        "styles": {},
+        "components": {},
+        "backgrounds": {},
+        "layout": {},
+        "animations": {},
+        "customCSS": {},
+        "sounds": {}
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "Base (ember)",
+      "description": "Base - ember variant",
+      "colors": {},
+      "effects": {},
+      "fonts": {},
+      "styles": {},
+      "components": {},
+      "backgrounds": {},
+      "layout": {},
+      "animations": {},
+      "customCSS": {},
+      "sounds": {}
+    }
+  },
+  {
+    "name": "minimal override {\"x\":null}",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base"
+      },
+      "variantId": "ember",
+      "config": {
+        "name": {
+          "x": null
+        },
+        "description": {
+          "x": null
+        },
+        "colors": {
+          "x": null
+        },
+        "effects": {
+          "x": null
+        },
+        "fonts": {
+          "x": null
+        },
+        "styles": {
+          "x": null
+        },
+        "components": {
+          "x": null
+        },
+        "backgrounds": {
+          "x": null
+        },
+        "layout": {
+          "x": null
+        },
+        "animations": {
+          "x": null
+        },
+        "customCSS": {
+          "x": null
+        },
+        "sounds": {
+          "x": null
+        }
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "Base (ember)",
+      "description": "Base - ember variant",
+      "colors": {
+        "x": null
+      },
+      "effects": {
+        "x": null
+      },
+      "fonts": {
+        "x": null
+      },
+      "styles": {
+        "x": null
+      },
+      "components": {
+        "x": null
+      },
+      "backgrounds": {
+        "x": null
+      },
+      "layout": {
+        "x": null
+      },
+      "animations": {
+        "x": null
+      },
+      "customCSS": {
+        "x": null
+      },
+      "sounds": {
+        "x": null
+      }
+    }
+  },
+  {
+    "name": "empty base description uses name",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base",
+        "description": ""
+      },
+      "variantId": "ember",
+      "config": {}
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "Base (ember)",
+      "description": "Base - ember variant"
+    }
+  },
+  {
+    "name": "arrays concatenate override then default, null falls back",
+    "input": {
+      "base": {
+        "id": "base",
+        "name": "Base",
+        "effects": {
+          "list": [
+            1,
+            2
+          ],
+          "nested": {
+            "keep": true,
+            "nullBase": null
+          },
+          "zero": 8,
+          "blank": "x"
+        },
+        "customCSS": "base CSS",
+        "sounds": {
+          "volume": 0.8,
+          "events": {
+            "undo": "old.wav"
+          }
+        }
+      },
+      "variantId": "ember",
+      "config": {
+        "effects": {
+          "list": [
+            3
+          ],
+          "nested": {
+            "keep": null,
+            "nullBase": null
+          },
+          "zero": 0,
+          "blank": ""
+        },
+        "customCSS": ".override {}",
+        "sounds": {
+          "volume": null,
+          "events": {
+            "undo": {
+              "file": "new.wav"
+            }
+          }
+        }
+      }
+    },
+    "expected": {
+      "id": "base-ember",
+      "name": "Base (ember)",
+      "effects": {
+        "list": [
+          3,
+          1,
+          2
+        ],
+        "nested": {
+          "keep": true,
+          "nullBase": null
+        },
+        "zero": 0,
+        "blank": ""
+      },
+      "customCSS": ".override {}",
+      "sounds": {
+        "volume": 0.8,
+        "events": {
+          "undo": {
+            "file": "new.wav"
+          }
+        }
+      },
+      "description": "Base - ember variant"
+    }
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "runtimePlatform": "linux",
+  "node": "v26.12.1",
+  "sources": {
+    "src/main/themes/themeValidation.ts": "4a67c9bfa84b9f674a817d5aa7ab26cbd7ab36c1d070c6d623a0b14ce92e24c7",
+    "src/main/themes/themeHelpers.ts": "e775c6065e2891a142893fc571e42cb426505e5f633de2a92dd42d103591788e",
+    "src/main/themes/themeLibrary.ts": "4c00bf2b788595191666014d02b1de57eb3021f8cdbf6dd144e2be6faf8d4ddb",
+    "node_modules/defu/dist/defu.mjs": "f10f93fff8a70c6f3ad73ff665441d7c3d18d339b480f1fd8a85669f03f8160f"
+  },
+  "counts": {
+    "validation": 246,
+    "variants": 94,
+    "merges": 12,
+    "defu": 36,
+    "helpers": 150,
+    "extensions": 1,
+    "versions": 361,
+    "bundled": 11
+  }
+}

@@ -1,0 +1,4270 @@
+[
+  {
+    "name": "root null",
+    "input": null,
+    "expected": {
+      "theme": null,
+      "errors": [
+        "theme must be a JSON object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "root false",
+    "input": false,
+    "expected": {
+      "theme": null,
+      "errors": [
+        "theme must be a JSON object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "root 0",
+    "input": 0,
+    "expected": {
+      "theme": null,
+      "errors": [
+        "theme must be a JSON object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "root \"\"",
+    "input": "",
+    "expected": {
+      "theme": null,
+      "errors": [
+        "theme must be a JSON object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "root \"theme\"",
+    "input": "theme",
+    "expected": {
+      "theme": null,
+      "errors": [
+        "theme must be a JSON object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "root []",
+    "input": [],
+    "expected": {
+      "theme": null,
+      "errors": [
+        "theme must be a JSON object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "root [{\"id\":\"base\",\"name\":\"Base\"}]",
+    "input": [
+      {
+        "id": "base",
+        "name": "Base"
+      }
+    ],
+    "expected": {
+      "theme": null,
+      "errors": [
+        "theme must be a JSON object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "root {}",
+    "input": {},
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string",
+        "name must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "root {\"id\":\"base\",\"name\":\"Base\"}",
+    "input": {
+      "id": "base",
+      "name": "Base"
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id null",
+    "input": {
+      "id": null,
+      "name": "Base"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id false",
+    "input": {
+      "id": false,
+      "name": "Base"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id 4",
+    "input": {
+      "id": 4,
+      "name": "Base"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id {}",
+    "input": {
+      "id": {},
+      "name": "Base"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id []",
+    "input": {
+      "id": [],
+      "name": "Base"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id \"\"",
+    "input": {
+      "id": "",
+      "name": "Base"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id \" \\t\\n\"",
+    "input": {
+      "id": " \t\n",
+      "name": "Base"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id \"﻿\"",
+    "input": {
+      "id": "﻿",
+      "name": "Base"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id \"\"",
+    "input": {
+      "id": "",
+      "name": "Base"
+    },
+    "expected": {
+      "theme": {
+        "id": "",
+        "name": "Base"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id \" \"",
+    "input": {
+      "id": " ",
+      "name": "Base"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "id \" x \"",
+    "input": {
+      "id": " x ",
+      "name": "Base"
+    },
+    "expected": {
+      "theme": {
+        "id": " x ",
+        "name": "Base"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name null",
+    "input": {
+      "id": "base",
+      "name": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "name must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name false",
+    "input": {
+      "id": "base",
+      "name": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "name must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name 4",
+    "input": {
+      "id": "base",
+      "name": 4
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "name must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name {}",
+    "input": {
+      "id": "base",
+      "name": {}
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "name must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name []",
+    "input": {
+      "id": "base",
+      "name": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "name must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name \"\"",
+    "input": {
+      "id": "base",
+      "name": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "name must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name \" \\t\\n\"",
+    "input": {
+      "id": "base",
+      "name": " \t\n"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "name must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name \"﻿\"",
+    "input": {
+      "id": "base",
+      "name": "﻿"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "name must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name \"\"",
+    "input": {
+      "id": "base",
+      "name": ""
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": ""
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name \" \"",
+    "input": {
+      "id": "base",
+      "name": " "
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "name must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "name \" x \"",
+    "input": {
+      "id": "base",
+      "name": " x "
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": " x "
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "author null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "author": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "author must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "author false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "author": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "author must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "author 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "author": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "author must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "author \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "author": ""
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "author": ""
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "author []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "author": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "author must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "author {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "author": {}
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "author must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "author {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "author": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "author must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "description null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "description": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "description must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "description false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "description": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "description must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "description 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "description": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "description must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "description \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "description": ""
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "description": ""
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "description []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "description": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "description must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "description {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "description": {}
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "description must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "description {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "description": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "description must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "version null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "version": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "version must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "version false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "version": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "version must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "version 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "version": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "version must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "version \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "version": ""
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "version": ""
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "version []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "version": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "version must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "version {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "version": {}
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "version must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "version {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "version": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "version must be a string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "isDefault null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "isDefault": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "isDefault must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "isDefault false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "isDefault": false
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "isDefault": false
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "isDefault 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "isDefault": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "isDefault must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "isDefault \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "isDefault": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "isDefault must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "isDefault []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "isDefault": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "isDefault must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "isDefault {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "isDefault": {}
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "isDefault must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "isDefault {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "isDefault": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "isDefault must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "supportsTransparency null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "supportsTransparency": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "supportsTransparency must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "supportsTransparency false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "supportsTransparency": false
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "supportsTransparency": false
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "supportsTransparency 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "supportsTransparency": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "supportsTransparency must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "supportsTransparency \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "supportsTransparency": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "supportsTransparency must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "supportsTransparency []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "supportsTransparency": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "supportsTransparency must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "supportsTransparency {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "supportsTransparency": {}
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "supportsTransparency must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "supportsTransparency {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "supportsTransparency": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "supportsTransparency must be a boolean"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "fonts null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "fonts": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "fonts must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "fonts false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "fonts": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "fonts must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "fonts 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "fonts": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "fonts must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "fonts \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "fonts": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "fonts must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "fonts []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "fonts": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "fonts must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "fonts {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "fonts": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "fonts": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "fonts {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "fonts": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "fonts": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "effects null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "effects": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "effects must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "effects false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "effects": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "effects must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "effects 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "effects": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "effects must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "effects \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "effects": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "effects must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "effects []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "effects": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "effects must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "effects {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "effects": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "effects": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "effects {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "effects": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "effects": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "transparency null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "transparency": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "transparency must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "transparency false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "transparency": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "transparency must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "transparency 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "transparency": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "transparency must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "transparency \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "transparency": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "transparency must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "transparency []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "transparency": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "transparency must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "transparency {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "transparency": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "transparency": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "transparency {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "transparency": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "transparency": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "styles null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "styles": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "styles must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "styles false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "styles": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "styles must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "styles 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "styles": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "styles must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "styles \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "styles": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "styles must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "styles []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "styles": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "styles must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "styles {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "styles": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "styles": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "styles {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "styles": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "styles": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "components null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "components": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "components must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "components false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "components": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "components must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "components 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "components": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "components must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "components \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "components": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "components must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "components []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "components": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "components must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "components {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "components": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "components": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "components {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "components": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "components": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "backgrounds null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "backgrounds": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "backgrounds must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "backgrounds false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "backgrounds": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "backgrounds must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "backgrounds 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "backgrounds": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "backgrounds must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "backgrounds \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "backgrounds": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "backgrounds must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "backgrounds []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "backgrounds": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "backgrounds must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "backgrounds {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "backgrounds": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "backgrounds": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "backgrounds {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "backgrounds": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "backgrounds": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "layout null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "layout": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "layout must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "layout false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "layout": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "layout must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "layout 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "layout": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "layout must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "layout \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "layout": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "layout must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "layout []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "layout": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "layout must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "layout {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "layout": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "layout": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "layout {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "layout": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "layout": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "animations null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "animations": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "animations must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "animations false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "animations": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "animations must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "animations 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "animations": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "animations must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "animations \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "animations": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "animations must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "animations []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "animations": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "animations must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "animations {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "animations": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "animations": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "animations {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "animations": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "animations": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "compatibility null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "compatibility": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "compatibility must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "compatibility false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "compatibility": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "compatibility must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "compatibility 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "compatibility": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "compatibility must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "compatibility \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "compatibility": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "compatibility must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "compatibility []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "compatibility": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "compatibility must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "compatibility {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "compatibility": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "compatibility": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "compatibility {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "compatibility": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "compatibility": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "metadata null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "metadata": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "metadata must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "metadata false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "metadata": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "metadata must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "metadata 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "metadata": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "metadata must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "metadata \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "metadata": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "metadata must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "metadata []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "metadata": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "metadata must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "metadata {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "metadata": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "metadata": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "metadata {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "metadata": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "metadata": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "colors null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "colors": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "colors must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "colors false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "colors": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "colors must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "colors 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "colors": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "colors must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "colors \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "colors": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "colors must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "colors []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "colors": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "colors must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "colors {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "colors": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "colors": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "colors {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "colors": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "colors.x must be a CSS string or number"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "customCSS null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "customCSS": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "customCSS must be a string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "customCSS false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "customCSS": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "customCSS must be a string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "customCSS 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "customCSS": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "customCSS must be a string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "customCSS \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "customCSS": ""
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "customCSS": ""
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "customCSS []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "customCSS": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "customCSS must be a string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "customCSS {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "customCSS": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "customCSS": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "customCSS {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "customCSS": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "customCSS.x must be a CSS string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sounds null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sounds false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sounds 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": 1
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sounds \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sounds []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": []
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sounds {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sounds {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variants null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "variants": null
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "variants": null
+      },
+      "errors": [],
+      "warnings": [
+        "variants must be an object; variants will be ignored"
+      ]
+    }
+  },
+  {
+    "name": "variants false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "variants": false
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "variants": false
+      },
+      "errors": [],
+      "warnings": [
+        "variants must be an object; variants will be ignored"
+      ]
+    }
+  },
+  {
+    "name": "variants 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "variants": 1
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "variants": 1
+      },
+      "errors": [],
+      "warnings": [
+        "variants must be an object; variants will be ignored"
+      ]
+    }
+  },
+  {
+    "name": "variants \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "variants": ""
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "variants": ""
+      },
+      "errors": [],
+      "warnings": [
+        "variants must be an object; variants will be ignored"
+      ]
+    }
+  },
+  {
+    "name": "variants []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "variants": []
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "variants": []
+      },
+      "errors": [],
+      "warnings": [
+        "variants must be an object; variants will be ignored"
+      ]
+    }
+  },
+  {
+    "name": "variants {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "variants": {}
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "variants": {}
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variants {\"x\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "variants": {
+        "x": null
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "variants": {
+          "x": null
+        }
+      },
+      "errors": [],
+      "warnings": [
+        "variants.x must be an object; variant will be ignored"
+      ]
+    }
+  },
+  {
+    "name": "css path null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": null
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": false
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": ""
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \" \"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": " "
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a non-empty string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "theme.css"
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "cssFile": "theme.css"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"styles/THEME.CSS\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "styles/THEME.CSS"
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "cssFile": "styles/THEME.CSS"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"../theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "../theme.css"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"a/../theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "a/../theme.css"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"a\\\\..\\\\theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "a\\..\\theme.css"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"/theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "/theme.css"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"\\\\theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "\\theme.css"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"C:\\\\theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "C:\\theme.css"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"C:/theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "C:/theme.css"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"C:theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "C:theme.css"
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "cssFile": "C:theme.css"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"\\\\\\\\server\\\\theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "\\\\server\\theme.css"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"theme\\u0000.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "theme\u0000.css"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"theme.txt\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "theme.txt"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must point to a .css file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \".css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": ".css"
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must point to a .css file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"..css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "..css"
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "cssFile": "..css"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"theme.css/\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "theme.css/"
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "cssFile": "theme.css/"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"theme.css \"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "theme.css "
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "cssFile must point to a .css file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"./theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "./theme.css"
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "cssFile": "./theme.css"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "css path \"dir/./theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "cssFile": "dir/./theme.css"
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "cssFile": "dir/./theme.css"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "recursive CSS and integer key ordering",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "colors": {
+        "2": [],
+        "10": false,
+        "z": true,
+        "nested": {
+          "bad": null,
+          "fine": 0
+        }
+      },
+      "customCSS": {
+        "raw": "body {}",
+        ".x": {
+          "color": "#fff",
+          "opacity": 0.5,
+          "nested": {
+            "bad": []
+          }
+        },
+        "bad": 4
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "customCSS..x.nested.bad must be a CSS string or number",
+        "customCSS.bad must be a CSS string or object",
+        "colors.2 must be a CSS string or number",
+        "colors.10 must be a CSS string or number",
+        "colors.z must be a CSS string or number",
+        "colors.nested.bad must be a CSS string or number"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "all errors retain validation order",
+    "input": {
+      "id": "",
+      "name": 42,
+      "author": false,
+      "description": [],
+      "version": null,
+      "isDefault": 1,
+      "supportsTransparency": "yes",
+      "cssFile": "../outside.css",
+      "customCSS": [],
+      "sounds": {
+        "enabled": "yes",
+        "volume": 2,
+        "events": {
+          "unknown": null,
+          "taskCompleted": "../complete.ogg",
+          "backgroundActivated": "audio/alert.wav",
+          "undo": {
+            "file": "undo.txt",
+            "volume": -1
+          },
+          "redo": []
+        }
+      },
+      "colors": {
+        "primary": [
+          "#fff"
+        ]
+      },
+      "fonts": null,
+      "styles": "bad",
+      "variants": {
+        "broken": null
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "id must be a non-empty string",
+        "name must be a non-empty string",
+        "author must be a string",
+        "description must be a string",
+        "version must be a string",
+        "isDefault must be a boolean",
+        "supportsTransparency must be a boolean",
+        "cssFile must be a relative path inside the theme folder",
+        "customCSS must be a string or object",
+        "sounds.enabled must be a boolean",
+        "sounds.volume must be a number between 0 and 1",
+        "sounds.events.taskCompleted must be a relative path inside the theme folder",
+        "sounds.events.backgroundActivated must be a file name in the theme folder",
+        "sounds.events.undo.file must point to a supported audio file",
+        "sounds.events.undo.volume must be a number between 0 and 1",
+        "sounds.events.redo must be a sound file string or object",
+        "colors.primary must be a CSS string or number",
+        "fonts must be an object",
+        "styles must be an object"
+      ],
+      "warnings": [
+        "sounds.events.unknown is not a supported sound event; event will be ignored",
+        "variants.broken must be an object; variant will be ignored"
+      ]
+    }
+  },
+  {
+    "name": "sound volumes null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "volume": null,
+        "events": {
+          "undo": {
+            "file": "undo.wav",
+            "volume": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.volume must be a number between 0 and 1",
+        "sounds.events.undo.volume must be a number between 0 and 1"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound volumes \"0.5\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "volume": "0.5",
+        "events": {
+          "undo": {
+            "file": "undo.wav",
+            "volume": "0.5"
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.volume must be a number between 0 and 1",
+        "sounds.events.undo.volume must be a number between 0 and 1"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound volumes false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "volume": false,
+        "events": {
+          "undo": {
+            "file": "undo.wav",
+            "volume": false
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.volume must be a number between 0 and 1",
+        "sounds.events.undo.volume must be a number between 0 and 1"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound volumes -0.01",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "volume": -0.01,
+        "events": {
+          "undo": {
+            "file": "undo.wav",
+            "volume": -0.01
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.volume must be a number between 0 and 1",
+        "sounds.events.undo.volume must be a number between 0 and 1"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound volumes 0",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "volume": 0,
+        "events": {
+          "undo": {
+            "file": "undo.wav",
+            "volume": 0
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "volume": 0,
+          "events": {
+            "undo": {
+              "file": "undo.wav",
+              "volume": 0
+            }
+          }
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound volumes 0.5",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "volume": 0.5,
+        "events": {
+          "undo": {
+            "file": "undo.wav",
+            "volume": 0.5
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "volume": 0.5,
+          "events": {
+            "undo": {
+              "file": "undo.wav",
+              "volume": 0.5
+            }
+          }
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound volumes 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "volume": 1,
+        "events": {
+          "undo": {
+            "file": "undo.wav",
+            "volume": 1
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "volume": 1,
+          "events": {
+            "undo": {
+              "file": "undo.wav",
+              "volume": 1
+            }
+          }
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound volumes 1.01",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "volume": 1.01,
+        "events": {
+          "undo": {
+            "file": "undo.wav",
+            "volume": 1.01
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.volume must be a number between 0 and 1",
+        "sounds.events.undo.volume must be a number between 0 and 1"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound events null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": null
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound events []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": []
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound events false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": false
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound events 1",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": 1
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound events \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": ""
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound events {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {}
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "events": {}
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound events {\"unknown\":null,\"another\":[]}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "unknown": null,
+          "another": []
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "events": {
+            "unknown": null,
+            "another": []
+          }
+        }
+      },
+      "errors": [],
+      "warnings": [
+        "sounds.events.unknown is not a supported sound event; event will be ignored",
+        "sounds.events.another is not a supported sound event; event will be ignored"
+      ]
+    }
+  },
+  {
+    "name": "sound definition null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": null
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a sound file string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": false
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a sound file string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition 2",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": 2
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a sound file string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition []",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": []
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a sound file string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition {}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": {}
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted.file must be a non-empty sound file string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition {\"file\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": {
+            "file": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted.file must be a non-empty sound file string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition {\"file\":2}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": {
+            "file": 2
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted.file must be a non-empty sound file string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition null",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": null
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a sound file string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition false",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": false
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a sound file string or object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": ""
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a non-empty sound file string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \" \"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": " "
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a non-empty sound file string"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must point to a supported audio file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"styles/THEME.CSS\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "styles/THEME.CSS"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a file name in the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"../theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "../theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"a/../theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "a/../theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"a\\\\..\\\\theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "a\\..\\theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"/theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "/theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"\\\\theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "\\theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"C:\\\\theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "C:\\theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"C:/theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "C:/theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"C:theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "C:theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must point to a supported audio file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"\\\\\\\\server\\\\theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "\\\\server\\theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"theme\\u0000.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "theme\u0000.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a relative path inside the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"theme.txt\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "theme.txt"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must point to a supported audio file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \".css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": ".css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must point to a supported audio file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"..css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "..css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must point to a supported audio file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"theme.css/\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "theme.css/"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a file name in the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"theme.css \"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "theme.css "
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must point to a supported audio file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"./theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "./theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a file name in the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"dir/./theme.css\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "dir/./theme.css"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a file name in the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"audio/ok.wav\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "audio/ok.wav"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a file name in the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"audio\\\\ok.wav\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "audio\\ok.wav"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a file name in the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"ok.MP3\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "ok.MP3"
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "events": {
+            "taskCompleted": "ok.MP3"
+          }
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"ok.ogg\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "ok.ogg"
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "events": {
+            "taskCompleted": "ok.ogg"
+          }
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"ok.wav\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "ok.wav"
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "events": {
+            "taskCompleted": "ok.wav"
+          }
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"ok.m4a\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "ok.m4a"
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "events": {
+            "taskCompleted": "ok.m4a"
+          }
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"ok.flac\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "ok.flac"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must point to a supported audio file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \".wav\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": ".wav"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must point to a supported audio file"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"ok.wav/\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "ok.wav/"
+        }
+      }
+    },
+    "expected": {
+      "theme": null,
+      "errors": [
+        "sounds.events.taskCompleted must be a file name in the theme folder"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition \"C:ok.wav\"",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": "C:ok.wav"
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "events": {
+            "taskCompleted": "C:ok.wav"
+          }
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "sound definition {\"file\":\"ok.wav\",\"future\":null}",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "sounds": {
+        "events": {
+          "taskCompleted": {
+            "file": "ok.wav",
+            "future": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "sounds": {
+          "events": {
+            "taskCompleted": {
+              "file": "ok.wav",
+              "future": null
+            }
+          }
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "unknown fields and warning-only values survive verbatim",
+    "input": {
+      "id": "base",
+      "name": "Base",
+      "future": {
+        "deep": [
+          null,
+          false,
+          3
+        ]
+      },
+      "assets": 12,
+      "preview": null,
+      "variants": {
+        "invalid": null,
+        "valid": {
+          "name": 3
+        }
+      },
+      "sounds": {
+        "future": [],
+        "events": {
+          "unknown": null
+        }
+      }
+    },
+    "expected": {
+      "theme": {
+        "id": "base",
+        "name": "Base",
+        "future": {
+          "deep": [
+            null,
+            false,
+            3
+          ]
+        },
+        "assets": 12,
+        "preview": null,
+        "variants": {
+          "invalid": null,
+          "valid": {
+            "name": 3
+          }
+        },
+        "sounds": {
+          "future": [],
+          "events": {
+            "unknown": null
+          }
+        }
+      },
+      "errors": [],
+      "warnings": [
+        "sounds.events.unknown is not a supported sound event; event will be ignored",
+        "variants.invalid must be an object; variant will be ignored"
+      ]
+    }
+  }
+]

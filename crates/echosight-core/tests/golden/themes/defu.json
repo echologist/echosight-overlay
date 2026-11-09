@@ -1,0 +1,1135 @@
+[
+  {
+    "name": "defu 0",
+    "input": {
+      "overrides": {},
+      "defaults": {}
+    },
+    "expected": {}
+  },
+  {
+    "name": "defu 1",
+    "input": {
+      "overrides": {},
+      "defaults": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      }
+    },
+    "expected": {
+      "a": null,
+      "b": false,
+      "c": 0,
+      "d": ""
+    }
+  },
+  {
+    "name": "defu 2",
+    "input": {
+      "overrides": {},
+      "defaults": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": [
+        1
+      ],
+      "b": {
+        "keep": true,
+        "nested": {
+          "x": null
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 3",
+    "input": {
+      "overrides": {},
+      "defaults": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": [
+        2,
+        3
+      ],
+      "b": {
+        "keep": null,
+        "nested": {
+          "y": 4
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 4",
+    "input": {
+      "overrides": {},
+      "defaults": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      }
+    },
+    "expected": {
+      "a": {
+        "nested": [
+          1
+        ]
+      },
+      "b": "scalar"
+    }
+  },
+  {
+    "name": "defu 5",
+    "input": {
+      "overrides": {},
+      "defaults": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      }
+    },
+    "expected": {
+      "__proto__": {
+        "x": 1
+      },
+      "constructor": {
+        "x": 2
+      },
+      "prototype": 3,
+      "safe": null
+    }
+  },
+  {
+    "name": "defu 6",
+    "input": {
+      "overrides": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      },
+      "defaults": {}
+    },
+    "expected": {
+      "b": false,
+      "c": 0,
+      "d": ""
+    }
+  },
+  {
+    "name": "defu 7",
+    "input": {
+      "overrides": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      },
+      "defaults": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      }
+    },
+    "expected": {
+      "a": null,
+      "b": false,
+      "c": 0,
+      "d": ""
+    }
+  },
+  {
+    "name": "defu 8",
+    "input": {
+      "overrides": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      },
+      "defaults": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": [
+        1
+      ],
+      "b": false,
+      "c": 0,
+      "d": ""
+    }
+  },
+  {
+    "name": "defu 9",
+    "input": {
+      "overrides": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      },
+      "defaults": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": [
+        2,
+        3
+      ],
+      "b": false,
+      "c": 0,
+      "d": ""
+    }
+  },
+  {
+    "name": "defu 10",
+    "input": {
+      "overrides": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      },
+      "defaults": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      }
+    },
+    "expected": {
+      "a": {
+        "nested": [
+          1
+        ]
+      },
+      "b": false,
+      "c": 0,
+      "d": ""
+    }
+  },
+  {
+    "name": "defu 11",
+    "input": {
+      "overrides": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      },
+      "defaults": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      }
+    },
+    "expected": {
+      "__proto__": {
+        "x": 1
+      },
+      "constructor": {
+        "x": 2
+      },
+      "prototype": 3,
+      "safe": null,
+      "b": false,
+      "c": 0,
+      "d": ""
+    }
+  },
+  {
+    "name": "defu 12",
+    "input": {
+      "overrides": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      },
+      "defaults": {}
+    },
+    "expected": {
+      "a": [
+        1
+      ],
+      "b": {
+        "keep": true,
+        "nested": {
+          "x": null
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 13",
+    "input": {
+      "overrides": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      },
+      "defaults": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      }
+    },
+    "expected": {
+      "a": [
+        1
+      ],
+      "b": {
+        "keep": true,
+        "nested": {
+          "x": null
+        }
+      },
+      "c": 0,
+      "d": ""
+    }
+  },
+  {
+    "name": "defu 14",
+    "input": {
+      "overrides": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      },
+      "defaults": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": [
+        1,
+        1
+      ],
+      "b": {
+        "keep": true,
+        "nested": {
+          "x": null
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 15",
+    "input": {
+      "overrides": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      },
+      "defaults": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": [
+        1,
+        2,
+        3
+      ],
+      "b": {
+        "keep": true,
+        "nested": {
+          "y": 4
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 16",
+    "input": {
+      "overrides": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      },
+      "defaults": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      }
+    },
+    "expected": {
+      "a": [
+        1
+      ],
+      "b": {
+        "keep": true,
+        "nested": {
+          "x": null
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 17",
+    "input": {
+      "overrides": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      },
+      "defaults": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      }
+    },
+    "expected": {
+      "__proto__": {
+        "x": 1
+      },
+      "constructor": {
+        "x": 2
+      },
+      "prototype": 3,
+      "safe": null,
+      "a": [
+        1
+      ],
+      "b": {
+        "keep": true,
+        "nested": {
+          "x": null
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 18",
+    "input": {
+      "overrides": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      },
+      "defaults": {}
+    },
+    "expected": {
+      "a": [
+        2,
+        3
+      ],
+      "b": {
+        "keep": null,
+        "nested": {
+          "y": 4
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 19",
+    "input": {
+      "overrides": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      },
+      "defaults": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      }
+    },
+    "expected": {
+      "a": [
+        2,
+        3
+      ],
+      "b": {
+        "keep": null,
+        "nested": {
+          "y": 4
+        }
+      },
+      "c": 0,
+      "d": ""
+    }
+  },
+  {
+    "name": "defu 20",
+    "input": {
+      "overrides": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      },
+      "defaults": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": [
+        2,
+        3,
+        1
+      ],
+      "b": {
+        "keep": true,
+        "nested": {
+          "x": null,
+          "y": 4
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 21",
+    "input": {
+      "overrides": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      },
+      "defaults": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": [
+        2,
+        3,
+        2,
+        3
+      ],
+      "b": {
+        "keep": null,
+        "nested": {
+          "y": 4
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 22",
+    "input": {
+      "overrides": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      },
+      "defaults": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      }
+    },
+    "expected": {
+      "a": [
+        2,
+        3
+      ],
+      "b": {
+        "keep": null,
+        "nested": {
+          "y": 4
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 23",
+    "input": {
+      "overrides": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      },
+      "defaults": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      }
+    },
+    "expected": {
+      "__proto__": {
+        "x": 1
+      },
+      "constructor": {
+        "x": 2
+      },
+      "prototype": 3,
+      "safe": null,
+      "a": [
+        2,
+        3
+      ],
+      "b": {
+        "keep": null,
+        "nested": {
+          "y": 4
+        }
+      }
+    }
+  },
+  {
+    "name": "defu 24",
+    "input": {
+      "overrides": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      },
+      "defaults": {}
+    },
+    "expected": {
+      "a": {
+        "nested": [
+          1
+        ]
+      },
+      "b": "scalar"
+    }
+  },
+  {
+    "name": "defu 25",
+    "input": {
+      "overrides": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      },
+      "defaults": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      }
+    },
+    "expected": {
+      "a": {
+        "nested": [
+          1
+        ]
+      },
+      "b": "scalar",
+      "c": 0,
+      "d": ""
+    }
+  },
+  {
+    "name": "defu 26",
+    "input": {
+      "overrides": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      },
+      "defaults": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": {
+        "nested": [
+          1
+        ]
+      },
+      "b": "scalar"
+    }
+  },
+  {
+    "name": "defu 27",
+    "input": {
+      "overrides": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      },
+      "defaults": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": {
+        "nested": [
+          1
+        ]
+      },
+      "b": "scalar"
+    }
+  },
+  {
+    "name": "defu 28",
+    "input": {
+      "overrides": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      },
+      "defaults": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      }
+    },
+    "expected": {
+      "a": {
+        "nested": [
+          1,
+          1
+        ]
+      },
+      "b": "scalar"
+    }
+  },
+  {
+    "name": "defu 29",
+    "input": {
+      "overrides": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      },
+      "defaults": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      }
+    },
+    "expected": {
+      "__proto__": {
+        "x": 1
+      },
+      "constructor": {
+        "x": 2
+      },
+      "prototype": 3,
+      "safe": null,
+      "a": {
+        "nested": [
+          1
+        ]
+      },
+      "b": "scalar"
+    }
+  },
+  {
+    "name": "defu 30",
+    "input": {
+      "overrides": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      },
+      "defaults": {}
+    },
+    "expected": {
+      "prototype": 3
+    }
+  },
+  {
+    "name": "defu 31",
+    "input": {
+      "overrides": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      },
+      "defaults": {
+        "a": null,
+        "b": false,
+        "c": 0,
+        "d": ""
+      }
+    },
+    "expected": {
+      "a": null,
+      "b": false,
+      "c": 0,
+      "d": "",
+      "prototype": 3
+    }
+  },
+  {
+    "name": "defu 32",
+    "input": {
+      "overrides": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      },
+      "defaults": {
+        "a": [
+          1
+        ],
+        "b": {
+          "keep": true,
+          "nested": {
+            "x": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": [
+        1
+      ],
+      "b": {
+        "keep": true,
+        "nested": {
+          "x": null
+        }
+      },
+      "prototype": 3
+    }
+  },
+  {
+    "name": "defu 33",
+    "input": {
+      "overrides": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      },
+      "defaults": {
+        "a": [
+          2,
+          3
+        ],
+        "b": {
+          "keep": null,
+          "nested": {
+            "y": 4
+          }
+        }
+      }
+    },
+    "expected": {
+      "a": [
+        2,
+        3
+      ],
+      "b": {
+        "keep": null,
+        "nested": {
+          "y": 4
+        }
+      },
+      "prototype": 3
+    }
+  },
+  {
+    "name": "defu 34",
+    "input": {
+      "overrides": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      },
+      "defaults": {
+        "a": {
+          "nested": [
+            1
+          ]
+        },
+        "b": "scalar"
+      }
+    },
+    "expected": {
+      "a": {
+        "nested": [
+          1
+        ]
+      },
+      "b": "scalar",
+      "prototype": 3
+    }
+  },
+  {
+    "name": "defu 35",
+    "input": {
+      "overrides": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      },
+      "defaults": {
+        "__proto__": {
+          "x": 1
+        },
+        "constructor": {
+          "x": 2
+        },
+        "prototype": 3,
+        "safe": null
+      }
+    },
+    "expected": {
+      "__proto__": {
+        "x": 1
+      },
+      "constructor": {
+        "x": 2
+      },
+      "prototype": 3,
+      "safe": null
+    }
+  }
+]

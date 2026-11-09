@@ -1,0 +1,1645 @@
+[
+  {
+    "name": "variant 0",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": null
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 1",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": []
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 2",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": false
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 3",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": 1
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 4",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": ""
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x must be an object"
+      ],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 5",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {}
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 6",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 7",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "name": 123,
+        "colors": {
+          "primary": false
+        },
+        "customCSS": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.name must be a string",
+        "variants.ember.x.customCSS must be a string or object",
+        "variants.ember.x.colors.primary must be a CSS string or number"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 8",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "sounds": {
+          "enabled": "yes",
+          "volume": 2,
+          "events": {
+            "unknown": [],
+            "redo": {}
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.sounds.enabled must be a boolean",
+        "variants.ember.x.sounds.volume must be a number between 0 and 1",
+        "variants.ember.x.sounds.events.redo.file must be a non-empty sound file string"
+      ],
+      "warnings": [
+        "variants.ember.x.sounds.events.unknown is not a supported sound event; event will be ignored",
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 9",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "cssFile": "../bad.css",
+        "supportsTransparency": 42,
+        "metadata": [],
+        "transparency": null,
+        "id": false
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 10",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "name": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.name must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 11",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "name": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.name must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 12",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "name": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.name must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 13",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "name": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.name must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 14",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "name": ""
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 15",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "name": {}
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.name must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 16",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "name": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.name must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 17",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "description": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.description must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 18",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "description": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.description must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 19",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "description": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.description must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 20",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "description": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.description must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 21",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "description": ""
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 22",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "description": {}
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.description must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 23",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "description": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.description must be a string"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 24",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "customCSS": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.customCSS must be a string or object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 25",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "customCSS": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.customCSS must be a string or object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 26",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "customCSS": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.customCSS must be a string or object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 27",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "customCSS": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.customCSS must be a string or object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 28",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "customCSS": ""
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 29",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "customCSS": {}
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 30",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "customCSS": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.customCSS.nested.bad must be a CSS string or number"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 31",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "sounds": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.sounds must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 32",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "sounds": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.sounds must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 33",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "sounds": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.sounds must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 34",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "sounds": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.sounds must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 35",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "sounds": ""
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.sounds must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 36",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "sounds": {}
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 37",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "sounds": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 38",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "colors": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.colors must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 39",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "colors": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.colors must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 40",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "colors": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.colors must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 41",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "colors": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.colors must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 42",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "colors": ""
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.colors must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 43",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "colors": {}
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 44",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "colors": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.colors.nested.bad must be a CSS string or number"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 45",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "effects": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.effects must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 46",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "effects": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.effects must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 47",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "effects": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.effects must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 48",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "effects": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.effects must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 49",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "effects": ""
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.effects must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 50",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "effects": {}
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 51",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "effects": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 52",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "fonts": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.fonts must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 53",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "fonts": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.fonts must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 54",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "fonts": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.fonts must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 55",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "fonts": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.fonts must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 56",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "fonts": ""
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.fonts must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 57",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "fonts": {}
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 58",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "fonts": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 59",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "styles": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.styles must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 60",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "styles": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.styles must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 61",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "styles": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.styles must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 62",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "styles": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.styles must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 63",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "styles": ""
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.styles must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 64",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "styles": {}
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 65",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "styles": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 66",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "components": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.components must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 67",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "components": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.components must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 68",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "components": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.components must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 69",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "components": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.components must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 70",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "components": ""
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.components must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 71",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "components": {}
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 72",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "components": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 73",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "backgrounds": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.backgrounds must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 74",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "backgrounds": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.backgrounds must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 75",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "backgrounds": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.backgrounds must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 76",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "backgrounds": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.backgrounds must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 77",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "backgrounds": ""
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.backgrounds must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 78",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "backgrounds": {}
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 79",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "backgrounds": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 80",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "layout": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.layout must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 81",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "layout": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.layout must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 82",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "layout": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.layout must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 83",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "layout": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.layout must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 84",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "layout": ""
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.layout must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 85",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "layout": {}
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 86",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "layout": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 87",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "animations": null
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.animations must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 88",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "animations": []
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.animations must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 89",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "animations": false
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.animations must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 90",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "animations": 0
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.animations must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 91",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "animations": ""
+      }
+    },
+    "expected": {
+      "errors": [
+        "variants.ember.x.animations must be an object"
+      ],
+      "warnings": [
+        "Skipping invalid variant base/ember.x"
+      ]
+    }
+  },
+  {
+    "name": "variant 92",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "animations": {}
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "variant 93",
+    "input": {
+      "themeId": "base",
+      "variantId": "ember.x",
+      "config": {
+        "animations": {
+          "nested": {
+            "bad": null
+          }
+        }
+      }
+    },
+    "expected": {
+      "errors": [],
+      "warnings": []
+    }
+  }
+]
