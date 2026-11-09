@@ -1,0 +1,636 @@
+{
+  "provenance": {
+    "sourceHashes": {
+      "src/main/utils/jsonStorage.ts": "cf4c06f7ef2d96c33b7c1b43df71809b52c18cce4103a63f3e8e3531f9dffbd6",
+      "src/main/ipc/storageIpc.ts": "80e8ba3ff65faef06ddbbe98249ef454c0082b2d0ca49b46d2d7346f7609f3bf",
+      "src/main/storage/runtimeDataBootstrap.ts": "1dc56501d3ee936506baa9eb58f4f434bd67efcdd27145ea5e8d6f365b1a07b9",
+      "node_modules/destr/dist/index.mjs": "0e8124257d21e0f4ef6af2abbd636f48e9fb39a428efcb741420fe390a4b8f5e"
+    },
+    "destrVersion": "2.0.5"
+  },
+  "parse": [
+    {
+      "input": "",
+      "status": "invalid"
+    },
+    {
+      "input": "   ",
+      "status": "invalid"
+    },
+    {
+      "input": "{",
+      "status": "invalid"
+    },
+    {
+      "input": "{\"tasks\":[",
+      "status": "invalid"
+    },
+    {
+      "input": "hello",
+      "status": "invalid"
+    },
+    {
+      "input": "true",
+      "status": "ok",
+      "pretty": "true"
+    },
+    {
+      "input": " TRUE ",
+      "status": "ok",
+      "pretty": "true"
+    },
+    {
+      "input": "FaLsE",
+      "status": "ok",
+      "pretty": "false"
+    },
+    {
+      "input": " NULL ",
+      "status": "ok",
+      "pretty": "null"
+    },
+    {
+      "input": "﻿true",
+      "status": "ok",
+      "pretty": "true"
+    },
+    {
+      "input": "﻿{}",
+      "status": "invalid"
+    },
+    {
+      "input": " null",
+      "status": "ok",
+      "pretty": "null"
+    },
+    {
+      "input": " {}",
+      "status": "invalid"
+    },
+    {
+      "input": "undefined",
+      "status": "unsupported",
+      "reason": "undefined"
+    },
+    {
+      "input": "UNDEFINED",
+      "status": "unsupported",
+      "reason": "undefined"
+    },
+    {
+      "input": "NaN",
+      "status": "unsupported",
+      "reason": "NaN"
+    },
+    {
+      "input": "Infinity",
+      "status": "unsupported",
+      "reason": "Infinity"
+    },
+    {
+      "input": "-Infinity",
+      "status": "unsupported",
+      "reason": "-Infinity"
+    },
+    {
+      "input": "1e400",
+      "status": "unsupported",
+      "reason": "Infinity"
+    },
+    {
+      "input": "0",
+      "status": "ok",
+      "pretty": "0"
+    },
+    {
+      "input": "-0",
+      "status": "ok",
+      "pretty": "0"
+    },
+    {
+      "input": "1.25",
+      "status": "ok",
+      "pretty": "1.25"
+    },
+    {
+      "input": "1749938954072.5596",
+      "status": "ok",
+      "pretty": "1749938954072.5596"
+    },
+    {
+      "input": "12345678901234567",
+      "status": "invalid"
+    },
+    {
+      "input": "1234567890123456",
+      "status": "ok",
+      "pretty": "1234567890123456"
+    },
+    {
+      "input": "0.123456789012345678",
+      "status": "invalid"
+    },
+    {
+      "input": "01",
+      "status": "invalid"
+    },
+    {
+      "input": "+1",
+      "status": "invalid"
+    },
+    {
+      "input": ".5",
+      "status": "invalid"
+    },
+    {
+      "input": "1.",
+      "status": "invalid"
+    },
+    {
+      "input": "1e-7",
+      "status": "ok",
+      "pretty": "1e-7"
+    },
+    {
+      "input": "1e21",
+      "status": "ok",
+      "pretty": "1e+21"
+    },
+    {
+      "input": "\"raw\nline\"",
+      "status": "ok",
+      "pretty": "\"raw\\nline\""
+    },
+    {
+      "input": "\"inner\"quote\"",
+      "status": "ok",
+      "pretty": "\"inner\\\"quote\""
+    },
+    {
+      "input": " \"normal\" ",
+      "status": "ok",
+      "pretty": "\"normal\""
+    },
+    {
+      "input": "\"escaped\\nline\"",
+      "status": "ok",
+      "pretty": "\"escaped\\nline\""
+    },
+    {
+      "input": "\"\\ud800\"",
+      "status": "unsupported",
+      "reason": "unpaired surrogate"
+    },
+    {
+      "input": "[1,true,null]",
+      "status": "ok",
+      "pretty": "[\n  1,\n  true,\n  null\n]"
+    },
+    {
+      "input": "{\"b\":1,\"2\":2,\"1\":1,\"a\":0}",
+      "status": "ok",
+      "pretty": "{\n  \"1\": 1,\n  \"2\": 2,\n  \"b\": 1,\n  \"a\": 0\n}"
+    },
+    {
+      "input": "{\"__proto__\":{}}",
+      "status": "invalid"
+    },
+    {
+      "input": "{\"constructor\":1}",
+      "status": "invalid"
+    },
+    {
+      "input": "{\"x\":{\"constructor\":null}}",
+      "status": "invalid"
+    },
+    {
+      "input": "{\"\\u005f\\u005fproto__\":1}",
+      "status": "invalid"
+    },
+    {
+      "input": "{\"\\u0063onstructor\":1}",
+      "status": "invalid"
+    },
+    {
+      "input": "{\"Constructor\":1}",
+      "status": "ok",
+      "pretty": "{\n  \"Constructor\": 1\n}"
+    },
+    {
+      "input": "{\"text\":\"__proto__\"}",
+      "status": "ok",
+      "pretty": "{\n  \"text\": \"__proto__\"\n}"
+    },
+    {
+      "input": "{\"large\":9007199254740993}",
+      "status": "ok",
+      "pretty": "{\n  \"large\": 9007199254740992\n}"
+    },
+    {
+      "input": "{\"a\":1,\"a\":2}",
+      "status": "ok",
+      "pretty": "{\n  \"a\": 2\n}"
+    },
+    {
+      "input": "{\"x\":1e400}",
+      "status": "unsupported",
+      "reason": "nested nonfinite"
+    },
+    {
+      "input": "[\"\\ud800\"]",
+      "status": "unsupported",
+      "reason": "unpaired surrogate"
+    }
+  ],
+  "writes": [
+    {
+      "value": {
+        "tasks": [
+          {
+            "id": 1749938954072.5596,
+            "text": "雪 👁\n\t\u0001",
+            "completed": false
+          }
+        ],
+        "currentTemplate": null,
+        "snapshots": []
+      },
+      "bytes": "{\n  \"tasks\": [\n    {\n      \"id\": 1749938954072.5596,\n      \"text\": \"雪 👁\\n\\t\\u0001\",\n      \"completed\": false\n    }\n  ],\n  \"currentTemplate\": null,\n  \"snapshots\": []\n}"
+    },
+    {
+      "value": {
+        "2": "two",
+        "10": "ten",
+        "b": 1,
+        "01": "not index",
+        "4294967295": "not index",
+        "a": {}
+      },
+      "bytes": "{\n  \"2\": \"two\",\n  \"10\": \"ten\",\n  \"b\": 1,\n  \"01\": \"not index\",\n  \"4294967295\": \"not index\",\n  \"a\": {}\n}"
+    },
+    {
+      "value": [
+        0,
+        0,
+        1,
+        1.5,
+        1e-7,
+        0.000001,
+        100000000000000000000,
+        1e+21,
+        333333333.3333333,
+        0.0000123456789012345
+      ],
+      "bytes": "[\n  0,\n  0,\n  1,\n  1.5,\n  1e-7,\n  0.000001,\n  100000000000000000000,\n  1e+21,\n  333333333.3333333,\n  0.0000123456789012345\n]"
+    },
+    {
+      "value": {
+        "quote": "\"\\",
+        "line": "  ",
+        "nested": [
+          [],
+          {},
+          null
+        ]
+      },
+      "bytes": "{\n  \"quote\": \"\\\"\\\\\",\n  \"line\": \"  \",\n  \"nested\": [\n    [],\n    {},\n    null\n  ]\n}"
+    },
+    {
+      "value": null,
+      "bytes": "null"
+    },
+    {
+      "value": [],
+      "bytes": "[]"
+    },
+    {
+      "value": {},
+      "bytes": "{}"
+    },
+    {
+      "value": "text",
+      "bytes": "\"text\""
+    },
+    {
+      "value": true,
+      "bytes": "true"
+    }
+  ],
+  "missing": [
+    {
+      "kind": "tasks",
+      "value": {
+        "tasks": [],
+        "currentTemplate": null,
+        "snapshots": []
+      },
+      "files": []
+    },
+    {
+      "kind": "templates",
+      "value": [],
+      "files": []
+    },
+    {
+      "kind": "settings",
+      "value": null,
+      "files": []
+    }
+  ],
+  "recovery": [
+    {
+      "kind": "tasks",
+      "case": 0,
+      "input": [],
+      "value": {
+        "tasks": [],
+        "currentTemplate": null,
+        "snapshots": [],
+        "corruptBackupPath": "current_tasks.json.corrupt-2026-07-24T12-34-56-789Z"
+      },
+      "backup": [],
+      "live": "{\n  \"tasks\": [],\n  \"currentTemplate\": null,\n  \"snapshots\": []\n}"
+    },
+    {
+      "kind": "tasks",
+      "case": 1,
+      "input": [
+        123,
+        34,
+        116,
+        97,
+        115,
+        107,
+        115,
+        34,
+        58,
+        91
+      ],
+      "value": {
+        "tasks": [],
+        "currentTemplate": null,
+        "snapshots": [],
+        "corruptBackupPath": "current_tasks.json.corrupt-2026-07-24T12-34-56-789Z"
+      },
+      "backup": [
+        123,
+        34,
+        116,
+        97,
+        115,
+        107,
+        115,
+        34,
+        58,
+        91
+      ],
+      "live": "{\n  \"tasks\": [],\n  \"currentTemplate\": null,\n  \"snapshots\": []\n}"
+    },
+    {
+      "kind": "tasks",
+      "case": 2,
+      "input": [
+        255,
+        254,
+        123
+      ],
+      "value": {
+        "tasks": [],
+        "currentTemplate": null,
+        "snapshots": [],
+        "corruptBackupPath": "current_tasks.json.corrupt-2026-07-24T12-34-56-789Z"
+      },
+      "backup": [
+        255,
+        254,
+        123
+      ],
+      "live": "{\n  \"tasks\": [],\n  \"currentTemplate\": null,\n  \"snapshots\": []\n}"
+    },
+    {
+      "kind": "templates",
+      "case": 0,
+      "input": [],
+      "value": [],
+      "backup": [],
+      "live": "[]"
+    },
+    {
+      "kind": "templates",
+      "case": 1,
+      "input": [
+        123,
+        34,
+        116,
+        97,
+        115,
+        107,
+        115,
+        34,
+        58,
+        91
+      ],
+      "value": [],
+      "backup": [
+        123,
+        34,
+        116,
+        97,
+        115,
+        107,
+        115,
+        34,
+        58,
+        91
+      ],
+      "live": "[]"
+    },
+    {
+      "kind": "templates",
+      "case": 2,
+      "input": [
+        255,
+        254,
+        123
+      ],
+      "value": [],
+      "backup": [
+        255,
+        254,
+        123
+      ],
+      "live": "[]"
+    },
+    {
+      "kind": "settings",
+      "case": 0,
+      "input": [],
+      "value": null,
+      "backup": [],
+      "live": "null"
+    },
+    {
+      "kind": "settings",
+      "case": 1,
+      "input": [
+        123,
+        34,
+        116,
+        97,
+        115,
+        107,
+        115,
+        34,
+        58,
+        91
+      ],
+      "value": null,
+      "backup": [
+        123,
+        34,
+        116,
+        97,
+        115,
+        107,
+        115,
+        34,
+        58,
+        91
+      ],
+      "live": "null"
+    },
+    {
+      "kind": "settings",
+      "case": 2,
+      "input": [
+        255,
+        254,
+        123
+      ],
+      "value": null,
+      "backup": [
+        255,
+        254,
+        123
+      ],
+      "live": "null"
+    }
+  ],
+  "bootstrap": [
+    {
+      "scenario": "bundled",
+      "sources": {
+        "current_tasks.json": "{\"tasks\":[{\"text\":\"Welcome\",\"id\":1749938954072.5596}],\"currentTemplate\":\"Starter\"}",
+        "templates.json": "[{\"name\":\"Starter\",\"tasks\":[]}]",
+        "settings.json": "{\"theme\":\"DO NOT COPY\"}"
+      },
+      "existing": {},
+      "settings": {
+        "settingsVersion": 2,
+        "transparency": 70,
+        "theme": "echosight",
+        "hotkeys": {
+          "toggleVisibility": "CommandOrControl+Shift+T",
+          "toggleInteractive": "CommandOrControl+Shift+I",
+          "completeNextTask": "CommandOrControl+Shift+N",
+          "undoLastAction": "CommandOrControl+Shift+Z",
+          "redoLastAction": "CommandOrControl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": false,
+          "volume": 60
+        }
+      },
+      "files": {
+        "current_tasks.json": "{\n  \"tasks\": [\n    {\n      \"text\": \"Welcome\",\n      \"id\": 1749938954072.5596\n    }\n  ],\n  \"currentTemplate\": \"Starter\"\n}",
+        "templates.json": "[\n  {\n    \"name\": \"Starter\",\n    \"tasks\": []\n  }\n]",
+        "settings.json": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"CommandOrControl+Shift+T\",\n    \"toggleInteractive\": \"CommandOrControl+Shift+I\",\n    \"completeNextTask\": \"CommandOrControl+Shift+N\",\n    \"undoLastAction\": \"CommandOrControl+Shift+Z\",\n    \"redoLastAction\": \"CommandOrControl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}"
+      }
+    },
+    {
+      "scenario": "missing",
+      "sources": {},
+      "existing": {},
+      "settings": {
+        "settingsVersion": 2,
+        "transparency": 70,
+        "theme": "echosight",
+        "hotkeys": {
+          "toggleVisibility": "CommandOrControl+Shift+T",
+          "toggleInteractive": "CommandOrControl+Shift+I",
+          "completeNextTask": "CommandOrControl+Shift+N",
+          "undoLastAction": "CommandOrControl+Shift+Z",
+          "redoLastAction": "CommandOrControl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": false,
+          "volume": 60
+        }
+      },
+      "files": {
+        "current_tasks.json": "{\n  \"tasks\": [],\n  \"currentTemplate\": null,\n  \"snapshots\": []\n}",
+        "templates.json": "[]",
+        "settings.json": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"CommandOrControl+Shift+T\",\n    \"toggleInteractive\": \"CommandOrControl+Shift+I\",\n    \"completeNextTask\": \"CommandOrControl+Shift+N\",\n    \"undoLastAction\": \"CommandOrControl+Shift+Z\",\n    \"redoLastAction\": \"CommandOrControl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}"
+      }
+    },
+    {
+      "scenario": "corrupt",
+      "sources": {
+        "current_tasks.json": "{",
+        "templates.json": ""
+      },
+      "existing": {},
+      "settings": {
+        "settingsVersion": 2,
+        "transparency": 70,
+        "theme": "echosight",
+        "hotkeys": {
+          "toggleVisibility": "CommandOrControl+Shift+T",
+          "toggleInteractive": "CommandOrControl+Shift+I",
+          "completeNextTask": "CommandOrControl+Shift+N",
+          "undoLastAction": "CommandOrControl+Shift+Z",
+          "redoLastAction": "CommandOrControl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": false,
+          "volume": 60
+        }
+      },
+      "files": {
+        "current_tasks.json": "{\n  \"tasks\": [],\n  \"currentTemplate\": null,\n  \"snapshots\": []\n}",
+        "templates.json": "[]",
+        "settings.json": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"CommandOrControl+Shift+T\",\n    \"toggleInteractive\": \"CommandOrControl+Shift+I\",\n    \"completeNextTask\": \"CommandOrControl+Shift+N\",\n    \"undoLastAction\": \"CommandOrControl+Shift+Z\",\n    \"redoLastAction\": \"CommandOrControl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}"
+      }
+    },
+    {
+      "scenario": "existing",
+      "sources": {},
+      "existing": {
+        "current_tasks.json": "{CORRUPT but preserve",
+        "templates.json": "",
+        "settings.json": "{\"theme\":\"existing\"}"
+      },
+      "settings": {
+        "settingsVersion": 2,
+        "transparency": 70,
+        "theme": "echosight",
+        "hotkeys": {
+          "toggleVisibility": "CommandOrControl+Shift+T",
+          "toggleInteractive": "CommandOrControl+Shift+I",
+          "completeNextTask": "CommandOrControl+Shift+N",
+          "undoLastAction": "CommandOrControl+Shift+Z",
+          "redoLastAction": "CommandOrControl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": false,
+          "volume": 60
+        }
+      },
+      "files": {
+        "current_tasks.json": "{CORRUPT but preserve",
+        "templates.json": "",
+        "settings.json": "{\"theme\":\"existing\"}"
+      }
+    }
+  ]
+}
