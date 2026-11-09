@@ -28,13 +28,19 @@ storage queue is process-local, not a cross-process lock.
 - One active task/quit dialog. Danger dialogs focus Cancel, ignore Enter on
   destructive confirmation, support explicit click/Space confirmation, cancel on
   Escape, trap Tab/Shift+Tab, and restore focus. Deleting a focused row returns
-  focus to the composer so local undo remains reachable.
+  focus to the composer so local undo remains reachable. Dialog height follows
+  the logical window viewport; the message/form body scrolls independently while
+  the title and footer stay visible. Long loaded delete names are preserved in
+  both the displayed warning and its accessibility label. Modal wheel events do
+  not scroll the task list behind the overlay.
 - Undo/redo buttons and window-local Ctrl/Cmd+Shift+Z / Ctrl/Cmd+Shift+Y.
   Core history/snapshot limits are unchanged.
 - Pointer drag from row text: drag threshold, midpoint/half-width intent,
   nest/reorder/promote/sibling moves, nearest center snapping strictly within
   50px, rejection outside the visible list and for self/descendant/cross-list or
   ambiguous targets. Core validates moves again. Escape cancels a drag.
+  Opening any task/quit modal discards an active drag, including a platform
+  window-close request; one Escape then cancels the modal, not a stale drag.
   The labelled insertion placeholder is an overlay on the target row, rather
   than a layout-displacing row; this keeps hit geometry stable.
 - Rows use stable unique-ID keys; duplicate IDs get structural suffixes to avoid
@@ -96,8 +102,8 @@ On Linux, after applying the host's existing uncommitted GPUI build shim:
 
 - `cargo fmt --all --check`
 - `cargo clippy --locked --workspace --all-targets -- -D warnings`
-- `cargo test --locked --workspace`: **103 passing Rust test functions**, including
-  **43 UI tests**. New application coverage is **19 dispatched GPUI tests + 1
+- `cargo test --locked --workspace`: **106 passing Rust test functions**, including
+  **46 UI tests**. Application coverage is **22 dispatched GPUI tests + 1
   pure bootstrap test**, plus **1 executable argument test**.
 - `cargo check --locked -p echosight --all-targets --target x86_64-pc-windows-msvc`
 - `cargo check --locked -p echosight-platform --all-targets --target x86_64-pc-windows-msvc`
@@ -115,6 +121,27 @@ Persistence completion uses GPUI executor/notification conditions, **no sleeps**
 I/O probes wrap reviewed Storage hooks and inspect real written files; they do
 not replace the file store. Test regressions caught stale scrolled viewport
 bounds and missing editor selection; both now run against the production view.
+
+Review-blocker regressions were run RED before the fixes: the loaded
+`"word ".repeat(1000)` delete warning put Cancel at y=1518 in a 500×700
+logical viewport at 1×, and one Escape after an active pointer drag followed by
+`simulate_close()` left the Quit modal open. All three added regressions now
+pass through dispatched GPUI input against the production view:
+
+- Open Delete with nine Tabs and Space; resize the live modal between 500×700
+  and 450×600 at scale factors 1, 1.5 and 2. Measure both footer controls inside
+  the window, verify default Cancel focus, Tab/Shift+Tab trap and ignored
+  destructive Enter, wheel through the complete warning without moving footer
+  or underlying rows, click Cancel/Delete, Escape-cancel, undo, and read back
+  the full stored name. The production message element's AccessKit label is checked
+  directly because the headless test platform has no active AccessKit adapter;
+  this is not native screen-reader acceptance.
+- Start a real dispatched mouse drag with a valid drop intent, invoke the
+  registered platform close callback via `simulate_close()`, then dispatch one
+  Escape. The Quit dialog and drag are both gone; continued pointer movement
+  and release cannot mutate tasks or write disk.
+- Open Quit, Child, Edit and Delete by dispatched keyboard while a pointer drag
+  is active; each opening discards the drag and Escape dismisses the modal.
 
 ## Still unsupported / integration handoff
 
@@ -142,5 +169,8 @@ subtask; edit with selection; mark Done and verify progress; cancel and confirm
 Delete; undo/redo locally; drag a sibling onto the lower-right half, promote it
 to a root and reorder above/below; reject own-descendant and cross-list drops;
 wait for Saved, quit and relaunch. Check eye branding, 450×600 layout, tab focus,
-clipboard/IME and DPI on the actual Windows desktop. Do not mark these passed
+clipboard/IME and DPI on the actual Windows desktop. Also load a long task name,
+open Delete via keyboard, scroll its entire warning and verify both footer
+controls at minimum size; during a drag, request native window close and check
+that one Escape dismisses Quit without a later drop. Do not mark these passed
 from the cross-compile result.
