@@ -1,6 +1,6 @@
 # Phase 1 recovery checkpoint
 
-Status: combined candidate on `gpui-port-phase1-recovery`, not yet approved or landed on `gpui-port`. This is a partial core port and S5 evaluation, not a runnable replacement application.
+Status: locally verified and independently reviewed candidate on `gpui-port-phase1-recovery`, not yet landed on `gpui-port`. This is a partial core port and S5 evaluation, not a runnable replacement application.
 
 ## Frozen candidates
 
@@ -22,6 +22,14 @@ The original interrupted work was preserved and completed in separate worktrees.
 - Regenerated each oracle on the combined tree using the three isolated `tools/golden/vitest.*.config.ts` files: tasks 31 tests, storage 20 tests, themes 10 tests passed. `git diff --exit-code -- crates/echosight-core/tests/golden` was clean afterward.
 - Added-line scan of `crates/` and `tools/`: no secret-literal matches, local agent/shim paths, unsafe blocks or dynamic-eval matches.
 - Independent read-only reviews approved the bounded storage and S5 input slices. Task review reproduced a complete-next bug with colliding generated IDs: re-finding by ID mutates the first task instead of the selected leaf. Theme review found the helper parity claim overbroad for JavaScript prototype-property names, outside normal extension inputs; it also requested explicit nonfinite comparator encoding and provenance enforcement. Task/theme corrections are in progress on their original topic branches. Do not push this candidate or claim acceptance until those changes are reviewed and combined gates rerun.
+
+### Review corrections and second combined gate
+
+- Integrated task correction `9fe22b358524d3ef2971a8ac029a02247b367a33`: complete-next retains the selected leaf's structural path. Root and nested collisions were captured by executing TS with repeated clock/random inputs; both failed before the fix. Existing ID generation and parent-completion quirks remain unchanged.
+- Integrated theme correction `49e44f8800d7ebe6f456729608bdddd23696cb8d`: genuine extension-only MIME boundary is exercised through actual TS discovery; prototype-name probes are recorded separately, not falsely serialized as MIME strings. Comparator fixtures now classify finite/NaN/infinity outputs; provenance check rejects stale source/dependency/fixture bytes.
+- Parent reran combined fmt, strict workspace/all-target clippy, workspace tests and Windows all-target cross-check with `--locked`: passed. **82 Rust tests** passed (36 core, 23 platform, 23 UI).
+- Parent reran isolated TS suites: tasks 33, storage 20, themes 15. Themes used `THEMES_GOLDEN_CHECK=1` (no rewrite); the full fixture diff remained clean.
+- Targeted independent re-review approved both corrections and the combined merge contents at `8b7b71f`: reviewed source/fixture blobs match the topic commits, module exports are the complete union and the lockfile delta is limited to the required storage dependencies. No remaining review blockers. Local acceptance is complete for these bounded slices; remote CI, Windows linking and native acceptance are separate gates.
 
 Local Linux/Windows cross-check commands require the existing machine-local shim. It is not part of the repository. Build caches are disposable and are not acceptance artifacts.
 
