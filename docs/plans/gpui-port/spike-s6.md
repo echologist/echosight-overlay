@@ -2,13 +2,16 @@
 
 Branch: merged into `gpui-port` (developed on `gpui-port-spike-support`). Crate: `echosight-platform`.
 
-Status: **partial on Windows (2026-11-09, Milan)**. Single instance acquired
+Status: **passed on Windows (2026-11-09, Milan, second build)**. Single instance acquired
 (`Local\Echosight.SingleInstance` + `\\.\pipe\echosight-reveal`) and the process scan ran
 (`matching processes: none`). Audio and tray did **not** run: the first build resolved
 `complete.wav` and `tray-icon.ico` through the build machine's `CARGO_MANIFEST_DIR`
 (`D:\a\echosight-overlay\...`, os error 3 on the test PC). Fixed by embedding both assets with
-`include_bytes!`; steps 2, 7 and 8 need a re-run with the rebuilt exe. Lesson: spike binaries
-never read repo paths at runtime.
+`include_bytes!`. Re-run of the rebuilt exe (2026-11-09, Milan): **audio and tray work**, so S6 passes.
+Observation: playback at `volume 0.5` was perceived as very loud. Perceived loudness of rodio's
+linear gain versus Chromium's `HTMLAudioElement.volume` at the same number is unverified; Phase 4
+must A/B the GPUI build against Electron 2.1.1 at the default 60 % and pick a calibration factor
+(or a perceptual curve) if they differ. Lesson: spike binaries never read repo paths at runtime.
 
 ## Purpose
 

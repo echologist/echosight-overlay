@@ -271,7 +271,7 @@ Gate: `docs/plans/gpui-port/parity-ui.md` checklist (every bullet of renderer in
 - `hotkeys.rs`: `global-hotkey` manager; converts `CommandOrControl+Shift+T` strings to `HotKey` (Ctrl on Win/Linux, Cmd on mac); registration report logged exactly like today; suspend/resume for recording.
 - `game_monitor.rs`: `sysinfo` refresh of process names every 3 s on a background thread, channel to the app; same `pathofexile` normalisation; `onStarted/onStopped/onStillRunning` semantics.
 - `single_instance.rs`: Windows named mutex `Local\Echosight.SingleInstance` + a named pipe/`WM_COPYDATA` to signal reveal; Linux/mac abstract unix socket at `$XDG_RUNTIME_DIR/echosight.sock`.
-- `audio.rs`: `rodio` `OutputStream` lazily created; cache decoded sounds per event; volume from core.
+- `audio.rs`: `rodio` `OutputStream` lazily created; cache decoded sounds per event; volume from core. **Loudness calibration**: S6 at gain 0.5 was perceived as very loud on Windows; A/B against Electron 2.1.1 at the default 60 % and add a calibration factor or perceptual curve so the same settings sound the same.
 - `tray.rs`: `tray-icon` on Windows only for parity (menu Show / Hide / Exit, tooltip `Echosight`, click = show); feature-flag `tray-everywhere` for later.
 - `app_menu.rs`: macOS menu with the 5 hotkey items + Quit (GPUI `cx.set_menus`).
 - `main.rs` sequence mirrors `index.ts`: single-instance check, data bootstrap, theme sync + load, settings load + hotkey normalise, open window (hidden), register hotkeys after first frame (no 2 s sleep needed; log registration result), start monitor, tray, show after first paint; lifecycle handlers (`on_window_closed`, mac reopen, quit cleanup).
