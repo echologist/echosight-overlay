@@ -1,0 +1,191 @@
+// Real shipped TS is the oracle. No Electron, DOM, or existing fixtures are changed.
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { expect, test, vi } from 'vitest';
+import * as domain from '../../src/renderer/features/tasks/taskTemplates';
+import * as ops from '../../src/renderer/features/templates/templateOperations';
+import { COMMUNITY_TEMPLATES, createCommunityTemplateTasks } from '../../src/renderer/features/templates/communityTemplates';
+import { createCommunityTemplatePreview } from '../../src/renderer/features/templates/communityTemplatesUi';
+import { loadTemplateState, saveTemplateState } from '../../src/renderer/features/templates/templatePersistence';
+import type { EchosightApi, Task, TaskTemplate, TemplateTask } from '../../src/shared/types';
+
+const output = 'crates/echosight-core/tests/golden/templates';
+const sources = [
+  'src/renderer/features/tasks/taskTemplates.ts',
+  'src/renderer/features/tasks/taskCreation.ts',
+  'src/renderer/features/tasks/taskGuards.ts',
+  'src/renderer/features/tasks/taskTree.ts',
+  'src/renderer/features/templates/templateOperations.ts',
+  'src/renderer/features/templates/templatePersistence.ts',
+  'src/renderer/features/templates/communityTemplates.ts',
+  'src/renderer/features/templates/communityTemplatesUi.ts',
+  'node_modules/destr/dist/index.mjs',
+  'tools/golden/templates.gen.test.ts',
+  'tools/golden/vitest.templates.config.ts'
+];
+const nowMs = 1749938954072;
+const nowIso = new Date(nowMs).toISOString();
+const randoms = [0.123, 0.999, 0, 0.5, 0.5];
+const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value));
+type Case = { name: string; op: string; input: any; expected: any; randoms: number[] };
+
+function checkedBytes(recorded: string, generated: string): void {
+  expect(recorded, 'stale template oracle; regenerate explicitly').toBe(generated);
+}
+function sourceHashes(): Record<string, string> {
+  return Object.fromEntries(sources.map(file => [file,
+    createHash('sha256').update(readFileSync(file)).digest('hex')]));
+}
+
+test('freshness comparison rejects changed fixture and source bytes', () => {
+  expect(() => checkedBytes('old', 'new')).toThrow();
+  const hashes = sourceHashes();
+  expect(() => checkedBytes(JSON.stringify(hashes), JSON.stringify({ ...hashes,
+    [sources[0]]: 'changed source' }))).toThrow();
+});
+
+test('generate template normalization, transfer, operations, persistence and community oracles', async () => {
+  const cases: Case[] = [];
+  let randomIndex = 0;
+  let entropy = randoms;
+  vi.useFakeTimers();
+  vi.setSystemTime(nowMs);
+  expect(new Date().toISOString()).toBe(nowIso);
+  vi.spyOn(Math, 'random').mockImplementation(() => entropy[randomIndex++ % entropy.length]);
+  const add = (name: string, op: string, input: any, run: () => any, repeats = false) => {
+    entropy = repeats ? [0.5] : randoms;
+    randomIndex = 0;
+    // Clone NOW, not after later mutations to referenced tasks/templates.
+    const expected = clone(run());
+    cases.push({ name, op, input: clone(input), expected, randoms: clone(entropy) });
+  };
+  const task = (id: number, text: string, extra: Partial<Task> = {}): Task => ({
+    id, text, completed: false, createdAt: nowIso, children: [], mode: 'main',
+    triggers: [], activated: true, activatedAt: null, backgroundOptions: null, ...extra
+  });
+  const template = (name: string, tasks: TemplateTask[], id = 1): TaskTemplate => ({
+    id, name, tasks, createdAt: nowIso
+  });
+  try {
+    for (const input of [null, false, 7, [], {}, '', '  text  ', '\uFEFFx\u00a0', '\u0085x\u0085',
+      { text: 'parent', children: [' child ', null, 42, { text: 'deep', children: ['leaf'] }] },
+      { text: 'x', mode: 'background', backgroundOptions: { expiresAfterMinutes: '0.9', priority: 'high' },
+        triggerIndices: [0, '1', true, null, false, '', [], [2], [true], {}, -1, 1.5, '1e30', 'Infinity', 0] },
+      { text: 'x', mode: 'MAIN', backgroundOptions: true },
+      { text: 'x', backgroundOptions: null }, { text: 'x', backgroundOptions: [] },
+      { text: 'x', backgroundOptions: {}, children: [], triggerIndices: [] },
+      { text: 'x', children: [{ text: ' ', children: ['discarded'] }], extra: 'discarded' }
+    ]) add(`normalize task ${JSON.stringify(input)}`, 'normalizeTask', input,
+      () => domain.normalizeTemplateTask(input));
+    for (const value of [null, false, 0, '3.9', -1, 'Infinity', [], [5]]) {
+      const input = { text: 'bg', backgroundOptions: { expiresAfterMinutes: value, priority: 'other' } };
+      add(`options ${JSON.stringify(value)}`, 'normalizeTask', input, () => domain.normalizeTemplateTask(input));
+    }
+    for (const input of [null, [], {}, { name: ' ', tasks: ['one', false, { text: 'two' }] },
+      { name: 'x'.repeat(60), tasks: ['y'.repeat(210), '😀'.repeat(100)] }]) {
+      add('normalize data ' + JSON.stringify(input), 'normalizeData', input, () => domain.normalizeTemplateData(input));
+    }
+    for (const id of [null, '', '0x10', '17.5', true, [], [3], {}, 'no', 'Infinity']) {
+      const input = { id, name: ' Saved ', tasks: [' a ', ''], createdAt: ' untouched date ', imported: true, community: true };
+      add('saved id ' + JSON.stringify(id), 'normalizeSaved', input, () => domain.normalizeSavedTemplate(input));
+    }
+    for (const input of [null, [], 5, {}, { tasks: [] }, { tasks: ['x'], imported: 1, community: 'true', createdAt: ' ' },
+      { id: 0, tasks: ['x'], createdAt: null }, { tasks: ['x'], createdAt: 99 }]) {
+      add('saved shape ' + JSON.stringify(input), 'normalizeSaved', input, () => domain.normalizeSavedTemplate(input));
+    }
+    const collection = [null, { tasks: [] }, { id: null, tasks: ['x'] }, { tasks: ['y'] }, { tasks: ['z'] }];
+    for (const input of [null, {}, collection]) add('collection ' + JSON.stringify(input), 'normalizeCollection', input,
+      () => domain.normalizeTemplateCollection(input), true);
+    for (const input of ['', ' ', '\uFEFF', '0', '-0', ' 0x10 ', '0b11', '0o10', '1.25', '1e3', 'Infinity', 'NaN', 'no', '\u0085']) {
+      add('parse id ' + input, 'parseId', input, () => ops.parseTemplateId(input));
+    }
+    for (const input of ['Hello World!', ' HC/SSF Priorities ', '---', '你好', 'İSTANBUL', 'A_2.0', 'Σigma', 'Kelvin']) {
+      add('filename ' + input, 'filename', input, () => ops.createTemplateExportFilename(input));
+    }
+    const inputs: { text?: string; pad?: number; suffix?: string }[] = [
+      ...['', ' \uFEFF ', 'bad', 'true', 'null', 'undefined', 'NaN', 'Infinity', '[]', '{}',
+        '{"name":1,"tasks":["x"]}', '{"name":"x","tasks":{}}', '{"name":"x","tasks":[]}',
+        '{"name":"x","tasks":[null,7," "]}', '{"name":" ","tasks":[" a ",{"text":"b","children":["c"]}]}',
+        '{"name":"x","tasks":["x"],"__proto__":{}}',
+        '{"name":"x","tasks":["x"],"constructor":{}}',
+        '\uFEFF {"name":"x","tasks":["x"]} \u00a0',
+        '"unescaped"inside"'].map(text => ({ text })),
+      { pad: 99972, suffix: 'x' }, { pad: 99973, suffix: 'x' },
+      { pad: 49986, suffix: '😀' }
+    ];
+    for (const input of inputs) {
+      const text = input.text ?? `{"name":"x","tasks":["${input.suffix!.repeat(input.pad!)}"]}`;
+      add('import ' + (input.text ?? JSON.stringify(input)), 'import', input, () => {
+        try { return { ok: domain.parseTemplateImport(text) }; }
+        catch (error) { return { error: (error as Error).message }; }
+      });
+    }
+    const tasks = [
+      task(1, 'main', { children: [task(2, 'child', { children: [task(3, 'leaf', { triggers: [1, 5, 3] })] }),
+        task(4, 'completed child', { completed: true, children: [task(40, 'hidden incomplete')] })] }),
+      task(5, 'background', { mode: 'background', triggers: [1, 2, 3, 4, 40, 99, 5, 1],
+        backgroundOptions: { expiresAfterMinutes: 15, priority: 'high' }, children: [task(6, 'inherited bg')] }),
+      task(7, 'completed parent', { completed: true, children: [task(8, 'hidden child')] })
+    ];
+    for (const input of [[], tasks, [task(1, 'all done', { completed: true })],
+      [task(1, 'collision a', { triggers: [1] }), task(1, 'collision b')],
+      [task(2, 'bg null', { mode: 'background' })]]) {
+      add('strip incomplete ' + cases.length, 'strip', input, () => domain.createTemplateTasks(input));
+      add('create from tasks ' + cases.length, 'create', { name: ' Kept verbatim ', tasks: input },
+        () => ops.createTemplateFromTasks(' Kept verbatim ', input));
+    }
+    const nested = domain.createTemplateTasks(tasks);
+    nested[0].children![0].children![0].triggerIndices = [0, 2, 999, 1, 0];
+    const templates = [template('nested', nested), template('empty', []), template('main', [{ text: 'one' }]),
+      template('raw indices', [{ text: 'a', children: [{ text: 'b', triggerIndices: [2, 0] }] },
+        { text: 'c', triggerIndices: [-1, 0, 1.5, 99, 1, 1] }]),
+      template('background grandchild', [{ text: 'root', children: [{ text: 'bg', mode: 'background', children: [{ text: 'leaf', mode: 'main' }] }] }])];
+    for (const input of templates) {
+      for (const repeated of [false, true]) add('instantiate ' + input.name + repeated, 'instantiate', input,
+        () => ops.instantiateTemplateTasks(input), repeated);
+      add('export ' + input.name, 'export', input, () => {
+        const data = ops.createTemplateExportData(input);
+        return { data, bytes: JSON.stringify(data, null, 2), filename: ops.createTemplateExportFilename(input.name) };
+      });
+      add('inspect ' + input.name, 'inspect', input.tasks, () => ({
+        count: ops.countTemplateTasks(input.tasks), background: domain.hasBackgroundTask(input.tasks),
+        triggers: domain.hasTemplateTriggerIndices(input.tasks)
+      }));
+    }
+    const existing = [template('same', [], 1), template('other', [], 2), template('same', [], 3)];
+    const replacement = template('same', [{ text: 'new' }], 4);
+    add('upsert removes all names and appends', 'upsert', { existing, replacement }, () => ops.upsertTemplateByName(existing, replacement));
+    for (const id of [1, 2, 77]) {
+      add('remove ' + id, 'remove', { existing, id }, () => ops.removeTemplateById(existing, id));
+      add('find id ' + id, 'findId', { existing, id }, () => ops.findTemplateById(existing, id));
+    }
+    for (const name of ['same', 'Same', 'other', 'missing']) add('find name ' + name, 'findName', { existing, name },
+      () => ops.findTemplateByName(existing, name));
+    const data = { name: 'Imported', tasks: nested };
+    add('imported flag and timestamp', 'createImported', data, () => ops.createImportedTemplate(data));
+    add('community catalog, imports, previews', 'community', null, () => COMMUNITY_TEMPLATES.map(entry => ({
+      ...entry, preview: createCommunityTemplatePreview(entry),
+      template: ops.createCommunityTemplate(entry, createCommunityTemplateTasks(entry))
+    })));
+    for (const input of [{ load: collection }, { load: {} }, { failure: 'IPC unavailable' }]) {
+      randomIndex = 0; entropy = randoms;
+      const logs: string[][] = [];
+      const logger = { error: (prefix: string, error: Error) => logs.push([prefix, error.message]) };
+      const api = { loadTemplates: async () => { if ('failure' in input) throw new Error(input.failure); return input.load; } } as unknown as EchosightApi;
+      const result = clone(await loadTemplateState(api, logger));
+      cases.push({ name: 'load persistence ' + JSON.stringify(input), op: 'load', input, expected: { result, logs }, randoms });
+    }
+    for (const input of [{ response: { success: true } }, { response: { success: false, error: 'disk full' } },
+      { response: { success: false } }, { response: { success: false, error: '' } }, { failure: 'IPC unavailable' }]) {
+      const logs: string[][] = [];
+      const logger = { error: (prefix: string, error: Error) => logs.push([prefix, error.message]) };
+      const api = { saveTemplates: async () => { if ('failure' in input) throw new Error(input.failure); return input.response; } } as unknown as EchosightApi;
+      const result = await saveTemplateState(api, [], logger);
+      cases.push({ name: 'save persistence ' + JSON.stringify(input), op: 'save', input, expected: { result, logs }, randoms });
+    }
+    const document = { sources: sourceHashes(), nowMs, nowIso, cases };
+    const bytes = JSON.stringify(document, null, 2) + '\n';
+    if (process.env.TEMPLATES_GOLDEN_CHECK === '1') checkedBytes(readFileSync(`${output}/cases.json`, 'utf8'), bytes);
+    else { mkdirSync(output, { recursive: true }); writeFileSync(`${output}/cases.json`, bytes); }
+  } finally { vi.restoreAllMocks(); vi.useRealTimers(); }
+});
