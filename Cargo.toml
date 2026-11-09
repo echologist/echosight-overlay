@@ -23,6 +23,23 @@ serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order", "float_roundtrip"] }
 thiserror = "2"
 log = "0.4"
+env_logger = "0.11"
+
+# GPUI source: ADR-001 (docs/plans/gpui-port/adr-001-gpui-source.md).
+# Option (a): git dependency on zed at a pinned rev. The platform backends live in
+# `gpui_platform` (entry point `gpui_platform::application()`); crates.io `gpui` 0.2.2 is stale.
+# Bump `rev` deliberately, once per phase, together with rust-toolchain.toml.
+gpui = { git = "https://github.com/zed-industries/zed", rev = "4ed72e0135aaab74a43914491c915dd6cbd10c67", default-features = false, features = ["font-kit", "x11", "windows-manifest"] }
+gpui_platform = { git = "https://github.com/zed-industries/zed", rev = "4ed72e0135aaab74a43914491c915dd6cbd10c67", default-features = false, features = ["x11"] }
+raw-window-handle = { version = "0.6", features = ["std"] }
+
+[patch.crates-io]
+# Mirrors zed's own `[patch.crates-io]` entries that gpui's dependency graph relies on
+# (a `[patch]` section only takes effect in the root workspace, so a git dependency on zed
+# does not inherit them). Keep in step with the pinned rev above.
+async-task = { git = "https://github.com/zed-industries/async-task.git", rev = "015845a19fc31752c02367567d3b8900a406f9da" }
+calloop = { git = "https://github.com/zed-industries/calloop", rev = "3759371fee14c40066d64777e2a36b6ffcc22590" }
+khronos-egl = { git = "https://github.com/zed-industries/khronos-egl", rev = "42214b36347b108fd9630ca6254b96dde59e04fe" }
 
 [profile.release]
 opt-level = 3

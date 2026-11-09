@@ -10,3 +10,4 @@ rust-version.workspace = true
 [dependencies]
 echosight-core.workspace = true
 log.workspace = true
+gpui.workspace = true
