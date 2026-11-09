@@ -26,3 +26,4 @@ mod tests {
 
 // Spike S6 supporting modules (audio, game monitor, single instance, tray).
 pub mod audio;
+pub mod game_monitor;
