@@ -1,0 +1,616 @@
+[
+  {
+    "result": {
+      "task": {
+        "id": 1800000000000017,
+        "text": "  verbatim  ",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "parentTask": null
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "  verbatim  ",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1800000001000154,
+        "text": "child",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:01.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "parentTask": {
+        "id": 1800000000000017,
+        "text": "  verbatim  ",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [
+          {
+            "id": 1800000001000154,
+            "text": "child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:01.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "  verbatim  ",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [
+          {
+            "id": 1800000001000154,
+            "text": "child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:01.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": null,
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "  verbatim  ",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [
+          {
+            "id": 1800000001000154,
+            "text": "child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:01.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "id": 1800000003000291,
+      "text": "Dormant",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:03.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": false,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": 2,
+        "priority": "high"
+      }
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "  verbatim  ",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [
+          {
+            "id": 1800000001000154,
+            "text": "child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:01.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000003000291,
+        "text": "Dormant",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:03.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": {
+          "expiresAfterMinutes": 2,
+          "priority": "high"
+        }
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1800000004000428,
+        "text": "Dormant child",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:04.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "parentTask": {
+        "id": 1800000003000291,
+        "text": "Dormant",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:03.000Z",
+        "children": [
+          {
+            "id": 1800000004000428,
+            "text": "Dormant child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:04.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": {
+          "expiresAfterMinutes": 2,
+          "priority": "high"
+        }
+      }
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "  verbatim  ",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [
+          {
+            "id": 1800000001000154,
+            "text": "child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:01.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000003000291,
+        "text": "Dormant",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:03.000Z",
+        "children": [
+          {
+            "id": 1800000004000428,
+            "text": "Dormant child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:04.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": {
+          "expiresAfterMinutes": 2,
+          "priority": "high"
+        }
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "add task"
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "  verbatim  ",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [
+          {
+            "id": 1800000001000154,
+            "text": "child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:01.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000003000291,
+        "text": "Dormant",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:03.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": {
+          "expiresAfterMinutes": 2,
+          "priority": "high"
+        }
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "add task"
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "  verbatim  ",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [
+          {
+            "id": 1800000001000154,
+            "text": "child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:01.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000003000291,
+        "text": "Dormant",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:03.000Z",
+        "children": [
+          {
+            "id": 1800000004000428,
+            "text": "Dormant child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:04.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": {
+          "expiresAfterMinutes": 2,
+          "priority": "high"
+        }
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1800000000000017,
+          "text": "  verbatim  ",
+          "completed": false,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "children": [
+            {
+              "id": 1800000001000154,
+              "text": "child",
+              "completed": false,
+              "createdAt": "2027-01-15T08:00:01.000Z",
+              "children": [],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 1800000003000291,
+          "text": "Dormant",
+          "completed": false,
+          "createdAt": "2027-01-15T08:00:03.000Z",
+          "children": [
+            {
+              "id": 1800000004000428,
+              "text": "Dormant child",
+              "completed": false,
+              "createdAt": "2027-01-15T08:00:04.000Z",
+              "children": [],
+              "mode": "background",
+              "triggers": [],
+              "activated": false,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "background",
+          "triggers": [],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": 2,
+            "priority": "high"
+          }
+        }
+      ],
+      "currentTemplate": null,
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:07.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1800000000000017,
+                "text": "  verbatim  ",
+                "completed": false,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [
+                  {
+                    "id": 1800000001000154,
+                    "text": "child",
+                    "completed": false,
+                    "createdAt": "2027-01-15T08:00:01.000Z",
+                    "children": [],
+                    "mode": "main",
+                    "triggers": [],
+                    "activated": true,
+                    "activatedAt": null,
+                    "backgroundOptions": null
+                  }
+                ],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              },
+              {
+                "id": 1800000003000291,
+                "text": "Dormant",
+                "completed": false,
+                "createdAt": "2027-01-15T08:00:03.000Z",
+                "children": [
+                  {
+                    "id": 1800000004000428,
+                    "text": "Dormant child",
+                    "completed": false,
+                    "createdAt": "2027-01-15T08:00:04.000Z",
+                    "children": [],
+                    "mode": "background",
+                    "triggers": [],
+                    "activated": false,
+                    "activatedAt": null,
+                    "backgroundOptions": null
+                  }
+                ],
+                "mode": "background",
+                "triggers": [],
+                "activated": false,
+                "activatedAt": null,
+                "backgroundOptions": {
+                  "expiresAfterMinutes": 2,
+                  "priority": "high"
+                }
+              }
+            ],
+            "currentTemplate": null
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1800000000000017,
+        "text": "  verbatim  ",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [
+          {
+            "id": 1800000001000154,
+            "text": "child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:01.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000003000291,
+        "text": "Dormant",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:03.000Z",
+        "children": [
+          {
+            "id": 1800000004000428,
+            "text": "Dormant child",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:04.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": {
+          "expiresAfterMinutes": 2,
+          "priority": "high"
+        }
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  }
+]

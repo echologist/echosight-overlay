@@ -1,0 +1,159 @@
+{
+  "kind": "state",
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Snapshot target",
+      "completed": false,
+      "createdAt": "2026-04-27T00:00:00.000Z",
+      "children": [],
+      "mode": "main",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    }
+  ],
+  "currentTemplate": "Mapping",
+  "snapshots": [
+    {
+      "createdAt": "legacy-0",
+      "state": {
+        "tasks": [],
+        "currentTemplate": "Old 0"
+      }
+    },
+    {
+      "createdAt": "legacy-1",
+      "state": {
+        "tasks": [],
+        "currentTemplate": "Old 1"
+      }
+    },
+    {
+      "createdAt": "legacy-2",
+      "state": {
+        "tasks": [],
+        "currentTemplate": "Old 2"
+      }
+    },
+    {
+      "createdAt": "legacy-3",
+      "state": {
+        "tasks": [],
+        "currentTemplate": "Old 3"
+      }
+    },
+    {
+      "createdAt": "legacy-4",
+      "state": {
+        "tasks": [],
+        "currentTemplate": "Old 4"
+      }
+    },
+    {
+      "createdAt": "legacy-5",
+      "state": {
+        "tasks": [],
+        "currentTemplate": "Old 5"
+      }
+    },
+    {
+      "createdAt": "legacy-6",
+      "state": {
+        "tasks": [],
+        "currentTemplate": "Old 6"
+      }
+    }
+  ],
+  "ops": [
+    {
+      "op": "save",
+      "nowMs": 1800000000000,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "edit",
+      "id": 1,
+      "text": "Snapshot 0",
+      "nowMs": 1800000001000,
+      "nowIso": "2027-01-15T08:00:01.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000002000,
+      "nowIso": "2027-01-15T08:00:02.000Z"
+    },
+    {
+      "op": "edit",
+      "id": 1,
+      "text": "Snapshot 1",
+      "nowMs": 1800000003000,
+      "nowIso": "2027-01-15T08:00:03.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000004000,
+      "nowIso": "2027-01-15T08:00:04.000Z"
+    },
+    {
+      "op": "edit",
+      "id": 1,
+      "text": "Snapshot 2",
+      "nowMs": 1800000005000,
+      "nowIso": "2027-01-15T08:00:05.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000006000,
+      "nowIso": "2027-01-15T08:00:06.000Z"
+    },
+    {
+      "op": "edit",
+      "id": 1,
+      "text": "Snapshot 3",
+      "nowMs": 1800000007000,
+      "nowIso": "2027-01-15T08:00:07.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000008000,
+      "nowIso": "2027-01-15T08:00:08.000Z"
+    },
+    {
+      "op": "edit",
+      "id": 1,
+      "text": "Snapshot 4",
+      "nowMs": 1800000009000,
+      "nowIso": "2027-01-15T08:00:09.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000010000,
+      "nowIso": "2027-01-15T08:00:10.000Z"
+    },
+    {
+      "op": "edit",
+      "id": 1,
+      "text": "Snapshot 5",
+      "nowMs": 1800000011000,
+      "nowIso": "2027-01-15T08:00:11.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000012000,
+      "nowIso": "2027-01-15T08:00:12.000Z"
+    },
+    {
+      "op": "undo",
+      "nowMs": 1800000013000,
+      "nowIso": "2027-01-15T08:00:13.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000014000,
+      "nowIso": "2027-01-15T08:00:14.000Z"
+    }
+  ]
+}

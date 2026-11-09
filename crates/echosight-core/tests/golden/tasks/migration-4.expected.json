@@ -1,0 +1,44 @@
+{
+  "migrated": true,
+  "tasks": [
+    {
+      "id": 1749938954072.5596,
+      "text": "Legacy",
+      "completed": false,
+      "createdAt": "old",
+      "extra": {
+        "keep": true
+      },
+      "children": [
+        {
+          "id": 2.5,
+          "text": "Child",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": null,
+          "activatedAt": null,
+          "backgroundOptions": {}
+        },
+        null,
+        7
+      ],
+      "mode": "main",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    },
+    {
+      "id": 3,
+      "text": "Background legacy",
+      "mode": "background",
+      "children": [],
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    }
+  ],
+  "secondMigration": false
+}

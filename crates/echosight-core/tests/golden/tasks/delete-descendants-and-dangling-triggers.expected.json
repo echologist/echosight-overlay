@@ -1,0 +1,625 @@
+[
+  {
+    "result": {
+      "removed": true,
+      "removedTaskIds": [
+        2.5,
+        3,
+        4
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 5,
+            "text": "Leaf C",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 20,
+        "text": "Watcher",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 21,
+            "text": "Nested watcher",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [
+              6
+            ],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [
+          1,
+          999
+        ],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 3,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "delete task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2.5,
+            "text": "Branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 3,
+                "text": "Leaf A",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              },
+              {
+                "id": 4,
+                "text": "Leaf B",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 5,
+            "text": "Leaf C",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 20,
+        "text": "Watcher",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 21,
+            "text": "Nested watcher",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [
+              2.5,
+              4,
+              6
+            ],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [
+          1,
+          2.5,
+          3,
+          4,
+          999
+        ],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 6,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "delete task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 5,
+            "text": "Leaf C",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 20,
+        "text": "Watcher",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 21,
+            "text": "Nested watcher",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [
+              6
+            ],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [
+          1,
+          999
+        ],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 3,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "removed": false,
+      "removedTaskIds": [
+        999
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 5,
+            "text": "Leaf C",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 20,
+        "text": "Watcher",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 21,
+            "text": "Nested watcher",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [
+              6
+            ],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [
+          1
+        ],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 3,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "delete task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2.5,
+            "text": "Branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 3,
+                "text": "Leaf A",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              },
+              {
+                "id": 4,
+                "text": "Leaf B",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 5,
+            "text": "Leaf C",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 20,
+        "text": "Watcher",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 21,
+            "text": "Nested watcher",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [
+              2.5,
+              4,
+              6
+            ],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [
+          1,
+          2.5,
+          3,
+          4,
+          999
+        ],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 6,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "delete task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 5,
+            "text": "Leaf C",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 20,
+        "text": "Watcher",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 21,
+            "text": "Nested watcher",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [
+              6
+            ],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [
+          1
+        ],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 3,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "removed": true,
+      "removedTaskIds": [
+        1,
+        5
+      ]
+    },
+    "tasks": [
+      {
+        "id": 6,
+        "text": "Other",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 20,
+        "text": "Watcher",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 21,
+            "text": "Nested watcher",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [
+              6
+            ],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 1,
+      "percentage": 0
+    }
+  }
+]

@@ -1,0 +1,387 @@
+[
+  {
+    "result": {
+      "completed": 1,
+      "total": 4,
+      "percentage": 25
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Main",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "Dormant nested background",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 3,
+        "text": "Dormant root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 4,
+            "text": "Ignored child",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 5,
+        "text": "Active root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 6,
+            "text": "Dormant counted child",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 1,
+      "total": 4,
+      "percentage": 25
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 6,
+        "text": "Dormant counted child",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "completedParents": [
+        {
+          "id": 5,
+          "text": "Active root",
+          "completed": true,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [
+            {
+              "id": 6,
+              "text": "Dormant counted child",
+              "completed": true,
+              "createdAt": "2026-04-27T00:00:00.000Z",
+              "children": [],
+              "mode": "background",
+              "triggers": [],
+              "activated": false,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "background",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "uncheckedParents": []
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Main",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "Dormant nested background",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 3,
+        "text": "Dormant root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 4,
+            "text": "Ignored child",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 5,
+        "text": "Active root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 6,
+            "text": "Dormant counted child",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 3,
+      "total": 4,
+      "percentage": 75
+    }
+  },
+  {
+    "result": null,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Main",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "Dormant nested background",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 3,
+        "text": "Dormant root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 4,
+            "text": "Ignored child",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 5,
+        "text": "Active root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 6,
+            "text": "Dormant counted child",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 3,
+      "total": 4,
+      "percentage": 75
+    }
+  },
+  {
+    "result": true,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Main",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "Dormant nested background",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 3,
+        "text": "Dormant root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 4,
+            "text": "Ignored child",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": false,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 5,
+        "text": "Active root",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 6,
+            "text": "Dormant counted child",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": false,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 3,
+      "total": 4,
+      "percentage": 75
+    }
+  }
+]

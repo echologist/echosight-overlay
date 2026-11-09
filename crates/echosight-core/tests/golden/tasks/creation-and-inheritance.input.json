@@ -1,0 +1,63 @@
+{
+  "kind": "state",
+  "epoch": 1800000000000,
+  "tasks": [],
+  "currentTemplate": null,
+  "snapshots": [],
+  "ops": [
+    {
+      "op": "add",
+      "text": "  verbatim  ",
+      "as": "root",
+      "nowMs": 1800000000000,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "add",
+      "text": "child",
+      "parent": "root",
+      "nowMs": 1800000001000,
+      "nowIso": "2027-01-15T08:00:01.000Z"
+    },
+    {
+      "op": "add",
+      "text": "missing parent",
+      "parent": 999,
+      "nowMs": 1800000002000,
+      "nowIso": "2027-01-15T08:00:02.000Z"
+    },
+    {
+      "op": "background",
+      "text": "Dormant",
+      "options": {
+        "expiresAfterMinutes": "2.9",
+        "priority": "high"
+      },
+      "as": "bg",
+      "nowMs": 1800000003000,
+      "nowIso": "2027-01-15T08:00:03.000Z"
+    },
+    {
+      "op": "add",
+      "text": "Dormant child",
+      "parent": "bg",
+      "nowMs": 1800000004000,
+      "nowIso": "2027-01-15T08:00:04.000Z"
+    },
+    {
+      "op": "undo",
+      "nowMs": 1800000005000,
+      "nowIso": "2027-01-15T08:00:05.000Z"
+    },
+    {
+      "op": "redo",
+      "nowMs": 1800000006000,
+      "nowIso": "2027-01-15T08:00:06.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000007000,
+      "nowIso": "2027-01-15T08:00:07.000Z"
+    }
+  ]
+}

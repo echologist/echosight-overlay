@@ -1,0 +1,592 @@
+[
+  {
+    "result": false,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": false,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": false,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": false
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1,
+        "text": "Keep me",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "completedParents": [],
+      "uncheckedParents": []
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 1,
+      "total": 2,
+      "percentage": 50
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "toggle task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": false,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "toggle task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": true,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 1,
+      "total": 2,
+      "percentage": 50
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "toggle task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 2,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1800000009000017,
+        "text": "New task",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:09.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "parentTask": null
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000009000017,
+        "text": "New task",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:09.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 3,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": false
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000009000017,
+        "text": "New task",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:09.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 3,
+      "percentage": 0
+    }
+  },
+  {
+    "result": true,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": {
+          "expiresAfterMinutes": null,
+          "priority": "high"
+        }
+      },
+      {
+        "id": 1800000009000017,
+        "text": "New task",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:09.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 3,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "edit task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 1800000009000017,
+        "text": "New task",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:09.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 3,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "edit task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Keep me",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      {
+        "id": 2,
+        "text": "BG",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [],
+        "mode": "background",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": {
+          "expiresAfterMinutes": null,
+          "priority": "high"
+        }
+      },
+      {
+        "id": 1800000009000017,
+        "text": "New task",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:09.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 3,
+      "percentage": 0
+    }
+  }
+]

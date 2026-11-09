@@ -1,0 +1,114 @@
+{
+  "kind": "options",
+  "values": [
+    null,
+    [],
+    "x",
+    {},
+    {
+      "expiresAfterMinutes": "2.9",
+      "priority": "high"
+    },
+    {
+      "expiresAfterMinutes": 0,
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": -1,
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": 0.5,
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": true,
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": false,
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": null,
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": "",
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": "0x10",
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": "0b11",
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": "0o10",
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": "+0x10",
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": "-0x10",
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": "Infinity",
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": "inf",
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": "1e2",
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": [],
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": [
+        true
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": [
+        null
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": [
+        "2.8"
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": [
+        [
+          2
+        ]
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": [
+        1,
+        2
+      ],
+      "priority": "HIGH"
+    },
+    {
+      "expiresAfterMinutes": {},
+      "priority": "HIGH"
+    }
+  ]
+}
