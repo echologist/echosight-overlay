@@ -1,0 +1,849 @@
+[
+  {
+    "result": {
+      "task": {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "parentTask": {
+        "id": 2,
+        "text": "First branch",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 1800000000000017,
+            "text": "First",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "First branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "First",
+                "completed": false,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 3,
+            "text": "Second branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 4,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": false,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "parentTask": {
+        "id": 3,
+        "text": "Second branch",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 1800000000000017,
+            "text": "Second",
+            "completed": false,
+            "createdAt": "2027-01-15T08:00:00.000Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "First branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "First",
+                "completed": false,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 3,
+            "text": "Second branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "Second",
+                "completed": false,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 0,
+      "total": 5,
+      "percentage": 0
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1800000000000017,
+        "text": "First",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "completedParents": [
+        {
+          "id": 2,
+          "text": "First branch",
+          "completed": true,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [
+            {
+              "id": 1800000000000017,
+              "text": "First",
+              "completed": true,
+              "createdAt": "2027-01-15T08:00:00.000Z",
+              "children": [],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "First branch",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "First",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 3,
+            "text": "Second branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "Second",
+                "completed": false,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 2,
+      "total": 5,
+      "percentage": 40
+    }
+  },
+  {
+    "result": {
+      "task": {
+        "id": 1800000000000017,
+        "text": "Second",
+        "completed": true,
+        "createdAt": "2027-01-15T08:00:00.000Z",
+        "children": [],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      },
+      "completedParents": []
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "First branch",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "First",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 3,
+            "text": "Second branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "Second",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 3,
+      "total": 5,
+      "percentage": 60
+    }
+  },
+  {
+    "result": null,
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "First branch",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "First",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 3,
+            "text": "Second branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "Second",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 3,
+      "total": 5,
+      "percentage": 60
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "complete next task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "First branch",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "First",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 3,
+            "text": "Second branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "Second",
+                "completed": false,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 2,
+      "total": 5,
+      "percentage": 40
+    }
+  },
+  {
+    "result": {
+      "restored": true,
+      "label": "complete next task"
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "First branch",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "First",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 3,
+            "text": "Second branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "Second",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 3,
+      "total": 5,
+      "percentage": 60
+    }
+  },
+  {
+    "result": {
+      "tasks": [
+        {
+          "id": 1,
+          "text": "Root",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [
+            {
+              "id": 2,
+              "text": "First branch",
+              "completed": true,
+              "createdAt": "2026-04-27T00:00:00.000Z",
+              "children": [
+                {
+                  "id": 1800000000000017,
+                  "text": "First",
+                  "completed": true,
+                  "createdAt": "2027-01-15T08:00:00.000Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                }
+              ],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            },
+            {
+              "id": 3,
+              "text": "Second branch",
+              "completed": false,
+              "createdAt": "2026-04-27T00:00:00.000Z",
+              "children": [
+                {
+                  "id": 1800000000000017,
+                  "text": "Second",
+                  "completed": true,
+                  "createdAt": "2027-01-15T08:00:00.000Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                }
+              ],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "currentTemplate": null,
+      "snapshots": [
+        {
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "state": {
+            "tasks": [
+              {
+                "id": 1,
+                "text": "Root",
+                "completed": false,
+                "createdAt": "2026-04-27T00:00:00.000Z",
+                "children": [
+                  {
+                    "id": 2,
+                    "text": "First branch",
+                    "completed": true,
+                    "createdAt": "2026-04-27T00:00:00.000Z",
+                    "children": [
+                      {
+                        "id": 1800000000000017,
+                        "text": "First",
+                        "completed": true,
+                        "createdAt": "2027-01-15T08:00:00.000Z",
+                        "children": [],
+                        "mode": "main",
+                        "triggers": [],
+                        "activated": true,
+                        "activatedAt": null,
+                        "backgroundOptions": null
+                      }
+                    ],
+                    "mode": "main",
+                    "triggers": [],
+                    "activated": true,
+                    "activatedAt": null,
+                    "backgroundOptions": null
+                  },
+                  {
+                    "id": 3,
+                    "text": "Second branch",
+                    "completed": false,
+                    "createdAt": "2026-04-27T00:00:00.000Z",
+                    "children": [
+                      {
+                        "id": 1800000000000017,
+                        "text": "Second",
+                        "completed": true,
+                        "createdAt": "2027-01-15T08:00:00.000Z",
+                        "children": [],
+                        "mode": "main",
+                        "triggers": [],
+                        "activated": true,
+                        "activatedAt": null,
+                        "backgroundOptions": null
+                      }
+                    ],
+                    "mode": "main",
+                    "triggers": [],
+                    "activated": true,
+                    "activatedAt": null,
+                    "backgroundOptions": null
+                  }
+                ],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "currentTemplate": null
+          }
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "text": "Root",
+        "completed": false,
+        "createdAt": "2026-04-27T00:00:00.000Z",
+        "children": [
+          {
+            "id": 2,
+            "text": "First branch",
+            "completed": true,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "First",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 3,
+            "text": "Second branch",
+            "completed": false,
+            "createdAt": "2026-04-27T00:00:00.000Z",
+            "children": [
+              {
+                "id": 1800000000000017,
+                "text": "Second",
+                "completed": true,
+                "createdAt": "2027-01-15T08:00:00.000Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ],
+        "mode": "main",
+        "triggers": [],
+        "activated": true,
+        "activatedAt": null,
+        "backgroundOptions": null
+      }
+    ],
+    "progress": {
+      "completed": 3,
+      "total": 5,
+      "percentage": 60
+    }
+  }
+]

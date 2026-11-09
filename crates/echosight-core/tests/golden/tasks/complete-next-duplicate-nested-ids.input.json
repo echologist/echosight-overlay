@@ -1,0 +1,99 @@
+{
+  "kind": "state",
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Root",
+      "completed": false,
+      "createdAt": "2026-04-27T00:00:00.000Z",
+      "children": [
+        {
+          "id": 2,
+          "text": "First branch",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 3,
+          "text": "Second branch",
+          "completed": false,
+          "createdAt": "2026-04-27T00:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "mode": "main",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    }
+  ],
+  "currentTemplate": null,
+  "snapshots": [],
+  "ops": [
+    {
+      "op": "add",
+      "text": "First",
+      "parent": 2,
+      "nowMs": 1800000000000,
+      "random": 0.017,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "add",
+      "text": "Second",
+      "parent": 3,
+      "nowMs": 1800000000000,
+      "random": 0.017,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "next",
+      "nowMs": 1800000000000,
+      "random": 0.017,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "next",
+      "nowMs": 1800000000000,
+      "random": 0.017,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "next",
+      "nowMs": 1800000000000,
+      "random": 0.017,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "undo",
+      "nowMs": 1800000000000,
+      "random": 0.017,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "redo",
+      "nowMs": 1800000000000,
+      "random": 0.017,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    },
+    {
+      "op": "save",
+      "nowMs": 1800000000000,
+      "random": 0.017,
+      "nowIso": "2027-01-15T08:00:00.000Z"
+    }
+  ]
+}

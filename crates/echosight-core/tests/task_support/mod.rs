@@ -13,6 +13,7 @@ struct Environment {
     ms: f64,
     iso: String,
     random_calls: u64,
+    explicit_random: Option<f64>,
 }
 impl TaskEnvironment for Environment {
     fn now_ms(&self) -> f64 {
@@ -22,6 +23,9 @@ impl TaskEnvironment for Environment {
         self.iso.clone()
     }
     fn random(&mut self) -> f64 {
+        if let Some(value) = self.explicit_random {
+            return value;
+        }
         let value = ((self.random_calls * 137 + 17) % 1000) as f64 / 1000.0;
         self.random_calls += 1;
         value
@@ -58,12 +62,14 @@ fn run_state(input: &Value) -> Value {
             ms: input["epoch"].as_f64().unwrap(),
             iso: String::new(),
             random_calls: 0,
+            explicit_random: None,
         },
     );
     let mut aliases: HashMap<String, TaskId> = HashMap::new();
     let mut frames = vec![];
     for op in input["ops"].as_array().unwrap() {
         state.environment.ms = op["nowMs"].as_f64().unwrap();
+        state.environment.explicit_random = op["random"].as_f64();
         state.environment.iso = op["nowIso"].as_str().unwrap().to_owned();
         let id = |value: &Value| -> TaskId {
             value

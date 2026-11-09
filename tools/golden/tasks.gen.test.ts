@@ -16,12 +16,24 @@ const task = (id: number, text: string, extra: Partial<Task> = {}): Task => ({
   id, text, completed: false, createdAt: '2026-04-27T00:00:00.000Z', children: [],
   mode: 'main', triggers: [], activated: true, activatedAt: null, backgroundOptions: null, ...extra
 });
-type Op = { op: string; [key: string]: unknown };
+type Op = { op: string; nowMs?: number; random?: number; [key: string]: unknown };
 type Scenario = { name: string; tasks: Task[]; currentTemplate?: string | null; snapshots?: unknown[]; ops: Op[] };
 const nested = () => [task(1, 'Root', { children: [task(2.5, 'Branch', {
   children: [task(3, 'Leaf A'), task(4, 'Leaf B')]
 }), task(5, 'Leaf C')] }), task(6, 'Other')];
 const scenarios: Scenario[] = [
+  { name: 'complete-next-duplicate-root-ids', tasks: [], ops: [
+    { op: 'add', text: 'First' }, { op: 'add', text: 'Second' },
+    { op: 'next' }, { op: 'next' }, { op: 'next' },
+    { op: 'undo' }, { op: 'redo' }, { op: 'save' }
+  ].map(op => ({ ...op, nowMs: epoch, random: 0.017 })) },
+  { name: 'complete-next-duplicate-nested-ids', tasks: [
+    task(1, 'Root', { children: [task(2, 'First branch'), task(3, 'Second branch')] })
+  ], ops: [
+    { op: 'add', text: 'First', parent: 2 }, { op: 'add', text: 'Second', parent: 3 },
+    { op: 'next' }, { op: 'next' }, { op: 'next' },
+    { op: 'undo' }, { op: 'redo' }, { op: 'save' }
+  ].map(op => ({ ...op, nowMs: epoch, random: 0.017 })) },
   { name: 'creation-and-inheritance', tasks: [], ops: [
     { op: 'add', text: '  verbatim  ', as: 'root' }, { op: 'add', text: 'child', parent: 'root' },
     { op: 'add', text: 'missing parent', parent: 999 },
@@ -134,7 +146,8 @@ for (const scenario of scenarios) test(`generate ${scenario.name}`, async () => 
   vi.useFakeTimers();
   vi.setSystemTime(epoch);
   let randomCalls = 0;
-  vi.spyOn(Math, 'random').mockImplementation(() => ((randomCalls++ * 137 + 17) % 1000) / 1000);
+  let explicitRandom: number | undefined;
+  vi.spyOn(Math, 'random').mockImplementation(() => explicitRandom ?? ((randomCalls++ * 137 + 17) % 1000) / 1000);
   let saved: TaskSaveData | null = null;
   const initial = { tasks: scenario.tasks, currentTemplate: scenario.currentTemplate ?? null, snapshots: scenario.snapshots ?? [] };
   const api = {
@@ -147,7 +160,8 @@ for (const scenario of scenarios) test(`generate ${scenario.name}`, async () => 
   const id = (v: unknown): number => typeof v === 'string' ? aliases.get(v)! : v as number;
   const frames: unknown[] = [];
   for (const [index, o] of scenario.ops.entries()) {
-    vi.setSystemTime(epoch + index * 1000);
+    vi.setSystemTime(o.nowMs ?? epoch + index * 1000);
+    explicitRandom = o.random;
     let result: unknown = null;
     switch (o.op) {
       case 'add': { const r = c.addTask(o.text as string, o.parent == null ? null : id(o.parent)); if (r && o.as) aliases.set(o.as as string, r.task.id); result = r; break; }
@@ -174,7 +188,7 @@ for (const scenario of scenarios) test(`generate ${scenario.name}`, async () => 
     frames.push(clone({ result, tasks: c.getTasks(), progress: c.getProgress() }));
   }
   emit(scenario.name, { kind: 'state', epoch, ...initial, ops: scenario.ops.map((o, i) => ({
-    ...o, nowMs: epoch + i * 1000, nowIso: new Date(epoch + i * 1000).toISOString()
+    ...o, nowMs: o.nowMs ?? epoch + i * 1000, nowIso: new Date(o.nowMs ?? epoch + i * 1000).toISOString()
   })) }, frames);
 });
 
