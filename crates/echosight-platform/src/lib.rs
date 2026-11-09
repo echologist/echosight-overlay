@@ -33,3 +33,9 @@ mod tests {
         assert!(!is_path_of_exile_process("explorer.exe"));
     }
 }
+
+// Spike S6 supporting modules (audio, game monitor, single instance, tray).
+pub mod audio;
+pub mod game_monitor;
+pub mod single_instance;
+pub mod tray;
