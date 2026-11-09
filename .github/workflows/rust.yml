@@ -1,0 +1,76 @@
+name: Rust (GPUI port)
+
+on:
+  pull_request:
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'crates/**'
+      - '.github/workflows/rust.yml'
+  push:
+    branches: [gpui-port]
+  workflow_dispatch:
+    inputs:
+      spike:
+        description: 'Spike example to build for Windows (e.g. s1_window). Leave empty to skip.'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rust-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  check:
+    name: fmt, clippy, test (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # v1 (reads rust-toolchain.toml)
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+      - name: Install Linux system libraries used by GPUI
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libwayland-dev libx11-xcb-dev libxkbcommon-x11-dev libxkbcommon-dev \
+            libfontconfig-dev libvulkan1 libasound2-dev libssl-dev cmake clang
+      - name: cargo fmt
+        run: cargo fmt --all --check
+      - name: cargo clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: cargo test
+        run: cargo test --workspace
+
+  spike-windows:
+    name: Build spike example (Windows)
+    if: github.event_name == 'workflow_dispatch' && inputs.spike != ''
+    runs-on: windows-latest
+    env:
+      SPIKE_NAME: ${{ inputs.spike }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # v1
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+      - name: Build spike
+        shell: bash
+        run: cargo build --release -p echosight-platform --example "$SPIKE_NAME"
+      - name: Collect artifact
+        shell: bash
+        run: |
+          mkdir -p spike-out
+          cp "target/release/examples/$SPIKE_NAME.exe" spike-out/
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: spike-${{ inputs.spike }}-windows
+          path: spike-out/*.exe
+          if-no-files-found: error
+          retention-days: 7
