@@ -68,34 +68,53 @@ pub fn uncheck_parent(child_id: TaskId, tasks: &mut [Task]) -> Vec<Task> {
 }
 
 pub fn find_next_incomplete_leaf_task(tasks: &[Task]) -> Option<&Task> {
-    for task in tasks {
+    find_next_incomplete_leaf_with_path(tasks).map(|(_, task)| task)
+}
+
+fn find_next_incomplete_leaf_with_path(tasks: &[Task]) -> Option<(Vec<usize>, &Task)> {
+    for (index, task) in tasks.iter().enumerate() {
         if task.completed {
             continue;
         }
         if !task.children.is_empty() {
-            if let Some(leaf) = find_next_incomplete_leaf_task(&task.children) {
-                return Some(leaf);
+            if let Some((mut path, leaf)) = find_next_incomplete_leaf_with_path(&task.children) {
+                path.insert(0, index);
+                return Some((path, leaf));
             }
             continue;
         }
         if task.mode != TaskMode::Background {
-            return Some(task);
+            return Some((vec![index], task));
         }
     }
     None
 }
 
+fn task_at_path_mut<'a>(mut tasks: &'a mut [Task], path: &[usize]) -> &'a mut Task {
+    let (index, ancestors) = path.split_last().expect("selected leaf has a path");
+    for &ancestor in ancestors {
+        tasks = &mut tasks[ancestor].children;
+    }
+    &mut tasks[*index]
+}
+
 pub fn complete_next_task_in_list(tasks: &mut [Task]) -> Option<CompleteTaskResult> {
     // Root filtering is separate from the recursive leaf search in TS.
-    let id = tasks
+    let (path, id) = tasks
         .iter()
-        .filter(|t| t.mode != TaskMode::Background)
-        .find_map(|t| find_next_incomplete_leaf_task(std::slice::from_ref(t)))
-        .map(|t| t.id)?;
-    find_task_by_id_mut(id, tasks)?.completed = true;
+        .enumerate()
+        .filter(|(_, t)| t.mode != TaskMode::Background)
+        .find_map(|(index, t)| {
+            let (mut path, leaf) = find_next_incomplete_leaf_with_path(std::slice::from_ref(t))?;
+            path[0] = index;
+            Some((path, leaf.id))
+        })?;
+    // TS retains the selected object, not its potentially colliding ID. Parent
+    // completion still resolves by ID; it changes flags but never this path.
+    task_at_path_mut(tasks, &path).completed = true;
     let completed_parents = check_parent_completion(id, tasks);
     Some(CompleteTaskResult {
-        task: find_task_by_id(id, tasks)?.clone(),
+        task: task_at_path_mut(tasks, &path).clone(),
         completed_parents,
     })
 }

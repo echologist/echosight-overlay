@@ -80,8 +80,8 @@ After the helper correction all 22 passed, both structured values and exact
 2-space/LF/no-trailing-newline bytes. This is fixture serialization parity,
 not a claim that the full disk persistence pipeline is implemented.
 
-Current fixture inventory (computed from inputs): **22 pairs**, comprising
-**15 state scenarios / 216 operations**, **6 migration inputs**, and **27 option
+Current fixture inventory (computed from inputs): **24 pairs**, comprising
+**17 state scenarios / 232 operations**, **6 migration inputs**, and **27 option
 coercion inputs in one fixture**. Includes a seeded 30-operation sequence,
 23 edits followed by 22 undos and 22 redos, and saves with distinguishable
 snapshot contents/timestamps beyond the five-entry limit.
@@ -90,7 +90,7 @@ Initial green checkpoint gates: Vitest **31 tests / 2 files**, Rust **7 unit
 + 1 fixture interpreter test**, no failed tests; core clippy with `-D warnings`
 passed.
 
-### Final verification
+### Initial slice verification (before duplicate-ID regression)
 
 - `cargo fmt --all --check`: exit 0.
 - `cargo test -p echosight-core`: exit 0; 7 unit tests and 1 integration test
@@ -108,6 +108,49 @@ passed.
 - Independent review/integration belongs to the parent lane. No push or merge,
   Windows runtime validation, full workspace build, or full Phase 1 acceptance
   is claimed by this slice.
+
+### Reviewed duplicate-ID regression
+
+Review of `ade7ef9596a260fdc8ad0bd0dd03384d94479658` found that complete-next
+selected a leaf but then re-found it by ID for mutation/result. With repeated
+clock/random inputs, that resolves an earlier task instead of the selected leaf.
+The fix retains its structural index path through mutation and result cloning.
+ID creation and ID-based parent-completion logic are unchanged.
+
+Two new fixtures, `complete-next-duplicate-root-ids` and
+`complete-next-duplicate-nested-ids`, execute the unchanged TS controller to add
+`First` and `Second` with `nowMs = 1800000000000`, `random = 0.017`. Both receive
+ID `1800000000000017`; complete-next twice must return First then Second and
+complete both leaves. Each scenario also checks exhausted selection, undo, redo,
+and the save payload. The nested fixture puts the leaves in separate branches:
+TS's ID-based parent lookup completes the first branch but leaves the second
+branch and root incomplete even after both leaves complete. That quirk remains
+in the oracle and Rust implementation; following structural parents instead
+would be an unauthorized behavior change.
+
+Generator operations now accept explicit `nowMs` and `random` overrides; absent
+values retain the original clock schedule/random stream. An explicit random
+value is constant for the operation and does not consume the fallback stream.
+The Rust adapter reads the same inputs. Expected results were emitted by Vitest,
+not manually written.
+
+- **RED before production changes:** `cargo test -p echosight-core --test
+  task_parity -- --nocapture` exited 101. Exactly **2/24** fixture pairs failed;
+  both reported `$[3].result.task.text: actual "First", expected "Second"`.
+- **GREEN:** `cargo test -p echosight-core` exited 0 (7 unit tests and 1 fixture
+  interpreter test; all 24 pairs match structured values and exact bytes).
+- `cargo fmt --all --check` and
+  `cargo clippy -p echosight-core --all-targets -- -D warnings`: exit 0.
+- Isolated TS execution: **33 tests / 2 files passed** on both generation runs.
+  SHA-256 comparison verified all **44 original fixture files unchanged** and
+  all **48 current files byte-identical after regeneration**.
+- Current aggregate SHA-256 (same sorted name-to-hash JSON method as above):
+  `781a59c9ee458fba99d2ca95f2b19dd7ddce6f19d0714ed90e90dd7a548642c0`.
+- Oracle provenance: unchanged TS sources from the reviewed revision above.
+  `taskCompletion.ts` SHA-256:
+  `f80cd1813629622e1d797659baddd17551db1bc51d5d3745563c480d163cea94`;
+  updated `tools/golden/tasks.gen.test.ts` SHA-256:
+  `20ed8608aee34ac74f05f62484d6dbc5490d8c84dc9a11348b2e1e1ee9301370`.
 
 ### Existing state-controller test mapping
 
