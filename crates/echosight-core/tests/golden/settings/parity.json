@@ -13,7 +13,7 @@
     "tests/unit/settings/hotkeyRecorder.test.ts": "60803422d04af28a0fa923197abca5517e66a566b1a5c03b0dc7bf45da8a38e9",
     "tests/unit/settings/settingsUi.test.ts": "15d587f43c6bdcb5d62fb3cbb23898e30a1ca00f0b0e4784aba571a2827d41f3",
     "tests/unit/main/hotkeys.test.ts": "cb0186f0db25a64f16f9c9bc3a963e3bda4669029ab318336104d17b1dff6be3",
-    "tools/golden/settings.gen.test.ts": "43163321c6bc442f768fd516fc62afee773642f3f276338cdd30f069c6c2e35c",
+    "tools/golden/settings.gen.test.ts": "96688a0104d48e29ea5d35dbcb2a1fc53b01bc94bd130078226506fd99029751",
     "tools/golden/vitest.settings.config.ts": "a056b38a3e9d457c39e0ffcd2f1d360528536117ce8442e5730837a722dcbefd"
   },
   "bootstrapDefaults": {
@@ -214,6 +214,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -235,6 +236,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -256,6 +258,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -277,6 +280,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -298,6 +302,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -319,6 +324,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -347,6 +353,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 78,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Alt+N\",\n    \"undoLastAction\": \"Alt+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -371,6 +378,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"dark\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -395,6 +403,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"new\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -419,6 +428,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -445,6 +455,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -471,6 +482,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -507,6 +519,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": false
     },
     {
@@ -543,6 +556,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -580,6 +594,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -619,6 +634,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": false
     },
     {
@@ -648,6 +664,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Not an accelerator\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -672,6 +689,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -700,6 +718,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -727,6 +746,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -754,6 +774,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -781,6 +802,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -808,6 +830,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -835,6 +858,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -862,6 +886,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -889,6 +914,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -916,6 +942,7 @@
           "volume": 78
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 78,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 78\n  }\n}",
       "changed": true
     },
     {
@@ -943,6 +970,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 75,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -970,6 +998,7 @@
           "volume": 31
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 31,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 31\n  }\n}",
       "changed": true
     },
     {
@@ -997,6 +1026,7 @@
           "volume": 15
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 15,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 15\n  }\n}",
       "changed": true
     },
     {
@@ -1024,6 +1054,7 @@
           "volume": 3
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 3,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 3\n  }\n}",
       "changed": true
     },
     {
@@ -1051,6 +1082,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1078,6 +1110,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1105,6 +1138,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1132,6 +1166,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1159,6 +1194,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1186,6 +1222,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1213,6 +1250,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -1240,6 +1278,7 @@
           "volume": 5
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 5,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 5\n  }\n}",
       "changed": true
     },
     {
@@ -1267,6 +1306,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1294,6 +1334,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -1321,6 +1362,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -1348,6 +1390,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -1375,6 +1418,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -1402,6 +1446,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -1429,6 +1474,7 @@
           "volume": 2
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 2,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 2\n  }\n}",
       "changed": true
     },
     {
@@ -1456,6 +1502,7 @@
           "volume": 99
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 99,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 99\n  }\n}",
       "changed": true
     },
     {
@@ -1483,6 +1530,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -1510,6 +1558,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -1537,6 +1586,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -1564,6 +1614,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -1597,6 +1648,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -1630,6 +1682,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 75,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -1675,6 +1728,7 @@
           "volume": 4
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 4,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 4\n  }\n}",
       "changed": true
     },
     {
@@ -1708,6 +1762,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1744,6 +1799,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1771,6 +1827,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1804,6 +1861,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -1841,6 +1899,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -1878,6 +1937,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -1915,6 +1975,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -1952,6 +2013,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -1989,6 +2051,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -2026,6 +2089,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -2070,6 +2134,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 78,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Alt+N\",\n    \"undoLastAction\": \"Alt+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -2110,6 +2175,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"dark\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -2150,6 +2216,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"new\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -2190,6 +2257,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -2232,6 +2300,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -2274,6 +2343,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -2326,6 +2396,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": false
     },
     {
@@ -2378,6 +2449,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -2431,6 +2503,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -2486,6 +2559,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": false
     },
     {
@@ -2531,6 +2605,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Not an accelerator\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -2571,6 +2646,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -2615,6 +2691,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -2658,6 +2735,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -2701,6 +2779,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -2744,6 +2823,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -2787,6 +2867,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -2830,6 +2911,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -2873,6 +2955,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -2916,6 +2999,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -2959,6 +3043,7 @@
           "volume": 78
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 78,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 78\n  }\n}",
       "changed": true
     },
     {
@@ -3002,6 +3087,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 75,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -3045,6 +3131,7 @@
           "volume": 31
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 31,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 31\n  }\n}",
       "changed": true
     },
     {
@@ -3088,6 +3175,7 @@
           "volume": 15
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 15,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 15\n  }\n}",
       "changed": true
     },
     {
@@ -3131,6 +3219,7 @@
           "volume": 3
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 3,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 3\n  }\n}",
       "changed": true
     },
     {
@@ -3174,6 +3263,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -3217,6 +3307,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -3260,6 +3351,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -3303,6 +3395,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -3346,6 +3439,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -3389,6 +3483,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -3432,6 +3527,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -3475,6 +3571,7 @@
           "volume": 5
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 5,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 5\n  }\n}",
       "changed": true
     },
     {
@@ -3518,6 +3615,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -3561,6 +3659,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -3604,6 +3703,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -3647,6 +3747,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -3690,6 +3791,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -3733,6 +3835,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -3776,6 +3879,7 @@
           "volume": 2
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 2,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 2\n  }\n}",
       "changed": true
     },
     {
@@ -3819,6 +3923,7 @@
           "volume": 99
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 99,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 99\n  }\n}",
       "changed": true
     },
     {
@@ -3862,6 +3967,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -3905,6 +4011,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -3948,6 +4055,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -3991,6 +4099,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -4040,6 +4149,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -4089,6 +4199,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 75,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -4150,6 +4261,7 @@
           "volume": 4
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 4,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 4\n  }\n}",
       "changed": true
     },
     {
@@ -4199,6 +4311,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -4251,6 +4364,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -4294,6 +4408,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -4343,6 +4458,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -4364,6 +4480,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4385,6 +4502,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4406,6 +4524,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4427,6 +4546,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4448,6 +4568,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4469,6 +4590,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4497,6 +4619,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 78,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Alt+N\",\n    \"undoLastAction\": \"Alt+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4521,6 +4644,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"dark\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4545,6 +4669,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"new\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4569,6 +4694,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4595,6 +4721,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -4621,6 +4748,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -4657,6 +4785,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": false
     },
     {
@@ -4693,6 +4822,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4730,6 +4860,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4769,6 +4900,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": false
     },
     {
@@ -4798,6 +4930,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Not an accelerator\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4822,6 +4955,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -4850,6 +4984,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -4877,6 +5012,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -4904,6 +5040,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -4931,6 +5068,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -4958,6 +5096,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -4985,6 +5124,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -5012,6 +5152,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -5039,6 +5180,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5066,6 +5208,7 @@
           "volume": 78
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 78,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 78\n  }\n}",
       "changed": true
     },
     {
@@ -5093,6 +5236,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 75,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -5120,6 +5264,7 @@
           "volume": 31
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 31,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 31\n  }\n}",
       "changed": true
     },
     {
@@ -5147,6 +5292,7 @@
           "volume": 15
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 15,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 15\n  }\n}",
       "changed": true
     },
     {
@@ -5174,6 +5320,7 @@
           "volume": 3
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 3,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 3\n  }\n}",
       "changed": true
     },
     {
@@ -5201,6 +5348,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5228,6 +5376,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5255,6 +5404,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5282,6 +5432,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5309,6 +5460,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5336,6 +5488,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5363,6 +5516,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -5390,6 +5544,7 @@
           "volume": 5
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 5,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 5\n  }\n}",
       "changed": true
     },
     {
@@ -5417,6 +5572,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5444,6 +5600,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -5471,6 +5628,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -5498,6 +5656,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -5525,6 +5684,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -5552,6 +5712,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -5579,6 +5740,7 @@
           "volume": 2
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 2,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 2\n  }\n}",
       "changed": true
     },
     {
@@ -5606,6 +5768,7 @@
           "volume": 99
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 99,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 99\n  }\n}",
       "changed": true
     },
     {
@@ -5633,6 +5796,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -5660,6 +5824,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -5687,6 +5852,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -5714,6 +5880,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -5747,6 +5914,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -5780,6 +5948,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 75,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -5825,6 +5994,7 @@
           "volume": 4
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 4,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 4\n  }\n}",
       "changed": true
     },
     {
@@ -5858,6 +6028,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5894,6 +6065,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5921,6 +6093,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5954,6 +6127,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -5991,6 +6165,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6028,6 +6203,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6065,6 +6241,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6102,6 +6279,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6139,6 +6317,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6176,6 +6355,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6220,6 +6400,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 78,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Alt+N\",\n    \"undoLastAction\": \"Alt+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6260,6 +6441,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"dark\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6300,6 +6482,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"new\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6340,6 +6523,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6382,6 +6566,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -6424,6 +6609,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -6476,6 +6662,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": false
     },
     {
@@ -6528,6 +6715,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -6581,6 +6769,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": true
     },
     {
@@ -6636,6 +6825,7 @@
           "volume": 60
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
       "changed": false
     },
     {
@@ -6681,6 +6871,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Not an accelerator\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6721,6 +6912,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -6765,6 +6957,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -6808,6 +7001,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -6851,6 +7045,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -6894,6 +7089,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -6937,6 +7133,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -6980,6 +7177,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -7023,6 +7221,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -7066,6 +7265,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -7109,6 +7309,7 @@
           "volume": 78
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 78,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 78\n  }\n}",
       "changed": true
     },
     {
@@ -7152,6 +7353,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 75,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -7195,6 +7397,7 @@
           "volume": 31
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 31,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 31\n  }\n}",
       "changed": true
     },
     {
@@ -7238,6 +7441,7 @@
           "volume": 15
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 15,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 15\n  }\n}",
       "changed": true
     },
     {
@@ -7281,6 +7485,7 @@
           "volume": 3
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 3,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 3\n  }\n}",
       "changed": true
     },
     {
@@ -7324,6 +7529,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -7367,6 +7573,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -7410,6 +7617,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -7453,6 +7661,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -7496,6 +7705,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -7539,6 +7749,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -7582,6 +7793,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -7625,6 +7837,7 @@
           "volume": 5
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 5,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 5\n  }\n}",
       "changed": true
     },
     {
@@ -7668,6 +7881,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -7711,6 +7925,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -7754,6 +7969,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -7797,6 +8013,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -7840,6 +8057,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -7883,6 +8101,7 @@
           "volume": 1
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 1,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 1\n  }\n}",
       "changed": true
     },
     {
@@ -7926,6 +8145,7 @@
           "volume": 2
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 2,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 2\n  }\n}",
       "changed": true
     },
     {
@@ -7969,6 +8189,7 @@
           "volume": 99
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 99,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 99\n  }\n}",
       "changed": true
     },
     {
@@ -8012,6 +8233,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -8055,6 +8277,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -8098,6 +8321,7 @@
           "volume": 100
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 100,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 100\n  }\n}",
       "changed": true
     },
     {
@@ -8141,6 +8365,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -8190,6 +8415,7 @@
           "volume": 0
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 0,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 0\n  }\n}",
       "changed": true
     },
     {
@@ -8239,6 +8465,7 @@
           "volume": 75
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 75,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 75\n  }\n}",
       "changed": true
     },
     {
@@ -8300,6 +8527,7 @@
           "volume": 4
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 4,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 4\n  }\n}",
       "changed": true
     },
     {
@@ -8349,6 +8577,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -8401,6 +8630,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -8444,6 +8674,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     },
     {
@@ -8493,6 +8724,7 @@
           "volume": 23
         }
       },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
     }
   ],
@@ -13031,6 +13263,594 @@
     {
       "platform": "Win32",
       "event": {
+        "key": "F2",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F2",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F2",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F2",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F2",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F2",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Ctrl+Alt+Shift+F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F3",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F3",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F3",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F3",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F3",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F3",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Ctrl+Alt+Shift+F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F4",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F4",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F4",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F4",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F4",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F4",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Ctrl+Alt+Shift+F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F5",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F5",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F5",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F5",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F5",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F5",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Ctrl+Alt+Shift+F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F6",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F6",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F6",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F6",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F6",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F6",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Ctrl+Alt+Shift+F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F7",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F7",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F7",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F7",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F7",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F7",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Ctrl+Alt+Shift+F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F8",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F8",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F8",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F8",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F8",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "F8",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Ctrl+Alt+Shift+F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
         "key": "F9",
         "ctrlKey": false,
         "metaKey": false,
@@ -16454,6 +17274,594 @@
     {
       "platform": "MacIntel",
       "event": {
+        "key": "F2",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F2",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F2",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F2",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F2",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F2",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Cmd+Alt+Shift+F2",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F3",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F3",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F3",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F3",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F3",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F3",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Cmd+Alt+Shift+F3",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F4",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F4",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F4",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F4",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F4",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F4",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Cmd+Alt+Shift+F4",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F5",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F5",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F5",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F5",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F5",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F5",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Cmd+Alt+Shift+F5",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F6",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F6",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F6",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F6",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F6",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F6",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Cmd+Alt+Shift+F6",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F7",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F7",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F7",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F7",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F7",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F7",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Cmd+Alt+Shift+F7",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F8",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F8",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F8",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F8",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F8",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "F8",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Cmd+Alt+Shift+F8",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
         "key": "F9",
         "ctrlKey": false,
         "metaKey": false,
@@ -17113,6 +18521,661 @@
     }
   ],
   "recorders": [
+    {
+      "platform": "Win32",
+      "name": "without-hotkeys-getter",
+      "noGetter": true,
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "z",
+            "ctrlKey": true,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": true
+          }
+        },
+        {
+          "advance": 200
+        }
+      ],
+      "hotkeys": {
+        "toggleVisibility": "Ctrl+Shift+T",
+        "toggleInteractive": "Ctrl+Shift+I",
+        "completeNextTask": "Ctrl+Shift+N",
+        "undoLastAction": "Ctrl+Shift+Z",
+        "redoLastAction": "Ctrl+Shift+Y"
+      },
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [
+            {
+              "action": "redoLastAction",
+              "hotkey": "Ctrl+Shift+Z"
+            }
+          ],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": false,
+          "consumed": false,
+          "recorded": [
+            {
+              "action": "redoLastAction",
+              "hotkey": "Ctrl+Shift+Z"
+            }
+          ],
+          "alerts": [],
+          "recordingChanges": [
+            true,
+            false
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "Win32",
+      "name": "duplicate-label-toggleVisibility",
+      "hotkeys": {
+        "toggleVisibility": "F8",
+        "toggleInteractive": "Ctrl+Shift+I",
+        "completeNextTask": "Ctrl+Shift+N",
+        "undoLastAction": "Ctrl+Shift+Z",
+        "redoLastAction": "Ctrl+Shift+Y"
+      },
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Toggle Overlay Visibility. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "Win32",
+      "name": "duplicate-label-toggleInteractive",
+      "hotkeys": {
+        "toggleVisibility": "Ctrl+Shift+T",
+        "toggleInteractive": "F8",
+        "completeNextTask": "Ctrl+Shift+N",
+        "undoLastAction": "Ctrl+Shift+Z",
+        "redoLastAction": "Ctrl+Shift+Y"
+      },
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Toggle Interactive Mode. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "Win32",
+      "name": "duplicate-label-completeNextTask",
+      "hotkeys": {
+        "toggleVisibility": "Ctrl+Shift+T",
+        "toggleInteractive": "Ctrl+Shift+I",
+        "completeNextTask": "F8",
+        "undoLastAction": "Ctrl+Shift+Z",
+        "redoLastAction": "Ctrl+Shift+Y"
+      },
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Complete Next Task. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Ctrl+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "Win32",
+      "name": "duplicate-label-undoLastAction",
+      "hotkeys": {
+        "toggleVisibility": "Ctrl+Shift+T",
+        "toggleInteractive": "Ctrl+Shift+I",
+        "completeNextTask": "Ctrl+Shift+N",
+        "undoLastAction": "F8",
+        "redoLastAction": "Ctrl+Shift+Y"
+      },
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Undo Last Task Action. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "Win32",
+      "name": "duplicate-label-redoLastAction",
+      "hotkeys": {
+        "toggleVisibility": "Ctrl+Shift+T",
+        "toggleInteractive": "Ctrl+Shift+I",
+        "completeNextTask": "Ctrl+Shift+N",
+        "undoLastAction": "Ctrl+Shift+Z",
+        "redoLastAction": "F8"
+      },
+      "ops": [
+        {
+          "record": "undoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            },
+            "redoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Forward Last Task Action. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            },
+            "redoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            }
+          }
+        }
+      ]
+    },
     {
       "platform": "Win32",
       "name": "success-delay",
@@ -20325,6 +22388,661 @@
               "value": "F8",
               "recording": false,
               "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "MacIntel",
+      "name": "without-hotkeys-getter",
+      "noGetter": true,
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "z",
+            "ctrlKey": true,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": true
+          }
+        },
+        {
+          "advance": 200
+        }
+      ],
+      "hotkeys": {
+        "toggleVisibility": "Cmd+Shift+T",
+        "toggleInteractive": "Cmd+Shift+I",
+        "completeNextTask": "Cmd+Shift+N",
+        "undoLastAction": "Cmd+Shift+Z",
+        "redoLastAction": "Cmd+Shift+Y"
+      },
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [
+            {
+              "action": "redoLastAction",
+              "hotkey": "Cmd+Shift+Z"
+            }
+          ],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": false,
+          "consumed": false,
+          "recorded": [
+            {
+              "action": "redoLastAction",
+              "hotkey": "Cmd+Shift+Z"
+            }
+          ],
+          "alerts": [],
+          "recordingChanges": [
+            true,
+            false
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "MacIntel",
+      "name": "duplicate-label-toggleVisibility",
+      "hotkeys": {
+        "toggleVisibility": "F8",
+        "toggleInteractive": "Cmd+Shift+I",
+        "completeNextTask": "Cmd+Shift+N",
+        "undoLastAction": "Cmd+Shift+Z",
+        "redoLastAction": "Cmd+Shift+Y"
+      },
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Toggle Overlay Visibility. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "MacIntel",
+      "name": "duplicate-label-toggleInteractive",
+      "hotkeys": {
+        "toggleVisibility": "Cmd+Shift+T",
+        "toggleInteractive": "F8",
+        "completeNextTask": "Cmd+Shift+N",
+        "undoLastAction": "Cmd+Shift+Z",
+        "redoLastAction": "Cmd+Shift+Y"
+      },
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Toggle Interactive Mode. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "MacIntel",
+      "name": "duplicate-label-completeNextTask",
+      "hotkeys": {
+        "toggleVisibility": "Cmd+Shift+T",
+        "toggleInteractive": "Cmd+Shift+I",
+        "completeNextTask": "F8",
+        "undoLastAction": "Cmd+Shift+Z",
+        "redoLastAction": "Cmd+Shift+Y"
+      },
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Complete Next Task. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Cmd+Shift+Z",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "MacIntel",
+      "name": "duplicate-label-undoLastAction",
+      "hotkeys": {
+        "toggleVisibility": "Cmd+Shift+T",
+        "toggleInteractive": "Cmd+Shift+I",
+        "completeNextTask": "Cmd+Shift+N",
+        "undoLastAction": "F8",
+        "redoLastAction": "Cmd+Shift+Y"
+      },
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Undo Last Task Action. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "MacIntel",
+      "name": "duplicate-label-redoLastAction",
+      "hotkeys": {
+        "toggleVisibility": "Cmd+Shift+T",
+        "toggleInteractive": "Cmd+Shift+I",
+        "completeNextTask": "Cmd+Shift+N",
+        "undoLastAction": "Cmd+Shift+Z",
+        "redoLastAction": "F8"
+      },
+      "ops": [
+        {
+          "record": "undoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            },
+            "redoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Forward Last Task Action. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
             },
             "redoLastAction": {
               "value": "F8",

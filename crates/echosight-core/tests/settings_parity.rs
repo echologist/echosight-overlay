@@ -29,6 +29,10 @@ fn actual(section: &str, case: &Value) -> Value {
                 normalize_settings_value(&case["input"], &fallback),
                 json!(migration.settings)
             );
+            assert_eq!(
+                json!(echosight_core::storage::json_format(&json!(migration.settings)).unwrap()),
+                case["expectedJson"]
+            );
             assert!(!should_persist_settings_migration(
                 &json!(migration.settings),
                 &migration.settings
@@ -137,7 +141,11 @@ fn recorder_trace(case: &Value) -> Value {
         if let Some(event) = op.get("key") {
             shell.apply(recorder.handle_keydown(
                 &serde_json::from_value(event.clone()).unwrap(),
-                Some(&case["hotkeys"]),
+                if case["noGetter"] == true {
+                    None
+                } else {
+                    Some(&case["hotkeys"])
+                },
                 platform,
             ));
         }

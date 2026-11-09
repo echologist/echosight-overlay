@@ -72,7 +72,7 @@ test('generate settings and hotkey parity from real TypeScript modules', async (
       ...values.map(value => ({ transparency: value, sounds: { enabled: value, volume: value } }))];
     for (const fallback of [undefined, custom]) for (const input of inputs) {
       const expected = domain.normalizeSettings(input, fallback);
-      fixture.settings.push({ platform, input, ...(fallback ? { fallback } : {}), expected,
+      fixture.settings.push({ platform, input, ...(fallback ? { fallback } : {}), expected, expectedJson: JSON.stringify(expected, null, 2),
         changed: domain.shouldPersistSettingsMigration(input, expected) });
     }
     for (const input of [undefined, ...values]) {
@@ -81,13 +81,16 @@ test('generate settings and hotkey parity from real TypeScript modules', async (
     }
     const keys = ['Control', 'Alt', 'Shift', 'Meta', '', ' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
       'Escape', 'Enter', 'Tab', 'Backspace', 'Delete', 'Home', 'PageUp', 'a', 'z', '1', '+', '-', '=', ';', ',', '.', '/', '?', 'ß', 'é', 'ı', 'ſ', '😀',
-      'F0', 'F1', 'F9', 'F10', 'F11', 'F12', 'F13', 'f1', 'Unidentified', 'Dead'];
+      ...Array.from({ length: 14 }, (_, i) => `F${i}`), 'f1', 'Unidentified', 'Dead'];
     for (const main of keys) for (const modifiers of [{}, { shiftKey: true }, { ctrlKey: true }, { metaKey: true }, { altKey: true }, { ctrlKey: true, metaKey: true, altKey: true, shiftKey: true }]) {
       const event = key(main, modifiers);
       fixture.keys.push({ platform, event, expected: domain.getHotkeyRecordingResult(event) });
     }
     const { createHotkeyRecorder } = await import('../../src/renderer/features/settings/hotkeyRecorder');
-    const sequences: { name: string; ops: any[]; hotkeys?: any; missing?: string }[] = [
+    const sequences: { name: string; ops: any[]; hotkeys?: any; missing?: string; noGetter?: boolean }[] = [
+      { name: 'without-hotkeys-getter', noGetter: true, ops: [{ record: 'redoLastAction' }, { key: key('z', { ctrlKey: true, shiftKey: true }) }, { advance: 200 }] },
+      ...actions.map(action => ({ name: `duplicate-label-${action}`, hotkeys: { ...defaults.hotkeys, [action]: 'F8' },
+        ops: [{ record: action === 'redoLastAction' ? 'undoLastAction' : 'redoLastAction' }, { key: key('F8') }] })),
       { name: 'success-delay', ops: [{ record: 'redoLastAction' }, { key: key('y', { ctrlKey: true, shiftKey: true }) }, { advance: 199 }, { advance: 1 }] },
       { name: 'click-cancel', ops: [{ record: 'redoLastAction' }, { record: 'redoLastAction' }, { stop: true }] },
       { name: 'switch', ops: [{ record: 'undoLastAction' }, { record: 'redoLastAction' }, { stop: true }] },
@@ -112,7 +115,7 @@ test('generate settings and hotkey parity from real TypeScript modules', async (
         if (input) input.value = display.formatHotkeyForDisplay(hotkeys[action]);
       }
       const recorded: any[] = [], alerts: string[] = [], recordingChanges: boolean[] = [];
-      const recorder = createHotkeyRecorder({ getHotkeys: () => hotkeys, onRecorded: (action, hotkey) => recorded.push({ action, hotkey }),
+      const recorder = createHotkeyRecorder({ getHotkeys: sequence.noGetter ? undefined : () => hotkeys, onRecorded: (action, hotkey) => recorded.push({ action, hotkey }),
         alertUser: message => { alerts.push(message); }, onRecordingChanged: state => recordingChanges.push(state) });
       const snapshots: any[] = [];
       for (const op of sequence.ops) {
