@@ -20,7 +20,8 @@ changes are part of this slice.
   fields synthesized. The model is an open `serde_json::Map`, not a lossy typed
   schema. Replaced the interrupted, uncompiled 21 KB model and future-module
   declarations with this small representation and only implemented modules.
-- [x] Asset type precedence, supported extensions, audio-extension detection and MIME.
+- [x] Asset type precedence, supported extensions, audio-extension detection and MIME
+  **for genuine extension strings** (empty or leading `.`), not arbitrary JS property names.
 - [x] Variant construction with identity/description fallbacks, section whitelist,
   conditional truthiness, removal of `variants`, and nonmutation of the base.
 - [x] Actual installed `defu` semantics: override-first array concatenation, recursive
@@ -28,7 +29,8 @@ changes are part of this slice.
   `__proto__`/`constructor` filtering (including default-side retention quirks).
 - [x] Library's numeric version comparator: decimal `parseInt` prefixes, suffixes,
   signed parts, zero-padded missing components, invalid versions compare equal,
-  numeric difference rather than an ordering enum or semver interpretation.
+  numeric difference rather than an ordering enum or semver interpretation. Finite
+  parsed components can produce an infinite difference; the oracle retains its sign.
 - [x] All 11 bundled themes validate and round-trip their complete fields. Rust
   reads the current bundled files and checks against the embedded TS fixture input.
 
@@ -41,13 +43,58 @@ on them. Extension checking follows host Node path semantics; unsafe-path reject
 recognizes both POSIX and Windows absolute paths on every host. The committed
 fixtures were executed on Linux; no Windows runtime verification is claimed.
 
+## MIME call boundary (verified, not an accepted delta)
+
+The only production `getMimeType` call is in
+`src/main/themes/themeAssetLoaders.ts:92`, passing `asset.extension`:
+
+- `src/main/index.ts:247-251` supplies the actual library map to IPC;
+  `src/main/ipc/themeIpc.ts:79-82` selects from that map by ID, not a caller-supplied
+  theme object.
+- `themeLibrary.ts:177-189` replaces single-file JSON `assets` with `{}`.
+- `themeLibrary.ts:215` replaces folder JSON `assets` with discovery results.
+  `themeLibrary.ts:234-254` builds each extension with
+  `path.extname(file).toLowerCase()`, filters supported extensions, and stores it.
+- Variants clone these assets; `createVariantTheme` does not apply an `assets`
+  override. `themeLibrary.ts:337-343` adds only assets from the same discovery method.
+
+Thus bare `__proto__` and `constructor` cannot reach the MIME lookup as extensions
+through this production path. A real-TS temporary-filesystem regression covers
+single-file/folder/variant declarations with forged extensions, extensionless
+prototype-named files, and discovered assets loaded through `loadThemeAssetData`.
+It verifies the existing boundary; it does not implement a Rust loader.
+
+Direct TS calls outside that boundary do return `Object.prototype` and the `Object`
+function, respectively, because `MIME_TYPES` is an ordinary object. The type-aware
+`mime-boundary.json` records runtime type and identity, **not fake MIME strings or
+JSON serialization of those objects/functions**. Rust tests classify these cases
+as outside the extension contract and separately pin Rust's string fallback. No
+arbitrary-string parity, new user-approved delta, or reproduction of unsafe JS
+lookup behavior is claimed. Dotted suffixes such as `.__proto__` and `.constructor`
+remain in contract and return the normal fallback in both implementations.
+
 ## Golden evidence
 
 `tools/golden/themes.gen.test.ts` imports real `themeValidation.ts` and
 `themeHelpers.ts` functions and the installed `defu`. The private version comparator
 is transpiled from the exact `themeLibrary.ts` source tail and evaluated in a VM;
 no replacement oracle or library I/O mock produces its expected values.
-`provenance.json` records source SHA-256 hashes, Node/platform and category counts.
+`provenance.json` schema 2 retains the original source/dependency path keys and
+SHA-256 hashes, Node/platform and category counts. It also hashes the MIME caller
+chain, generator/config and installed TypeScript transpiler. Check mode verifies
+all source hashes before comparing every regenerated fixture byte-for-byte, then
+checks schema/platform/counts. Node version is informational; checks do not rewrite
+fixtures. Regression tests mutate copied TS and dependency files at their original
+relative paths and prove stale hashes fail. No new dependency is needed. Plain
+`cargo test` checks the fixtures, not these hashes: run the Node check gate too.
+
+Numeric expectations use `{kind: "finite", value}` or `{kind: "nan"}`, `{kind:
+"+infinity"}`, `{kind: "-infinity"}`. The real comparator matrix includes opposite
+signed decimal strings of magnitude `1e308`: both components parse finitely but
+subtraction overflows in each direction. Rust compares finite values exactly,
+checks NaN by predicate, and checks signed infinities explicitly. The codec tests
+all four tags; the current comparator matrix produces 439 finite and two infinite
+results, **no NaN** (invalid/nonfinite parsed components compare equal).
 
 | Fixture file | Cases | Rust regression |
 |---|---:|---|
@@ -57,15 +104,21 @@ no replacement oracle or library I/O mock produces its expected values.
 | defu.json | 36 | `defu_merge_matches_installed_dependency` |
 | helpers.json | 150 | `asset_helpers_match_typescript` |
 | extensions.json | 1 | `asset_helpers_match_typescript` |
-| versions.json | 361 | `version_comparison_matches_real_library_source` |
+| mime-boundary.json | 25 | `mime_parity_is_bounded_to_path_extensions` |
+| versions.json | 441 | `version_comparison_matches_real_library_source` |
 | bundled.json | 11 | `all_eleven_bundled_themes_validate_and_preserve_fields` |
-| **Total** | **911** | **7 theme regression tests** |
+| **Total** | **1016** | **8 theme regression tests** |
 
 Regression-first evidence: after writing the Rust oracle comparisons, executable
 placeholder implementations produced **6 failed / 1 passed** tests. Failures were
 wrong validation errors, variant errors, variant output, defu output, asset metadata
 and version difference. The bundle pass at RED only demonstrated unchanged JSON,
 not validation correctness. The real implementation then passed all 7 regressions.
+The boundary/oracle follow-up first produced 3 Rust failures (bare `wav` in the
+extension-only matrix, missing boundary evidence, and untyped numeric expectations).
+The numeric-encoding and provenance/fixture-check regressions also failed before
+the check implementations; regeneration from real TS made the Rust tests pass
+without changing Rust helper behavior.
 
 The isolated Vitest config also runs both original reference suites unchanged:
 
@@ -86,6 +139,9 @@ The isolated Vitest config also runs both original reference suites unchanged:
 Run from the repository root:
 
 ```sh
+# Verify committed provenance and expected output without rewriting them:
+THEMES_GOLDEN_CHECK=1 npx vitest run --config tools/golden/vitest.themes.config.ts
+# Explicitly regenerate only when the source/boundary change has been reviewed:
 npx vitest run --config tools/golden/vitest.themes.config.ts
 npx tsc --ignoreConfig --noEmit --target ES2022 --module ESNext --moduleResolution Bundler --strict --skipLibCheck tools/golden/themes.gen.test.ts tools/golden/vitest.themes.config.ts
 cargo test -p echosight-core
@@ -93,10 +149,12 @@ cargo fmt -p echosight-core --check
 cargo clippy -p echosight-core --all-targets -- -D warnings
 ```
 
-Observed: Vitest **3 files / 10 tests passed**; Rust **3 existing placement tests +
-7 theme regressions passed**, no doctests; fmt and clippy clean. Generator typecheck
+Observed: Vitest **3 files / 15 tests passed**; Rust **3 existing placement tests +
+8 theme regressions passed**, no doctests; fmt and clippy clean. Generator typecheck
 passed. Repeat fixture generation produced byte-identical SHA-256 hashes for all
-9 JSON files (8 fixture categories plus provenance). No additional Cargo dependency
+10 JSON files (9 fixture categories plus provenance). Unrelated existing fixture
+files (`validation`, `variants`, `merges`, `defu`, `extensions`, `bundled`) remain
+byte-identical to the pre-review commit. No additional Cargo dependency
 or lockfile changes were necessary.
 
 ## Explicitly pending (do not mark loader parity finished)

@@ -1,0 +1,317 @@
+[
+  {
+    "name": "posix extname \"\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "posix",
+      "filename": "",
+      "extension": ""
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "posix extname \"__proto__\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "posix",
+      "filename": "__proto__",
+      "extension": ""
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "posix extname \"constructor\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "posix",
+      "filename": "constructor",
+      "extension": ""
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "posix extname \".hidden\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "posix",
+      "filename": ".hidden",
+      "extension": ""
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "posix extname \"asset.__proto__\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "posix",
+      "filename": "asset.__proto__",
+      "extension": ".__proto__"
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "posix extname \"asset.constructor\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "posix",
+      "filename": "asset.constructor",
+      "extension": ".constructor"
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "posix extname \"asset.\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "posix",
+      "filename": "asset.",
+      "extension": "."
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "posix extname \"asset.PNG\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "posix",
+      "filename": "asset.PNG",
+      "extension": ".png"
+    },
+    "expected": {
+      "type": "string",
+      "value": "image/png"
+    }
+  },
+  {
+    "name": "posix extname \"asset.tar.gz\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "posix",
+      "filename": "asset.tar.gz",
+      "extension": ".gz"
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "posix extname \"C:\\\\assets\\\\asset.OGG\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "posix",
+      "filename": "C:\\assets\\asset.OGG",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "type": "string",
+      "value": "audio/ogg"
+    }
+  },
+  {
+    "name": "win32 extname \"\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "win32",
+      "filename": "",
+      "extension": ""
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "win32 extname \"__proto__\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "win32",
+      "filename": "__proto__",
+      "extension": ""
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "win32 extname \"constructor\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "win32",
+      "filename": "constructor",
+      "extension": ""
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "win32 extname \".hidden\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "win32",
+      "filename": ".hidden",
+      "extension": ""
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "win32 extname \"asset.__proto__\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "win32",
+      "filename": "asset.__proto__",
+      "extension": ".__proto__"
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "win32 extname \"asset.constructor\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "win32",
+      "filename": "asset.constructor",
+      "extension": ".constructor"
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "win32 extname \"asset.\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "win32",
+      "filename": "asset.",
+      "extension": "."
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "win32 extname \"asset.PNG\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "win32",
+      "filename": "asset.PNG",
+      "extension": ".png"
+    },
+    "expected": {
+      "type": "string",
+      "value": "image/png"
+    }
+  },
+  {
+    "name": "win32 extname \"asset.tar.gz\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "win32",
+      "filename": "asset.tar.gz",
+      "extension": ".gz"
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "win32 extname \"C:\\\\assets\\\\asset.OGG\"",
+    "contract": "path-extension",
+    "input": {
+      "flavor": "win32",
+      "filename": "C:\\assets\\asset.OGG",
+      "extension": ".ogg"
+    },
+    "expected": {
+      "type": "string",
+      "value": "audio/ogg"
+    }
+  },
+  {
+    "name": "outside extension contract wav",
+    "contract": "outside-extension-contract",
+    "input": {
+      "extension": "wav"
+    },
+    "expected": {
+      "type": "string",
+      "value": "application/octet-stream"
+    }
+  },
+  {
+    "name": "outside extension contract __proto__",
+    "contract": "outside-extension-contract",
+    "input": {
+      "extension": "__proto__"
+    },
+    "expected": {
+      "type": "object",
+      "identity": "Object.prototype"
+    }
+  },
+  {
+    "name": "outside extension contract constructor",
+    "contract": "outside-extension-contract",
+    "input": {
+      "extension": "constructor"
+    },
+    "expected": {
+      "type": "function",
+      "identity": "Object"
+    }
+  },
+  {
+    "name": "outside extension contract __PROTO__",
+    "contract": "outside-extension-contract",
+    "input": {
+      "extension": "__PROTO__"
+    },
+    "expected": {
+      "type": "object",
+      "identity": "Object.prototype"
+    }
+  },
+  {
+    "name": "outside extension contract CONSTRUCTOR",
+    "contract": "outside-extension-contract",
+    "input": {
+      "extension": "CONSTRUCTOR"
+    },
+    "expected": {
+      "type": "function",
+      "identity": "Object"
+    }
+  }
+]

@@ -1,12 +1,18 @@
 {
-  "schema": 1,
+  "schema": 2,
   "runtimePlatform": "linux",
   "node": "v26.12.1",
   "sources": {
     "src/main/themes/themeValidation.ts": "4a67c9bfa84b9f674a817d5aa7ab26cbd7ab36c1d070c6d623a0b14ce92e24c7",
     "src/main/themes/themeHelpers.ts": "e775c6065e2891a142893fc571e42cb426505e5f633de2a92dd42d103591788e",
     "src/main/themes/themeLibrary.ts": "4c00bf2b788595191666014d02b1de57eb3021f8cdbf6dd144e2be6faf8d4ddb",
-    "node_modules/defu/dist/defu.mjs": "f10f93fff8a70c6f3ad73ff665441d7c3d18d339b480f1fd8a85669f03f8160f"
+    "node_modules/defu/dist/defu.mjs": "f10f93fff8a70c6f3ad73ff665441d7c3d18d339b480f1fd8a85669f03f8160f",
+    "src/main/themes/themeAssetLoaders.ts": "2f773187cdd81f31b6da760d8c406cc0504f21b82a7947a15a8a2eb3d29a7dba",
+    "src/main/ipc/themeIpc.ts": "4ef1ee654598d079c04a6ce6359d5a710221abfe3d44522fef2e00bf6601fe91",
+    "src/main/index.ts": "ffb1e73a55e3fbdd9c31217d57c248c106cd984b9c9bd4a34fc7a24c074550aa",
+    "tools/golden/themes.gen.test.ts": "b1634eb419abee223d3906c10abbdd4f9b5f30c2900b66daa0801f87272ede98",
+    "tools/golden/vitest.themes.config.ts": "522ffbf70661f6cdc067d5c4417ad57ca2a468169612d2fda926075c92062b42",
+    "node_modules/typescript/lib/typescript.js": "569177652966bd528c319171c7dd22860dbf72bde116cbc4f644f1d02bb12e39"
   },
   "counts": {
     "validation": 246,
@@ -15,7 +21,8 @@
     "defu": 36,
     "helpers": 150,
     "extensions": 1,
-    "versions": 361,
-    "bundled": 11
+    "versions": 441,
+    "bundled": 11,
+    "mime-boundary": 25
   }
 }
