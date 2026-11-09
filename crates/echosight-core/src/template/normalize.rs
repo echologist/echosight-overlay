@@ -1,5 +1,7 @@
 use super::model::{TaskTemplate, TemplateData, TemplateError, TemplateTask};
-use crate::jscompat::{js_is_integer, js_number, js_trim, js_truthy, utf16_len, utf16_prefix};
+use crate::jscompat::{
+    checked_js_number, js_is_integer, js_trim, js_truthy, utf16_len, utf16_prefix,
+};
 use crate::task::{
     creation::{create_task_id, sanitize_background_options},
     model::{TaskEnvironment, TaskId, TaskMode},
@@ -36,11 +38,22 @@ pub fn normalize_template_task(value: &Value) -> Result<Option<TemplateTask>, Te
     let background_options = value
         .get("backgroundOptions")
         .filter(|v| js_truthy(v))
-        .map(sanitize_background_options);
+        .map(|options| {
+            // The shared task sanitizer is infallible only for non-throwing
+            // Number inputs. Check exactly the field it coerces, not unused data.
+            if let Some(minutes) = options
+                .as_object()
+                .and_then(|o| o.get("expiresAfterMinutes"))
+            {
+                checked_js_number(minutes)?;
+            }
+            Ok::<_, TemplateError>(sanitize_background_options(options))
+        })
+        .transpose()?;
     let mut trigger_indices = Vec::new();
     if let Some(values) = value["triggerIndices"].as_array() {
         for value in values {
-            let index = js_number(value);
+            let index = checked_js_number(value)?;
             if js_is_integer(index) && index >= 0.0 && !trigger_indices.contains(&index) {
                 trigger_indices.push(index);
             }
@@ -89,7 +102,11 @@ pub fn normalize_saved_template(
     if data.tasks.is_empty() {
         return Ok(None);
     }
-    let id = value.get("id").map(js_number).unwrap_or(f64::NAN);
+    let id = value
+        .get("id")
+        .map(checked_js_number)
+        .transpose()?
+        .unwrap_or(f64::NAN);
     // Source obtains the fallback timestamp before obtaining a fallback ID.
     let created_at = value["createdAt"]
         .as_str()

@@ -19,14 +19,26 @@ fn actual(section: &str, case: &Value) -> Value {
                 .get("fallback")
                 .map(|v| serde_json::from_value(v.clone()).unwrap())
                 .unwrap_or_else(|| renderer_defaults(platform));
-            let migration = migrate_settings(&case["input"], &fallback);
+            let migration = match migrate_settings(&case["input"], &fallback) {
+                Ok(migration) => migration,
+                Err(error) => {
+                    assert_eq!(
+                        normalize_settings_value(&case["input"], &fallback),
+                        Err(error)
+                    );
+                    assert_eq!(normalize_settings(&case["input"], &fallback), Err(error));
+                    assert!(case.get("changed").is_none());
+                    assert!(case.get("expectedJson").is_none());
+                    return json!({"thrown": {"name": "TypeError", "message": error.to_string()}});
+                }
+            };
             assert_eq!(
                 json!(migration.changed),
                 case["changed"],
                 "migration decision: {case}"
             );
             assert_eq!(
-                normalize_settings_value(&case["input"], &fallback),
+                normalize_settings_value(&case["input"], &fallback).unwrap(),
                 json!(migration.settings)
             );
             assert_eq!(
@@ -39,10 +51,15 @@ fn actual(section: &str, case: &Value) -> Value {
             ));
             json!(migration.settings)
         }
-        "percentages" => json!(normalize_percentage(
-            case.get("input"),
-            case["fallback"].as_u64().unwrap() as u8
-        )),
+        "percentages" => {
+            match normalize_percentage(case.get("input"), case["fallback"].as_u64().unwrap() as u8)
+            {
+                Ok(number) => json!(number),
+                Err(error) => {
+                    json!({"thrown": {"name": "TypeError", "message": error.to_string()}})
+                }
+            }
+        }
         "conversions" => json!(convert_hotkey_format(
             case.get("input"),
             case["fallback"]
@@ -109,6 +126,9 @@ impl Shell {
 
 fn recorder_trace(case: &Value) -> Value {
     let platform = case["platform"].as_str().unwrap();
+    let raw_hotkeys = case["rawHotkeys"]
+        .as_str()
+        .map(|text| serde_json::from_str::<Value>(text).unwrap());
     let mut recorder = HotkeyRecorder::default();
     let mut shell = Shell::default();
     for action in HotkeyAction::ALL {
@@ -144,7 +164,7 @@ fn recorder_trace(case: &Value) -> Value {
                 if case["noGetter"] == true {
                     None
                 } else {
-                    Some(&case["hotkeys"])
+                    Some(raw_hotkeys.as_ref().unwrap_or(&case["hotkeys"]))
                 },
                 platform,
             ));

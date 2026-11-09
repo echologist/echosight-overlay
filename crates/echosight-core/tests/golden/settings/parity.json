@@ -13,7 +13,7 @@
     "tests/unit/settings/hotkeyRecorder.test.ts": "60803422d04af28a0fa923197abca5517e66a566b1a5c03b0dc7bf45da8a38e9",
     "tests/unit/settings/settingsUi.test.ts": "15d587f43c6bdcb5d62fb3cbb23898e30a1ca00f0b0e4784aba571a2827d41f3",
     "tests/unit/main/hotkeys.test.ts": "cb0186f0db25a64f16f9c9bc3a963e3bda4669029ab318336104d17b1dff6be3",
-    "tools/golden/settings.gen.test.ts": "96688a0104d48e29ea5d35dbcb2a1fc53b01bc94bd130078226506fd99029751",
+    "tools/golden/settings.gen.test.ts": "dbe5b131bbc0679e9a0f2c19bcad4a41e8badbec742464d81fe716d9c4ad5384",
     "tools/golden/vitest.settings.config.ts": "a056b38a3e9d457c39e0ffcd2f1d360528536117ce8442e5730837a722dcbefd"
   },
   "bootstrapDefaults": {
@@ -484,6 +484,42 @@
       },
       "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 100\n  }\n}",
       "changed": true
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "sounds": {
+          "volume": {
+            "toString": 0
+          }
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "sounds": {
+          "volume": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
     },
     {
       "platform": "Win32",
@@ -1866,6 +1902,149 @@
     },
     {
       "platform": "Win32",
+      "input": {
+        "transparency": {
+          "toString": null
+        },
+        "sounds": {
+          "enabled": {
+            "toString": null
+          },
+          "volume": {
+            "toString": null
+          }
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "transparency": {
+          "toString": 0
+        },
+        "sounds": {
+          "enabled": {
+            "toString": 0
+          },
+          "volume": {
+            "toString": 0
+          }
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "transparency": [
+          [
+            {
+              "toString": null
+            }
+          ]
+        ],
+        "sounds": {
+          "enabled": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ],
+          "volume": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "transparency": [
+          1,
+          {
+            "toString": false
+          }
+        ],
+        "sounds": {
+          "enabled": [
+            1,
+            {
+              "toString": false
+            }
+          ],
+          "volume": [
+            1,
+            {
+              "toString": false
+            }
+          ]
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "transparency": {
+          "valueOf": null
+        },
+        "sounds": {
+          "enabled": {
+            "valueOf": null
+          },
+          "volume": {
+            "valueOf": null
+          }
+        }
+      },
+      "expected": {
+        "settingsVersion": 2,
+        "transparency": 70,
+        "theme": "echosight",
+        "hotkeys": {
+          "toggleVisibility": "Ctrl+Shift+T",
+          "toggleInteractive": "Ctrl+Shift+I",
+          "completeNextTask": "Ctrl+Shift+N",
+          "undoLastAction": "Ctrl+Shift+Z",
+          "redoLastAction": "Ctrl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": false,
+          "volume": 60
+        }
+      },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"Ctrl+Shift+Z\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
+      "changed": true
+    },
+    {
+      "platform": "Win32",
       "input": null,
       "fallback": {
         "settingsVersion": 2,
@@ -2345,6 +2524,74 @@
       },
       "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 100\n  }\n}",
       "changed": true
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "sounds": {
+          "volume": {
+            "toString": 0
+          }
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Ctrl+Shift+T",
+          "toggleInteractive": "Ctrl+Shift+I",
+          "completeNextTask": "Ctrl+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Ctrl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "sounds": {
+          "volume": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ]
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Ctrl+Shift+T",
+          "toggleInteractive": "Ctrl+Shift+I",
+          "completeNextTask": "Ctrl+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Ctrl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
     },
     {
       "platform": "Win32",
@@ -4462,6 +4709,229 @@
       "changed": true
     },
     {
+      "platform": "Win32",
+      "input": {
+        "transparency": {
+          "toString": null
+        },
+        "sounds": {
+          "enabled": {
+            "toString": null
+          },
+          "volume": {
+            "toString": null
+          }
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Ctrl+Shift+T",
+          "toggleInteractive": "Ctrl+Shift+I",
+          "completeNextTask": "Ctrl+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Ctrl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "transparency": {
+          "toString": 0
+        },
+        "sounds": {
+          "enabled": {
+            "toString": 0
+          },
+          "volume": {
+            "toString": 0
+          }
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Ctrl+Shift+T",
+          "toggleInteractive": "Ctrl+Shift+I",
+          "completeNextTask": "Ctrl+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Ctrl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "transparency": [
+          [
+            {
+              "toString": null
+            }
+          ]
+        ],
+        "sounds": {
+          "enabled": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ],
+          "volume": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ]
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Ctrl+Shift+T",
+          "toggleInteractive": "Ctrl+Shift+I",
+          "completeNextTask": "Ctrl+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Ctrl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "transparency": [
+          1,
+          {
+            "toString": false
+          }
+        ],
+        "sounds": {
+          "enabled": [
+            1,
+            {
+              "toString": false
+            }
+          ],
+          "volume": [
+            1,
+            {
+              "toString": false
+            }
+          ]
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Ctrl+Shift+T",
+          "toggleInteractive": "Ctrl+Shift+I",
+          "completeNextTask": "Ctrl+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Ctrl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "Win32",
+      "input": {
+        "transparency": {
+          "valueOf": null
+        },
+        "sounds": {
+          "enabled": {
+            "valueOf": null
+          },
+          "volume": {
+            "valueOf": null
+          }
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Ctrl+Shift+T",
+          "toggleInteractive": "Ctrl+Shift+I",
+          "completeNextTask": "Ctrl+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Ctrl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Ctrl+Shift+T",
+          "toggleInteractive": "Ctrl+Shift+I",
+          "completeNextTask": "Ctrl+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Ctrl+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Ctrl+Shift+T\",\n    \"toggleInteractive\": \"Ctrl+Shift+I\",\n    \"completeNextTask\": \"Ctrl+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Ctrl+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
+      "changed": true
+    },
+    {
       "platform": "MacIntel",
       "input": null,
       "expected": {
@@ -4750,6 +5220,42 @@
       },
       "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 100\n  }\n}",
       "changed": true
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "sounds": {
+          "volume": {
+            "toString": 0
+          }
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "sounds": {
+          "volume": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
     },
     {
       "platform": "MacIntel",
@@ -6132,6 +6638,149 @@
     },
     {
       "platform": "MacIntel",
+      "input": {
+        "transparency": {
+          "toString": null
+        },
+        "sounds": {
+          "enabled": {
+            "toString": null
+          },
+          "volume": {
+            "toString": null
+          }
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "transparency": {
+          "toString": 0
+        },
+        "sounds": {
+          "enabled": {
+            "toString": 0
+          },
+          "volume": {
+            "toString": 0
+          }
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "transparency": [
+          [
+            {
+              "toString": null
+            }
+          ]
+        ],
+        "sounds": {
+          "enabled": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ],
+          "volume": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "transparency": [
+          1,
+          {
+            "toString": false
+          }
+        ],
+        "sounds": {
+          "enabled": [
+            1,
+            {
+              "toString": false
+            }
+          ],
+          "volume": [
+            1,
+            {
+              "toString": false
+            }
+          ]
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "transparency": {
+          "valueOf": null
+        },
+        "sounds": {
+          "enabled": {
+            "valueOf": null
+          },
+          "volume": {
+            "valueOf": null
+          }
+        }
+      },
+      "expected": {
+        "settingsVersion": 2,
+        "transparency": 70,
+        "theme": "echosight",
+        "hotkeys": {
+          "toggleVisibility": "Cmd+Shift+T",
+          "toggleInteractive": "Cmd+Shift+I",
+          "completeNextTask": "Cmd+Shift+N",
+          "undoLastAction": "Cmd+Shift+Z",
+          "redoLastAction": "Cmd+Shift+Y"
+        },
+        "sounds": {
+          "enabled": false,
+          "volume": 60
+        }
+      },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 70,\n  \"theme\": \"echosight\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"Cmd+Shift+Z\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": false,\n    \"volume\": 60\n  }\n}",
+      "changed": true
+    },
+    {
+      "platform": "MacIntel",
       "input": null,
       "fallback": {
         "settingsVersion": 2,
@@ -6611,6 +7260,74 @@
       },
       "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 100\n  }\n}",
       "changed": true
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "sounds": {
+          "volume": {
+            "toString": 0
+          }
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Cmd+Shift+T",
+          "toggleInteractive": "Cmd+Shift+I",
+          "completeNextTask": "Cmd+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Cmd+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "sounds": {
+          "volume": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ]
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Cmd+Shift+T",
+          "toggleInteractive": "Cmd+Shift+I",
+          "completeNextTask": "Cmd+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Cmd+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
     },
     {
       "platform": "MacIntel",
@@ -8726,6 +9443,229 @@
       },
       "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
       "changed": true
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "transparency": {
+          "toString": null
+        },
+        "sounds": {
+          "enabled": {
+            "toString": null
+          },
+          "volume": {
+            "toString": null
+          }
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Cmd+Shift+T",
+          "toggleInteractive": "Cmd+Shift+I",
+          "completeNextTask": "Cmd+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Cmd+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "transparency": {
+          "toString": 0
+        },
+        "sounds": {
+          "enabled": {
+            "toString": 0
+          },
+          "volume": {
+            "toString": 0
+          }
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Cmd+Shift+T",
+          "toggleInteractive": "Cmd+Shift+I",
+          "completeNextTask": "Cmd+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Cmd+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "transparency": [
+          [
+            {
+              "toString": null
+            }
+          ]
+        ],
+        "sounds": {
+          "enabled": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ],
+          "volume": [
+            [
+              {
+                "toString": null
+              }
+            ]
+          ]
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Cmd+Shift+T",
+          "toggleInteractive": "Cmd+Shift+I",
+          "completeNextTask": "Cmd+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Cmd+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "transparency": [
+          1,
+          {
+            "toString": false
+          }
+        ],
+        "sounds": {
+          "enabled": [
+            1,
+            {
+              "toString": false
+            }
+          ],
+          "volume": [
+            1,
+            {
+              "toString": false
+            }
+          ]
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Cmd+Shift+T",
+          "toggleInteractive": "Cmd+Shift+I",
+          "completeNextTask": "Cmd+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Cmd+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "input": {
+        "transparency": {
+          "valueOf": null
+        },
+        "sounds": {
+          "enabled": {
+            "valueOf": null
+          },
+          "volume": {
+            "valueOf": null
+          }
+        }
+      },
+      "fallback": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Cmd+Shift+T",
+          "toggleInteractive": "Cmd+Shift+I",
+          "completeNextTask": "Cmd+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Cmd+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expected": {
+        "settingsVersion": 2,
+        "transparency": 42,
+        "theme": "fallback-theme",
+        "hotkeys": {
+          "toggleVisibility": "Cmd+Shift+T",
+          "toggleInteractive": "Cmd+Shift+I",
+          "completeNextTask": "Cmd+Shift+N",
+          "undoLastAction": "F9",
+          "redoLastAction": "Cmd+Shift+Y"
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 23
+        }
+      },
+      "expectedJson": "{\n  \"settingsVersion\": 2,\n  \"transparency\": 42,\n  \"theme\": \"fallback-theme\",\n  \"hotkeys\": {\n    \"toggleVisibility\": \"Cmd+Shift+T\",\n    \"toggleInteractive\": \"Cmd+Shift+I\",\n    \"completeNextTask\": \"Cmd+Shift+N\",\n    \"undoLastAction\": \"F9\",\n    \"redoLastAction\": \"Cmd+Shift+Y\"\n  },\n  \"sounds\": {\n    \"enabled\": true,\n    \"volume\": 23\n  }\n}",
+      "changed": true
     }
   ],
   "percentages": [
@@ -8946,6 +9886,68 @@
       "expected": 37
     },
     {
+      "input": {
+        "toString": null
+      },
+      "fallback": 37,
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "input": {
+        "toString": 0
+      },
+      "fallback": 37,
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "input": [
+        [
+          {
+            "toString": null
+          }
+        ]
+      ],
+      "fallback": 37,
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "input": [
+        1,
+        {
+          "toString": false
+        }
+      ],
+      "fallback": 37,
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "input": {
+        "valueOf": null
+      },
+      "fallback": 37,
+      "expected": 37
+    },
+    {
       "fallback": 37,
       "expected": 37
     },
@@ -9157,6 +10159,68 @@
     {
       "input": {
         "volume": 40
+      },
+      "fallback": 37,
+      "expected": 37
+    },
+    {
+      "input": {
+        "toString": null
+      },
+      "fallback": 37,
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "input": {
+        "toString": 0
+      },
+      "fallback": 37,
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "input": [
+        [
+          {
+            "toString": null
+          }
+        ]
+      ],
+      "fallback": 37,
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "input": [
+        1,
+        {
+          "toString": false
+        }
+      ],
+      "fallback": 37,
+      "expected": {
+        "thrown": {
+          "name": "TypeError",
+          "message": "Cannot convert object to primitive value"
+        }
+      }
+    },
+    {
+      "input": {
+        "valueOf": null
       },
       "fallback": 37,
       "expected": 37
@@ -10497,6 +11561,171 @@
     }
   ],
   "keys": [
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+Ctrl",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+Ctrl",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+Ctrl",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+Ctrl",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Ctrl+Alt+Shift+Ctrl",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": null
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": null,
+        "warning": "Please use Ctrl+Cmd, Alt+Cmd, or a function key to avoid conflicts with normal typing."
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+Cmd",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Ctrl+Cmd",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+Cmd",
+        "warning": null
+      }
+    },
+    {
+      "platform": "Win32",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Ctrl+Alt+Shift+Cmd",
+        "warning": null
+      }
+    },
     {
       "platform": "Win32",
       "event": {
@@ -14505,6 +15734,171 @@
       },
       "expected": {
         "hotkey": "Ctrl+Alt+Shift+Dead",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": null
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": null,
+        "warning": "Please use Cmd+Ctrl, Alt+Ctrl, or a function key to avoid conflicts with normal typing."
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+Ctrl",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+Ctrl",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+Ctrl",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Ctrl",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Cmd+Alt+Shift+Ctrl",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Shift+Cmd",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": true,
+        "metaKey": false,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+Cmd",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": false,
+        "metaKey": true,
+        "altKey": false,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Cmd+Cmd",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": false,
+        "metaKey": false,
+        "altKey": true,
+        "shiftKey": false
+      },
+      "expected": {
+        "hotkey": "Alt+Cmd",
+        "warning": null
+      }
+    },
+    {
+      "platform": "MacIntel",
+      "event": {
+        "key": "Cmd",
+        "ctrlKey": true,
+        "metaKey": true,
+        "altKey": true,
+        "shiftKey": true
+      },
+      "expected": {
+        "hotkey": "Cmd+Alt+Shift+Cmd",
         "warning": null
       }
     },
@@ -18523,6 +19917,260 @@
   "recorders": [
     {
       "platform": "Win32",
+      "name": "index-key-first-masks-known",
+      "rawHotkeys": "{\"toggleVisibility\":\"Ctrl+Shift+T\",\"toggleInteractive\":\"Ctrl+Shift+I\",\"completeNextTask\":\"Ctrl+Shift+N\",\"undoLastAction\":\"F8\",\"redoLastAction\":\"Ctrl+Shift+Y\",\"0\":\"F8\"}",
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        },
+        {
+          "advance": 200
+        }
+      ],
+      "hotkeys": {
+        "0": "F8",
+        "toggleVisibility": "Ctrl+Shift+T",
+        "toggleInteractive": "Ctrl+Shift+I",
+        "completeNextTask": "Ctrl+Shift+N",
+        "undoLastAction": "F8",
+        "redoLastAction": "Ctrl+Shift+Y"
+      },
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [
+            {
+              "action": "redoLastAction",
+              "hotkey": "F8"
+            }
+          ],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "F8",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": false,
+          "consumed": false,
+          "recorded": [
+            {
+              "action": "redoLastAction",
+              "hotkey": "F8"
+            }
+          ],
+          "alerts": [],
+          "recordingChanges": [
+            true,
+            false
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "Win32",
+      "name": "non-index-key-does-not-mask-known",
+      "hotkeys": {
+        "toggleVisibility": "Ctrl+Shift+T",
+        "toggleInteractive": "Ctrl+Shift+I",
+        "completeNextTask": "Ctrl+Shift+N",
+        "undoLastAction": "F8",
+        "redoLastAction": "Ctrl+Shift+Y",
+        "00": "F8",
+        "4294967295": "F8"
+      },
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Undo Last Task Action. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Ctrl+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Ctrl+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Ctrl+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "Win32",
       "name": "without-hotkeys-getter",
       "noGetter": true,
       "ops": [
@@ -22393,6 +24041,260 @@
               "value": "F8",
               "recording": false,
               "button": "Record"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "MacIntel",
+      "name": "index-key-first-masks-known",
+      "rawHotkeys": "{\"toggleVisibility\":\"Cmd+Shift+T\",\"toggleInteractive\":\"Cmd+Shift+I\",\"completeNextTask\":\"Cmd+Shift+N\",\"undoLastAction\":\"F8\",\"redoLastAction\":\"Cmd+Shift+Y\",\"0\":\"F8\"}",
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        },
+        {
+          "advance": 200
+        }
+      ],
+      "hotkeys": {
+        "0": "F8",
+        "toggleVisibility": "Cmd+Shift+T",
+        "toggleInteractive": "Cmd+Shift+I",
+        "completeNextTask": "Cmd+Shift+N",
+        "undoLastAction": "F8",
+        "redoLastAction": "Cmd+Shift+Y"
+      },
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [
+            {
+              "action": "redoLastAction",
+              "hotkey": "F8"
+            }
+          ],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "F8",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": false,
+          "consumed": false,
+          "recorded": [
+            {
+              "action": "redoLastAction",
+              "hotkey": "F8"
+            }
+          ],
+          "alerts": [],
+          "recordingChanges": [
+            true,
+            false
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "platform": "MacIntel",
+      "name": "non-index-key-does-not-mask-known",
+      "hotkeys": {
+        "toggleVisibility": "Cmd+Shift+T",
+        "toggleInteractive": "Cmd+Shift+I",
+        "completeNextTask": "Cmd+Shift+N",
+        "undoLastAction": "F8",
+        "redoLastAction": "Cmd+Shift+Y",
+        "00": "F8",
+        "4294967295": "F8"
+      },
+      "ops": [
+        {
+          "record": "redoLastAction"
+        },
+        {
+          "key": {
+            "key": "F8",
+            "ctrlKey": false,
+            "metaKey": false,
+            "altKey": false,
+            "shiftKey": false
+          }
+        }
+      ],
+      "snapshots": [
+        {
+          "active": true,
+          "consumed": false,
+          "recorded": [],
+          "alerts": [],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
+            }
+          }
+        },
+        {
+          "active": true,
+          "consumed": true,
+          "recorded": [],
+          "alerts": [
+            "\"F8\" is already assigned to Undo Last Task Action. Choose a different shortcut."
+          ],
+          "recordingChanges": [
+            true
+          ],
+          "controls": {
+            "toggleVisibility": {
+              "value": "Cmd+Shift+T",
+              "recording": false,
+              "button": "Record"
+            },
+            "toggleInteractive": {
+              "value": "Cmd+Shift+I",
+              "recording": false,
+              "button": "Record"
+            },
+            "completeNextTask": {
+              "value": "Cmd+Shift+N",
+              "recording": false,
+              "button": "Record"
+            },
+            "undoLastAction": {
+              "value": "F8",
+              "recording": false,
+              "button": "Record"
+            },
+            "redoLastAction": {
+              "value": "Press keys now...",
+              "recording": true,
+              "button": "Cancel"
             }
           }
         }

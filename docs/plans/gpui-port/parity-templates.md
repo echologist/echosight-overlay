@@ -54,6 +54,14 @@ community, persistence}`.
 1. Load `Storage::load(FileKind::Templates)` as raw JSON; pass successful values
    to `resolve_template_load` / `normalize_template_collection` with the shared
    environment. Do not directly deserialize legacy JSON into `TaskTemplate`.
+   Numeric coercion errors now propagate as `TemplateError::NumericCoercion`
+   wrapping the public `jscompat::JsNumberError` (the actual TS TypeError message).
+   These existing Result APIs keep their signatures; exhaustive error matches
+   must handle the new variant. Do not publish/persist fallback normalized data
+   on failure, including a failed `resolve_template_load`. The TS persistence
+   wrapper's logged-error/empty-list observation is recorded separately; the
+   Rust boundary intentionally retains the failure as Err to prevent an empty
+   collection becoming eligible for persistence.
 2. Save: `create_template_from_tasks`, then `upsert_template_by_name` silently.
    For import: `parse_template_import`, then `replacement_prompt` using its
    normalized name. For community: index `COMMUNITY_TEMPLATES` safely, then ask
@@ -91,10 +99,22 @@ original-path SHA-256 hashes for source/dependency/generator/config provenance.
 
 - RED checkpoint `75e30b8`: compiling fixture adapter, **20 failed / 0 passed**
   before production implementation.
-- Current evidence: **153 golden operation cases**, plus **3 syntax-rejection**
-  observations and **4 explicitly unsupported JS-value** observations.
-- Rust: **27 template test functions** (20 golden groups, 7 integration guards).
-  Full `cargo test --locked -p echosight-core`: **63 passed, 0 failed**.
+- Current evidence: **274 golden operation cases**, plus **3 syntax-rejection**,
+  **4 explicitly unsupported JS-value**, and **3 load-rejection** observations.
+- Rust: **30 template test functions** (22 golden groups, 8 integration guards).
+  Combined core suite: **85 passed, 0 failed**, including original task,
+  background, storage and theme fixtures. No native/UI acceptance is implied.
+- Final template fixture SHA-256:
+  `4131e36b8b17d3cd7eb6885b92c7c3c26886250d645bd8208c042c8ca9bcb6b3`.
+- Review-fix RED: template normalization/import groups returned successful data
+  for real TS TypeErrors; radix selection returned IEEE-754 bits
+  `4380000000000000` instead of oracle `4380000000000001`. GREEN exercises the
+  production shared coercion and template APIs, not a port inside the adapter.
+- Number fixtures record finite IEEE-754 bits and tagged nonfinite outcomes from
+  actual JS Number, avoiding JSON integer/f64 parsing artifacts. Binary/octal/hex
+  cases cover ties-to-even, sticky remainder, leading significand carry,
+  max-finite/overflow midpoint and malformed suffix after overflow. Radix inputs
+  are rounded once, not at every multiply/add; `0x200000000000011` is pinned.
 - TypeScript isolated config: **2 passed, 0 failed**. Freshness mode and two
   explicit regeneration runs produce identical fixture bytes.
 - `cargo fmt --all --check`, core all-target clippy with `-D warnings`, project
@@ -106,7 +126,7 @@ original-path SHA-256 hashes for source/dependency/generator/config provenance.
 # Read-only provenance/expected-byte check BEFORE any regeneration:
 TEMPLATES_GOLDEN_CHECK=1 npx vitest run --config tools/golden/vitest.templates.config.ts
 # Explicit regeneration, only when intentionally updating source expectations:
-npx vitest run --config tools/golden/vitest.templates.config.ts
+TEMPLATES_GOLDEN_CHECK=0 npx vitest run --config tools/golden/vitest.templates.config.ts
 cargo test --locked -p echosight-core
 cargo fmt --all --check
 cargo clippy --locked -p echosight-core --all-targets -- -D warnings
@@ -124,13 +144,26 @@ numbers, and parser recursion-limit inputs return `TemplateError::Unsupported`
 instead of silently replacing/truncating data or treating it as corrupt. Even
 an unused nonfinite import field can therefore fail closed. The oracle records
 real TS acceptance separately; these are **not** claimed as parity passes.
-Top-level destr `undefined`/NaN/infinity values are recognizable shape failures,
-so they return the source `Invalid JSON template format` error.
+Top-level destr `undefined`/NaN/infinity values and valid overflowing scalar
+numbers such as `1e400` are recognizable shape failures, so they return the
+source `Invalid JSON template format` error. The real TS oracle also pins negative
+and fractional overflowing decimals, plus malformed `1e400x` as a parser error;
+nested nonfinite values remain an explicit Unsupported boundary.
 
 Stable domain/destr errors are matched exactly. JSON syntax is rejected, but
 serde parser diagnostic text is not fabricated to imitate a particular V8
 version's `JSON.parse` wording. Exact engine-specific syntax-error text remains
 an explicit compatibility gap. Typed runtime APIs expect normalized template
 nodes; legacy string nodes enter through normalization, not unchecked typed
-serde decoding. Arbitrary JS objects/functions/custom coercion are not a native
-storage contract.
+serde decoding. Runtime JS functions/getters/symbols are not a native storage
+contract. JSON objects with shadowed non-callable `toString` **are** in scope:
+trigger indices, expiry options, saved IDs and nested arrays reject with an error,
+never a successful defaulted document. Only fields actually coerced are checked.
+
+The existing infallible `js_number`/task sanitizer contract remains bounded to
+non-throwing coercions. Templates precheck precisely the expiry field before
+calling the shared legacy task sanitizer; runtime instantiation uses typed numeric
+options. Settings never calls the infallible path directly. Arbitrary raw task
+creation options are a residual task-lane gate, not newly claimed as supported;
+that lane must validate before using its infallible API. No background/task state
+API migration, UI wiring, or accepted product delta is bundled into this fix.

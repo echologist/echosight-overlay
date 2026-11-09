@@ -100,7 +100,8 @@ pub fn hotkey_comparison_key(hotkey: &str, platform: &str) -> String {
     js_trim(&format_hotkey_for_display(hotkey, platform)).to_lowercase()
 }
 
-/// The raw variant preserves source insertion order and its first-match behavior:
+/// The raw variant uses JS enumeration (array indices first, then insertion order)
+/// and its first-match behavior:
 /// an unknown first matching action masks a later known action. Normalized
 /// Settings only contains the five known actions, in source order.
 pub fn find_duplicate_hotkey_action(
@@ -111,8 +112,18 @@ pub fn find_duplicate_hotkey_action(
 ) -> Option<HotkeyAction> {
     let normalized = hotkey_comparison_key(hotkey, platform);
     let entries = hotkeys.as_object()?;
+    // Same canonical uint32-index ordering as Object.entries, including the
+    // exclusion of 2^32-1 and leading-zero spellings. Stable sort preserves all
+    // other keys' insertion order (including unknown first-match masking).
+    let mut entries: Vec<_> = entries.iter().collect();
+    entries.sort_by_key(|(key, _)| {
+        key.parse::<u32>()
+            .ok()
+            .filter(|n| *n != u32::MAX && n.to_string() == **key)
+            .map_or((1, 0), |n| (0, n))
+    });
     entries
-        .iter()
+        .into_iter()
         .find(|(action, assigned)| {
             action.as_str() != current_action.as_str()
                 && assigned
@@ -174,7 +185,7 @@ pub fn hotkey_recording_result(event: &KeyEvent, platform: &str) -> Option<Hotke
         main.as_str(),
         "F1" | "F2" | "F3" | "F4" | "F5" | "F6" | "F7" | "F8" | "F9" | "F10" | "F11" | "F12"
     );
-    if event.ctrl_key || event.meta_key || event.alt_key || function {
+    if keys.contains(&primary) || keys.contains(&"Alt") || function {
         Some(HotkeyRecordingResult {
             hotkey: Some(keys.join("+")),
             warning: None,

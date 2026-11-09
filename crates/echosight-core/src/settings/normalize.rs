@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 
-use crate::jscompat::{js_number, js_round, js_trim};
+use crate::jscompat::{JsNumberError, checked_js_number, js_round, js_trim};
 
 use super::{
     CURRENT_SETTINGS_VERSION, HotkeyAction, HotkeySettings, Settings, primary_modifier_label,
@@ -15,13 +15,16 @@ pub fn renderer_defaults(platform: &str) -> Settings {
 }
 
 /// `None` means JavaScript undefined (fallback); explicit JSON null coerces to 0.
-pub fn normalize_percentage(value: Option<&Value>, fallback: u8) -> u8 {
-    let numeric = value.map(js_number).unwrap_or(f64::NAN);
-    if numeric.is_finite() {
+pub fn normalize_percentage(value: Option<&Value>, fallback: u8) -> Result<u8, JsNumberError> {
+    let numeric = value
+        .map(checked_js_number)
+        .transpose()?
+        .unwrap_or(f64::NAN);
+    Ok(if numeric.is_finite() {
         js_round(numeric).clamp(0.0, 100.0) as u8
     } else {
         fallback
-    }
+    })
 }
 
 fn normalized_string(value: Option<&Value>, fallback: &str) -> String {
@@ -36,7 +39,7 @@ fn normalized_string(value: Option<&Value>, fallback: &str) -> String {
 /// Normalize raw data before typed decoding. Unknown fields (including legacy
 /// backgroundColor) are dropped; hotkey spellings/order are preserved here.
 /// Accelerator conversion is a separate main-process rule.
-pub fn normalize_settings_value(input: &Value, fallback: &Settings) -> Value {
+pub fn normalize_settings(input: &Value, fallback: &Settings) -> Result<Settings, JsNumberError> {
     let field = |name: &str| input.as_object().and_then(|object| object.get(name));
     let legacy = field("backgroundColor")
         .and_then(Value::as_str)
@@ -44,33 +47,39 @@ pub fn normalize_settings_value(input: &Value, fallback: &Settings) -> Value {
         .filter(|s| !s.is_empty());
     let hotkeys = field("hotkeys").and_then(Value::as_object);
     let sounds = field("sounds").and_then(Value::as_object);
-    let hotkeys: serde_json::Map<String, Value> = HotkeyAction::ALL
-        .into_iter()
-        .map(|action| {
-            (
-                action.as_str().into(),
-                Value::String(normalized_string(
-                    hotkeys.and_then(|h| h.get(action.as_str())),
-                    fallback.hotkeys.get(action),
-                )),
-            )
-        })
-        .collect();
-    json!({
-        "settingsVersion": CURRENT_SETTINGS_VERSION,
-        "transparency": normalize_percentage(field("transparency"), fallback.transparency),
-        "theme": normalized_string(field("theme"), legacy.unwrap_or(&fallback.theme)),
-        "hotkeys": hotkeys,
-        "sounds": {
-            "enabled": sounds.and_then(|s| s.get("enabled")).and_then(Value::as_bool).unwrap_or(fallback.sounds.enabled),
-            "volume": normalize_percentage(sounds.and_then(|s| s.get("volume")), fallback.sounds.volume)
-        }
+    let mut normalized_hotkeys = fallback.hotkeys.clone();
+    for action in HotkeyAction::ALL {
+        normalized_hotkeys.set(
+            action,
+            normalized_string(
+                hotkeys.and_then(|h| h.get(action.as_str())),
+                fallback.hotkeys.get(action),
+            ),
+        );
+    }
+    Ok(Settings {
+        settings_version: CURRENT_SETTINGS_VERSION,
+        transparency: normalize_percentage(field("transparency"), fallback.transparency)?,
+        theme: normalized_string(field("theme"), legacy.unwrap_or(&fallback.theme)),
+        hotkeys: normalized_hotkeys,
+        sounds: super::SoundSettings {
+            enabled: sounds
+                .and_then(|s| s.get("enabled"))
+                .and_then(Value::as_bool)
+                .unwrap_or(fallback.sounds.enabled),
+            volume: normalize_percentage(
+                sounds.and_then(|s| s.get("volume")),
+                fallback.sounds.volume,
+            )?,
+        },
     })
 }
 
-pub fn normalize_settings(input: &Value, fallback: &Settings) -> Settings {
-    serde_json::from_value(normalize_settings_value(input, fallback))
-        .expect("normalization constructs a complete typed settings value")
+pub fn normalize_settings_value(
+    input: &Value,
+    fallback: &Settings,
+) -> Result<Value, JsNumberError> {
+    Ok(json!(normalize_settings(input, fallback)?))
 }
 
 /// Migration is field-wise JS strict equality, NOT whole-document equality.
@@ -115,8 +124,13 @@ pub struct SettingsMigration {
     pub changed: bool,
 }
 
-pub fn migrate_settings(input: &Value, fallback: &Settings) -> SettingsMigration {
-    let settings = normalize_settings(input, fallback);
+/// A coercion error carries no normalized settings or persistence decision.
+/// Shells must surface the error and leave the saved document untouched.
+pub fn migrate_settings(
+    input: &Value,
+    fallback: &Settings,
+) -> Result<SettingsMigration, JsNumberError> {
+    let settings = normalize_settings(input, fallback)?;
     let changed = should_persist_settings_migration(input, &settings);
-    SettingsMigration { settings, changed }
+    Ok(SettingsMigration { settings, changed })
 }
