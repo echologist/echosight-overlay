@@ -1,4 +1,7 @@
-//! GPUI user interface. The GPUI dependency is added once ADR-001 pins the source.
+//! GPUI views and components; the interactive S5 harness is isolated in `spikes`.
+
+pub mod components;
+pub mod spikes;
 
 #[cfg(test)]
 mod tests {
