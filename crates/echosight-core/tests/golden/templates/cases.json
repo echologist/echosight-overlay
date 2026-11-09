@@ -9,7 +9,7 @@
     "src/renderer/features/templates/communityTemplates.ts": "ef63b293976e06cfd3251ecef20699338510411f882f66a179d48db658f7b2b5",
     "src/renderer/features/templates/communityTemplatesUi.ts": "9b612e46e774712c1732d9b072f2b0c32180b47cab7b474c3877f7fbf7d69e6b",
     "node_modules/destr/dist/index.mjs": "0e8124257d21e0f4ef6af2abbd636f48e9fb39a428efcb741420fe390a4b8f5e",
-    "tools/golden/templates.gen.test.ts": "eb77d8b3007909122000b3089fe328d4267789b7b9091183bb6c578ba0fef876",
+    "tools/golden/templates.gen.test.ts": "6f217cdaf15b4abba138d0463318ac8d7f02d12c01356026bdfce11fb9d2f519",
     "tools/golden/vitest.templates.config.ts": "8678c5f87c9e4314dcc82a49c9da0baa468d4bbe10da422bb283346e0eb028db"
   },
   "nowMs": 1749938954072,
@@ -1855,10 +1855,10 @@
       ]
     },
     {
-      "name": "import {\"pad\":99972,\"suffix\":\"x\"}",
+      "name": "import {\"pad\":99975,\"suffix\":\"x\"}",
       "op": "import",
       "input": {
-        "pad": 99972,
+        "pad": 99975,
         "suffix": "x"
       },
       "expected": {
@@ -1880,21 +1880,14 @@
       ]
     },
     {
-      "name": "import {\"pad\":99973,\"suffix\":\"x\"}",
+      "name": "import {\"pad\":99976,\"suffix\":\"x\"}",
       "op": "import",
       "input": {
-        "pad": 99973,
+        "pad": 99976,
         "suffix": "x"
       },
       "expected": {
-        "ok": {
-          "name": "x",
-          "tasks": [
-            {
-              "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            }
-          ]
-        }
+        "error": "Template data too large"
       },
       "randoms": [
         0.123,
@@ -1905,21 +1898,14 @@
       ]
     },
     {
-      "name": "import {\"pad\":49986,\"suffix\":\"😀\"}",
+      "name": "import {\"pad\":49988,\"suffix\":\"😀\"}",
       "op": "import",
       "input": {
-        "pad": 49986,
+        "pad": 49988,
         "suffix": "😀"
       },
       "expected": {
-        "ok": {
-          "name": "x",
-          "tasks": [
-            {
-              "text": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
-            }
-          ]
-        }
+        "error": "Template data too large"
       },
       "randoms": [
         0.123,
@@ -3511,6 +3497,360 @@
       ]
     },
     {
+      "name": "instantiate normalized fractional durationfalse",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "normalized fractional duration",
+        "tasks": [
+          {
+            "text": "fraction",
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 0,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072123,
+          "text": "fraction",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": null,
+            "priority": "high"
+          }
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate normalized fractional durationtrue",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "normalized fractional duration",
+        "tasks": [
+          {
+            "text": "fraction",
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 0,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072500,
+          "text": "fraction",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": null,
+            "priority": "high"
+          }
+        }
+      ],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "export normalized fractional duration",
+      "op": "export",
+      "input": {
+        "id": 1,
+        "name": "normalized fractional duration",
+        "tasks": [
+          {
+            "text": "fraction",
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 0,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": {
+        "data": {
+          "name": "normalized fractional duration",
+          "tasks": [
+            {
+              "text": "fraction",
+              "mode": "background",
+              "backgroundOptions": {
+                "expiresAfterMinutes": 0,
+                "priority": "high"
+              }
+            }
+          ],
+          "version": "2.0",
+          "exportedAt": "2025-06-14T22:09:14.072Z",
+          "description": "PoE Task Template: normalized fractional duration",
+          "taskCount": 1
+        },
+        "bytes": "{\n  \"name\": \"normalized fractional duration\",\n  \"tasks\": [\n    {\n      \"text\": \"fraction\",\n      \"mode\": \"background\",\n      \"backgroundOptions\": {\n        \"expiresAfterMinutes\": 0,\n        \"priority\": \"high\"\n      }\n    }\n  ],\n  \"version\": \"2.0\",\n  \"exportedAt\": \"2025-06-14T22:09:14.072Z\",\n  \"description\": \"PoE Task Template: normalized fractional duration\",\n  \"taskCount\": 1\n}",
+        "filename": "poe2-template-normalized-fractional-duration.json"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "inspect normalized fractional duration",
+      "op": "inspect",
+      "input": [
+        {
+          "text": "fraction",
+          "mode": "background",
+          "backgroundOptions": {
+            "expiresAfterMinutes": 0,
+            "priority": "high"
+          }
+        }
+      ],
+      "expected": {
+        "count": 1,
+        "background": true,
+        "triggers": false
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate null options and ignored main optionsfalse",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "null options and ignored main options",
+        "tasks": [
+          {
+            "text": "background",
+            "mode": "background",
+            "backgroundOptions": null
+          },
+          {
+            "text": "main",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 5,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072123,
+          "text": "background",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": null,
+            "priority": "normal"
+          }
+        },
+        {
+          "id": 1749938954072999,
+          "text": "main",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate null options and ignored main optionstrue",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "null options and ignored main options",
+        "tasks": [
+          {
+            "text": "background",
+            "mode": "background",
+            "backgroundOptions": null
+          },
+          {
+            "text": "main",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 5,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072500,
+          "text": "background",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": null,
+            "priority": "normal"
+          }
+        },
+        {
+          "id": 1749938954072500,
+          "text": "main",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "export null options and ignored main options",
+      "op": "export",
+      "input": {
+        "id": 1,
+        "name": "null options and ignored main options",
+        "tasks": [
+          {
+            "text": "background",
+            "mode": "background",
+            "backgroundOptions": null
+          },
+          {
+            "text": "main",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 5,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": {
+        "data": {
+          "name": "null options and ignored main options",
+          "tasks": [
+            {
+              "text": "background",
+              "mode": "background",
+              "backgroundOptions": null
+            },
+            {
+              "text": "main",
+              "backgroundOptions": {
+                "expiresAfterMinutes": 5,
+                "priority": "high"
+              }
+            }
+          ],
+          "version": "2.0",
+          "exportedAt": "2025-06-14T22:09:14.072Z",
+          "description": "PoE Task Template: null options and ignored main options",
+          "taskCount": 2
+        },
+        "bytes": "{\n  \"name\": \"null options and ignored main options\",\n  \"tasks\": [\n    {\n      \"text\": \"background\",\n      \"mode\": \"background\",\n      \"backgroundOptions\": null\n    },\n    {\n      \"text\": \"main\",\n      \"backgroundOptions\": {\n        \"expiresAfterMinutes\": 5,\n        \"priority\": \"high\"\n      }\n    }\n  ],\n  \"version\": \"2.0\",\n  \"exportedAt\": \"2025-06-14T22:09:14.072Z\",\n  \"description\": \"PoE Task Template: null options and ignored main options\",\n  \"taskCount\": 2\n}",
+        "filename": "poe2-template-null-options-and-ignored-main-options.json"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "inspect null options and ignored main options",
+      "op": "inspect",
+      "input": [
+        {
+          "text": "background",
+          "mode": "background",
+          "backgroundOptions": null
+        },
+        {
+          "text": "main",
+          "backgroundOptions": {
+            "expiresAfterMinutes": 5,
+            "priority": "high"
+          }
+        }
+      ],
+      "expected": {
+        "count": 2,
+        "background": true,
+        "triggers": false
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
       "name": "instantiate background grandchildfalse",
       "op": "instantiate",
       "input": {
@@ -4917,6 +5257,38 @@
         0.5,
         0.5
       ]
+    }
+  ],
+  "syntaxErrors": [
+    {
+      "input": "{",
+      "message": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+    },
+    {
+      "input": "{\"name\":\"x\",\"tasks\":[\"x\",]}",
+      "message": "Unexpected token ']', ...\"sks\":[\"x\",]}\" is not valid JSON"
+    },
+    {
+      "input": "{\"name\":\"x\" \"tasks\":[]}",
+      "message": "Expected ',' or '}' after property value in JSON at position 12 (line 1 column 13)"
+    }
+  ],
+  "unsupported": [
+    {
+      "input": "{\"name\":\"x\",\"tasks\":[\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀\"]}",
+      "outputJson": "{\"name\":\"x\",\"tasks\":[{\"text\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\ud83d\"}]}"
+    },
+    {
+      "input": "{\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀\",\"tasks\":[\"a\"]}",
+      "outputJson": "{\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\ud83d\",\"tasks\":[{\"text\":\"a\"}]}"
+    },
+    {
+      "input": "{\"name\":\"x\",\"tasks\":[\"\\ud800\"]}",
+      "outputJson": "{\"name\":\"x\",\"tasks\":[{\"text\":\"\\ud800\"}]}"
+    },
+    {
+      "input": "{\"name\":\"x\",\"tasks\":[\"a\"],\"unused\":1e400}",
+      "outputJson": "{\"name\":\"x\",\"tasks\":[{\"text\":\"a\"}]}"
     }
   ]
 }

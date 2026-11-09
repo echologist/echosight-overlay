@@ -110,8 +110,9 @@ test('generate template normalization, transfer, operations, persistence and com
         '{"name":"x","tasks":["x"],"constructor":{}}',
         '\uFEFF {"name":"x","tasks":["x"]} \u00a0',
         '"unescaped"inside"'].map(text => ({ text })),
-      { pad: 99972, suffix: 'x' }, { pad: 99973, suffix: 'x' },
-      { pad: 49986, suffix: '😀' }
+      { pad: 100000 - JSON.stringify({ name: 'x', tasks: [''] }).length, suffix: 'x' },
+      { pad: 100001 - JSON.stringify({ name: 'x', tasks: [''] }).length, suffix: 'x' },
+      { pad: Math.ceil((100001 - JSON.stringify({ name: 'x', tasks: [''] }).length) / 2), suffix: '😀' }
     ];
     for (const input of inputs) {
       const text = input.text ?? `{"name":"x","tasks":["${input.suffix!.repeat(input.pad!)}"]}`;
@@ -139,6 +140,8 @@ test('generate template normalization, transfer, operations, persistence and com
     const templates = [template('nested', nested), template('empty', []), template('main', [{ text: 'one' }]),
       template('raw indices', [{ text: 'a', children: [{ text: 'b', triggerIndices: [2, 0] }] },
         { text: 'c', triggerIndices: [-1, 0, 1.5, 99, 1, 1] }]),
+      template('normalized fractional duration', [domain.normalizeTemplateTask({ text: 'fraction', mode: 'background', backgroundOptions: { expiresAfterMinutes: 0.9, priority: 'high' } })!]),
+      template('null options and ignored main options', [{ text: 'background', mode: 'background', backgroundOptions: null }, { text: 'main', backgroundOptions: { expiresAfterMinutes: 5, priority: 'high' } }]),
       template('background grandchild', [{ text: 'root', children: [{ text: 'bg', mode: 'background', children: [{ text: 'leaf', mode: 'main' }] }] }])];
     for (const input of templates) {
       for (const repeated of [false, true]) add('instantiate ' + input.name + repeated, 'instantiate', input,
@@ -183,7 +186,20 @@ test('generate template normalization, transfer, operations, persistence and com
       const result = await saveTemplateState(api, [], logger);
       cases.push({ name: 'save persistence ' + JSON.stringify(input), op: 'save', input, expected: { result, logs }, randoms });
     }
-    const document = { sources: sourceHashes(), nowMs, nowIso, cases };
+    const syntaxErrors = ['{', '{"name":"x","tasks":["x",]}', '{"name":"x" "tasks":[]}'].map(input => {
+      let message = '';
+      try { domain.parseTemplateImport(input); }
+      catch (error) { message = (error as Error).message; }
+      expect(message).not.toBe('');
+      return { input, message };
+    });
+    const unsupported = [
+      JSON.stringify({ name: 'x', tasks: ['x'.repeat(199) + '😀'] }),
+      JSON.stringify({ name: 'x'.repeat(49) + '😀', tasks: ['a'] }),
+      '{"name":"x","tasks":["\\ud800"]}',
+      '{"name":"x","tasks":["a"],"unused":1e400}'
+    ].map(input => ({ input, outputJson: JSON.stringify(domain.parseTemplateImport(input)) }));
+    const document = { sources: sourceHashes(), nowMs, nowIso, cases, syntaxErrors, unsupported };
     const bytes = JSON.stringify(document, null, 2) + '\n';
     if (process.env.TEMPLATES_GOLDEN_CHECK === '1') checkedBytes(readFileSync(`${output}/cases.json`, 'utf8'), bytes);
     else { mkdirSync(output, { recursive: true }); writeFileSync(`${output}/cases.json`, bytes); }
