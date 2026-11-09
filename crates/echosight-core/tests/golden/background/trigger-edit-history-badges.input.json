@@ -1,0 +1,116 @@
+{
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Task 1",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "main",
+      "triggers": [
+        21,
+        20
+      ],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    },
+    {
+      "id": 20,
+      "text": "Task 20",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": false,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": 1,
+        "priority": "high"
+      }
+    },
+    {
+      "id": 2,
+      "text": "Task 2",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [
+        {
+          "id": 21,
+          "text": "Task 21",
+          "completed": false,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": 1,
+            "priority": "normal"
+          }
+        }
+      ],
+      "mode": "main",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    }
+  ],
+  "ops": [
+    {
+      "op": "configure",
+      "id": 1
+    },
+    {
+      "op": "editDormant",
+      "id": 20,
+      "text": "Changed dormant",
+      "priority": "normal"
+    },
+    {
+      "op": "triggers",
+      "id": 1,
+      "selected": [
+        20,
+        21
+      ]
+    },
+    {
+      "op": "undo"
+    },
+    {
+      "op": "triggers",
+      "id": 1,
+      "selected": [
+        20
+      ]
+    },
+    {
+      "op": "redo"
+    },
+    {
+      "op": "triggers",
+      "id": 1,
+      "selected": [
+        20
+      ]
+    },
+    {
+      "op": "undo"
+    },
+    {
+      "op": "redo"
+    },
+    {
+      "op": "toggle",
+      "id": 1
+    },
+    {
+      "op": "save"
+    }
+  ]
+}

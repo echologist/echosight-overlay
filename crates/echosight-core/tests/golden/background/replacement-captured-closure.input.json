@@ -1,0 +1,78 @@
+{
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 20,
+      "text": "Task 20",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": 1,
+        "priority": "normal"
+      }
+    },
+    {
+      "id": 21,
+      "text": "Task 21",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": 2,
+        "priority": "normal"
+      }
+    }
+  ],
+  "ops": [
+    {
+      "op": "restart"
+    },
+    {
+      "op": "replace",
+      "tasks": [
+        {
+          "id": 20,
+          "text": "Replacement",
+          "completed": false,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": 3,
+            "priority": "normal"
+          }
+        }
+      ]
+    },
+    {
+      "op": "advance",
+      "ms": 60000
+    },
+    {
+      "op": "restart"
+    },
+    {
+      "op": "advance",
+      "ms": 60000
+    },
+    {
+      "op": "cancelAll"
+    },
+    {
+      "op": "advance",
+      "ms": 180000
+    }
+  ]
+}
