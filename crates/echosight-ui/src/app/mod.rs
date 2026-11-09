@@ -293,6 +293,7 @@ impl TaskApp {
         if matches!(command, Command::Quit) && self.dialog.is_none() {
             self.restore_focus = window.focused(cx);
             self.dialog = Some(Dialog::Quit);
+            self.dragging = None;
             let focus = self
                 .controls
                 .entry("cancel".into())
@@ -356,6 +357,7 @@ impl TaskApp {
                     Command::Edit(_) => Dialog::Edit(id, task.mode == TaskMode::Background),
                     _ => Dialog::Delete(id),
                 });
+                self.dragging = None;
                 self.form_error = None;
                 self.restore_focus = window.focused(cx);
                 self.editor = Self::new_editor(text, window, cx);

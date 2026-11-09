@@ -31,6 +31,16 @@ pub(super) fn input_style() -> TextInputStyle {
     }
 }
 
+pub(super) fn delete_message(text: &str) -> gpui::Stateful<gpui::Div> {
+    let message = format!("Delete \"{text}\"? You can undo this with Ctrl+Shift+Z.");
+    div()
+        .id("dialog-message")
+        .debug_selector(|| "dialog-message".into())
+        .role(gpui::Role::Paragraph)
+        .aria_label(message.clone())
+        .child(message)
+}
+
 impl TaskApp {
     fn button(
         &mut self,
@@ -406,8 +416,14 @@ impl Render for TaskApp {
                 Dialog::Delete(_) => "Delete Task",
                 Dialog::Quit => "Quit Echosight",
             };
+            // Match the overlay's p_4 in logical units (one rem per side),
+            // independent of monitor scale. Only the body may shrink/scroll;
+            // the title and action footer must remain inside the window.
             let mut content = div()
+                .id("dialog-panel")
+                .debug_selector(|| "dialog-panel".into())
                 .w_full()
+                .max_h((window.viewport_size().height - window.rem_size() * 2.).max(px(0.)))
                 .p_4()
                 .flex()
                 .flex_col()
@@ -415,9 +431,15 @@ impl Render for TaskApp {
                 .bg(rgb(SURFACE))
                 .border_1()
                 .border_color(rgb(GOLD))
-                .child(title);
+                .child(div().flex_shrink_0().child(title));
+            let mut body = div()
+                .id("dialog-body")
+                .debug_selector(|| "dialog-body".into())
+                .min_h_0()
+                .overflow_y_scroll();
+            let mut fields = div().flex().flex_col().gap_3();
             if quitting {
-                content = content.child(if self.saving {
+                fields = fields.child(if self.saving {
                     "Waiting for pending saves…"
                 } else if self.error.is_some() {
                     "Storage reported an error. Unsaved changes will be lost. Quit anyway?"
@@ -426,16 +448,13 @@ impl Render for TaskApp {
                 });
             } else if let Dialog::Delete(id) = dialog {
                 if let Some(task) = self.state.as_ref().and_then(|s| s.find_task(id)) {
-                    content = content.child(format!(
-                        "Delete \"{}\"? You can undo this with Ctrl+Shift+Z.",
-                        task.text
-                    ));
+                    fields = fields.child(delete_message(&task.text));
                 }
             } else {
                 self.tab_order.push((self.editor.focus_handle(cx), None));
-                content = content.child(self.editor.clone());
+                fields = fields.child(self.editor.clone());
                 if matches!(dialog, Dialog::Edit(_, true)) {
-                    content = content.child(self.button(
+                    fields = fields.child(self.button(
                         "priority".into(),
                         if self.high_priority {
                             "Priority: HIGH"
@@ -450,7 +469,7 @@ impl Render for TaskApp {
                 }
             }
             if let Some(error) = self.form_error.as_ref().or(self.error.as_ref()) {
-                content = content.child(
+                fields = fields.child(
                     div()
                         .id("form-error")
                         .debug_selector(|| "form-error".into())
@@ -458,9 +477,11 @@ impl Render for TaskApp {
                         .child(error.clone()),
                 );
             }
-            content = content.child(
+            body = body.child(fields);
+            content = content.child(body).child(
                 div()
                     .flex()
+                    .flex_shrink_0()
                     .gap_2()
                     .child(self.button(
                         "cancel".into(),
@@ -492,6 +513,7 @@ impl Render for TaskApp {
             root = root.child(
                 div()
                     .id("dialog-overlay")
+                    .occlude()
                     .absolute()
                     .inset_0()
                     .bg(rgba(0x000000bb))

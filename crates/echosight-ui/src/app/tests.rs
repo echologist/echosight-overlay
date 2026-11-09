@@ -74,6 +74,186 @@ async fn add_subtask_edit_complete_delete_and_reload(cx: &mut TestAppContext) {
 }
 
 #[gpui::test]
+async fn long_delete_dialog_keeps_footer_visible_and_message_scrollable(cx: &mut TestAppContext) {
+    for scale in [1., 1.5, 2.] {
+        let dir = tempfile::tempdir().unwrap();
+        let name = "word ".repeat(1000);
+        seed(dir.path(), serde_json::json!([task(1, &name)]));
+        let file = dir.path().join("current_tasks.json");
+        let bytes = std::fs::read(&file).unwrap();
+        let (scene, vc) = open(cx, dir.path());
+        vc.simulate_scale_factor_change(scale);
+        vc.simulate_keystrokes(&format!("{}space", "tab ".repeat(9)));
+        assert!(scene.read_with(vc, |s, _| matches!(s.dialog, Some(Dialog::Delete(_)))));
+
+        // Resize the live modal too: bounds are logical window pixels, not
+        // physical screen pixels or a fixed maximum tuned to the default size.
+        for dimensions in [size(px(500.), px(700.)), size(px(450.), px(600.))] {
+            vc.simulate_resize(dimensions);
+            vc.run_until_parked();
+            let cancel = vc.debug_bounds("cancel").unwrap();
+            let accept = vc.debug_bounds("accept").unwrap();
+            for bounds in [cancel, accept] {
+                assert!(
+                    bounds.left() >= px(0.)
+                        && bounds.right() <= dimensions.width
+                        && bounds.top() >= px(0.)
+                        && bounds.bottom() <= dimensions.height,
+                    "offscreen dialog control at scale {scale}: {bounds:?} in {dimensions:?}"
+                );
+                assert!(bounds.size.width > px(0.) && bounds.size.height > px(0.));
+            }
+            scene.update_in(vc, |s, w, _| assert!(s.controls["cancel"].is_focused(w)));
+            vc.simulate_keystrokes("shift-tab");
+            scene.update_in(vc, |s, w, _| assert!(s.controls["accept"].is_focused(w)));
+            vc.simulate_keystrokes("enter");
+            assert!(scene.read_with(vc, |s, _| s.dialog.is_some()));
+            vc.simulate_keystrokes("tab");
+            scene.update_in(vc, |s, w, _| assert!(s.controls["cancel"].is_focused(w)));
+
+            let panel = vc.debug_bounds("dialog-panel").unwrap();
+            assert!(panel.top() >= px(0.) && panel.bottom() <= dimensions.height);
+            let body = vc.debug_bounds("dialog-body").unwrap();
+            let message = vc.debug_bounds("dialog-message").unwrap();
+            assert!(body.size.height > px(0.) && body.bottom() <= cancel.top());
+            assert!(message.size.height > body.size.height);
+            let row = vc.debug_bounds("row-0").unwrap();
+            vc.simulate_event(gpui::ScrollEvent {
+                position: body.center(),
+                delta: gpui::ScrollDelta::Lines(point(0., -8.)),
+                ..Default::default()
+            });
+            vc.run_until_parked();
+            assert!(vc.debug_bounds("dialog-message").unwrap().top() < message.top());
+            vc.simulate_event(gpui::ScrollEvent {
+                position: body.center(),
+                delta: gpui::ScrollDelta::Lines(point(0., -1000.)),
+                ..Default::default()
+            });
+            vc.run_until_parked();
+            let end = vc.debug_bounds("dialog-message").unwrap();
+            assert!(
+                (end.bottom() - body.bottom()).abs() <= px(1.),
+                "the entire warning must be reachable by scrolling"
+            );
+            assert_eq!(vc.debug_bounds("dialog-body").unwrap(), body);
+            assert_eq!(vc.debug_bounds("cancel").unwrap(), cancel);
+            assert_eq!(vc.debug_bounds("accept").unwrap(), accept);
+            assert_eq!(
+                vc.debug_bounds("row-0").unwrap(),
+                row,
+                "modal wheel must not scroll the task list"
+            );
+            // The test platform has no active AccessKit adapter. Inspect the
+            // production element's accessibility payload, not a fabricated tree.
+            let message = view::delete_message(&snapshot(&scene, vc)[0].text);
+            let mut node = gpui::accesskit::Node::new(gpui::Role::Paragraph);
+            gpui::Element::write_a11y_info(&message, &mut node);
+            let warning = format!("Delete \"{name}\"? You can undo this with Ctrl+Shift+Z.");
+            assert_eq!(node.label(), Some(warning.as_str()));
+            assert_eq!(snapshot(&scene, vc)[0].text, name);
+            assert_eq!(std::fs::read(&file).unwrap(), bytes);
+
+            click(vc, "cancel");
+            assert!(scene.read_with(vc, |s, _| s.dialog.is_none()));
+            // Restored row control may be offscreen, but its keyboard command
+            // still opens the production modal without a direct state mutation.
+            vc.simulate_keystrokes("space");
+            vc.run_until_parked();
+        }
+        vc.simulate_keystrokes("escape");
+        assert!(scene.read_with(vc, |s, _| s.dialog.is_none()));
+        assert_eq!(std::fs::read(&file).unwrap(), bytes);
+        vc.simulate_keystrokes("space");
+        vc.run_until_parked();
+        click(vc, "accept");
+        assert!(snapshot(&scene, vc).is_empty());
+        vc.simulate_keystrokes("ctrl-shift-z");
+        saved(&scene, vc).await;
+        assert_eq!(snapshot(&scene, vc)[0].text, name);
+        let disk: Value = serde_json::from_slice(&std::fs::read(file).unwrap()).unwrap();
+        assert_eq!(disk["tasks"][0]["text"], name);
+    }
+}
+
+fn start_pointer_drag(cx: &mut VisualTestContext) -> gpui::Point<gpui::Pixels> {
+    let row = cx.debug_bounds("row-0").unwrap();
+    let target = cx.debug_bounds("row-1").unwrap();
+    let destination = point(target.left() + px(40.), target.top() + px(10.));
+    cx.simulate_mouse_down(
+        point(row.left() + px(60.), row.top() + px(10.)),
+        MouseButton::Left,
+        Default::default(),
+    );
+    cx.simulate_mouse_move(destination, MouseButton::Left, Default::default());
+    destination
+}
+
+#[gpui::test]
+fn native_close_during_drag_is_dismissed_by_one_escape(cx: &mut TestAppContext) {
+    let dir = tempfile::tempdir().unwrap();
+    seed(
+        dir.path(),
+        serde_json::json!([task(1, "first"), task(2, "second")]),
+    );
+    let file = dir.path().join("current_tasks.json");
+    let bytes = std::fs::read(&file).unwrap();
+    let (scene, vc) = open(cx, dir.path());
+    let before = snapshot(&scene, vc);
+    let destination = start_pointer_drag(vc);
+    assert!(scene.read_with(vc, |s, _| {
+        s.dragging
+            .as_ref()
+            .is_some_and(|d| d.active && d.intent.is_some())
+    }));
+    assert!(!vc.simulate_close(), "native close must be intercepted");
+    vc.run_until_parked();
+    assert!(scene.read_with(vc, |s, _| matches!(s.dialog, Some(Dialog::Quit))));
+    scene.update_in(vc, |s, w, _| assert!(s.controls["cancel"].is_focused(w)));
+    vc.simulate_keystrokes("escape");
+    assert!(
+        scene.read_with(vc, |s, _| s.dialog.is_none()),
+        "one Escape must dismiss the visible modal"
+    );
+    assert!(scene.read_with(vc, |s, _| s.dragging.is_none()));
+    vc.simulate_mouse_move(destination, MouseButton::Left, Default::default());
+    vc.simulate_mouse_up(destination, MouseButton::Left, Default::default());
+    vc.run_until_parked();
+    assert!(scene.read_with(vc, |s, _| s.dragging.is_none()));
+    assert_eq!(snapshot(&scene, vc), before);
+    assert_eq!(std::fs::read(file).unwrap(), bytes);
+}
+
+#[gpui::test]
+fn every_modal_opening_discards_an_active_pointer_drag(cx: &mut TestAppContext) {
+    for tabs in [5, 7, 8, 9] {
+        // Quit, Child, Edit, Delete from the composer.
+        let dir = tempfile::tempdir().unwrap();
+        seed(
+            dir.path(),
+            serde_json::json!([task(1, "first"), task(2, "second")]),
+        );
+        let (scene, vc) = open(cx, dir.path());
+        let before = snapshot(&scene, vc);
+        let destination = start_pointer_drag(vc);
+        assert!(scene.read_with(vc, |s, _| s.dragging.as_ref().is_some_and(|d| d.active)));
+        vc.simulate_keystrokes(&format!("{}space", "tab ".repeat(tabs)));
+        assert!(scene.read_with(vc, |s, _| s.dialog.is_some()));
+        assert!(
+            scene.read_with(vc, |s, _| s.dragging.is_none()),
+            "modal opening must discard the drag"
+        );
+        vc.simulate_keystrokes("escape");
+        assert!(scene.read_with(vc, |s, _| s.dialog.is_none()));
+        vc.simulate_mouse_move(destination, MouseButton::Left, Default::default());
+        vc.simulate_mouse_up(destination, MouseButton::Left, Default::default());
+        vc.run_until_parked();
+        assert!(scene.read_with(vc, |s, _| s.dragging.is_none()));
+        assert_eq!(snapshot(&scene, vc), before);
+    }
+}
+
+#[gpui::test]
 fn tab_focus_and_danger_cancel_default(cx: &mut TestAppContext) {
     let dir = tempfile::tempdir().unwrap();
     let (scene, cx) = open(cx, dir.path());
