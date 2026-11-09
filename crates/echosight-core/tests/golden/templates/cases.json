@@ -9,7 +9,7 @@
     "src/renderer/features/templates/communityTemplates.ts": "ef63b293976e06cfd3251ecef20699338510411f882f66a179d48db658f7b2b5",
     "src/renderer/features/templates/communityTemplatesUi.ts": "9b612e46e774712c1732d9b072f2b0c32180b47cab7b474c3877f7fbf7d69e6b",
     "node_modules/destr/dist/index.mjs": "0e8124257d21e0f4ef6af2abbd636f48e9fb39a428efcb741420fe390a4b8f5e",
-    "tools/golden/templates.gen.test.ts": "c6285485c70fa78504f97f49ffd4a477c392dccb614800fd8cdbb0fce215202d",
+    "tools/golden/templates.gen.test.ts": "8a39dd297ebec337a7bf3d54820f1b1440e97a9a65693b85fecdd4d10086f5e9",
     "tools/golden/vitest.templates.config.ts": "8678c5f87c9e4314dcc82a49c9da0baa468d4bbe10da422bb283346e0eb028db"
   },
   "nowMs": 1749938954072,
@@ -3728,6 +3728,74 @@
       ]
     },
     {
+      "name": "import 1e400",
+      "op": "import",
+      "input": {
+        "text": "1e400"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import -1e400",
+      "op": "import",
+      "input": {
+        "text": "-1e400"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import 9.9e999",
+      "op": "import",
+      "input": {
+        "text": "9.9e999"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import 1e400x",
+      "op": "import",
+      "input": {
+        "text": "1e400x"
+      },
+      "expected": {
+        "error": "[destr] Invalid JSON"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
       "name": "import []",
       "op": "import",
       "input": {
@@ -3998,7 +4066,7 @@
       ]
     },
     {
-      "name": "strip incomplete 211",
+      "name": "strip incomplete 215",
       "op": "strip",
       "input": [],
       "expected": [],
@@ -4011,7 +4079,7 @@
       ]
     },
     {
-      "name": "create from tasks 212",
+      "name": "create from tasks 216",
       "op": "create",
       "input": {
         "name": " Kept verbatim ",
@@ -4032,7 +4100,7 @@
       ]
     },
     {
-      "name": "strip incomplete 213",
+      "name": "strip incomplete 217",
       "op": "strip",
       "input": [
         {
@@ -4214,7 +4282,7 @@
       ]
     },
     {
-      "name": "create from tasks 214",
+      "name": "create from tasks 218",
       "op": "create",
       "input": {
         "name": " Kept verbatim ",
@@ -4404,7 +4472,7 @@
       ]
     },
     {
-      "name": "strip incomplete 215",
+      "name": "strip incomplete 219",
       "op": "strip",
       "input": [
         {
@@ -4430,7 +4498,7 @@
       ]
     },
     {
-      "name": "create from tasks 216",
+      "name": "create from tasks 220",
       "op": "create",
       "input": {
         "name": " Kept verbatim ",
@@ -4464,7 +4532,7 @@
       ]
     },
     {
-      "name": "strip incomplete 217",
+      "name": "strip incomplete 221",
       "op": "strip",
       "input": [
         {
@@ -4514,7 +4582,7 @@
       ]
     },
     {
-      "name": "create from tasks 218",
+      "name": "create from tasks 222",
       "op": "create",
       "input": {
         "name": " Kept verbatim ",
@@ -4572,7 +4640,7 @@
       ]
     },
     {
-      "name": "strip incomplete 219",
+      "name": "strip incomplete 223",
       "op": "strip",
       "input": [
         {
@@ -4604,7 +4672,7 @@
       ]
     },
     {
-      "name": "create from tasks 220",
+      "name": "create from tasks 224",
       "op": "create",
       "input": {
         "name": " Kept verbatim ",

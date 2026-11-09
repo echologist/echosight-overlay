@@ -158,7 +158,7 @@ test('generate template normalization, transfer, operations, persistence and com
       add('filename ' + input, 'filename', input, () => ops.createTemplateExportFilename(input));
     }
     const inputs: { text?: string; pad?: number; suffix?: string }[] = [
-      ...['', ' \uFEFF ', 'bad', 'true', 'null', 'undefined', 'NaN', 'Infinity', '[]', '{}',
+      ...['', ' \uFEFF ', 'bad', 'true', 'null', 'undefined', 'NaN', 'Infinity', '1e400', '-1e400', '9.9e999', '1e400x', '[]', '{}',
         '{"name":1,"tasks":["x"]}', '{"name":"x","tasks":{}}', '{"name":"x","tasks":[]}',
         '{"name":"x","tasks":[null,7," "]}', '{"name":" ","tasks":[" a ",{"text":"b","children":["c"]}]}',
         '{"name":"x","tasks":["x"],"__proto__":{}}',

@@ -4,7 +4,7 @@ use super::{
     ops::{count_template_tasks, has_background_task},
 };
 use crate::{
-    jscompat::{js_trim, utf16_len},
+    jscompat::{js_string_to_number, js_trim, utf16_len},
     storage::{ParseError, json_format::json_format, parse_json},
     task::model::TaskEnvironment,
 };
@@ -37,6 +37,10 @@ pub fn parse_template_import_with_limit(
     }
     let parsed = parse_json(input).map_err(|error| match error {
         ParseError::Invalid(message) => TemplateError::Invalid(message),
+        // A valid scalar decimal can overflow JS Number (e.g. 1e400). It is
+        // still a primitive rejected by the template shape guard. Only classify
+        // after parsing: malformed numeric syntax must retain the destr error.
+        ParseError::Unsupported(_) if js_string_to_number(input).is_infinite() => invalid_shape(),
         ParseError::Unsupported(message) => TemplateError::Unsupported(message),
     })?;
     if !parsed.is_object() || !parsed["name"].is_string() || !parsed["tasks"].is_array() {

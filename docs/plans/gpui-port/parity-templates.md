@@ -99,9 +99,13 @@ original-path SHA-256 hashes for source/dependency/generator/config provenance.
 
 - RED checkpoint `75e30b8`: compiling fixture adapter, **20 failed / 0 passed**
   before production implementation.
-- Current evidence: **270 golden operation cases**, plus **3 syntax-rejection**,
+- Current evidence: **274 golden operation cases**, plus **3 syntax-rejection**,
   **4 explicitly unsupported JS-value**, and **3 load-rejection** observations.
 - Rust: **30 template test functions** (22 golden groups, 8 integration guards).
+  Combined core suite: **85 passed, 0 failed**, including original task,
+  background, storage and theme fixtures. No native/UI acceptance is implied.
+- Final template fixture SHA-256:
+  `4131e36b8b17d3cd7eb6885b92c7c3c26886250d645bd8208c042c8ca9bcb6b3`.
 - Review-fix RED: template normalization/import groups returned successful data
   for real TS TypeErrors; radix selection returned IEEE-754 bits
   `4380000000000000` instead of oracle `4380000000000001`. GREEN exercises the
@@ -140,8 +144,11 @@ numbers, and parser recursion-limit inputs return `TemplateError::Unsupported`
 instead of silently replacing/truncating data or treating it as corrupt. Even
 an unused nonfinite import field can therefore fail closed. The oracle records
 real TS acceptance separately; these are **not** claimed as parity passes.
-Top-level destr `undefined`/NaN/infinity values are recognizable shape failures,
-so they return the source `Invalid JSON template format` error.
+Top-level destr `undefined`/NaN/infinity values and valid overflowing scalar
+numbers such as `1e400` are recognizable shape failures, so they return the
+source `Invalid JSON template format` error. The real TS oracle also pins negative
+and fractional overflowing decimals, plus malformed `1e400x` as a parser error;
+nested nonfinite values remain an explicit Unsupported boundary.
 
 Stable domain/destr errors are matched exactly. JSON syntax is rejected, but
 serde parser diagnostic text is not fabricated to imitate a particular V8
