@@ -28,3 +28,4 @@ mod tests {
 pub mod audio;
 pub mod game_monitor;
 pub mod single_instance;
+pub mod tray;
