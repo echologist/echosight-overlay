@@ -1,0 +1,5294 @@
+{
+  "sources": {
+    "src/renderer/features/tasks/taskTemplates.ts": "54eb7c30ad5f8f319f9aad1492e52f2efa9c077091cf1cc9c816cc8acff23366",
+    "src/renderer/features/tasks/taskCreation.ts": "fe35fd63426ab8358405ad84cb8986cf600a26c30a237132f7d45a188cd3da58",
+    "src/renderer/features/tasks/taskGuards.ts": "32f909aae06dff243194acba4ff45e5754ec082ec3a6af30797dac5a07fb04f1",
+    "src/renderer/features/tasks/taskTree.ts": "49e177d2a82342045d87a206de31fc4f3aba5c17cfa7d97dc6a47e39d9d98faf",
+    "src/renderer/features/templates/templateOperations.ts": "79a1e5ea2e78c849d6250342d6a57051fb9e5531acc3e89482c309d2edd68edb",
+    "src/renderer/features/templates/templatePersistence.ts": "2fb01e6e846fa4b2b4d80457b5aca5b126c894c0bd02954d15063369cbd04a91",
+    "src/renderer/features/templates/communityTemplates.ts": "ef63b293976e06cfd3251ecef20699338510411f882f66a179d48db658f7b2b5",
+    "src/renderer/features/templates/communityTemplatesUi.ts": "9b612e46e774712c1732d9b072f2b0c32180b47cab7b474c3877f7fbf7d69e6b",
+    "node_modules/destr/dist/index.mjs": "0e8124257d21e0f4ef6af2abbd636f48e9fb39a428efcb741420fe390a4b8f5e",
+    "tools/golden/templates.gen.test.ts": "6f217cdaf15b4abba138d0463318ac8d7f02d12c01356026bdfce11fb9d2f519",
+    "tools/golden/vitest.templates.config.ts": "8678c5f87c9e4314dcc82a49c9da0baa468d4bbe10da422bb283346e0eb028db"
+  },
+  "nowMs": 1749938954072,
+  "nowIso": "2025-06-14T22:09:14.072Z",
+  "cases": [
+    {
+      "name": "normalize task null",
+      "op": "normalizeTask",
+      "input": null,
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task false",
+      "op": "normalizeTask",
+      "input": false,
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task 7",
+      "op": "normalizeTask",
+      "input": 7,
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task []",
+      "op": "normalizeTask",
+      "input": [],
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task {}",
+      "op": "normalizeTask",
+      "input": {},
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task \"\"",
+      "op": "normalizeTask",
+      "input": "",
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task \"  text  \"",
+      "op": "normalizeTask",
+      "input": "  text  ",
+      "expected": {
+        "text": "text"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task \"﻿x \"",
+      "op": "normalizeTask",
+      "input": "﻿x ",
+      "expected": {
+        "text": "x"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task \"x\"",
+      "op": "normalizeTask",
+      "input": "x",
+      "expected": {
+        "text": "x"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task {\"text\":\"parent\",\"children\":[\" child \",null,42,{\"text\":\"deep\",\"children\":[\"leaf\"]}]}",
+      "op": "normalizeTask",
+      "input": {
+        "text": "parent",
+        "children": [
+          " child ",
+          null,
+          42,
+          {
+            "text": "deep",
+            "children": [
+              "leaf"
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "text": "parent",
+        "children": [
+          {
+            "text": "child"
+          },
+          {
+            "text": "deep",
+            "children": [
+              {
+                "text": "leaf"
+              }
+            ]
+          }
+        ]
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task {\"text\":\"x\",\"mode\":\"background\",\"backgroundOptions\":{\"expiresAfterMinutes\":\"0.9\",\"priority\":\"high\"},\"triggerIndices\":[0,\"1\",true,null,false,\"\",[],[2],[true],{},-1,1.5,\"1e30\",\"Infinity\",0]}",
+      "op": "normalizeTask",
+      "input": {
+        "text": "x",
+        "mode": "background",
+        "backgroundOptions": {
+          "expiresAfterMinutes": "0.9",
+          "priority": "high"
+        },
+        "triggerIndices": [
+          0,
+          "1",
+          true,
+          null,
+          false,
+          "",
+          [],
+          [
+            2
+          ],
+          [
+            true
+          ],
+          {},
+          -1,
+          1.5,
+          "1e30",
+          "Infinity",
+          0
+        ]
+      },
+      "expected": {
+        "text": "x",
+        "mode": "background",
+        "backgroundOptions": {
+          "expiresAfterMinutes": 0,
+          "priority": "high"
+        },
+        "triggerIndices": [
+          0,
+          1,
+          2,
+          1e+30
+        ]
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task {\"text\":\"x\",\"mode\":\"MAIN\",\"backgroundOptions\":true}",
+      "op": "normalizeTask",
+      "input": {
+        "text": "x",
+        "mode": "MAIN",
+        "backgroundOptions": true
+      },
+      "expected": {
+        "text": "x",
+        "backgroundOptions": null
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task {\"text\":\"x\",\"backgroundOptions\":null}",
+      "op": "normalizeTask",
+      "input": {
+        "text": "x",
+        "backgroundOptions": null
+      },
+      "expected": {
+        "text": "x"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task {\"text\":\"x\",\"backgroundOptions\":[]}",
+      "op": "normalizeTask",
+      "input": {
+        "text": "x",
+        "backgroundOptions": []
+      },
+      "expected": {
+        "text": "x",
+        "backgroundOptions": null
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task {\"text\":\"x\",\"backgroundOptions\":{},\"children\":[],\"triggerIndices\":[]}",
+      "op": "normalizeTask",
+      "input": {
+        "text": "x",
+        "backgroundOptions": {},
+        "children": [],
+        "triggerIndices": []
+      },
+      "expected": {
+        "text": "x",
+        "backgroundOptions": {
+          "expiresAfterMinutes": null,
+          "priority": "normal"
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize task {\"text\":\"x\",\"children\":[{\"text\":\" \",\"children\":[\"discarded\"]}],\"extra\":\"discarded\"}",
+      "op": "normalizeTask",
+      "input": {
+        "text": "x",
+        "children": [
+          {
+            "text": " ",
+            "children": [
+              "discarded"
+            ]
+          }
+        ],
+        "extra": "discarded"
+      },
+      "expected": {
+        "text": "x"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "options null",
+      "op": "normalizeTask",
+      "input": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": null,
+          "priority": "other"
+        }
+      },
+      "expected": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": null,
+          "priority": "normal"
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "options false",
+      "op": "normalizeTask",
+      "input": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": false,
+          "priority": "other"
+        }
+      },
+      "expected": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": null,
+          "priority": "normal"
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "options 0",
+      "op": "normalizeTask",
+      "input": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": 0,
+          "priority": "other"
+        }
+      },
+      "expected": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": null,
+          "priority": "normal"
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "options \"3.9\"",
+      "op": "normalizeTask",
+      "input": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": "3.9",
+          "priority": "other"
+        }
+      },
+      "expected": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": 3,
+          "priority": "normal"
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "options -1",
+      "op": "normalizeTask",
+      "input": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": -1,
+          "priority": "other"
+        }
+      },
+      "expected": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": null,
+          "priority": "normal"
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "options \"Infinity\"",
+      "op": "normalizeTask",
+      "input": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": "Infinity",
+          "priority": "other"
+        }
+      },
+      "expected": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": null,
+          "priority": "normal"
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "options []",
+      "op": "normalizeTask",
+      "input": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": [],
+          "priority": "other"
+        }
+      },
+      "expected": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": null,
+          "priority": "normal"
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "options [5]",
+      "op": "normalizeTask",
+      "input": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": [
+            5
+          ],
+          "priority": "other"
+        }
+      },
+      "expected": {
+        "text": "bg",
+        "backgroundOptions": {
+          "expiresAfterMinutes": 5,
+          "priority": "normal"
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize data null",
+      "op": "normalizeData",
+      "input": null,
+      "expected": {
+        "name": "Imported Template",
+        "tasks": []
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize data []",
+      "op": "normalizeData",
+      "input": [],
+      "expected": {
+        "name": "Imported Template",
+        "tasks": []
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize data {}",
+      "op": "normalizeData",
+      "input": {},
+      "expected": {
+        "name": "Imported Template",
+        "tasks": []
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize data {\"name\":\" \",\"tasks\":[\"one\",false,{\"text\":\"two\"}]}",
+      "op": "normalizeData",
+      "input": {
+        "name": " ",
+        "tasks": [
+          "one",
+          false,
+          {
+            "text": "two"
+          }
+        ]
+      },
+      "expected": {
+        "name": "Imported Template",
+        "tasks": [
+          {
+            "text": "one"
+          },
+          {
+            "text": "two"
+          }
+        ]
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "normalize data {\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\"tasks\":[\"yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\",\"😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀\"]}",
+      "op": "normalizeData",
+      "input": {
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "tasks": [
+          "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+        ]
+      },
+      "expected": {
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "tasks": [
+          {
+            "text": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+          },
+          {
+            "text": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+          }
+        ]
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved id null",
+      "op": "normalizeSaved",
+      "input": {
+        "id": null,
+        "name": " Saved ",
+        "tasks": [
+          " a ",
+          ""
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "expected": {
+        "id": 0,
+        "name": "Saved",
+        "tasks": [
+          {
+            "text": "a"
+          }
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved id \"\"",
+      "op": "normalizeSaved",
+      "input": {
+        "id": "",
+        "name": " Saved ",
+        "tasks": [
+          " a ",
+          ""
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "expected": {
+        "id": 0,
+        "name": "Saved",
+        "tasks": [
+          {
+            "text": "a"
+          }
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved id \"0x10\"",
+      "op": "normalizeSaved",
+      "input": {
+        "id": "0x10",
+        "name": " Saved ",
+        "tasks": [
+          " a ",
+          ""
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "expected": {
+        "id": 16,
+        "name": "Saved",
+        "tasks": [
+          {
+            "text": "a"
+          }
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved id \"17.5\"",
+      "op": "normalizeSaved",
+      "input": {
+        "id": "17.5",
+        "name": " Saved ",
+        "tasks": [
+          " a ",
+          ""
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "expected": {
+        "id": 17.5,
+        "name": "Saved",
+        "tasks": [
+          {
+            "text": "a"
+          }
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved id true",
+      "op": "normalizeSaved",
+      "input": {
+        "id": true,
+        "name": " Saved ",
+        "tasks": [
+          " a ",
+          ""
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "expected": {
+        "id": 1,
+        "name": "Saved",
+        "tasks": [
+          {
+            "text": "a"
+          }
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved id []",
+      "op": "normalizeSaved",
+      "input": {
+        "id": [],
+        "name": " Saved ",
+        "tasks": [
+          " a ",
+          ""
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "expected": {
+        "id": 0,
+        "name": "Saved",
+        "tasks": [
+          {
+            "text": "a"
+          }
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved id [3]",
+      "op": "normalizeSaved",
+      "input": {
+        "id": [
+          3
+        ],
+        "name": " Saved ",
+        "tasks": [
+          " a ",
+          ""
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "expected": {
+        "id": 3,
+        "name": "Saved",
+        "tasks": [
+          {
+            "text": "a"
+          }
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved id {}",
+      "op": "normalizeSaved",
+      "input": {
+        "id": {},
+        "name": " Saved ",
+        "tasks": [
+          " a ",
+          ""
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "expected": {
+        "id": 1749938954072123,
+        "name": "Saved",
+        "tasks": [
+          {
+            "text": "a"
+          }
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved id \"no\"",
+      "op": "normalizeSaved",
+      "input": {
+        "id": "no",
+        "name": " Saved ",
+        "tasks": [
+          " a ",
+          ""
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "expected": {
+        "id": 1749938954072123,
+        "name": "Saved",
+        "tasks": [
+          {
+            "text": "a"
+          }
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved id \"Infinity\"",
+      "op": "normalizeSaved",
+      "input": {
+        "id": "Infinity",
+        "name": " Saved ",
+        "tasks": [
+          " a ",
+          ""
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "expected": {
+        "id": 1749938954072123,
+        "name": "Saved",
+        "tasks": [
+          {
+            "text": "a"
+          }
+        ],
+        "createdAt": " untouched date ",
+        "imported": true,
+        "community": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved shape null",
+      "op": "normalizeSaved",
+      "input": null,
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved shape []",
+      "op": "normalizeSaved",
+      "input": [],
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved shape 5",
+      "op": "normalizeSaved",
+      "input": 5,
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved shape {}",
+      "op": "normalizeSaved",
+      "input": {},
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved shape {\"tasks\":[]}",
+      "op": "normalizeSaved",
+      "input": {
+        "tasks": []
+      },
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved shape {\"tasks\":[\"x\"],\"imported\":1,\"community\":\"true\",\"createdAt\":\" \"}",
+      "op": "normalizeSaved",
+      "input": {
+        "tasks": [
+          "x"
+        ],
+        "imported": 1,
+        "community": "true",
+        "createdAt": " "
+      },
+      "expected": {
+        "id": 1749938954072123,
+        "name": "Imported Template",
+        "tasks": [
+          {
+            "text": "x"
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved shape {\"id\":0,\"tasks\":[\"x\"],\"createdAt\":null}",
+      "op": "normalizeSaved",
+      "input": {
+        "id": 0,
+        "tasks": [
+          "x"
+        ],
+        "createdAt": null
+      },
+      "expected": {
+        "id": 0,
+        "name": "Imported Template",
+        "tasks": [
+          {
+            "text": "x"
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "saved shape {\"tasks\":[\"x\"],\"createdAt\":99}",
+      "op": "normalizeSaved",
+      "input": {
+        "tasks": [
+          "x"
+        ],
+        "createdAt": 99
+      },
+      "expected": {
+        "id": 1749938954072123,
+        "name": "Imported Template",
+        "tasks": [
+          {
+            "text": "x"
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "collection null",
+      "op": "normalizeCollection",
+      "input": null,
+      "expected": [],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "collection {}",
+      "op": "normalizeCollection",
+      "input": {},
+      "expected": [],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "collection [null,{\"tasks\":[]},{\"id\":null,\"tasks\":[\"x\"]},{\"tasks\":[\"y\"]},{\"tasks\":[\"z\"]}]",
+      "op": "normalizeCollection",
+      "input": [
+        null,
+        {
+          "tasks": []
+        },
+        {
+          "id": null,
+          "tasks": [
+            "x"
+          ]
+        },
+        {
+          "tasks": [
+            "y"
+          ]
+        },
+        {
+          "tasks": [
+            "z"
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "id": 0,
+          "name": "Imported Template",
+          "tasks": [
+            {
+              "text": "x"
+            }
+          ],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        },
+        {
+          "id": 1749938954072500,
+          "name": "Imported Template",
+          "tasks": [
+            {
+              "text": "y"
+            }
+          ],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        },
+        {
+          "id": 1749938954072500,
+          "name": "Imported Template",
+          "tasks": [
+            {
+              "text": "z"
+            }
+          ],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        }
+      ],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "parse id ",
+      "op": "parseId",
+      "input": "",
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id  ",
+      "op": "parseId",
+      "input": " ",
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id ﻿",
+      "op": "parseId",
+      "input": "﻿",
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id 0",
+      "op": "parseId",
+      "input": "0",
+      "expected": 0,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id -0",
+      "op": "parseId",
+      "input": "-0",
+      "expected": 0,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id  0x10 ",
+      "op": "parseId",
+      "input": " 0x10 ",
+      "expected": 16,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id 0b11",
+      "op": "parseId",
+      "input": "0b11",
+      "expected": 3,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id 0o10",
+      "op": "parseId",
+      "input": "0o10",
+      "expected": 8,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id 1.25",
+      "op": "parseId",
+      "input": "1.25",
+      "expected": 1.25,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id 1e3",
+      "op": "parseId",
+      "input": "1e3",
+      "expected": 1000,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id Infinity",
+      "op": "parseId",
+      "input": "Infinity",
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id NaN",
+      "op": "parseId",
+      "input": "NaN",
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id no",
+      "op": "parseId",
+      "input": "no",
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "parse id ",
+      "op": "parseId",
+      "input": "",
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "filename Hello World!",
+      "op": "filename",
+      "input": "Hello World!",
+      "expected": "poe2-template-hello-world.json",
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "filename  HC/SSF Priorities ",
+      "op": "filename",
+      "input": " HC/SSF Priorities ",
+      "expected": "poe2-template-hc-ssf-priorities.json",
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "filename ---",
+      "op": "filename",
+      "input": "---",
+      "expected": "poe2-template-template.json",
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "filename 你好",
+      "op": "filename",
+      "input": "你好",
+      "expected": "poe2-template-template.json",
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "filename İSTANBUL",
+      "op": "filename",
+      "input": "İSTANBUL",
+      "expected": "poe2-template-i-stanbul.json",
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "filename A_2.0",
+      "op": "filename",
+      "input": "A_2.0",
+      "expected": "poe2-template-a-2-0.json",
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "filename Σigma",
+      "op": "filename",
+      "input": "Σigma",
+      "expected": "poe2-template-igma.json",
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "filename Kelvin",
+      "op": "filename",
+      "input": "Kelvin",
+      "expected": "poe2-template-kelvin.json",
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import ",
+      "op": "import",
+      "input": {
+        "text": ""
+      },
+      "expected": {
+        "error": "Template data is empty"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import  ﻿ ",
+      "op": "import",
+      "input": {
+        "text": " ﻿ "
+      },
+      "expected": {
+        "error": "Template data is empty"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import bad",
+      "op": "import",
+      "input": {
+        "text": "bad"
+      },
+      "expected": {
+        "error": "[destr] Invalid JSON"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import true",
+      "op": "import",
+      "input": {
+        "text": "true"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import null",
+      "op": "import",
+      "input": {
+        "text": "null"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import undefined",
+      "op": "import",
+      "input": {
+        "text": "undefined"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import NaN",
+      "op": "import",
+      "input": {
+        "text": "NaN"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import Infinity",
+      "op": "import",
+      "input": {
+        "text": "Infinity"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import []",
+      "op": "import",
+      "input": {
+        "text": "[]"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {}",
+      "op": "import",
+      "input": {
+        "text": "{}"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {\"name\":1,\"tasks\":[\"x\"]}",
+      "op": "import",
+      "input": {
+        "text": "{\"name\":1,\"tasks\":[\"x\"]}"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {\"name\":\"x\",\"tasks\":{}}",
+      "op": "import",
+      "input": {
+        "text": "{\"name\":\"x\",\"tasks\":{}}"
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {\"name\":\"x\",\"tasks\":[]}",
+      "op": "import",
+      "input": {
+        "text": "{\"name\":\"x\",\"tasks\":[]}"
+      },
+      "expected": {
+        "error": "Template must contain at least one valid task"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {\"name\":\"x\",\"tasks\":[null,7,\" \"]}",
+      "op": "import",
+      "input": {
+        "text": "{\"name\":\"x\",\"tasks\":[null,7,\" \"]}"
+      },
+      "expected": {
+        "error": "Template must contain at least one valid task"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {\"name\":\" \",\"tasks\":[\" a \",{\"text\":\"b\",\"children\":[\"c\"]}]}",
+      "op": "import",
+      "input": {
+        "text": "{\"name\":\" \",\"tasks\":[\" a \",{\"text\":\"b\",\"children\":[\"c\"]}]}"
+      },
+      "expected": {
+        "ok": {
+          "name": "Imported Template",
+          "tasks": [
+            {
+              "text": "a"
+            },
+            {
+              "text": "b",
+              "children": [
+                {
+                  "text": "c"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {\"name\":\"x\",\"tasks\":[\"x\"],\"__proto__\":{}}",
+      "op": "import",
+      "input": {
+        "text": "{\"name\":\"x\",\"tasks\":[\"x\"],\"__proto__\":{}}"
+      },
+      "expected": {
+        "error": "[destr] Possible prototype pollution"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {\"name\":\"x\",\"tasks\":[\"x\"],\"constructor\":{}}",
+      "op": "import",
+      "input": {
+        "text": "{\"name\":\"x\",\"tasks\":[\"x\"],\"constructor\":{}}"
+      },
+      "expected": {
+        "error": "[destr] Possible prototype pollution"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import ﻿ {\"name\":\"x\",\"tasks\":[\"x\"]}  ",
+      "op": "import",
+      "input": {
+        "text": "﻿ {\"name\":\"x\",\"tasks\":[\"x\"]}  "
+      },
+      "expected": {
+        "ok": {
+          "name": "x",
+          "tasks": [
+            {
+              "text": "x"
+            }
+          ]
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import \"unescaped\"inside\"",
+      "op": "import",
+      "input": {
+        "text": "\"unescaped\"inside\""
+      },
+      "expected": {
+        "error": "Invalid JSON template format"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {\"pad\":99975,\"suffix\":\"x\"}",
+      "op": "import",
+      "input": {
+        "pad": 99975,
+        "suffix": "x"
+      },
+      "expected": {
+        "ok": {
+          "name": "x",
+          "tasks": [
+            {
+              "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            }
+          ]
+        }
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {\"pad\":99976,\"suffix\":\"x\"}",
+      "op": "import",
+      "input": {
+        "pad": 99976,
+        "suffix": "x"
+      },
+      "expected": {
+        "error": "Template data too large"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "import {\"pad\":49988,\"suffix\":\"😀\"}",
+      "op": "import",
+      "input": {
+        "pad": 49988,
+        "suffix": "😀"
+      },
+      "expected": {
+        "error": "Template data too large"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "strip incomplete 94",
+      "op": "strip",
+      "input": [],
+      "expected": [],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "create from tasks 95",
+      "op": "create",
+      "input": {
+        "name": " Kept verbatim ",
+        "tasks": []
+      },
+      "expected": {
+        "id": 1749938954072,
+        "name": " Kept verbatim ",
+        "tasks": [],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "strip incomplete 96",
+      "op": "strip",
+      "input": [
+        {
+          "id": 1,
+          "text": "main",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 2,
+              "text": "child",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [
+                {
+                  "id": 3,
+                  "text": "leaf",
+                  "completed": false,
+                  "createdAt": "2025-06-14T22:09:14.072Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [
+                    1,
+                    5,
+                    3
+                  ],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                }
+              ],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            },
+            {
+              "id": 4,
+              "text": "completed child",
+              "completed": true,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [
+                {
+                  "id": 40,
+                  "text": "hidden incomplete",
+                  "completed": false,
+                  "createdAt": "2025-06-14T22:09:14.072Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                }
+              ],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 5,
+          "text": "background",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 6,
+              "text": "inherited bg",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "background",
+          "triggers": [
+            1,
+            2,
+            3,
+            4,
+            40,
+            99,
+            5,
+            1
+          ],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": 15,
+            "priority": "high"
+          }
+        },
+        {
+          "id": 7,
+          "text": "completed parent",
+          "completed": true,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 8,
+              "text": "hidden child",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "main",
+          "children": [
+            {
+              "text": "child",
+              "children": [
+                {
+                  "text": "leaf",
+                  "triggerIndices": [
+                    0,
+                    3,
+                    2
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "text": "background",
+          "children": [
+            {
+              "text": "inherited bg"
+            }
+          ],
+          "mode": "background",
+          "backgroundOptions": {
+            "expiresAfterMinutes": 15,
+            "priority": "high"
+          },
+          "triggerIndices": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ]
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "create from tasks 97",
+      "op": "create",
+      "input": {
+        "name": " Kept verbatim ",
+        "tasks": [
+          {
+            "id": 1,
+            "text": "main",
+            "completed": false,
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "children": [
+              {
+                "id": 2,
+                "text": "child",
+                "completed": false,
+                "createdAt": "2025-06-14T22:09:14.072Z",
+                "children": [
+                  {
+                    "id": 3,
+                    "text": "leaf",
+                    "completed": false,
+                    "createdAt": "2025-06-14T22:09:14.072Z",
+                    "children": [],
+                    "mode": "main",
+                    "triggers": [
+                      1,
+                      5,
+                      3
+                    ],
+                    "activated": true,
+                    "activatedAt": null,
+                    "backgroundOptions": null
+                  }
+                ],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              },
+              {
+                "id": 4,
+                "text": "completed child",
+                "completed": true,
+                "createdAt": "2025-06-14T22:09:14.072Z",
+                "children": [
+                  {
+                    "id": 40,
+                    "text": "hidden incomplete",
+                    "completed": false,
+                    "createdAt": "2025-06-14T22:09:14.072Z",
+                    "children": [],
+                    "mode": "main",
+                    "triggers": [],
+                    "activated": true,
+                    "activatedAt": null,
+                    "backgroundOptions": null
+                  }
+                ],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 5,
+            "text": "background",
+            "completed": false,
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "children": [
+              {
+                "id": 6,
+                "text": "inherited bg",
+                "completed": false,
+                "createdAt": "2025-06-14T22:09:14.072Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "background",
+            "triggers": [
+              1,
+              2,
+              3,
+              4,
+              40,
+              99,
+              5,
+              1
+            ],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": {
+              "expiresAfterMinutes": 15,
+              "priority": "high"
+            }
+          },
+          {
+            "id": 7,
+            "text": "completed parent",
+            "completed": true,
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "children": [
+              {
+                "id": 8,
+                "text": "hidden child",
+                "completed": false,
+                "createdAt": "2025-06-14T22:09:14.072Z",
+                "children": [],
+                "mode": "main",
+                "triggers": [],
+                "activated": true,
+                "activatedAt": null,
+                "backgroundOptions": null
+              }
+            ],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ]
+      },
+      "expected": {
+        "id": 1749938954072,
+        "name": " Kept verbatim ",
+        "tasks": [
+          {
+            "text": "main",
+            "children": [
+              {
+                "text": "child",
+                "children": [
+                  {
+                    "text": "leaf",
+                    "triggerIndices": [
+                      0,
+                      3,
+                      2
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "background",
+            "children": [
+              {
+                "text": "inherited bg"
+              }
+            ],
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 15,
+              "priority": "high"
+            },
+            "triggerIndices": [
+              0,
+              1,
+              2,
+              3,
+              0
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "strip incomplete 98",
+      "op": "strip",
+      "input": [
+        {
+          "id": 1,
+          "text": "all done",
+          "completed": true,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "expected": [],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "create from tasks 99",
+      "op": "create",
+      "input": {
+        "name": " Kept verbatim ",
+        "tasks": [
+          {
+            "id": 1,
+            "text": "all done",
+            "completed": true,
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ]
+      },
+      "expected": {
+        "id": 1749938954072,
+        "name": " Kept verbatim ",
+        "tasks": [],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "strip incomplete 100",
+      "op": "strip",
+      "input": [
+        {
+          "id": 1,
+          "text": "collision a",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [
+            1
+          ],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 1,
+          "text": "collision b",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "collision a",
+          "triggerIndices": [
+            1
+          ]
+        },
+        {
+          "text": "collision b"
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "create from tasks 101",
+      "op": "create",
+      "input": {
+        "name": " Kept verbatim ",
+        "tasks": [
+          {
+            "id": 1,
+            "text": "collision a",
+            "completed": false,
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [
+              1
+            ],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          },
+          {
+            "id": 1,
+            "text": "collision b",
+            "completed": false,
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "children": [],
+            "mode": "main",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ]
+      },
+      "expected": {
+        "id": 1749938954072,
+        "name": " Kept verbatim ",
+        "tasks": [
+          {
+            "text": "collision a",
+            "triggerIndices": [
+              1
+            ]
+          },
+          {
+            "text": "collision b"
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "strip incomplete 102",
+      "op": "strip",
+      "input": [
+        {
+          "id": 2,
+          "text": "bg null",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "expected": [
+        {
+          "text": "bg null",
+          "mode": "background",
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "create from tasks 103",
+      "op": "create",
+      "input": {
+        "name": " Kept verbatim ",
+        "tasks": [
+          {
+            "id": 2,
+            "text": "bg null",
+            "completed": false,
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "children": [],
+            "mode": "background",
+            "triggers": [],
+            "activated": true,
+            "activatedAt": null,
+            "backgroundOptions": null
+          }
+        ]
+      },
+      "expected": {
+        "id": 1749938954072,
+        "name": " Kept verbatim ",
+        "tasks": [
+          {
+            "text": "bg null",
+            "mode": "background",
+            "backgroundOptions": null
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate nestedfalse",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "nested",
+        "tasks": [
+          {
+            "text": "main",
+            "children": [
+              {
+                "text": "child",
+                "children": [
+                  {
+                    "text": "leaf",
+                    "triggerIndices": [
+                      0,
+                      2,
+                      999,
+                      1,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "background",
+            "children": [
+              {
+                "text": "inherited bg"
+              }
+            ],
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 15,
+              "priority": "high"
+            },
+            "triggerIndices": [
+              0,
+              1,
+              2,
+              3,
+              0
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072123,
+          "text": "main",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 1749938954072999,
+              "text": "child",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [
+                {
+                  "id": 1749938954072000,
+                  "text": "leaf",
+                  "completed": false,
+                  "createdAt": "2025-06-14T22:09:14.072Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [
+                    1749938954072123,
+                    1749938954072000,
+                    1749938954072999,
+                    1749938954072123
+                  ],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                }
+              ],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 1749938954072500,
+          "text": "background",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 1749938954072500,
+              "text": "inherited bg",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [],
+              "mode": "background",
+              "triggers": [],
+              "activated": false,
+              "activatedAt": null,
+              "backgroundOptions": {
+                "expiresAfterMinutes": null,
+                "priority": "normal"
+              }
+            }
+          ],
+          "mode": "background",
+          "triggers": [
+            1749938954072123,
+            1749938954072999,
+            1749938954072000,
+            1749938954072500,
+            1749938954072123
+          ],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": 15,
+            "priority": "high"
+          }
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate nestedtrue",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "nested",
+        "tasks": [
+          {
+            "text": "main",
+            "children": [
+              {
+                "text": "child",
+                "children": [
+                  {
+                    "text": "leaf",
+                    "triggerIndices": [
+                      0,
+                      2,
+                      999,
+                      1,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "background",
+            "children": [
+              {
+                "text": "inherited bg"
+              }
+            ],
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 15,
+              "priority": "high"
+            },
+            "triggerIndices": [
+              0,
+              1,
+              2,
+              3,
+              0
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072500,
+          "text": "main",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 1749938954072500,
+              "text": "child",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [
+                {
+                  "id": 1749938954072500,
+                  "text": "leaf",
+                  "completed": false,
+                  "createdAt": "2025-06-14T22:09:14.072Z",
+                  "children": [],
+                  "mode": "main",
+                  "triggers": [
+                    1749938954072500,
+                    1749938954072500,
+                    1749938954072500,
+                    1749938954072500
+                  ],
+                  "activated": true,
+                  "activatedAt": null,
+                  "backgroundOptions": null
+                }
+              ],
+              "mode": "main",
+              "triggers": [],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 1749938954072500,
+          "text": "background",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 1749938954072500,
+              "text": "inherited bg",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [],
+              "mode": "background",
+              "triggers": [],
+              "activated": false,
+              "activatedAt": null,
+              "backgroundOptions": {
+                "expiresAfterMinutes": null,
+                "priority": "normal"
+              }
+            }
+          ],
+          "mode": "background",
+          "triggers": [
+            1749938954072500,
+            1749938954072500,
+            1749938954072500,
+            1749938954072500,
+            1749938954072500
+          ],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": 15,
+            "priority": "high"
+          }
+        }
+      ],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "export nested",
+      "op": "export",
+      "input": {
+        "id": 1,
+        "name": "nested",
+        "tasks": [
+          {
+            "text": "main",
+            "children": [
+              {
+                "text": "child",
+                "children": [
+                  {
+                    "text": "leaf",
+                    "triggerIndices": [
+                      0,
+                      2,
+                      999,
+                      1,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "background",
+            "children": [
+              {
+                "text": "inherited bg"
+              }
+            ],
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 15,
+              "priority": "high"
+            },
+            "triggerIndices": [
+              0,
+              1,
+              2,
+              3,
+              0
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": {
+        "data": {
+          "name": "nested",
+          "tasks": [
+            {
+              "text": "main",
+              "children": [
+                {
+                  "text": "child",
+                  "children": [
+                    {
+                      "text": "leaf",
+                      "triggerIndices": [
+                        0,
+                        2,
+                        999,
+                        1,
+                        0
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "background",
+              "children": [
+                {
+                  "text": "inherited bg"
+                }
+              ],
+              "mode": "background",
+              "backgroundOptions": {
+                "expiresAfterMinutes": 15,
+                "priority": "high"
+              },
+              "triggerIndices": [
+                0,
+                1,
+                2,
+                3,
+                0
+              ]
+            }
+          ],
+          "version": "2.0",
+          "exportedAt": "2025-06-14T22:09:14.072Z",
+          "description": "PoE Task Template: nested",
+          "taskCount": 5
+        },
+        "bytes": "{\n  \"name\": \"nested\",\n  \"tasks\": [\n    {\n      \"text\": \"main\",\n      \"children\": [\n        {\n          \"text\": \"child\",\n          \"children\": [\n            {\n              \"text\": \"leaf\",\n              \"triggerIndices\": [\n                0,\n                2,\n                999,\n                1,\n                0\n              ]\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"text\": \"background\",\n      \"children\": [\n        {\n          \"text\": \"inherited bg\"\n        }\n      ],\n      \"mode\": \"background\",\n      \"backgroundOptions\": {\n        \"expiresAfterMinutes\": 15,\n        \"priority\": \"high\"\n      },\n      \"triggerIndices\": [\n        0,\n        1,\n        2,\n        3,\n        0\n      ]\n    }\n  ],\n  \"version\": \"2.0\",\n  \"exportedAt\": \"2025-06-14T22:09:14.072Z\",\n  \"description\": \"PoE Task Template: nested\",\n  \"taskCount\": 5\n}",
+        "filename": "poe2-template-nested.json"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "inspect nested",
+      "op": "inspect",
+      "input": [
+        {
+          "text": "main",
+          "children": [
+            {
+              "text": "child",
+              "children": [
+                {
+                  "text": "leaf",
+                  "triggerIndices": [
+                    0,
+                    2,
+                    999,
+                    1,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "text": "background",
+          "children": [
+            {
+              "text": "inherited bg"
+            }
+          ],
+          "mode": "background",
+          "backgroundOptions": {
+            "expiresAfterMinutes": 15,
+            "priority": "high"
+          },
+          "triggerIndices": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ]
+        }
+      ],
+      "expected": {
+        "count": 5,
+        "background": true,
+        "triggers": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate emptyfalse",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "empty",
+        "tasks": [],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate emptytrue",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "empty",
+        "tasks": [],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "export empty",
+      "op": "export",
+      "input": {
+        "id": 1,
+        "name": "empty",
+        "tasks": [],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": {
+        "data": {
+          "name": "empty",
+          "tasks": [],
+          "version": "1.0",
+          "exportedAt": "2025-06-14T22:09:14.072Z",
+          "description": "PoE Task Template: empty",
+          "taskCount": 0
+        },
+        "bytes": "{\n  \"name\": \"empty\",\n  \"tasks\": [],\n  \"version\": \"1.0\",\n  \"exportedAt\": \"2025-06-14T22:09:14.072Z\",\n  \"description\": \"PoE Task Template: empty\",\n  \"taskCount\": 0\n}",
+        "filename": "poe2-template-empty.json"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "inspect empty",
+      "op": "inspect",
+      "input": [],
+      "expected": {
+        "count": 0,
+        "background": false,
+        "triggers": false
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate mainfalse",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "main",
+        "tasks": [
+          {
+            "text": "one"
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072123,
+          "text": "one",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate maintrue",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "main",
+        "tasks": [
+          {
+            "text": "one"
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072500,
+          "text": "one",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "export main",
+      "op": "export",
+      "input": {
+        "id": 1,
+        "name": "main",
+        "tasks": [
+          {
+            "text": "one"
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": {
+        "data": {
+          "name": "main",
+          "tasks": [
+            {
+              "text": "one"
+            }
+          ],
+          "version": "1.0",
+          "exportedAt": "2025-06-14T22:09:14.072Z",
+          "description": "PoE Task Template: main",
+          "taskCount": 1
+        },
+        "bytes": "{\n  \"name\": \"main\",\n  \"tasks\": [\n    {\n      \"text\": \"one\"\n    }\n  ],\n  \"version\": \"1.0\",\n  \"exportedAt\": \"2025-06-14T22:09:14.072Z\",\n  \"description\": \"PoE Task Template: main\",\n  \"taskCount\": 1\n}",
+        "filename": "poe2-template-main.json"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "inspect main",
+      "op": "inspect",
+      "input": [
+        {
+          "text": "one"
+        }
+      ],
+      "expected": {
+        "count": 1,
+        "background": false,
+        "triggers": false
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate raw indicesfalse",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "raw indices",
+        "tasks": [
+          {
+            "text": "a",
+            "children": [
+              {
+                "text": "b",
+                "triggerIndices": [
+                  2,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "text": "c",
+            "triggerIndices": [
+              -1,
+              0,
+              1.5,
+              99,
+              1,
+              1
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072123,
+          "text": "a",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 1749938954072999,
+              "text": "b",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [],
+              "mode": "main",
+              "triggers": [
+                1749938954072000,
+                1749938954072123
+              ],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 1749938954072000,
+          "text": "c",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [
+            1749938954072123,
+            1749938954072999,
+            1749938954072999
+          ],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate raw indicestrue",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "raw indices",
+        "tasks": [
+          {
+            "text": "a",
+            "children": [
+              {
+                "text": "b",
+                "triggerIndices": [
+                  2,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "text": "c",
+            "triggerIndices": [
+              -1,
+              0,
+              1.5,
+              99,
+              1,
+              1
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072500,
+          "text": "a",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 1749938954072500,
+              "text": "b",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [],
+              "mode": "main",
+              "triggers": [
+                1749938954072500,
+                1749938954072500
+              ],
+              "activated": true,
+              "activatedAt": null,
+              "backgroundOptions": null
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        },
+        {
+          "id": 1749938954072500,
+          "text": "c",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [
+            1749938954072500,
+            1749938954072500,
+            1749938954072500
+          ],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "export raw indices",
+      "op": "export",
+      "input": {
+        "id": 1,
+        "name": "raw indices",
+        "tasks": [
+          {
+            "text": "a",
+            "children": [
+              {
+                "text": "b",
+                "triggerIndices": [
+                  2,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "text": "c",
+            "triggerIndices": [
+              -1,
+              0,
+              1.5,
+              99,
+              1,
+              1
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": {
+        "data": {
+          "name": "raw indices",
+          "tasks": [
+            {
+              "text": "a",
+              "children": [
+                {
+                  "text": "b",
+                  "triggerIndices": [
+                    2,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "c",
+              "triggerIndices": [
+                -1,
+                0,
+                1.5,
+                99,
+                1,
+                1
+              ]
+            }
+          ],
+          "version": "1.0",
+          "exportedAt": "2025-06-14T22:09:14.072Z",
+          "description": "PoE Task Template: raw indices",
+          "taskCount": 3
+        },
+        "bytes": "{\n  \"name\": \"raw indices\",\n  \"tasks\": [\n    {\n      \"text\": \"a\",\n      \"children\": [\n        {\n          \"text\": \"b\",\n          \"triggerIndices\": [\n            2,\n            0\n          ]\n        }\n      ]\n    },\n    {\n      \"text\": \"c\",\n      \"triggerIndices\": [\n        -1,\n        0,\n        1.5,\n        99,\n        1,\n        1\n      ]\n    }\n  ],\n  \"version\": \"1.0\",\n  \"exportedAt\": \"2025-06-14T22:09:14.072Z\",\n  \"description\": \"PoE Task Template: raw indices\",\n  \"taskCount\": 3\n}",
+        "filename": "poe2-template-raw-indices.json"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "inspect raw indices",
+      "op": "inspect",
+      "input": [
+        {
+          "text": "a",
+          "children": [
+            {
+              "text": "b",
+              "triggerIndices": [
+                2,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "text": "c",
+          "triggerIndices": [
+            -1,
+            0,
+            1.5,
+            99,
+            1,
+            1
+          ]
+        }
+      ],
+      "expected": {
+        "count": 3,
+        "background": false,
+        "triggers": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate normalized fractional durationfalse",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "normalized fractional duration",
+        "tasks": [
+          {
+            "text": "fraction",
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 0,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072123,
+          "text": "fraction",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": null,
+            "priority": "high"
+          }
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate normalized fractional durationtrue",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "normalized fractional duration",
+        "tasks": [
+          {
+            "text": "fraction",
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 0,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072500,
+          "text": "fraction",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": null,
+            "priority": "high"
+          }
+        }
+      ],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "export normalized fractional duration",
+      "op": "export",
+      "input": {
+        "id": 1,
+        "name": "normalized fractional duration",
+        "tasks": [
+          {
+            "text": "fraction",
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 0,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": {
+        "data": {
+          "name": "normalized fractional duration",
+          "tasks": [
+            {
+              "text": "fraction",
+              "mode": "background",
+              "backgroundOptions": {
+                "expiresAfterMinutes": 0,
+                "priority": "high"
+              }
+            }
+          ],
+          "version": "2.0",
+          "exportedAt": "2025-06-14T22:09:14.072Z",
+          "description": "PoE Task Template: normalized fractional duration",
+          "taskCount": 1
+        },
+        "bytes": "{\n  \"name\": \"normalized fractional duration\",\n  \"tasks\": [\n    {\n      \"text\": \"fraction\",\n      \"mode\": \"background\",\n      \"backgroundOptions\": {\n        \"expiresAfterMinutes\": 0,\n        \"priority\": \"high\"\n      }\n    }\n  ],\n  \"version\": \"2.0\",\n  \"exportedAt\": \"2025-06-14T22:09:14.072Z\",\n  \"description\": \"PoE Task Template: normalized fractional duration\",\n  \"taskCount\": 1\n}",
+        "filename": "poe2-template-normalized-fractional-duration.json"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "inspect normalized fractional duration",
+      "op": "inspect",
+      "input": [
+        {
+          "text": "fraction",
+          "mode": "background",
+          "backgroundOptions": {
+            "expiresAfterMinutes": 0,
+            "priority": "high"
+          }
+        }
+      ],
+      "expected": {
+        "count": 1,
+        "background": true,
+        "triggers": false
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate null options and ignored main optionsfalse",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "null options and ignored main options",
+        "tasks": [
+          {
+            "text": "background",
+            "mode": "background",
+            "backgroundOptions": null
+          },
+          {
+            "text": "main",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 5,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072123,
+          "text": "background",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": null,
+            "priority": "normal"
+          }
+        },
+        {
+          "id": 1749938954072999,
+          "text": "main",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate null options and ignored main optionstrue",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "null options and ignored main options",
+        "tasks": [
+          {
+            "text": "background",
+            "mode": "background",
+            "backgroundOptions": null
+          },
+          {
+            "text": "main",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 5,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072500,
+          "text": "background",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": false,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": null,
+            "priority": "normal"
+          }
+        },
+        {
+          "id": 1749938954072500,
+          "text": "main",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "export null options and ignored main options",
+      "op": "export",
+      "input": {
+        "id": 1,
+        "name": "null options and ignored main options",
+        "tasks": [
+          {
+            "text": "background",
+            "mode": "background",
+            "backgroundOptions": null
+          },
+          {
+            "text": "main",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 5,
+              "priority": "high"
+            }
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": {
+        "data": {
+          "name": "null options and ignored main options",
+          "tasks": [
+            {
+              "text": "background",
+              "mode": "background",
+              "backgroundOptions": null
+            },
+            {
+              "text": "main",
+              "backgroundOptions": {
+                "expiresAfterMinutes": 5,
+                "priority": "high"
+              }
+            }
+          ],
+          "version": "2.0",
+          "exportedAt": "2025-06-14T22:09:14.072Z",
+          "description": "PoE Task Template: null options and ignored main options",
+          "taskCount": 2
+        },
+        "bytes": "{\n  \"name\": \"null options and ignored main options\",\n  \"tasks\": [\n    {\n      \"text\": \"background\",\n      \"mode\": \"background\",\n      \"backgroundOptions\": null\n    },\n    {\n      \"text\": \"main\",\n      \"backgroundOptions\": {\n        \"expiresAfterMinutes\": 5,\n        \"priority\": \"high\"\n      }\n    }\n  ],\n  \"version\": \"2.0\",\n  \"exportedAt\": \"2025-06-14T22:09:14.072Z\",\n  \"description\": \"PoE Task Template: null options and ignored main options\",\n  \"taskCount\": 2\n}",
+        "filename": "poe2-template-null-options-and-ignored-main-options.json"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "inspect null options and ignored main options",
+      "op": "inspect",
+      "input": [
+        {
+          "text": "background",
+          "mode": "background",
+          "backgroundOptions": null
+        },
+        {
+          "text": "main",
+          "backgroundOptions": {
+            "expiresAfterMinutes": 5,
+            "priority": "high"
+          }
+        }
+      ],
+      "expected": {
+        "count": 2,
+        "background": true,
+        "triggers": false
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate background grandchildfalse",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "background grandchild",
+        "tasks": [
+          {
+            "text": "root",
+            "children": [
+              {
+                "text": "bg",
+                "mode": "background",
+                "children": [
+                  {
+                    "text": "leaf",
+                    "mode": "main"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072123,
+          "text": "root",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 1749938954072999,
+              "text": "bg",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [
+                {
+                  "id": 1749938954072000,
+                  "text": "leaf",
+                  "completed": false,
+                  "createdAt": "2025-06-14T22:09:14.072Z",
+                  "children": [],
+                  "mode": "background",
+                  "triggers": [],
+                  "activated": false,
+                  "activatedAt": null,
+                  "backgroundOptions": {
+                    "expiresAfterMinutes": null,
+                    "priority": "normal"
+                  }
+                }
+              ],
+              "mode": "background",
+              "triggers": [],
+              "activated": false,
+              "activatedAt": null,
+              "backgroundOptions": {
+                "expiresAfterMinutes": null,
+                "priority": "normal"
+              }
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "instantiate background grandchildtrue",
+      "op": "instantiate",
+      "input": {
+        "id": 1,
+        "name": "background grandchild",
+        "tasks": [
+          {
+            "text": "root",
+            "children": [
+              {
+                "text": "bg",
+                "mode": "background",
+                "children": [
+                  {
+                    "text": "leaf",
+                    "mode": "main"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": [
+        {
+          "id": 1749938954072500,
+          "text": "root",
+          "completed": false,
+          "createdAt": "2025-06-14T22:09:14.072Z",
+          "children": [
+            {
+              "id": 1749938954072500,
+              "text": "bg",
+              "completed": false,
+              "createdAt": "2025-06-14T22:09:14.072Z",
+              "children": [
+                {
+                  "id": 1749938954072500,
+                  "text": "leaf",
+                  "completed": false,
+                  "createdAt": "2025-06-14T22:09:14.072Z",
+                  "children": [],
+                  "mode": "background",
+                  "triggers": [],
+                  "activated": false,
+                  "activatedAt": null,
+                  "backgroundOptions": {
+                    "expiresAfterMinutes": null,
+                    "priority": "normal"
+                  }
+                }
+              ],
+              "mode": "background",
+              "triggers": [],
+              "activated": false,
+              "activatedAt": null,
+              "backgroundOptions": {
+                "expiresAfterMinutes": null,
+                "priority": "normal"
+              }
+            }
+          ],
+          "mode": "main",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "randoms": [
+        0.5
+      ]
+    },
+    {
+      "name": "export background grandchild",
+      "op": "export",
+      "input": {
+        "id": 1,
+        "name": "background grandchild",
+        "tasks": [
+          {
+            "text": "root",
+            "children": [
+              {
+                "text": "bg",
+                "mode": "background",
+                "children": [
+                  {
+                    "text": "leaf",
+                    "mode": "main"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "expected": {
+        "data": {
+          "name": "background grandchild",
+          "tasks": [
+            {
+              "text": "root",
+              "children": [
+                {
+                  "text": "bg",
+                  "mode": "background",
+                  "children": [
+                    {
+                      "text": "leaf",
+                      "mode": "main"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "version": "2.0",
+          "exportedAt": "2025-06-14T22:09:14.072Z",
+          "description": "PoE Task Template: background grandchild",
+          "taskCount": 3
+        },
+        "bytes": "{\n  \"name\": \"background grandchild\",\n  \"tasks\": [\n    {\n      \"text\": \"root\",\n      \"children\": [\n        {\n          \"text\": \"bg\",\n          \"mode\": \"background\",\n          \"children\": [\n            {\n              \"text\": \"leaf\",\n              \"mode\": \"main\"\n            }\n          ]\n        }\n      ]\n    }\n  ],\n  \"version\": \"2.0\",\n  \"exportedAt\": \"2025-06-14T22:09:14.072Z\",\n  \"description\": \"PoE Task Template: background grandchild\",\n  \"taskCount\": 3\n}",
+        "filename": "poe2-template-background-grandchild.json"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "inspect background grandchild",
+      "op": "inspect",
+      "input": [
+        {
+          "text": "root",
+          "children": [
+            {
+              "text": "bg",
+              "mode": "background",
+              "children": [
+                {
+                  "text": "leaf",
+                  "mode": "main"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "count": 3,
+        "background": true,
+        "triggers": false
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "upsert removes all names and appends",
+      "op": "upsert",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "replacement": {
+          "id": 4,
+          "name": "same",
+          "tasks": [
+            {
+              "text": "new"
+            }
+          ],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        }
+      },
+      "expected": [
+        {
+          "id": 2,
+          "name": "other",
+          "tasks": [],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        },
+        {
+          "id": 4,
+          "name": "same",
+          "tasks": [
+            {
+              "text": "new"
+            }
+          ],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "remove 1",
+      "op": "remove",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "id": 1
+      },
+      "expected": [
+        {
+          "id": 2,
+          "name": "other",
+          "tasks": [],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        },
+        {
+          "id": 3,
+          "name": "same",
+          "tasks": [],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "find id 1",
+      "op": "findId",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "id": 1
+      },
+      "expected": {
+        "id": 1,
+        "name": "same",
+        "tasks": [],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "remove 2",
+      "op": "remove",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "id": 2
+      },
+      "expected": [
+        {
+          "id": 1,
+          "name": "same",
+          "tasks": [],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        },
+        {
+          "id": 3,
+          "name": "same",
+          "tasks": [],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "find id 2",
+      "op": "findId",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "id": 2
+      },
+      "expected": {
+        "id": 2,
+        "name": "other",
+        "tasks": [],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "remove 77",
+      "op": "remove",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "id": 77
+      },
+      "expected": [
+        {
+          "id": 1,
+          "name": "same",
+          "tasks": [],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        },
+        {
+          "id": 2,
+          "name": "other",
+          "tasks": [],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        },
+        {
+          "id": 3,
+          "name": "same",
+          "tasks": [],
+          "createdAt": "2025-06-14T22:09:14.072Z"
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "find id 77",
+      "op": "findId",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "id": 77
+      },
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "find name same",
+      "op": "findName",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "name": "same"
+      },
+      "expected": {
+        "id": 1,
+        "name": "same",
+        "tasks": [],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "find name Same",
+      "op": "findName",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "name": "Same"
+      },
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "find name other",
+      "op": "findName",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "name": "other"
+      },
+      "expected": {
+        "id": 2,
+        "name": "other",
+        "tasks": [],
+        "createdAt": "2025-06-14T22:09:14.072Z"
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "find name missing",
+      "op": "findName",
+      "input": {
+        "existing": [
+          {
+            "id": 1,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 2,
+            "name": "other",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 3,
+            "name": "same",
+            "tasks": [],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "name": "missing"
+      },
+      "expected": null,
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "imported flag and timestamp",
+      "op": "createImported",
+      "input": {
+        "name": "Imported",
+        "tasks": [
+          {
+            "text": "main",
+            "children": [
+              {
+                "text": "child",
+                "children": [
+                  {
+                    "text": "leaf",
+                    "triggerIndices": [
+                      0,
+                      2,
+                      999,
+                      1,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "background",
+            "children": [
+              {
+                "text": "inherited bg"
+              }
+            ],
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 15,
+              "priority": "high"
+            },
+            "triggerIndices": [
+              0,
+              1,
+              2,
+              3,
+              0
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "id": 1749938954072,
+        "name": "Imported",
+        "tasks": [
+          {
+            "text": "main",
+            "children": [
+              {
+                "text": "child",
+                "children": [
+                  {
+                    "text": "leaf",
+                    "triggerIndices": [
+                      0,
+                      2,
+                      999,
+                      1,
+                      0
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "background",
+            "children": [
+              {
+                "text": "inherited bg"
+              }
+            ],
+            "mode": "background",
+            "backgroundOptions": {
+              "expiresAfterMinutes": 15,
+              "priority": "high"
+            },
+            "triggerIndices": [
+              0,
+              1,
+              2,
+              3,
+              0
+            ]
+          }
+        ],
+        "createdAt": "2025-06-14T22:09:14.072Z",
+        "imported": true
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "community catalog, imports, previews",
+      "op": "community",
+      "input": null,
+      "expected": [
+        {
+          "name": "League Start Essentials",
+          "description": "Core objectives for starting a new league",
+          "tasks": [
+            "Reach Act 6 for resistance penalty",
+            "Complete Normal Labyrinth",
+            "Get life/ES nodes on passive tree",
+            "Cap resistances (75%+)",
+            "Find/buy movement skill gem",
+            "Set up basic currency stash tabs",
+            "Get weapon with linked sockets",
+            "Reach level 68 for endgame content"
+          ],
+          "preview": "League Start Essentials Tasks:\n\n1. Reach Act 6 for resistance penalty\n2. Complete Normal Labyrinth\n3. Get life/ES nodes on passive tree\n4. Cap resistances (75%+)\n5. Find/buy movement skill gem\n6. Set up basic currency stash tabs\n7. Get weapon with linked sockets\n8. Reach level 68 for endgame content",
+          "template": {
+            "id": 1749938954072,
+            "name": "League Start Essentials",
+            "tasks": [
+              {
+                "text": "Reach Act 6 for resistance penalty",
+                "children": []
+              },
+              {
+                "text": "Complete Normal Labyrinth",
+                "children": []
+              },
+              {
+                "text": "Get life/ES nodes on passive tree",
+                "children": []
+              },
+              {
+                "text": "Cap resistances (75%+)",
+                "children": []
+              },
+              {
+                "text": "Find/buy movement skill gem",
+                "children": []
+              },
+              {
+                "text": "Set up basic currency stash tabs",
+                "children": []
+              },
+              {
+                "text": "Get weapon with linked sockets",
+                "children": []
+              },
+              {
+                "text": "Reach level 68 for endgame content",
+                "children": []
+              }
+            ],
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "community": true
+          }
+        },
+        {
+          "name": "Endgame Progression",
+          "description": "Late game goals and pinnacle content",
+          "tasks": [
+            "Complete Atlas progression",
+            "Defeat Shaper",
+            "Defeat Elder",
+            "Complete all Pinnacle bosses",
+            "Reach level 90+",
+            "Get 6-link main skill",
+            "Accumulate 10+ Divine Orbs",
+            "Complete Uber Lab trials",
+            "Max out important flasks"
+          ],
+          "preview": "Endgame Progression Tasks:\n\n1. Complete Atlas progression\n2. Defeat Shaper\n3. Defeat Elder\n4. Complete all Pinnacle bosses\n5. Reach level 90+\n6. Get 6-link main skill\n7. Accumulate 10+ Divine Orbs\n8. Complete Uber Lab trials\n9. Max out important flasks",
+          "template": {
+            "id": 1749938954072,
+            "name": "Endgame Progression",
+            "tasks": [
+              {
+                "text": "Complete Atlas progression",
+                "children": []
+              },
+              {
+                "text": "Defeat Shaper",
+                "children": []
+              },
+              {
+                "text": "Defeat Elder",
+                "children": []
+              },
+              {
+                "text": "Complete all Pinnacle bosses",
+                "children": []
+              },
+              {
+                "text": "Reach level 90+",
+                "children": []
+              },
+              {
+                "text": "Get 6-link main skill",
+                "children": []
+              },
+              {
+                "text": "Accumulate 10+ Divine Orbs",
+                "children": []
+              },
+              {
+                "text": "Complete Uber Lab trials",
+                "children": []
+              },
+              {
+                "text": "Max out important flasks",
+                "children": []
+              }
+            ],
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "community": true
+          }
+        },
+        {
+          "name": "New Character Setup",
+          "description": "Essential steps when creating a new character",
+          "tasks": [
+            "Plan passive tree route (PoB)",
+            "Identify skill gem progression",
+            "Set up loot filter",
+            "Transfer currency from main",
+            "Get leveling uniques if available",
+            "Join guild/find party",
+            "Research build guide thoroughly",
+            "Prepare gems for later levels"
+          ],
+          "preview": "New Character Setup Tasks:\n\n1. Plan passive tree route (PoB)\n2. Identify skill gem progression\n3. Set up loot filter\n4. Transfer currency from main\n5. Get leveling uniques if available\n6. Join guild/find party\n7. Research build guide thoroughly\n8. Prepare gems for later levels",
+          "template": {
+            "id": 1749938954072,
+            "name": "New Character Setup",
+            "tasks": [
+              {
+                "text": "Plan passive tree route (PoB)",
+                "children": []
+              },
+              {
+                "text": "Identify skill gem progression",
+                "children": []
+              },
+              {
+                "text": "Set up loot filter",
+                "children": []
+              },
+              {
+                "text": "Transfer currency from main",
+                "children": []
+              },
+              {
+                "text": "Get leveling uniques if available",
+                "children": []
+              },
+              {
+                "text": "Join guild/find party",
+                "children": []
+              },
+              {
+                "text": "Research build guide thoroughly",
+                "children": []
+              },
+              {
+                "text": "Prepare gems for later levels",
+                "children": []
+              }
+            ],
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "community": true
+          }
+        },
+        {
+          "name": "Currency Goals",
+          "description": "Economic milestones for league",
+          "tasks": [
+            "Save 1 Divine Orb",
+            "Save 5 Divine Orbs",
+            "Save 20 Divine Orbs",
+            "Save 50 Divine Orbs",
+            "Get premium stash tab",
+            "Set up efficient farming strategy",
+            "Learn market prices for key items",
+            "Build up crafting materials"
+          ],
+          "preview": "Currency Goals Tasks:\n\n1. Save 1 Divine Orb\n2. Save 5 Divine Orbs\n3. Save 20 Divine Orbs\n4. Save 50 Divine Orbs\n5. Get premium stash tab\n6. Set up efficient farming strategy\n7. Learn market prices for key items\n8. Build up crafting materials",
+          "template": {
+            "id": 1749938954072,
+            "name": "Currency Goals",
+            "tasks": [
+              {
+                "text": "Save 1 Divine Orb",
+                "children": []
+              },
+              {
+                "text": "Save 5 Divine Orbs",
+                "children": []
+              },
+              {
+                "text": "Save 20 Divine Orbs",
+                "children": []
+              },
+              {
+                "text": "Save 50 Divine Orbs",
+                "children": []
+              },
+              {
+                "text": "Get premium stash tab",
+                "children": []
+              },
+              {
+                "text": "Set up efficient farming strategy",
+                "children": []
+              },
+              {
+                "text": "Learn market prices for key items",
+                "children": []
+              },
+              {
+                "text": "Build up crafting materials",
+                "children": []
+              }
+            ],
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "community": true
+          }
+        },
+        {
+          "name": "HC/SSF Priorities",
+          "description": "Hardcore and Solo Self-Found specific goals",
+          "tasks": [
+            "Over-cap resistances (85%+)",
+            "Get fortify/defensive layers",
+            "Level backup gems",
+            "Hoard life flasks",
+            "Get movement skills early",
+            "Plan escape routes",
+            "Avoid risky content until geared",
+            "Build defensive passive tree first"
+          ],
+          "preview": "HC/SSF Priorities Tasks:\n\n1. Over-cap resistances (85%+)\n2. Get fortify/defensive layers\n3. Level backup gems\n4. Hoard life flasks\n5. Get movement skills early\n6. Plan escape routes\n7. Avoid risky content until geared\n8. Build defensive passive tree first",
+          "template": {
+            "id": 1749938954072,
+            "name": "HC/SSF Priorities",
+            "tasks": [
+              {
+                "text": "Over-cap resistances (85%+)",
+                "children": []
+              },
+              {
+                "text": "Get fortify/defensive layers",
+                "children": []
+              },
+              {
+                "text": "Level backup gems",
+                "children": []
+              },
+              {
+                "text": "Hoard life flasks",
+                "children": []
+              },
+              {
+                "text": "Get movement skills early",
+                "children": []
+              },
+              {
+                "text": "Plan escape routes",
+                "children": []
+              },
+              {
+                "text": "Avoid risky content until geared",
+                "children": []
+              },
+              {
+                "text": "Build defensive passive tree first",
+                "children": []
+              }
+            ],
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "community": true
+          }
+        },
+        {
+          "name": "Crafting Checklist",
+          "description": "Steps for crafting progression",
+          "tasks": [
+            "Learn basic crafting recipes",
+            "Stockpile crafting orbs",
+            "Get good base items",
+            "Practice on cheaper items first",
+            "Research craft of exile",
+            "Set up crafting bench",
+            "Learn advanced techniques",
+            "Plan expensive crafts carefully"
+          ],
+          "preview": "Crafting Checklist Tasks:\n\n1. Learn basic crafting recipes\n2. Stockpile crafting orbs\n3. Get good base items\n4. Practice on cheaper items first\n5. Research craft of exile\n6. Set up crafting bench\n7. Learn advanced techniques\n8. Plan expensive crafts carefully",
+          "template": {
+            "id": 1749938954072,
+            "name": "Crafting Checklist",
+            "tasks": [
+              {
+                "text": "Learn basic crafting recipes",
+                "children": []
+              },
+              {
+                "text": "Stockpile crafting orbs",
+                "children": []
+              },
+              {
+                "text": "Get good base items",
+                "children": []
+              },
+              {
+                "text": "Practice on cheaper items first",
+                "children": []
+              },
+              {
+                "text": "Research craft of exile",
+                "children": []
+              },
+              {
+                "text": "Set up crafting bench",
+                "children": []
+              },
+              {
+                "text": "Learn advanced techniques",
+                "children": []
+              },
+              {
+                "text": "Plan expensive crafts carefully",
+                "children": []
+              }
+            ],
+            "createdAt": "2025-06-14T22:09:14.072Z",
+            "community": true
+          }
+        }
+      ],
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "load persistence {\"load\":[null,{\"tasks\":[]},{\"id\":null,\"tasks\":[\"x\"]},{\"tasks\":[\"y\"]},{\"tasks\":[\"z\"]}]}",
+      "op": "load",
+      "input": {
+        "load": [
+          null,
+          {
+            "tasks": []
+          },
+          {
+            "id": null,
+            "tasks": [
+              "x"
+            ]
+          },
+          {
+            "tasks": [
+              "y"
+            ]
+          },
+          {
+            "tasks": [
+              "z"
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "result": [
+          {
+            "id": 0,
+            "name": "Imported Template",
+            "tasks": [
+              {
+                "text": "x"
+              }
+            ],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 1749938954072123,
+            "name": "Imported Template",
+            "tasks": [
+              {
+                "text": "y"
+              }
+            ],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          },
+          {
+            "id": 1749938954072999,
+            "name": "Imported Template",
+            "tasks": [
+              {
+                "text": "z"
+              }
+            ],
+            "createdAt": "2025-06-14T22:09:14.072Z"
+          }
+        ],
+        "logs": []
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "load persistence {\"load\":{}}",
+      "op": "load",
+      "input": {
+        "load": {}
+      },
+      "expected": {
+        "result": [],
+        "logs": []
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "load persistence {\"failure\":\"IPC unavailable\"}",
+      "op": "load",
+      "input": {
+        "failure": "IPC unavailable"
+      },
+      "expected": {
+        "result": [],
+        "logs": [
+          [
+            "Failed to load templates:",
+            "IPC unavailable"
+          ]
+        ]
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "save persistence {\"response\":{\"success\":true}}",
+      "op": "save",
+      "input": {
+        "response": {
+          "success": true
+        }
+      },
+      "expected": {
+        "result": true,
+        "logs": []
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "save persistence {\"response\":{\"success\":false,\"error\":\"disk full\"}}",
+      "op": "save",
+      "input": {
+        "response": {
+          "success": false,
+          "error": "disk full"
+        }
+      },
+      "expected": {
+        "result": false,
+        "logs": [
+          [
+            "Failed to save templates:",
+            "disk full"
+          ]
+        ]
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "save persistence {\"response\":{\"success\":false}}",
+      "op": "save",
+      "input": {
+        "response": {
+          "success": false
+        }
+      },
+      "expected": {
+        "result": false,
+        "logs": [
+          [
+            "Failed to save templates:",
+            "Unknown save error"
+          ]
+        ]
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "save persistence {\"response\":{\"success\":false,\"error\":\"\"}}",
+      "op": "save",
+      "input": {
+        "response": {
+          "success": false,
+          "error": ""
+        }
+      },
+      "expected": {
+        "result": false,
+        "logs": [
+          [
+            "Failed to save templates:",
+            "Unknown save error"
+          ]
+        ]
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "save persistence {\"failure\":\"IPC unavailable\"}",
+      "op": "save",
+      "input": {
+        "failure": "IPC unavailable"
+      },
+      "expected": {
+        "result": false,
+        "logs": [
+          [
+            "Failed to save templates:",
+            "IPC unavailable"
+          ]
+        ]
+      },
+      "randoms": [
+        0.123,
+        0.999,
+        0,
+        0.5,
+        0.5
+      ]
+    }
+  ],
+  "syntaxErrors": [
+    {
+      "input": "{",
+      "message": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+    },
+    {
+      "input": "{\"name\":\"x\",\"tasks\":[\"x\",]}",
+      "message": "Unexpected token ']', ...\"sks\":[\"x\",]}\" is not valid JSON"
+    },
+    {
+      "input": "{\"name\":\"x\" \"tasks\":[]}",
+      "message": "Expected ',' or '}' after property value in JSON at position 12 (line 1 column 13)"
+    }
+  ],
+  "unsupported": [
+    {
+      "input": "{\"name\":\"x\",\"tasks\":[\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀\"]}",
+      "outputJson": "{\"name\":\"x\",\"tasks\":[{\"text\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\ud83d\"}]}"
+    },
+    {
+      "input": "{\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx😀\",\"tasks\":[\"a\"]}",
+      "outputJson": "{\"name\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\ud83d\",\"tasks\":[{\"text\":\"a\"}]}"
+    },
+    {
+      "input": "{\"name\":\"x\",\"tasks\":[\"\\ud800\"]}",
+      "outputJson": "{\"name\":\"x\",\"tasks\":[{\"text\":\"\\ud800\"}]}"
+    },
+    {
+      "input": "{\"name\":\"x\",\"tasks\":[\"a\"],\"unused\":1e400}",
+      "outputJson": "{\"name\":\"x\",\"tasks\":[{\"text\":\"a\"}]}"
+    }
+  ]
+}
