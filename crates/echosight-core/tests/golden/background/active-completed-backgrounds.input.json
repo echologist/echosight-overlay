@@ -1,0 +1,109 @@
+{
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Task 1",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "main",
+      "triggers": [
+        20,
+        21,
+        22,
+        23
+      ],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    },
+    {
+      "id": 20,
+      "text": "Task 20",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": "2027-01-15T07:59:50.000Z",
+      "backgroundOptions": {
+        "expiresAfterMinutes": 1,
+        "priority": "normal"
+      }
+    },
+    {
+      "id": 21,
+      "text": "Task 21",
+      "completed": true,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": false,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": 1,
+        "priority": "normal"
+      }
+    },
+    {
+      "id": 22,
+      "text": "Task 22",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": false,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": null,
+        "priority": "normal"
+      }
+    },
+    {
+      "id": 23,
+      "text": "Task 23",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": false,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": 0,
+        "priority": "normal"
+      }
+    }
+  ],
+  "ops": [
+    {
+      "op": "restart"
+    },
+    {
+      "op": "toggle",
+      "id": 1
+    },
+    {
+      "op": "toggle",
+      "id": 20
+    },
+    {
+      "op": "advance",
+      "ms": 60000
+    },
+    {
+      "op": "toggle",
+      "id": 1
+    },
+    {
+      "op": "undo"
+    },
+    {
+      "op": "redo"
+    }
+  ]
+}

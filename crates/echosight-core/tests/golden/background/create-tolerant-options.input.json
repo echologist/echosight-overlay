@@ -1,0 +1,74 @@
+{
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Task 1",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "main",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    }
+  ],
+  "ops": [
+    {
+      "op": "addBackground",
+      "text": "New 0",
+      "options": null
+    },
+    {
+      "op": "addBackground",
+      "text": "New 1",
+      "options": {}
+    },
+    {
+      "op": "addBackground",
+      "text": "New 2",
+      "options": {
+        "expiresAfterMinutes": "2.9",
+        "priority": "high"
+      }
+    },
+    {
+      "op": "addBackground",
+      "text": "New 3",
+      "options": {
+        "expiresAfterMinutes": true
+      }
+    },
+    {
+      "op": "addBackground",
+      "text": "New 4",
+      "options": {
+        "expiresAfterMinutes": 0.5
+      }
+    },
+    {
+      "op": "addBackground",
+      "text": "New 5",
+      "options": {
+        "expiresAfterMinutes": -1
+      }
+    },
+    {
+      "op": "addBackground",
+      "text": "New 6",
+      "options": {
+        "expiresAfterMinutes": []
+      }
+    },
+    {
+      "op": "undo"
+    },
+    {
+      "op": "redo"
+    },
+    {
+      "op": "save"
+    }
+  ]
+}
