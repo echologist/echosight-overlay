@@ -21,7 +21,7 @@ The original interrupted work was preserved and completed in separate worktrees.
 - `cargo check -p echosight-platform --all-targets --target x86_64-pc-windows-msvc`: passed. This is compilation, not Windows execution/linking acceptance.
 - Regenerated each oracle on the combined tree using the three isolated `tools/golden/vitest.*.config.ts` files: tasks 31 tests, storage 20 tests, themes 10 tests passed. `git diff --exit-code -- crates/echosight-core/tests/golden` was clean afterward.
 - Added-line scan of `crates/` and `tools/`: no secret-literal matches, local agent/shim paths, unsafe blocks or dynamic-eval matches.
-- Four independent read-only reviews are pending. Do not push this candidate or claim acceptance until their concrete findings are addressed and affected gates rerun.
+- Independent read-only reviews approved the bounded storage and S5 input slices. Task review reproduced a complete-next bug with colliding generated IDs: re-finding by ID mutates the first task instead of the selected leaf. Theme review found the helper parity claim overbroad for JavaScript prototype-property names, outside normal extension inputs; it also requested explicit nonfinite comparator encoding and provenance enforcement. Task/theme corrections are in progress on their original topic branches. Do not push this candidate or claim acceptance until those changes are reviewed and combined gates rerun.
 
 Local Linux/Windows cross-check commands require the existing machine-local shim. It is not part of the repository. Build caches are disposable and are not acceptance artifacts.
 
