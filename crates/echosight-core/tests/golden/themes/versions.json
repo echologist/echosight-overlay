@@ -1,0 +1,2890 @@
+[
+  {
+    "name": "version 0",
+    "input": {
+      "left": "1",
+      "right": "1"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 1",
+    "input": {
+      "left": "1",
+      "right": "1.0.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 2",
+    "input": {
+      "left": "1",
+      "right": "1.2.3"
+    },
+    "expected": -2
+  },
+  {
+    "name": "version 3",
+    "input": {
+      "left": "1",
+      "right": "1.12"
+    },
+    "expected": -12
+  },
+  {
+    "name": "version 4",
+    "input": {
+      "left": "1",
+      "right": "2.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 5",
+    "input": {
+      "left": "1",
+      "right": "  +2x.03beta"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 6",
+    "input": {
+      "left": "1",
+      "right": "1e2.3"
+    },
+    "expected": -3
+  },
+  {
+    "name": "version 7",
+    "input": {
+      "left": "1",
+      "right": "0x10"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 8",
+    "input": {
+      "left": "1",
+      "right": "-1.2"
+    },
+    "expected": 2
+  },
+  {
+    "name": "version 9",
+    "input": {
+      "left": "1",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 10",
+    "input": {
+      "left": "1",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 11",
+    "input": {
+      "left": "1",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 12",
+    "input": {
+      "left": "1",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 13",
+    "input": {
+      "left": "1",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 14",
+    "input": {
+      "left": "1",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 15",
+    "input": {
+      "left": "1",
+      "right": "9007199254740993"
+    },
+    "expected": -9007199254740991
+  },
+  {
+    "name": "version 16",
+    "input": {
+      "left": "1",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 17",
+    "input": {
+      "left": "1",
+      "right": "﻿2.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 18",
+    "input": {
+      "left": "1",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 19",
+    "input": {
+      "left": "1.0.0",
+      "right": "1"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 20",
+    "input": {
+      "left": "1.0.0",
+      "right": "1.0.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 21",
+    "input": {
+      "left": "1.0.0",
+      "right": "1.2.3"
+    },
+    "expected": -2
+  },
+  {
+    "name": "version 22",
+    "input": {
+      "left": "1.0.0",
+      "right": "1.12"
+    },
+    "expected": -12
+  },
+  {
+    "name": "version 23",
+    "input": {
+      "left": "1.0.0",
+      "right": "2.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 24",
+    "input": {
+      "left": "1.0.0",
+      "right": "  +2x.03beta"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 25",
+    "input": {
+      "left": "1.0.0",
+      "right": "1e2.3"
+    },
+    "expected": -3
+  },
+  {
+    "name": "version 26",
+    "input": {
+      "left": "1.0.0",
+      "right": "0x10"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 27",
+    "input": {
+      "left": "1.0.0",
+      "right": "-1.2"
+    },
+    "expected": 2
+  },
+  {
+    "name": "version 28",
+    "input": {
+      "left": "1.0.0",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 29",
+    "input": {
+      "left": "1.0.0",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 30",
+    "input": {
+      "left": "1.0.0",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 31",
+    "input": {
+      "left": "1.0.0",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 32",
+    "input": {
+      "left": "1.0.0",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 33",
+    "input": {
+      "left": "1.0.0",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 34",
+    "input": {
+      "left": "1.0.0",
+      "right": "9007199254740993"
+    },
+    "expected": -9007199254740991
+  },
+  {
+    "name": "version 35",
+    "input": {
+      "left": "1.0.0",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 36",
+    "input": {
+      "left": "1.0.0",
+      "right": "﻿2.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 37",
+    "input": {
+      "left": "1.0.0",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 38",
+    "input": {
+      "left": "1.2.3",
+      "right": "1"
+    },
+    "expected": 2
+  },
+  {
+    "name": "version 39",
+    "input": {
+      "left": "1.2.3",
+      "right": "1.0.0"
+    },
+    "expected": 2
+  },
+  {
+    "name": "version 40",
+    "input": {
+      "left": "1.2.3",
+      "right": "1.2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 41",
+    "input": {
+      "left": "1.2.3",
+      "right": "1.12"
+    },
+    "expected": -10
+  },
+  {
+    "name": "version 42",
+    "input": {
+      "left": "1.2.3",
+      "right": "2.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 43",
+    "input": {
+      "left": "1.2.3",
+      "right": "  +2x.03beta"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 44",
+    "input": {
+      "left": "1.2.3",
+      "right": "1e2.3"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 45",
+    "input": {
+      "left": "1.2.3",
+      "right": "0x10"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 46",
+    "input": {
+      "left": "1.2.3",
+      "right": "-1.2"
+    },
+    "expected": 2
+  },
+  {
+    "name": "version 47",
+    "input": {
+      "left": "1.2.3",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 48",
+    "input": {
+      "left": "1.2.3",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 49",
+    "input": {
+      "left": "1.2.3",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 50",
+    "input": {
+      "left": "1.2.3",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 51",
+    "input": {
+      "left": "1.2.3",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 52",
+    "input": {
+      "left": "1.2.3",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 53",
+    "input": {
+      "left": "1.2.3",
+      "right": "9007199254740993"
+    },
+    "expected": -9007199254740991
+  },
+  {
+    "name": "version 54",
+    "input": {
+      "left": "1.2.3",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 55",
+    "input": {
+      "left": "1.2.3",
+      "right": "﻿2.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 56",
+    "input": {
+      "left": "1.2.3",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 57",
+    "input": {
+      "left": "1.12",
+      "right": "1"
+    },
+    "expected": 12
+  },
+  {
+    "name": "version 58",
+    "input": {
+      "left": "1.12",
+      "right": "1.0.0"
+    },
+    "expected": 12
+  },
+  {
+    "name": "version 59",
+    "input": {
+      "left": "1.12",
+      "right": "1.2.3"
+    },
+    "expected": 10
+  },
+  {
+    "name": "version 60",
+    "input": {
+      "left": "1.12",
+      "right": "1.12"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 61",
+    "input": {
+      "left": "1.12",
+      "right": "2.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 62",
+    "input": {
+      "left": "1.12",
+      "right": "  +2x.03beta"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 63",
+    "input": {
+      "left": "1.12",
+      "right": "1e2.3"
+    },
+    "expected": 9
+  },
+  {
+    "name": "version 64",
+    "input": {
+      "left": "1.12",
+      "right": "0x10"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 65",
+    "input": {
+      "left": "1.12",
+      "right": "-1.2"
+    },
+    "expected": 2
+  },
+  {
+    "name": "version 66",
+    "input": {
+      "left": "1.12",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 67",
+    "input": {
+      "left": "1.12",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 68",
+    "input": {
+      "left": "1.12",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 69",
+    "input": {
+      "left": "1.12",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 70",
+    "input": {
+      "left": "1.12",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 71",
+    "input": {
+      "left": "1.12",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 72",
+    "input": {
+      "left": "1.12",
+      "right": "9007199254740993"
+    },
+    "expected": -9007199254740991
+  },
+  {
+    "name": "version 73",
+    "input": {
+      "left": "1.12",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 74",
+    "input": {
+      "left": "1.12",
+      "right": "﻿2.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 75",
+    "input": {
+      "left": "1.12",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 76",
+    "input": {
+      "left": "2.0",
+      "right": "1"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 77",
+    "input": {
+      "left": "2.0",
+      "right": "1.0.0"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 78",
+    "input": {
+      "left": "2.0",
+      "right": "1.2.3"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 79",
+    "input": {
+      "left": "2.0",
+      "right": "1.12"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 80",
+    "input": {
+      "left": "2.0",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 81",
+    "input": {
+      "left": "2.0",
+      "right": "  +2x.03beta"
+    },
+    "expected": -3
+  },
+  {
+    "name": "version 82",
+    "input": {
+      "left": "2.0",
+      "right": "1e2.3"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 83",
+    "input": {
+      "left": "2.0",
+      "right": "0x10"
+    },
+    "expected": 2
+  },
+  {
+    "name": "version 84",
+    "input": {
+      "left": "2.0",
+      "right": "-1.2"
+    },
+    "expected": 3
+  },
+  {
+    "name": "version 85",
+    "input": {
+      "left": "2.0",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 86",
+    "input": {
+      "left": "2.0",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 87",
+    "input": {
+      "left": "2.0",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 88",
+    "input": {
+      "left": "2.0",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 89",
+    "input": {
+      "left": "2.0",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 90",
+    "input": {
+      "left": "2.0",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 91",
+    "input": {
+      "left": "2.0",
+      "right": "9007199254740993"
+    },
+    "expected": -9007199254740990
+  },
+  {
+    "name": "version 92",
+    "input": {
+      "left": "2.0",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 93",
+    "input": {
+      "left": "2.0",
+      "right": "﻿2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 94",
+    "input": {
+      "left": "2.0",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 95",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "1"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 96",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "1.0.0"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 97",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "1.2.3"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 98",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "1.12"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 99",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "2.0"
+    },
+    "expected": 3
+  },
+  {
+    "name": "version 100",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "  +2x.03beta"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 101",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "1e2.3"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 102",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "0x10"
+    },
+    "expected": 2
+  },
+  {
+    "name": "version 103",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "-1.2"
+    },
+    "expected": 3
+  },
+  {
+    "name": "version 104",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 105",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 106",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 107",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 108",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 109",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 110",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "9007199254740993"
+    },
+    "expected": -9007199254740990
+  },
+  {
+    "name": "version 111",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 112",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "﻿2.0"
+    },
+    "expected": 3
+  },
+  {
+    "name": "version 113",
+    "input": {
+      "left": "  +2x.03beta",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 114",
+    "input": {
+      "left": "1e2.3",
+      "right": "1"
+    },
+    "expected": 3
+  },
+  {
+    "name": "version 115",
+    "input": {
+      "left": "1e2.3",
+      "right": "1.0.0"
+    },
+    "expected": 3
+  },
+  {
+    "name": "version 116",
+    "input": {
+      "left": "1e2.3",
+      "right": "1.2.3"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 117",
+    "input": {
+      "left": "1e2.3",
+      "right": "1.12"
+    },
+    "expected": -9
+  },
+  {
+    "name": "version 118",
+    "input": {
+      "left": "1e2.3",
+      "right": "2.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 119",
+    "input": {
+      "left": "1e2.3",
+      "right": "  +2x.03beta"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 120",
+    "input": {
+      "left": "1e2.3",
+      "right": "1e2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 121",
+    "input": {
+      "left": "1e2.3",
+      "right": "0x10"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 122",
+    "input": {
+      "left": "1e2.3",
+      "right": "-1.2"
+    },
+    "expected": 2
+  },
+  {
+    "name": "version 123",
+    "input": {
+      "left": "1e2.3",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 124",
+    "input": {
+      "left": "1e2.3",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 125",
+    "input": {
+      "left": "1e2.3",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 126",
+    "input": {
+      "left": "1e2.3",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 127",
+    "input": {
+      "left": "1e2.3",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 128",
+    "input": {
+      "left": "1e2.3",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 129",
+    "input": {
+      "left": "1e2.3",
+      "right": "9007199254740993"
+    },
+    "expected": -9007199254740991
+  },
+  {
+    "name": "version 130",
+    "input": {
+      "left": "1e2.3",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 131",
+    "input": {
+      "left": "1e2.3",
+      "right": "﻿2.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 132",
+    "input": {
+      "left": "1e2.3",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 133",
+    "input": {
+      "left": "0x10",
+      "right": "1"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 134",
+    "input": {
+      "left": "0x10",
+      "right": "1.0.0"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 135",
+    "input": {
+      "left": "0x10",
+      "right": "1.2.3"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 136",
+    "input": {
+      "left": "0x10",
+      "right": "1.12"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 137",
+    "input": {
+      "left": "0x10",
+      "right": "2.0"
+    },
+    "expected": -2
+  },
+  {
+    "name": "version 138",
+    "input": {
+      "left": "0x10",
+      "right": "  +2x.03beta"
+    },
+    "expected": -2
+  },
+  {
+    "name": "version 139",
+    "input": {
+      "left": "0x10",
+      "right": "1e2.3"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 140",
+    "input": {
+      "left": "0x10",
+      "right": "0x10"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 141",
+    "input": {
+      "left": "0x10",
+      "right": "-1.2"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 142",
+    "input": {
+      "left": "0x10",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 143",
+    "input": {
+      "left": "0x10",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 144",
+    "input": {
+      "left": "0x10",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 145",
+    "input": {
+      "left": "0x10",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 146",
+    "input": {
+      "left": "0x10",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 147",
+    "input": {
+      "left": "0x10",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 148",
+    "input": {
+      "left": "0x10",
+      "right": "9007199254740993"
+    },
+    "expected": -9007199254740992
+  },
+  {
+    "name": "version 149",
+    "input": {
+      "left": "0x10",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 150",
+    "input": {
+      "left": "0x10",
+      "right": "﻿2.0"
+    },
+    "expected": -2
+  },
+  {
+    "name": "version 151",
+    "input": {
+      "left": "0x10",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 152",
+    "input": {
+      "left": "-1.2",
+      "right": "1"
+    },
+    "expected": -2
+  },
+  {
+    "name": "version 153",
+    "input": {
+      "left": "-1.2",
+      "right": "1.0.0"
+    },
+    "expected": -2
+  },
+  {
+    "name": "version 154",
+    "input": {
+      "left": "-1.2",
+      "right": "1.2.3"
+    },
+    "expected": -2
+  },
+  {
+    "name": "version 155",
+    "input": {
+      "left": "-1.2",
+      "right": "1.12"
+    },
+    "expected": -2
+  },
+  {
+    "name": "version 156",
+    "input": {
+      "left": "-1.2",
+      "right": "2.0"
+    },
+    "expected": -3
+  },
+  {
+    "name": "version 157",
+    "input": {
+      "left": "-1.2",
+      "right": "  +2x.03beta"
+    },
+    "expected": -3
+  },
+  {
+    "name": "version 158",
+    "input": {
+      "left": "-1.2",
+      "right": "1e2.3"
+    },
+    "expected": -2
+  },
+  {
+    "name": "version 159",
+    "input": {
+      "left": "-1.2",
+      "right": "0x10"
+    },
+    "expected": -1
+  },
+  {
+    "name": "version 160",
+    "input": {
+      "left": "-1.2",
+      "right": "-1.2"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 161",
+    "input": {
+      "left": "-1.2",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 162",
+    "input": {
+      "left": "-1.2",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 163",
+    "input": {
+      "left": "-1.2",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 164",
+    "input": {
+      "left": "-1.2",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 165",
+    "input": {
+      "left": "-1.2",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 166",
+    "input": {
+      "left": "-1.2",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 167",
+    "input": {
+      "left": "-1.2",
+      "right": "9007199254740993"
+    },
+    "expected": -9007199254740992
+  },
+  {
+    "name": "version 168",
+    "input": {
+      "left": "-1.2",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 169",
+    "input": {
+      "left": "-1.2",
+      "right": "﻿2.0"
+    },
+    "expected": -3
+  },
+  {
+    "name": "version 170",
+    "input": {
+      "left": "-1.2",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 171",
+    "input": {
+      "left": "",
+      "right": "1"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 172",
+    "input": {
+      "left": "",
+      "right": "1.0.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 173",
+    "input": {
+      "left": "",
+      "right": "1.2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 174",
+    "input": {
+      "left": "",
+      "right": "1.12"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 175",
+    "input": {
+      "left": "",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 176",
+    "input": {
+      "left": "",
+      "right": "  +2x.03beta"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 177",
+    "input": {
+      "left": "",
+      "right": "1e2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 178",
+    "input": {
+      "left": "",
+      "right": "0x10"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 179",
+    "input": {
+      "left": "",
+      "right": "-1.2"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 180",
+    "input": {
+      "left": "",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 181",
+    "input": {
+      "left": "",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 182",
+    "input": {
+      "left": "",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 183",
+    "input": {
+      "left": "",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 184",
+    "input": {
+      "left": "",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 185",
+    "input": {
+      "left": "",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 186",
+    "input": {
+      "left": "",
+      "right": "9007199254740993"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 187",
+    "input": {
+      "left": "",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 188",
+    "input": {
+      "left": "",
+      "right": "﻿2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 189",
+    "input": {
+      "left": "",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 190",
+    "input": {
+      "left": "v1.0",
+      "right": "1"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 191",
+    "input": {
+      "left": "v1.0",
+      "right": "1.0.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 192",
+    "input": {
+      "left": "v1.0",
+      "right": "1.2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 193",
+    "input": {
+      "left": "v1.0",
+      "right": "1.12"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 194",
+    "input": {
+      "left": "v1.0",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 195",
+    "input": {
+      "left": "v1.0",
+      "right": "  +2x.03beta"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 196",
+    "input": {
+      "left": "v1.0",
+      "right": "1e2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 197",
+    "input": {
+      "left": "v1.0",
+      "right": "0x10"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 198",
+    "input": {
+      "left": "v1.0",
+      "right": "-1.2"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 199",
+    "input": {
+      "left": "v1.0",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 200",
+    "input": {
+      "left": "v1.0",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 201",
+    "input": {
+      "left": "v1.0",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 202",
+    "input": {
+      "left": "v1.0",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 203",
+    "input": {
+      "left": "v1.0",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 204",
+    "input": {
+      "left": "v1.0",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 205",
+    "input": {
+      "left": "v1.0",
+      "right": "9007199254740993"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 206",
+    "input": {
+      "left": "v1.0",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 207",
+    "input": {
+      "left": "v1.0",
+      "right": "﻿2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 208",
+    "input": {
+      "left": "v1.0",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 209",
+    "input": {
+      "left": "1..0",
+      "right": "1"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 210",
+    "input": {
+      "left": "1..0",
+      "right": "1.0.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 211",
+    "input": {
+      "left": "1..0",
+      "right": "1.2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 212",
+    "input": {
+      "left": "1..0",
+      "right": "1.12"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 213",
+    "input": {
+      "left": "1..0",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 214",
+    "input": {
+      "left": "1..0",
+      "right": "  +2x.03beta"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 215",
+    "input": {
+      "left": "1..0",
+      "right": "1e2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 216",
+    "input": {
+      "left": "1..0",
+      "right": "0x10"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 217",
+    "input": {
+      "left": "1..0",
+      "right": "-1.2"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 218",
+    "input": {
+      "left": "1..0",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 219",
+    "input": {
+      "left": "1..0",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 220",
+    "input": {
+      "left": "1..0",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 221",
+    "input": {
+      "left": "1..0",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 222",
+    "input": {
+      "left": "1..0",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 223",
+    "input": {
+      "left": "1..0",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 224",
+    "input": {
+      "left": "1..0",
+      "right": "9007199254740993"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 225",
+    "input": {
+      "left": "1..0",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 226",
+    "input": {
+      "left": "1..0",
+      "right": "﻿2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 227",
+    "input": {
+      "left": "1..0",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 228",
+    "input": {
+      "left": "1.",
+      "right": "1"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 229",
+    "input": {
+      "left": "1.",
+      "right": "1.0.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 230",
+    "input": {
+      "left": "1.",
+      "right": "1.2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 231",
+    "input": {
+      "left": "1.",
+      "right": "1.12"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 232",
+    "input": {
+      "left": "1.",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 233",
+    "input": {
+      "left": "1.",
+      "right": "  +2x.03beta"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 234",
+    "input": {
+      "left": "1.",
+      "right": "1e2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 235",
+    "input": {
+      "left": "1.",
+      "right": "0x10"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 236",
+    "input": {
+      "left": "1.",
+      "right": "-1.2"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 237",
+    "input": {
+      "left": "1.",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 238",
+    "input": {
+      "left": "1.",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 239",
+    "input": {
+      "left": "1.",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 240",
+    "input": {
+      "left": "1.",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 241",
+    "input": {
+      "left": "1.",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 242",
+    "input": {
+      "left": "1.",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 243",
+    "input": {
+      "left": "1.",
+      "right": "9007199254740993"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 244",
+    "input": {
+      "left": "1.",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 245",
+    "input": {
+      "left": "1.",
+      "right": "﻿2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 246",
+    "input": {
+      "left": "1.",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 247",
+    "input": {
+      "left": null,
+      "right": "1"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 248",
+    "input": {
+      "left": null,
+      "right": "1.0.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 249",
+    "input": {
+      "left": null,
+      "right": "1.2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 250",
+    "input": {
+      "left": null,
+      "right": "1.12"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 251",
+    "input": {
+      "left": null,
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 252",
+    "input": {
+      "left": null,
+      "right": "  +2x.03beta"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 253",
+    "input": {
+      "left": null,
+      "right": "1e2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 254",
+    "input": {
+      "left": null,
+      "right": "0x10"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 255",
+    "input": {
+      "left": null,
+      "right": "-1.2"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 256",
+    "input": {
+      "left": null,
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 257",
+    "input": {
+      "left": null,
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 258",
+    "input": {
+      "left": null,
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 259",
+    "input": {
+      "left": null,
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 260",
+    "input": {
+      "left": null,
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 261",
+    "input": {
+      "left": null,
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 262",
+    "input": {
+      "left": null,
+      "right": "9007199254740993"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 263",
+    "input": {
+      "left": null,
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 264",
+    "input": {
+      "left": null,
+      "right": "﻿2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 265",
+    "input": {
+      "left": null,
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 266",
+    "input": {
+      "left": 2,
+      "right": "1"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 267",
+    "input": {
+      "left": 2,
+      "right": "1.0.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 268",
+    "input": {
+      "left": 2,
+      "right": "1.2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 269",
+    "input": {
+      "left": 2,
+      "right": "1.12"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 270",
+    "input": {
+      "left": 2,
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 271",
+    "input": {
+      "left": 2,
+      "right": "  +2x.03beta"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 272",
+    "input": {
+      "left": 2,
+      "right": "1e2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 273",
+    "input": {
+      "left": 2,
+      "right": "0x10"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 274",
+    "input": {
+      "left": 2,
+      "right": "-1.2"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 275",
+    "input": {
+      "left": 2,
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 276",
+    "input": {
+      "left": 2,
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 277",
+    "input": {
+      "left": 2,
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 278",
+    "input": {
+      "left": 2,
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 279",
+    "input": {
+      "left": 2,
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 280",
+    "input": {
+      "left": 2,
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 281",
+    "input": {
+      "left": 2,
+      "right": "9007199254740993"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 282",
+    "input": {
+      "left": 2,
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 283",
+    "input": {
+      "left": 2,
+      "right": "﻿2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 284",
+    "input": {
+      "left": 2,
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 285",
+    "input": {
+      "left": "9007199254740993",
+      "right": "1"
+    },
+    "expected": 9007199254740991
+  },
+  {
+    "name": "version 286",
+    "input": {
+      "left": "9007199254740993",
+      "right": "1.0.0"
+    },
+    "expected": 9007199254740991
+  },
+  {
+    "name": "version 287",
+    "input": {
+      "left": "9007199254740993",
+      "right": "1.2.3"
+    },
+    "expected": 9007199254740991
+  },
+  {
+    "name": "version 288",
+    "input": {
+      "left": "9007199254740993",
+      "right": "1.12"
+    },
+    "expected": 9007199254740991
+  },
+  {
+    "name": "version 289",
+    "input": {
+      "left": "9007199254740993",
+      "right": "2.0"
+    },
+    "expected": 9007199254740990
+  },
+  {
+    "name": "version 290",
+    "input": {
+      "left": "9007199254740993",
+      "right": "  +2x.03beta"
+    },
+    "expected": 9007199254740990
+  },
+  {
+    "name": "version 291",
+    "input": {
+      "left": "9007199254740993",
+      "right": "1e2.3"
+    },
+    "expected": 9007199254740991
+  },
+  {
+    "name": "version 292",
+    "input": {
+      "left": "9007199254740993",
+      "right": "0x10"
+    },
+    "expected": 9007199254740992
+  },
+  {
+    "name": "version 293",
+    "input": {
+      "left": "9007199254740993",
+      "right": "-1.2"
+    },
+    "expected": 9007199254740992
+  },
+  {
+    "name": "version 294",
+    "input": {
+      "left": "9007199254740993",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 295",
+    "input": {
+      "left": "9007199254740993",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 296",
+    "input": {
+      "left": "9007199254740993",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 297",
+    "input": {
+      "left": "9007199254740993",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 298",
+    "input": {
+      "left": "9007199254740993",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 299",
+    "input": {
+      "left": "9007199254740993",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 300",
+    "input": {
+      "left": "9007199254740993",
+      "right": "9007199254740993"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 301",
+    "input": {
+      "left": "9007199254740993",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 302",
+    "input": {
+      "left": "9007199254740993",
+      "right": "﻿2.0"
+    },
+    "expected": 9007199254740990
+  },
+  {
+    "name": "version 303",
+    "input": {
+      "left": "9007199254740993",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 304",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "1"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 305",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "1.0.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 306",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "1.2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 307",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "1.12"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 308",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 309",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "  +2x.03beta"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 310",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "1e2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 311",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "0x10"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 312",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "-1.2"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 313",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 314",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 315",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 316",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 317",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 318",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 319",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "9007199254740993"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 320",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 321",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "﻿2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 322",
+    "input": {
+      "left": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 323",
+    "input": {
+      "left": "﻿2.0",
+      "right": "1"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 324",
+    "input": {
+      "left": "﻿2.0",
+      "right": "1.0.0"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 325",
+    "input": {
+      "left": "﻿2.0",
+      "right": "1.2.3"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 326",
+    "input": {
+      "left": "﻿2.0",
+      "right": "1.12"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 327",
+    "input": {
+      "left": "﻿2.0",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 328",
+    "input": {
+      "left": "﻿2.0",
+      "right": "  +2x.03beta"
+    },
+    "expected": -3
+  },
+  {
+    "name": "version 329",
+    "input": {
+      "left": "﻿2.0",
+      "right": "1e2.3"
+    },
+    "expected": 1
+  },
+  {
+    "name": "version 330",
+    "input": {
+      "left": "﻿2.0",
+      "right": "0x10"
+    },
+    "expected": 2
+  },
+  {
+    "name": "version 331",
+    "input": {
+      "left": "﻿2.0",
+      "right": "-1.2"
+    },
+    "expected": 3
+  },
+  {
+    "name": "version 332",
+    "input": {
+      "left": "﻿2.0",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 333",
+    "input": {
+      "left": "﻿2.0",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 334",
+    "input": {
+      "left": "﻿2.0",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 335",
+    "input": {
+      "left": "﻿2.0",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 336",
+    "input": {
+      "left": "﻿2.0",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 337",
+    "input": {
+      "left": "﻿2.0",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 338",
+    "input": {
+      "left": "﻿2.0",
+      "right": "9007199254740993"
+    },
+    "expected": -9007199254740990
+  },
+  {
+    "name": "version 339",
+    "input": {
+      "left": "﻿2.0",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 340",
+    "input": {
+      "left": "﻿2.0",
+      "right": "﻿2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 341",
+    "input": {
+      "left": "﻿2.0",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 342",
+    "input": {
+      "left": "2.0",
+      "right": "1"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 343",
+    "input": {
+      "left": "2.0",
+      "right": "1.0.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 344",
+    "input": {
+      "left": "2.0",
+      "right": "1.2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 345",
+    "input": {
+      "left": "2.0",
+      "right": "1.12"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 346",
+    "input": {
+      "left": "2.0",
+      "right": "2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 347",
+    "input": {
+      "left": "2.0",
+      "right": "  +2x.03beta"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 348",
+    "input": {
+      "left": "2.0",
+      "right": "1e2.3"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 349",
+    "input": {
+      "left": "2.0",
+      "right": "0x10"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 350",
+    "input": {
+      "left": "2.0",
+      "right": "-1.2"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 351",
+    "input": {
+      "left": "2.0",
+      "right": ""
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 352",
+    "input": {
+      "left": "2.0",
+      "right": "v1.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 353",
+    "input": {
+      "left": "2.0",
+      "right": "1..0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 354",
+    "input": {
+      "left": "2.0",
+      "right": "1."
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 355",
+    "input": {
+      "left": "2.0",
+      "right": null
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 356",
+    "input": {
+      "left": "2.0",
+      "right": 2
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 357",
+    "input": {
+      "left": "2.0",
+      "right": "9007199254740993"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 358",
+    "input": {
+      "left": "2.0",
+      "right": "9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 359",
+    "input": {
+      "left": "2.0",
+      "right": "﻿2.0"
+    },
+    "expected": 0
+  },
+  {
+    "name": "version 360",
+    "input": {
+      "left": "2.0",
+      "right": "2.0"
+    },
+    "expected": 0
+  }
+]

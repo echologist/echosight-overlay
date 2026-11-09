@@ -1,0 +1,2327 @@
+[
+  {
+    "name": "data/themes/cs16.json",
+    "input": {
+      "name": "CS 1.6",
+      "id": "cs16",
+      "version": "1.0.1",
+      "author": "Community",
+      "description": "Authentic Counter-Strike 1.6 inspired theme based on cs16.css",
+      "isDefault": false,
+      "supportsTransparency": false,
+      "fonts": {
+        "primary": {
+          "family": "system-ui, sans-serif",
+          "sizes": {
+            "header": "14px",
+            "task": "12px",
+            "progress": "11px",
+            "ui": "11px"
+          },
+          "weights": {
+            "normal": "400",
+            "bold": "400"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#c4b550",
+        "secondary": "#958831",
+        "accent": "#c4b550",
+        "danger": "#a0aa95",
+        "text": {
+          "primary": "#dedfd6",
+          "secondary": "#d8ded3",
+          "muted": "#a0aa95",
+          "inverse": "#292c21",
+          "disabled": "#292c21"
+        },
+        "background": {
+          "primary": "#4a5942",
+          "secondary": "#3e4637",
+          "tertiary": "#1f1f1f",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#8c9284",
+          "secondary": "#292c21",
+          "interactive": "#c4b550",
+          "light": "#8c9284",
+          "dark": "#292c21"
+        }
+      },
+      "transparency": {
+        "clickThrough": "var(--user-transparency, 0.3)",
+        "interactive": "0.95"
+      },
+      "effects": {
+        "borderRadius": "0px",
+        "textShadow": "1px 1px 0px var(--border-dark)",
+        "boxShadow": "inset 2px 2px 0px var(--border-light), inset -2px -2px 0px var(--border-dark)",
+        "buttonShadow": "2px 2px 0px var(--border-dark)",
+        "bevelInset": "inset 1px 1px 0px var(--border-light), inset -1px -1px 0px var(--border-dark)",
+        "bevelOutset": "1px 1px 0px var(--border-light), -1px -1px 0px var(--border-dark)",
+        "dropShadow": "drop-shadow(2px 2px 2px rgba(41, 44, 33, 0.6))",
+        "glow": "0 0 8px var(--primary)"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "background": "var(--bg-primary)",
+            "border": "2px solid var(--border-primary)",
+            "borderRadius": "0px",
+            "boxShadow": "var(--bevel-outset)",
+            "fontFamily": "system-ui, sans-serif"
+          },
+          "header": {
+            "background": "var(--bg-secondary)",
+            "borderBottom": "2px solid var(--border-dark)",
+            "boxShadow": "var(--bevel-inset)",
+            "color": "var(--text-primary)",
+            "textShadow": "var(--text-shadow)"
+          },
+          "templateSection": {
+            "background": "var(--bg-secondary)",
+            "borderBottom": "1px solid var(--border-dark)",
+            "boxShadow": "var(--bevel-inset)"
+          },
+          "tasksSection": {
+            "background": "var(--bg-primary)",
+            "border": "1px solid var(--border-dark)",
+            "boxShadow": "var(--bevel-inset)"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "rgba(74, 89, 66, var(--user-transparency, 0.9))",
+            "border": "1px solid var(--border-primary)",
+            "borderRadius": "0px",
+            "boxShadow": "2px 2px 4px rgba(41, 44, 33, 0.8)"
+          },
+          "tasksSection": {
+            "background": "rgba(62, 70, 55, calc(var(--user-transparency, 0.9) * 0.8))",
+            "border": "1px solid var(--border-dark)"
+          }
+        }
+      },
+      "components": {
+        "button": {
+          "background": "linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary))",
+          "border": "2px solid var(--border-primary)",
+          "color": "var(--text-primary)",
+          "fontWeight": "400",
+          "padding": "4px 8px",
+          "cursor": "pointer",
+          "boxShadow": "var(--bevel-outset)",
+          "textShadow": "var(--text-shadow)",
+          "transition": "none"
+        },
+        "input": {
+          "background": "var(--bg-primary)",
+          "border": "2px inset var(--border-primary)",
+          "color": "var(--text-primary)",
+          "fontFamily": "system-ui, sans-serif",
+          "fontSize": "11px",
+          "padding": "2px 4px",
+          "boxShadow": "var(--bevel-inset)"
+        },
+        "select": {
+          "background": "var(--bg-secondary)",
+          "border": "2px outset var(--border-primary)",
+          "color": "var(--text-primary)",
+          "fontFamily": "system-ui, sans-serif",
+          "fontSize": "11px",
+          "boxShadow": "var(--bevel-outset)"
+        },
+        "progressBar": {
+          "background": "var(--bg-primary)",
+          "border": "1px inset var(--border-dark)",
+          "height": "12px",
+          "boxShadow": "var(--bevel-inset)"
+        },
+        "progressFill": {
+          "background": "linear-gradient(to right, var(--primary), var(--secondary))",
+          "height": "100%",
+          "boxShadow": "var(--bevel-outset)"
+        },
+        "checkbox": {
+          "accentColor": "var(--primary)",
+          "filter": "var(--drop-shadow)"
+        }
+      },
+      "customCSS": {
+        "retro": "button:hover { background: linear-gradient(to bottom, var(--primary), var(--secondary)) !important; }",
+        "glow": ".header h2 { filter: var(--glow) !important; }",
+        "authentic": ".task-item:hover { background: rgba(196, 181, 80, 0.1) !important; }",
+        "modal": "/* Theme Modal */\n.modal { background: rgba(20,22,16,0.76) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }\n.modal-content { background: #4a5942 !important; border: 2px solid #8c9284 !important; border-radius: 0 !important; box-shadow: inset 2px 2px 0 #8c9284, inset -2px -2px 0 #292c21, 4px 4px 0 rgba(41,44,33,0.55) !important; color: #dedfd6 !important; font-family: system-ui, sans-serif !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #c4b550 !important; text-shadow: 1px 1px 0 #292c21 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #dedfd6 !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #d8ded3 !important; }\n.community-template { background: #3e4637 !important; border: 1px solid #292c21 !important; box-shadow: inset 1px 1px 0 #8c9284, inset -1px -1px 0 #292c21 !important; }\n.modal-btn.primary { background: linear-gradient(to bottom, #c4b550, #958831) !important; border: 2px solid #8c9284 !important; color: #292c21 !important; box-shadow: 2px 2px 0 #292c21 !important; }\n.modal-btn.secondary { background: linear-gradient(to bottom, #3e4637, #4a5942) !important; border: 2px solid #8c9284 !important; color: #dedfd6 !important; box-shadow: 2px 2px 0 #292c21 !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #a0aa95 !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #d8ded3 !important; }"
+      }
+    },
+    "expected": {
+      "theme": {
+        "name": "CS 1.6",
+        "id": "cs16",
+        "version": "1.0.1",
+        "author": "Community",
+        "description": "Authentic Counter-Strike 1.6 inspired theme based on cs16.css",
+        "isDefault": false,
+        "supportsTransparency": false,
+        "fonts": {
+          "primary": {
+            "family": "system-ui, sans-serif",
+            "sizes": {
+              "header": "14px",
+              "task": "12px",
+              "progress": "11px",
+              "ui": "11px"
+            },
+            "weights": {
+              "normal": "400",
+              "bold": "400"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#c4b550",
+          "secondary": "#958831",
+          "accent": "#c4b550",
+          "danger": "#a0aa95",
+          "text": {
+            "primary": "#dedfd6",
+            "secondary": "#d8ded3",
+            "muted": "#a0aa95",
+            "inverse": "#292c21",
+            "disabled": "#292c21"
+          },
+          "background": {
+            "primary": "#4a5942",
+            "secondary": "#3e4637",
+            "tertiary": "#1f1f1f",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "#8c9284",
+            "secondary": "#292c21",
+            "interactive": "#c4b550",
+            "light": "#8c9284",
+            "dark": "#292c21"
+          }
+        },
+        "transparency": {
+          "clickThrough": "var(--user-transparency, 0.3)",
+          "interactive": "0.95"
+        },
+        "effects": {
+          "borderRadius": "0px",
+          "textShadow": "1px 1px 0px var(--border-dark)",
+          "boxShadow": "inset 2px 2px 0px var(--border-light), inset -2px -2px 0px var(--border-dark)",
+          "buttonShadow": "2px 2px 0px var(--border-dark)",
+          "bevelInset": "inset 1px 1px 0px var(--border-light), inset -1px -1px 0px var(--border-dark)",
+          "bevelOutset": "1px 1px 0px var(--border-light), -1px -1px 0px var(--border-dark)",
+          "dropShadow": "drop-shadow(2px 2px 2px rgba(41, 44, 33, 0.6))",
+          "glow": "0 0 8px var(--primary)"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "background": "var(--bg-primary)",
+              "border": "2px solid var(--border-primary)",
+              "borderRadius": "0px",
+              "boxShadow": "var(--bevel-outset)",
+              "fontFamily": "system-ui, sans-serif"
+            },
+            "header": {
+              "background": "var(--bg-secondary)",
+              "borderBottom": "2px solid var(--border-dark)",
+              "boxShadow": "var(--bevel-inset)",
+              "color": "var(--text-primary)",
+              "textShadow": "var(--text-shadow)"
+            },
+            "templateSection": {
+              "background": "var(--bg-secondary)",
+              "borderBottom": "1px solid var(--border-dark)",
+              "boxShadow": "var(--bevel-inset)"
+            },
+            "tasksSection": {
+              "background": "var(--bg-primary)",
+              "border": "1px solid var(--border-dark)",
+              "boxShadow": "var(--bevel-inset)"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "rgba(74, 89, 66, var(--user-transparency, 0.9))",
+              "border": "1px solid var(--border-primary)",
+              "borderRadius": "0px",
+              "boxShadow": "2px 2px 4px rgba(41, 44, 33, 0.8)"
+            },
+            "tasksSection": {
+              "background": "rgba(62, 70, 55, calc(var(--user-transparency, 0.9) * 0.8))",
+              "border": "1px solid var(--border-dark)"
+            }
+          }
+        },
+        "components": {
+          "button": {
+            "background": "linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary))",
+            "border": "2px solid var(--border-primary)",
+            "color": "var(--text-primary)",
+            "fontWeight": "400",
+            "padding": "4px 8px",
+            "cursor": "pointer",
+            "boxShadow": "var(--bevel-outset)",
+            "textShadow": "var(--text-shadow)",
+            "transition": "none"
+          },
+          "input": {
+            "background": "var(--bg-primary)",
+            "border": "2px inset var(--border-primary)",
+            "color": "var(--text-primary)",
+            "fontFamily": "system-ui, sans-serif",
+            "fontSize": "11px",
+            "padding": "2px 4px",
+            "boxShadow": "var(--bevel-inset)"
+          },
+          "select": {
+            "background": "var(--bg-secondary)",
+            "border": "2px outset var(--border-primary)",
+            "color": "var(--text-primary)",
+            "fontFamily": "system-ui, sans-serif",
+            "fontSize": "11px",
+            "boxShadow": "var(--bevel-outset)"
+          },
+          "progressBar": {
+            "background": "var(--bg-primary)",
+            "border": "1px inset var(--border-dark)",
+            "height": "12px",
+            "boxShadow": "var(--bevel-inset)"
+          },
+          "progressFill": {
+            "background": "linear-gradient(to right, var(--primary), var(--secondary))",
+            "height": "100%",
+            "boxShadow": "var(--bevel-outset)"
+          },
+          "checkbox": {
+            "accentColor": "var(--primary)",
+            "filter": "var(--drop-shadow)"
+          }
+        },
+        "customCSS": {
+          "retro": "button:hover { background: linear-gradient(to bottom, var(--primary), var(--secondary)) !important; }",
+          "glow": ".header h2 { filter: var(--glow) !important; }",
+          "authentic": ".task-item:hover { background: rgba(196, 181, 80, 0.1) !important; }",
+          "modal": "/* Theme Modal */\n.modal { background: rgba(20,22,16,0.76) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }\n.modal-content { background: #4a5942 !important; border: 2px solid #8c9284 !important; border-radius: 0 !important; box-shadow: inset 2px 2px 0 #8c9284, inset -2px -2px 0 #292c21, 4px 4px 0 rgba(41,44,33,0.55) !important; color: #dedfd6 !important; font-family: system-ui, sans-serif !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #c4b550 !important; text-shadow: 1px 1px 0 #292c21 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #dedfd6 !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #d8ded3 !important; }\n.community-template { background: #3e4637 !important; border: 1px solid #292c21 !important; box-shadow: inset 1px 1px 0 #8c9284, inset -1px -1px 0 #292c21 !important; }\n.modal-btn.primary { background: linear-gradient(to bottom, #c4b550, #958831) !important; border: 2px solid #8c9284 !important; color: #292c21 !important; box-shadow: 2px 2px 0 #292c21 !important; }\n.modal-btn.secondary { background: linear-gradient(to bottom, #3e4637, #4a5942) !important; border: 2px solid #8c9284 !important; color: #dedfd6 !important; box-shadow: 2px 2px 0 #292c21 !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #a0aa95 !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #d8ded3 !important; }"
+        }
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "data/themes/dark.json",
+    "input": {
+      "name": "Dark",
+      "id": "dark",
+      "version": "1.0.1",
+      "author": "Echosight",
+      "description": "Classic dark theme with high contrast",
+      "isDefault": false,
+      "supportsTransparency": true,
+      "fonts": {
+        "primary": {
+          "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+          "sizes": {
+            "header": "16px",
+            "task": "13px",
+            "progress": "12px",
+            "ui": "12px"
+          },
+          "weights": {
+            "normal": "400",
+            "bold": "700"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#d4af37",
+        "secondary": "#32cd32",
+        "accent": "#4169e1",
+        "danger": "#dc143c",
+        "text": {
+          "primary": "#ffffff",
+          "secondary": "#cccccc",
+          "muted": "#888888",
+          "inverse": "#000000"
+        },
+        "background": {
+          "primary": "rgba(0, 0, 0, var(--user-transparency, 1))",
+          "secondary": "rgba(0, 0, 0, var(--user-transparency, 1))",
+          "tertiary": "rgba(0, 0, 0, var(--user-transparency, 1))",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#d4af37",
+          "secondary": "#333333",
+          "interactive": "#32cd32"
+        }
+      },
+      "transparency": {
+        "clickThrough": "var(--user-transparency, 0.25)",
+        "interactive": "var(--user-transparency, 0.25)"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "background": "var(--bg-primary)",
+            "border": "2px solid var(--border-interactive)",
+            "borderRadius": "8px",
+            "boxShadow": "0 0 10px rgba(50, 205, 50, 0.5)"
+          },
+          "header": {
+            "background": "linear-gradient(135deg, #8b4513, #a0522d)",
+            "borderBottom": "1px solid var(--border-primary)"
+          },
+          "templateSection": {
+            "background": "var(--bg-tertiary)",
+            "borderBottom": "1px solid var(--border-secondary)"
+          },
+          "tasksSection": {
+            "background": "var(--bg-secondary)"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "var(--bg-primary)",
+            "border": "none",
+            "borderRadius": "4px",
+            "backdropFilter": "brightness(0.8)",
+            "webkitBackdropFilter": "brightness(0.8)"
+          },
+          "tasksSection": {
+            "background": "transparent"
+          }
+        }
+      },
+      "customCSS": "/* Theme Modal */\n.modal { background: rgba(0,0,0,0.78) !important; backdrop-filter: blur(4px) !important; -webkit-backdrop-filter: blur(4px) !important; }\n.modal-content { background: linear-gradient(180deg, rgba(22,22,22,0.98), rgba(5,5,5,0.98)) !important; border: 1px solid rgba(212,175,55,0.72) !important; border-radius: 8px !important; box-shadow: 0 18px 44px rgba(0,0,0,0.78), 0 0 24px rgba(50,205,50,0.16) !important; color: #fff !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #d4af37 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #f2f2f2 !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #b8b8b8 !important; }\n.community-template { background: rgba(0,0,0,0.46) !important; border: 1px solid rgba(212,175,55,0.24) !important; }\n.modal-btn.primary { background: #4169e1 !important; border: 1px solid #6687ff !important; color: #fff !important; }\n.modal-btn.secondary { background: #2b2b2b !important; border: 1px solid #666 !important; color: #fff !important; }\n.modal-btn:hover { border-color: #d4af37 !important; box-shadow: 0 0 12px rgba(212,175,55,0.28) !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #dc143c !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #ff6b86 !important; }"
+    },
+    "expected": {
+      "theme": {
+        "name": "Dark",
+        "id": "dark",
+        "version": "1.0.1",
+        "author": "Echosight",
+        "description": "Classic dark theme with high contrast",
+        "isDefault": false,
+        "supportsTransparency": true,
+        "fonts": {
+          "primary": {
+            "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+            "sizes": {
+              "header": "16px",
+              "task": "13px",
+              "progress": "12px",
+              "ui": "12px"
+            },
+            "weights": {
+              "normal": "400",
+              "bold": "700"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#d4af37",
+          "secondary": "#32cd32",
+          "accent": "#4169e1",
+          "danger": "#dc143c",
+          "text": {
+            "primary": "#ffffff",
+            "secondary": "#cccccc",
+            "muted": "#888888",
+            "inverse": "#000000"
+          },
+          "background": {
+            "primary": "rgba(0, 0, 0, var(--user-transparency, 1))",
+            "secondary": "rgba(0, 0, 0, var(--user-transparency, 1))",
+            "tertiary": "rgba(0, 0, 0, var(--user-transparency, 1))",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "#d4af37",
+            "secondary": "#333333",
+            "interactive": "#32cd32"
+          }
+        },
+        "transparency": {
+          "clickThrough": "var(--user-transparency, 0.25)",
+          "interactive": "var(--user-transparency, 0.25)"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "background": "var(--bg-primary)",
+              "border": "2px solid var(--border-interactive)",
+              "borderRadius": "8px",
+              "boxShadow": "0 0 10px rgba(50, 205, 50, 0.5)"
+            },
+            "header": {
+              "background": "linear-gradient(135deg, #8b4513, #a0522d)",
+              "borderBottom": "1px solid var(--border-primary)"
+            },
+            "templateSection": {
+              "background": "var(--bg-tertiary)",
+              "borderBottom": "1px solid var(--border-secondary)"
+            },
+            "tasksSection": {
+              "background": "var(--bg-secondary)"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "var(--bg-primary)",
+              "border": "none",
+              "borderRadius": "4px",
+              "backdropFilter": "brightness(0.8)",
+              "webkitBackdropFilter": "brightness(0.8)"
+            },
+            "tasksSection": {
+              "background": "transparent"
+            }
+          }
+        },
+        "customCSS": "/* Theme Modal */\n.modal { background: rgba(0,0,0,0.78) !important; backdrop-filter: blur(4px) !important; -webkit-backdrop-filter: blur(4px) !important; }\n.modal-content { background: linear-gradient(180deg, rgba(22,22,22,0.98), rgba(5,5,5,0.98)) !important; border: 1px solid rgba(212,175,55,0.72) !important; border-radius: 8px !important; box-shadow: 0 18px 44px rgba(0,0,0,0.78), 0 0 24px rgba(50,205,50,0.16) !important; color: #fff !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #d4af37 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #f2f2f2 !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #b8b8b8 !important; }\n.community-template { background: rgba(0,0,0,0.46) !important; border: 1px solid rgba(212,175,55,0.24) !important; }\n.modal-btn.primary { background: #4169e1 !important; border: 1px solid #6687ff !important; color: #fff !important; }\n.modal-btn.secondary { background: #2b2b2b !important; border: 1px solid #666 !important; color: #fff !important; }\n.modal-btn:hover { border-color: #d4af37 !important; box-shadow: 0 0 12px rgba(212,175,55,0.28) !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #dc143c !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #ff6b86 !important; }"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "data/themes/echosight.json",
+    "input": {
+      "name": "Echosight",
+      "id": "echosight",
+      "version": "1.0.3",
+      "author": "Echosight",
+      "description": "Default fantasy theme — gold runes, teal arcana, ember accents. Matches the brand.",
+      "isDefault": true,
+      "supportsTransparency": true,
+      "fonts": {
+        "primary": {
+          "family": "'Inter', 'Segoe UI', Tahoma, sans-serif",
+          "sizes": {
+            "header": "14px",
+            "task": "13px",
+            "progress": "11px",
+            "ui": "12px"
+          },
+          "weights": {
+            "normal": "400",
+            "bold": "600"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#d4a857",
+        "secondary": "#5fd8c8",
+        "accent": "#e3804a",
+        "danger": "#c54a3a",
+        "text": {
+          "primary": "#e8e2d2",
+          "secondary": "#b8b09a",
+          "muted": "#7a7363",
+          "inverse": "#0a0814"
+        },
+        "background": {
+          "primary": "rgba(13, 11, 24, var(--user-transparency, 0.95))",
+          "secondary": "rgba(20, 17, 31, calc(var(--user-transparency, 0.95) * 0.92))",
+          "tertiary": "rgba(11, 9, 18, calc(var(--user-transparency, 0.95) * 0.85))",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "rgba(212, 168, 87, 0.4)",
+          "secondary": "rgba(255, 255, 255, 0.06)",
+          "interactive": "rgba(95, 216, 200, 0.5)"
+        }
+      },
+      "transparency": {
+        "clickThrough": "var(--user-transparency, 0.7)",
+        "interactive": "var(--user-transparency, 0.7)"
+      },
+      "effects": {
+        "borderRadius": "6px",
+        "blur": "14px",
+        "textShadow": "0 1px 2px rgba(0,0,0,0.7)",
+        "boxShadow": "0 0 0 1px rgba(0,0,0,0.4), 0 24px 48px -12px rgba(0,0,0,0.8), 0 0 32px rgba(95,216,200,0.10)"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "background": "linear-gradient(180deg, rgba(20,17,31, calc(var(--user-transparency, 0.95) * 1.00)) 0%, rgba(11,9,18, calc(var(--user-transparency, 0.95) * 1.00)) 100%)",
+            "border": "1px solid rgba(95,216,200,0.35)",
+            "borderRadius": "var(--border-radius)",
+            "backdropFilter": "blur(var(--blur)) saturate(140%)",
+            "webkitBackdropFilter": "blur(var(--blur)) saturate(140%)",
+            "boxShadow": "var(--box-shadow)",
+            "position": "relative",
+            "overflow": "hidden"
+          },
+          "header": {
+            "background": "linear-gradient(180deg, rgba(35,28,52, calc(var(--user-transparency, 0.95) * 0.95)) 0%, rgba(20,17,31, calc(var(--user-transparency, 0.95) * 0.9)) 100%)",
+            "borderBottom": "1px solid rgba(212,168,87,0.28)",
+            "boxShadow": "inset 0 -1px 0 rgba(212,168,87,0.08)"
+          },
+          "templateSection": {
+            "background": "linear-gradient(180deg, rgba(11,9,18, calc(var(--user-transparency, 0.95) * 0.55)), rgba(11,9,18, calc(var(--user-transparency, 0.95) * 0.35)))",
+            "borderBottom": "1px solid rgba(255,255,255,0.04)"
+          },
+          "tasksSection": {
+            "background": "transparent"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "linear-gradient(180deg, rgba(13,11,24, var(--user-transparency, 0.7)) 0%, rgba(7,6,13, var(--user-transparency, 0.7)) 100%)",
+            "border": "1px solid rgba(95,216,200, calc(0.3 * var(--user-transparency, 1)))",
+            "borderRadius": "var(--border-radius)",
+            "backdropFilter": "blur(10px) saturate(125%) brightness(0.85)",
+            "webkitBackdropFilter": "blur(10px) saturate(125%) brightness(0.85)",
+            "boxShadow": "0 0 14px rgba(95,216,200,0.08)"
+          },
+          "tasksSection": {
+            "background": "transparent"
+          }
+        }
+      },
+      "customCSS": "@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');\n\n/* ===== Echosight Polish ===== */\nbody { font-family: 'Inter','Segoe UI',sans-serif !important; color: #e8e2d2 !important; }\n.header h2 { font-family: 'Cinzel','Inter',serif !important; color: #f1d990 !important; font-weight: 700 !important; letter-spacing: 0.18em !important; text-transform: uppercase !important; font-size: 13px !important; text-shadow: 0 0 12px rgba(212,168,87,0.25), 0 1px 2px rgba(0,0,0,0.6) !important; }\n.header h2 #shortcut-hint { letter-spacing: 0 !important; text-transform: none !important; font-family: 'Inter',sans-serif !important; color: rgba(184,176,154,0.62) !important; text-shadow: none !important; font-weight: 400 !important; }\n.template-btn, .modal-btn.secondary { background: linear-gradient(180deg, rgba(20,40,46,0.9), rgba(10,18,22,0.95)) !important; color: #5fd8c8 !important; border: 1px solid rgba(95,216,200,0.45) !important; border-radius: 4px !important; font-family: 'Cinzel','Inter',sans-serif !important; font-weight: 600 !important; letter-spacing: 0.06em !important; transition: all .2s ease !important; }\n.template-btn:hover, .modal-btn.secondary:hover { color: #f1d990 !important; border-color: rgba(212,168,87,0.6) !important; box-shadow: 0 0 14px rgba(212,168,87,0.18) !important; }\n.add-btn, .modal-btn.primary { background: linear-gradient(180deg, rgba(45,38,18,0.58), rgba(28,22,10,0.74)) !important; color: #f1d990 !important; border: 1px solid rgba(212,168,87,0.55) !important; border-radius: 4px !important; font-family: 'Cinzel','Inter',sans-serif !important; font-weight: 600 !important; letter-spacing: 0.12em !important; text-transform: uppercase !important; box-shadow: inset 0 1px 0 rgba(212,168,87,0.12) !important; transition: all .2s ease !important; }\n.add-btn:hover, .modal-btn.primary:hover { color: #fff2cf !important; border-color: rgba(212,168,87,0.86) !important; box-shadow: inset 0 1px 0 rgba(212,168,87,0.2), 0 0 14px rgba(212,168,87,0.25) !important; }\n.task-input, .modal-input, .template-select, input[type='text'], textarea, select { background: rgba(7,6,13,0.7) !important; border: 1px solid rgba(212,168,87,0.18) !important; color: #e8e2d2 !important; border-radius: 4px !important; transition: border-color .2s, box-shadow .2s !important; }\n.task-input:focus, .modal-input:focus, .template-select:focus, input[type='text']:focus, textarea:focus, select:focus { outline: 0 !important; border-color: rgba(95,216,200,0.6) !important; box-shadow: 0 0 0 2px rgba(95,216,200,0.12) !important; }\n.progress-fill { background: linear-gradient(90deg, #2a8e84 0%, #5fd8c8 80%) !important; box-shadow: 0 0 12px rgba(95,216,200,0.5) !important; }\n.progress-text { color: #b8b09a !important; font-family: 'JetBrains Mono','Inter',monospace !important; letter-spacing: 0.06em !important; }\n.task-section-label { font-family: 'Cinzel','Inter',serif !important; color: #d4a857 !important; letter-spacing: 0.18em !important; text-transform: uppercase !important; font-size: 10px !important; border-bottom: 1px dashed rgba(212,168,87,0.18) !important; }\n.task-item:hover { background: rgba(212,168,87,0.05) !important; }\n.task-text { color: #e8e2d2 !important; }\n.task-text.completed { color: #7a7363 !important; }\n.task-delete { background: rgba(197,74,58,0.18) !important; color: #f0a896 !important; border: 1px solid rgba(197,74,58,0.35) !important; }\n.task-delete:hover { background: rgba(227,128,74,0.4) !important; color: #ffe1d6 !important; border-color: rgba(227,128,74,0.7) !important; }\n\n/* ===== Theme Modal ===== */\n.modal { background: rgba(0,0,0,0.85) !important; backdrop-filter: blur(4px) !important; -webkit-backdrop-filter: blur(4px) !important; }\n.modal-content { background: linear-gradient(180deg, rgba(20,17,31,0.98), rgba(11,9,18,0.98)) !important; border: 1px solid rgba(212,168,87,0.4) !important; border-radius: 8px !important; box-shadow: 0 24px 60px -10px rgba(0,0,0,0.85), 0 0 40px rgba(95,216,200,0.08) !important; position: relative !important; color: #e8e2d2 !important; }\n.modal-content::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,168,87,0.5), transparent); pointer-events: none; }\n.modal-title, .settings-title, .modal-content h4 { font-family: 'Cinzel','Inter',serif !important; color: #f1d990 !important; letter-spacing: 0.14em !important; text-transform: uppercase !important; font-weight: 700 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #d8d1bf !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: rgba(184,176,154,0.64) !important; }\n.community-template { background: rgba(11,9,18,0.5) !important; border: 1px solid rgba(212,168,87,0.18) !important; border-radius: 6px !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: rgba(197,74,58,0.75) !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #f0a896 !important; }\n.context-menu { background: linear-gradient(180deg, rgba(20,17,31,0.98), rgba(11,9,18,0.98)) !important; border: 1px solid rgba(212,168,87,0.4) !important; box-shadow: 0 12px 30px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.4) !important; }\n.context-menu div { color: #e8e2d2 !important; font-family: 'Inter',sans-serif !important; }\n.context-menu div:hover { background: linear-gradient(90deg, rgba(212,168,87,0.18), rgba(212,168,87,0.06)) !important; color: #f1d990 !important; }"
+    },
+    "expected": {
+      "theme": {
+        "name": "Echosight",
+        "id": "echosight",
+        "version": "1.0.3",
+        "author": "Echosight",
+        "description": "Default fantasy theme — gold runes, teal arcana, ember accents. Matches the brand.",
+        "isDefault": true,
+        "supportsTransparency": true,
+        "fonts": {
+          "primary": {
+            "family": "'Inter', 'Segoe UI', Tahoma, sans-serif",
+            "sizes": {
+              "header": "14px",
+              "task": "13px",
+              "progress": "11px",
+              "ui": "12px"
+            },
+            "weights": {
+              "normal": "400",
+              "bold": "600"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#d4a857",
+          "secondary": "#5fd8c8",
+          "accent": "#e3804a",
+          "danger": "#c54a3a",
+          "text": {
+            "primary": "#e8e2d2",
+            "secondary": "#b8b09a",
+            "muted": "#7a7363",
+            "inverse": "#0a0814"
+          },
+          "background": {
+            "primary": "rgba(13, 11, 24, var(--user-transparency, 0.95))",
+            "secondary": "rgba(20, 17, 31, calc(var(--user-transparency, 0.95) * 0.92))",
+            "tertiary": "rgba(11, 9, 18, calc(var(--user-transparency, 0.95) * 0.85))",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "rgba(212, 168, 87, 0.4)",
+            "secondary": "rgba(255, 255, 255, 0.06)",
+            "interactive": "rgba(95, 216, 200, 0.5)"
+          }
+        },
+        "transparency": {
+          "clickThrough": "var(--user-transparency, 0.7)",
+          "interactive": "var(--user-transparency, 0.7)"
+        },
+        "effects": {
+          "borderRadius": "6px",
+          "blur": "14px",
+          "textShadow": "0 1px 2px rgba(0,0,0,0.7)",
+          "boxShadow": "0 0 0 1px rgba(0,0,0,0.4), 0 24px 48px -12px rgba(0,0,0,0.8), 0 0 32px rgba(95,216,200,0.10)"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "background": "linear-gradient(180deg, rgba(20,17,31, calc(var(--user-transparency, 0.95) * 1.00)) 0%, rgba(11,9,18, calc(var(--user-transparency, 0.95) * 1.00)) 100%)",
+              "border": "1px solid rgba(95,216,200,0.35)",
+              "borderRadius": "var(--border-radius)",
+              "backdropFilter": "blur(var(--blur)) saturate(140%)",
+              "webkitBackdropFilter": "blur(var(--blur)) saturate(140%)",
+              "boxShadow": "var(--box-shadow)",
+              "position": "relative",
+              "overflow": "hidden"
+            },
+            "header": {
+              "background": "linear-gradient(180deg, rgba(35,28,52, calc(var(--user-transparency, 0.95) * 0.95)) 0%, rgba(20,17,31, calc(var(--user-transparency, 0.95) * 0.9)) 100%)",
+              "borderBottom": "1px solid rgba(212,168,87,0.28)",
+              "boxShadow": "inset 0 -1px 0 rgba(212,168,87,0.08)"
+            },
+            "templateSection": {
+              "background": "linear-gradient(180deg, rgba(11,9,18, calc(var(--user-transparency, 0.95) * 0.55)), rgba(11,9,18, calc(var(--user-transparency, 0.95) * 0.35)))",
+              "borderBottom": "1px solid rgba(255,255,255,0.04)"
+            },
+            "tasksSection": {
+              "background": "transparent"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "linear-gradient(180deg, rgba(13,11,24, var(--user-transparency, 0.7)) 0%, rgba(7,6,13, var(--user-transparency, 0.7)) 100%)",
+              "border": "1px solid rgba(95,216,200, calc(0.3 * var(--user-transparency, 1)))",
+              "borderRadius": "var(--border-radius)",
+              "backdropFilter": "blur(10px) saturate(125%) brightness(0.85)",
+              "webkitBackdropFilter": "blur(10px) saturate(125%) brightness(0.85)",
+              "boxShadow": "0 0 14px rgba(95,216,200,0.08)"
+            },
+            "tasksSection": {
+              "background": "transparent"
+            }
+          }
+        },
+        "customCSS": "@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');\n\n/* ===== Echosight Polish ===== */\nbody { font-family: 'Inter','Segoe UI',sans-serif !important; color: #e8e2d2 !important; }\n.header h2 { font-family: 'Cinzel','Inter',serif !important; color: #f1d990 !important; font-weight: 700 !important; letter-spacing: 0.18em !important; text-transform: uppercase !important; font-size: 13px !important; text-shadow: 0 0 12px rgba(212,168,87,0.25), 0 1px 2px rgba(0,0,0,0.6) !important; }\n.header h2 #shortcut-hint { letter-spacing: 0 !important; text-transform: none !important; font-family: 'Inter',sans-serif !important; color: rgba(184,176,154,0.62) !important; text-shadow: none !important; font-weight: 400 !important; }\n.template-btn, .modal-btn.secondary { background: linear-gradient(180deg, rgba(20,40,46,0.9), rgba(10,18,22,0.95)) !important; color: #5fd8c8 !important; border: 1px solid rgba(95,216,200,0.45) !important; border-radius: 4px !important; font-family: 'Cinzel','Inter',sans-serif !important; font-weight: 600 !important; letter-spacing: 0.06em !important; transition: all .2s ease !important; }\n.template-btn:hover, .modal-btn.secondary:hover { color: #f1d990 !important; border-color: rgba(212,168,87,0.6) !important; box-shadow: 0 0 14px rgba(212,168,87,0.18) !important; }\n.add-btn, .modal-btn.primary { background: linear-gradient(180deg, rgba(45,38,18,0.58), rgba(28,22,10,0.74)) !important; color: #f1d990 !important; border: 1px solid rgba(212,168,87,0.55) !important; border-radius: 4px !important; font-family: 'Cinzel','Inter',sans-serif !important; font-weight: 600 !important; letter-spacing: 0.12em !important; text-transform: uppercase !important; box-shadow: inset 0 1px 0 rgba(212,168,87,0.12) !important; transition: all .2s ease !important; }\n.add-btn:hover, .modal-btn.primary:hover { color: #fff2cf !important; border-color: rgba(212,168,87,0.86) !important; box-shadow: inset 0 1px 0 rgba(212,168,87,0.2), 0 0 14px rgba(212,168,87,0.25) !important; }\n.task-input, .modal-input, .template-select, input[type='text'], textarea, select { background: rgba(7,6,13,0.7) !important; border: 1px solid rgba(212,168,87,0.18) !important; color: #e8e2d2 !important; border-radius: 4px !important; transition: border-color .2s, box-shadow .2s !important; }\n.task-input:focus, .modal-input:focus, .template-select:focus, input[type='text']:focus, textarea:focus, select:focus { outline: 0 !important; border-color: rgba(95,216,200,0.6) !important; box-shadow: 0 0 0 2px rgba(95,216,200,0.12) !important; }\n.progress-fill { background: linear-gradient(90deg, #2a8e84 0%, #5fd8c8 80%) !important; box-shadow: 0 0 12px rgba(95,216,200,0.5) !important; }\n.progress-text { color: #b8b09a !important; font-family: 'JetBrains Mono','Inter',monospace !important; letter-spacing: 0.06em !important; }\n.task-section-label { font-family: 'Cinzel','Inter',serif !important; color: #d4a857 !important; letter-spacing: 0.18em !important; text-transform: uppercase !important; font-size: 10px !important; border-bottom: 1px dashed rgba(212,168,87,0.18) !important; }\n.task-item:hover { background: rgba(212,168,87,0.05) !important; }\n.task-text { color: #e8e2d2 !important; }\n.task-text.completed { color: #7a7363 !important; }\n.task-delete { background: rgba(197,74,58,0.18) !important; color: #f0a896 !important; border: 1px solid rgba(197,74,58,0.35) !important; }\n.task-delete:hover { background: rgba(227,128,74,0.4) !important; color: #ffe1d6 !important; border-color: rgba(227,128,74,0.7) !important; }\n\n/* ===== Theme Modal ===== */\n.modal { background: rgba(0,0,0,0.85) !important; backdrop-filter: blur(4px) !important; -webkit-backdrop-filter: blur(4px) !important; }\n.modal-content { background: linear-gradient(180deg, rgba(20,17,31,0.98), rgba(11,9,18,0.98)) !important; border: 1px solid rgba(212,168,87,0.4) !important; border-radius: 8px !important; box-shadow: 0 24px 60px -10px rgba(0,0,0,0.85), 0 0 40px rgba(95,216,200,0.08) !important; position: relative !important; color: #e8e2d2 !important; }\n.modal-content::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,168,87,0.5), transparent); pointer-events: none; }\n.modal-title, .settings-title, .modal-content h4 { font-family: 'Cinzel','Inter',serif !important; color: #f1d990 !important; letter-spacing: 0.14em !important; text-transform: uppercase !important; font-weight: 700 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #d8d1bf !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: rgba(184,176,154,0.64) !important; }\n.community-template { background: rgba(11,9,18,0.5) !important; border: 1px solid rgba(212,168,87,0.18) !important; border-radius: 6px !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: rgba(197,74,58,0.75) !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #f0a896 !important; }\n.context-menu { background: linear-gradient(180deg, rgba(20,17,31,0.98), rgba(11,9,18,0.98)) !important; border: 1px solid rgba(212,168,87,0.4) !important; box-shadow: 0 12px 30px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.4) !important; }\n.context-menu div { color: #e8e2d2 !important; font-family: 'Inter',sans-serif !important; }\n.context-menu div:hover { background: linear-gradient(90deg, rgba(212,168,87,0.18), rgba(212,168,87,0.06)) !important; color: #f1d990 !important; }"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "data/themes/exiles_corruption.json",
+    "input": {
+      "name": "Exile's Corruption",
+      "id": "exiles_corruption",
+      "version": "1.0.1",
+      "author": "Echosight",
+      "description": "Dark corruption theme inspired by PoE's corruption mechanics with deep purples and red accents",
+      "isDefault": false,
+      "supportsTransparency": false,
+      "fonts": {
+        "primary": {
+          "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+          "sizes": {
+            "header": "16px",
+            "task": "13px",
+            "progress": "12px",
+            "ui": "12px"
+          },
+          "weights": {
+            "normal": "400",
+            "bold": "600"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#8b0000",
+        "secondary": "#dc143c",
+        "accent": "#4b0082",
+        "danger": "#ff1744",
+        "text": {
+          "primary": "#e6e6fa",
+          "secondary": "#dda0dd",
+          "muted": "#9370db",
+          "inverse": "#000000"
+        },
+        "background": {
+          "primary": "rgba(25, 0, 25, 0.9)",
+          "secondary": "rgba(35, 0, 35, 0.8)",
+          "tertiary": "rgba(45, 0, 45, 0.6)",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#8b0000",
+          "secondary": "#4b0082",
+          "interactive": "#dc143c"
+        }
+      },
+      "transparency": {
+        "clickThrough": "0.15",
+        "interactive": "0.9"
+      },
+      "effects": {
+        "blur": "8px",
+        "borderRadius": "6px",
+        "textShadow": "0 0 4px rgba(220, 20, 60, 0.8), 0 1px 2px rgba(0, 0, 0, 0.9)",
+        "boxShadow": "0 0 20px rgba(220, 20, 60, 0.4), 0 0 40px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(220, 20, 60, 0.3)"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "background": "linear-gradient(135deg, var(--bg-primary) 0%, rgba(35, 0, 35, 0.95) 50%, var(--bg-primary) 100%)",
+            "border": "2px solid var(--border-interactive)",
+            "borderRadius": "var(--border-radius)",
+            "backdropFilter": "blur(var(--blur)) saturate(1.2)",
+            "webkitBackdropFilter": "blur(var(--blur)) saturate(1.2)",
+            "boxShadow": "var(--box-shadow)",
+            "position": "relative",
+            "overflow": "hidden"
+          },
+          "header": {
+            "background": "linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(75, 0, 130, 0.6) 100%)",
+            "backdropFilter": "blur(5px)",
+            "webkitBackdropFilter": "blur(5px)",
+            "borderBottom": "1px solid var(--border-primary)",
+            "boxShadow": "0 2px 10px rgba(220, 20, 60, 0.3)"
+          },
+          "templateSection": {
+            "background": "linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%)",
+            "borderBottom": "1px solid var(--border-secondary)",
+            "boxShadow": "inset 0 1px 3px rgba(220, 20, 60, 0.2)"
+          },
+          "tasksSection": {
+            "background": "linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%)",
+            "position": "relative"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "linear-gradient(135deg, rgba(25, 0, 25, var(--user-transparency, 0.15)) 0%, rgba(35, 0, 35, calc(var(--user-transparency, 0.15) * 1.2)) 50%, rgba(25, 0, 25, var(--user-transparency, 0.15)) 100%)",
+            "border": "1px solid rgba(139, 0, 0, 0.4)",
+            "borderRadius": "var(--border-radius)",
+            "backdropFilter": "blur(3px) saturate(1.1) brightness(0.7)",
+            "webkitBackdropFilter": "blur(3px) saturate(1.1) brightness(0.7)",
+            "boxShadow": "0 0 15px rgba(220, 20, 60, 0.2)"
+          },
+          "tasksSection": {
+            "background": "linear-gradient(180deg, rgba(25, 0, 25, calc(var(--user-transparency, 0.15) * 0.8)) 0%, rgba(35, 0, 35, calc(var(--user-transparency, 0.15) * 1.1)) 100%)",
+            "position": "relative"
+          }
+        }
+      },
+      "customCSS": "/* Theme Modal */\n.modal { background: rgba(10,0,12,0.82) !important; backdrop-filter: blur(7px) saturate(130%) !important; -webkit-backdrop-filter: blur(7px) saturate(130%) !important; }\n.modal-content { background: radial-gradient(circle at 20% 0%, rgba(75,0,130,0.82), rgba(25,0,25,0.98) 48%, rgba(12,0,16,0.98)) !important; border: 1px solid rgba(220,20,60,0.72) !important; border-radius: 6px !important; box-shadow: 0 0 28px rgba(220,20,60,0.32), 0 24px 52px rgba(0,0,0,0.72), inset 0 1px 0 rgba(220,20,60,0.22) !important; color: #e6e6fa !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #ff6b86 !important; text-shadow: 0 0 10px rgba(220,20,60,0.7) !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #f0e6ff !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #dda0dd !important; }\n.community-template { background: rgba(25,0,25,0.58) !important; border: 1px solid rgba(139,0,0,0.42) !important; }\n.modal-btn.primary { background: linear-gradient(180deg, rgba(139,0,0,0.86), rgba(75,0,130,0.86)) !important; border: 1px solid rgba(220,20,60,0.75) !important; color: #ffe6ef !important; }\n.modal-btn.secondary { background: rgba(35,0,35,0.82) !important; border: 1px solid rgba(75,0,130,0.8) !important; color: #dda0dd !important; }\n.modal-btn:hover { box-shadow: 0 0 14px rgba(220,20,60,0.45) !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #ff1744 !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #ff8ba0 !important; }"
+    },
+    "expected": {
+      "theme": {
+        "name": "Exile's Corruption",
+        "id": "exiles_corruption",
+        "version": "1.0.1",
+        "author": "Echosight",
+        "description": "Dark corruption theme inspired by PoE's corruption mechanics with deep purples and red accents",
+        "isDefault": false,
+        "supportsTransparency": false,
+        "fonts": {
+          "primary": {
+            "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+            "sizes": {
+              "header": "16px",
+              "task": "13px",
+              "progress": "12px",
+              "ui": "12px"
+            },
+            "weights": {
+              "normal": "400",
+              "bold": "600"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#8b0000",
+          "secondary": "#dc143c",
+          "accent": "#4b0082",
+          "danger": "#ff1744",
+          "text": {
+            "primary": "#e6e6fa",
+            "secondary": "#dda0dd",
+            "muted": "#9370db",
+            "inverse": "#000000"
+          },
+          "background": {
+            "primary": "rgba(25, 0, 25, 0.9)",
+            "secondary": "rgba(35, 0, 35, 0.8)",
+            "tertiary": "rgba(45, 0, 45, 0.6)",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "#8b0000",
+            "secondary": "#4b0082",
+            "interactive": "#dc143c"
+          }
+        },
+        "transparency": {
+          "clickThrough": "0.15",
+          "interactive": "0.9"
+        },
+        "effects": {
+          "blur": "8px",
+          "borderRadius": "6px",
+          "textShadow": "0 0 4px rgba(220, 20, 60, 0.8), 0 1px 2px rgba(0, 0, 0, 0.9)",
+          "boxShadow": "0 0 20px rgba(220, 20, 60, 0.4), 0 0 40px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(220, 20, 60, 0.3)"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "background": "linear-gradient(135deg, var(--bg-primary) 0%, rgba(35, 0, 35, 0.95) 50%, var(--bg-primary) 100%)",
+              "border": "2px solid var(--border-interactive)",
+              "borderRadius": "var(--border-radius)",
+              "backdropFilter": "blur(var(--blur)) saturate(1.2)",
+              "webkitBackdropFilter": "blur(var(--blur)) saturate(1.2)",
+              "boxShadow": "var(--box-shadow)",
+              "position": "relative",
+              "overflow": "hidden"
+            },
+            "header": {
+              "background": "linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(75, 0, 130, 0.6) 100%)",
+              "backdropFilter": "blur(5px)",
+              "webkitBackdropFilter": "blur(5px)",
+              "borderBottom": "1px solid var(--border-primary)",
+              "boxShadow": "0 2px 10px rgba(220, 20, 60, 0.3)"
+            },
+            "templateSection": {
+              "background": "linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%)",
+              "borderBottom": "1px solid var(--border-secondary)",
+              "boxShadow": "inset 0 1px 3px rgba(220, 20, 60, 0.2)"
+            },
+            "tasksSection": {
+              "background": "linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%)",
+              "position": "relative"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "linear-gradient(135deg, rgba(25, 0, 25, var(--user-transparency, 0.15)) 0%, rgba(35, 0, 35, calc(var(--user-transparency, 0.15) * 1.2)) 50%, rgba(25, 0, 25, var(--user-transparency, 0.15)) 100%)",
+              "border": "1px solid rgba(139, 0, 0, 0.4)",
+              "borderRadius": "var(--border-radius)",
+              "backdropFilter": "blur(3px) saturate(1.1) brightness(0.7)",
+              "webkitBackdropFilter": "blur(3px) saturate(1.1) brightness(0.7)",
+              "boxShadow": "0 0 15px rgba(220, 20, 60, 0.2)"
+            },
+            "tasksSection": {
+              "background": "linear-gradient(180deg, rgba(25, 0, 25, calc(var(--user-transparency, 0.15) * 0.8)) 0%, rgba(35, 0, 35, calc(var(--user-transparency, 0.15) * 1.1)) 100%)",
+              "position": "relative"
+            }
+          }
+        },
+        "customCSS": "/* Theme Modal */\n.modal { background: rgba(10,0,12,0.82) !important; backdrop-filter: blur(7px) saturate(130%) !important; -webkit-backdrop-filter: blur(7px) saturate(130%) !important; }\n.modal-content { background: radial-gradient(circle at 20% 0%, rgba(75,0,130,0.82), rgba(25,0,25,0.98) 48%, rgba(12,0,16,0.98)) !important; border: 1px solid rgba(220,20,60,0.72) !important; border-radius: 6px !important; box-shadow: 0 0 28px rgba(220,20,60,0.32), 0 24px 52px rgba(0,0,0,0.72), inset 0 1px 0 rgba(220,20,60,0.22) !important; color: #e6e6fa !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #ff6b86 !important; text-shadow: 0 0 10px rgba(220,20,60,0.7) !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #f0e6ff !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #dda0dd !important; }\n.community-template { background: rgba(25,0,25,0.58) !important; border: 1px solid rgba(139,0,0,0.42) !important; }\n.modal-btn.primary { background: linear-gradient(180deg, rgba(139,0,0,0.86), rgba(75,0,130,0.86)) !important; border: 1px solid rgba(220,20,60,0.75) !important; color: #ffe6ef !important; }\n.modal-btn.secondary { background: rgba(35,0,35,0.82) !important; border: 1px solid rgba(75,0,130,0.8) !important; color: #dda0dd !important; }\n.modal-btn:hover { box-shadow: 0 0 14px rgba(220,20,60,0.45) !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #ff1744 !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #ff8ba0 !important; }"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "data/themes/glass.json",
+    "input": {
+      "name": "Glass",
+      "id": "glass",
+      "version": "1.0.1",
+      "author": "Echosight",
+      "description": "Modern glassmorphism theme with blur effects",
+      "isDefault": true,
+      "supportsTransparency": true,
+      "fonts": {
+        "primary": {
+          "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+          "sizes": {
+            "header": "16px",
+            "task": "13px",
+            "progress": "12px",
+            "ui": "12px"
+          },
+          "weights": {
+            "normal": "400",
+            "bold": "600"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#d4af37",
+        "secondary": "#32cd32",
+        "accent": "#4169e1",
+        "danger": "#dc143c",
+        "text": {
+          "primary": "#ffffff",
+          "secondary": "#cccccc",
+          "muted": "#aaaaaa",
+          "inverse": "#000000"
+        },
+        "background": {
+          "primary": "rgba(255, 255, 255, calc(var(--user-transparency, 1) * 0.3))",
+          "secondary": "rgba(255, 255, 255, calc(var(--user-transparency, 1) * 0.3))",
+          "tertiary": "rgba(255, 255, 255, calc(var(--user-transparency, 1) * 0.3))",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "rgba(255, 255, 255, 0.3)",
+          "secondary": "rgba(255, 255, 255, 0.2)",
+          "interactive": "rgba(50, 205, 50, 0.6)"
+        }
+      },
+      "transparency": {
+        "clickThrough": "var(--user-transparency, 1)",
+        "interactive": "var(--user-transparency, 1)"
+      },
+      "effects": {
+        "blur": "15px",
+        "borderRadius": "12px",
+        "textShadow": "0 1px 2px rgba(0, 0, 0, 0.5)",
+        "boxShadow": "0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4)"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "background": "var(--bg-primary)",
+            "border": "2px solid var(--border-interactive)",
+            "borderRadius": "var(--border-radius)",
+            "backdropFilter": "blur(var(--blur))",
+            "webkitBackdropFilter": "blur(var(--blur))",
+            "boxShadow": "0 0 20px rgba(50, 205, 50, 0.3), var(--box-shadow)",
+            "position": "relative",
+            "overflow": "hidden"
+          },
+          "header": {
+            "background": "rgba(255, 255, 255, 0.1)",
+            "backdropFilter": "blur(10px)",
+            "webkitBackdropFilter": "blur(10px)",
+            "borderBottom": "1px solid var(--border-secondary)"
+          },
+          "templateSection": {
+            "background": "var(--bg-secondary)",
+            "backdropFilter": "blur(8px)",
+            "webkitBackdropFilter": "blur(8px)",
+            "borderBottom": "1px solid var(--border-secondary)"
+          },
+          "tasksSection": {
+            "background": "var(--bg-tertiary)",
+            "backdropFilter": "blur(5px)",
+            "webkitBackdropFilter": "blur(5px)",
+            "borderRadius": "8px",
+            "border": "1px solid var(--border-secondary)"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "var(--bg-primary)",
+            "border": "1px solid var(--border-primary)",
+            "borderRadius": "var(--border-radius)",
+            "backdropFilter": "blur(var(--blur))",
+            "webkitBackdropFilter": "blur(var(--blur))",
+            "boxShadow": "var(--box-shadow)",
+            "position": "relative",
+            "overflow": "hidden"
+          },
+          "tasksSection": {
+            "background": "transparent",
+            "backdropFilter": "blur(5px)",
+            "webkitBackdropFilter": "blur(5px)",
+            "borderRadius": "8px",
+            "border": "1px solid var(--border-secondary)"
+          }
+        }
+      },
+      "customCSS": "/* Theme Modal */\n.modal { background: rgba(0,0,0,0.42) !important; backdrop-filter: blur(12px) saturate(140%) !important; -webkit-backdrop-filter: blur(12px) saturate(140%) !important; }\n.modal-content { background: linear-gradient(180deg, rgba(255,255,255,0.20), rgba(255,255,255,0.08)) !important; border: 1px solid rgba(255,255,255,0.42) !important; border-radius: 12px !important; box-shadow: 0 24px 64px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.42) !important; color: #fff !important; backdrop-filter: blur(18px) saturate(150%) !important; -webkit-backdrop-filter: blur(18px) saturate(150%) !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #f6f6ff !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #fff !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: rgba(255,255,255,0.72) !important; }\n.community-template { background: rgba(255,255,255,0.10) !important; border: 1px solid rgba(255,255,255,0.22) !important; }\n.modal-btn.primary { background: rgba(65,105,225,0.78) !important; border: 1px solid rgba(255,255,255,0.42) !important; color: #fff !important; }\n.modal-btn.secondary { background: rgba(255,255,255,0.12) !important; border: 1px solid rgba(255,255,255,0.28) !important; color: #fff !important; }\n.modal-btn:hover { box-shadow: 0 0 0 2px rgba(255,255,255,0.18) !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: rgba(255,90,120,0.82) !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #ffb3c0 !important; }"
+    },
+    "expected": {
+      "theme": {
+        "name": "Glass",
+        "id": "glass",
+        "version": "1.0.1",
+        "author": "Echosight",
+        "description": "Modern glassmorphism theme with blur effects",
+        "isDefault": true,
+        "supportsTransparency": true,
+        "fonts": {
+          "primary": {
+            "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+            "sizes": {
+              "header": "16px",
+              "task": "13px",
+              "progress": "12px",
+              "ui": "12px"
+            },
+            "weights": {
+              "normal": "400",
+              "bold": "600"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#d4af37",
+          "secondary": "#32cd32",
+          "accent": "#4169e1",
+          "danger": "#dc143c",
+          "text": {
+            "primary": "#ffffff",
+            "secondary": "#cccccc",
+            "muted": "#aaaaaa",
+            "inverse": "#000000"
+          },
+          "background": {
+            "primary": "rgba(255, 255, 255, calc(var(--user-transparency, 1) * 0.3))",
+            "secondary": "rgba(255, 255, 255, calc(var(--user-transparency, 1) * 0.3))",
+            "tertiary": "rgba(255, 255, 255, calc(var(--user-transparency, 1) * 0.3))",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "rgba(255, 255, 255, 0.3)",
+            "secondary": "rgba(255, 255, 255, 0.2)",
+            "interactive": "rgba(50, 205, 50, 0.6)"
+          }
+        },
+        "transparency": {
+          "clickThrough": "var(--user-transparency, 1)",
+          "interactive": "var(--user-transparency, 1)"
+        },
+        "effects": {
+          "blur": "15px",
+          "borderRadius": "12px",
+          "textShadow": "0 1px 2px rgba(0, 0, 0, 0.5)",
+          "boxShadow": "0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4)"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "background": "var(--bg-primary)",
+              "border": "2px solid var(--border-interactive)",
+              "borderRadius": "var(--border-radius)",
+              "backdropFilter": "blur(var(--blur))",
+              "webkitBackdropFilter": "blur(var(--blur))",
+              "boxShadow": "0 0 20px rgba(50, 205, 50, 0.3), var(--box-shadow)",
+              "position": "relative",
+              "overflow": "hidden"
+            },
+            "header": {
+              "background": "rgba(255, 255, 255, 0.1)",
+              "backdropFilter": "blur(10px)",
+              "webkitBackdropFilter": "blur(10px)",
+              "borderBottom": "1px solid var(--border-secondary)"
+            },
+            "templateSection": {
+              "background": "var(--bg-secondary)",
+              "backdropFilter": "blur(8px)",
+              "webkitBackdropFilter": "blur(8px)",
+              "borderBottom": "1px solid var(--border-secondary)"
+            },
+            "tasksSection": {
+              "background": "var(--bg-tertiary)",
+              "backdropFilter": "blur(5px)",
+              "webkitBackdropFilter": "blur(5px)",
+              "borderRadius": "8px",
+              "border": "1px solid var(--border-secondary)"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "var(--bg-primary)",
+              "border": "1px solid var(--border-primary)",
+              "borderRadius": "var(--border-radius)",
+              "backdropFilter": "blur(var(--blur))",
+              "webkitBackdropFilter": "blur(var(--blur))",
+              "boxShadow": "var(--box-shadow)",
+              "position": "relative",
+              "overflow": "hidden"
+            },
+            "tasksSection": {
+              "background": "transparent",
+              "backdropFilter": "blur(5px)",
+              "webkitBackdropFilter": "blur(5px)",
+              "borderRadius": "8px",
+              "border": "1px solid var(--border-secondary)"
+            }
+          }
+        },
+        "customCSS": "/* Theme Modal */\n.modal { background: rgba(0,0,0,0.42) !important; backdrop-filter: blur(12px) saturate(140%) !important; -webkit-backdrop-filter: blur(12px) saturate(140%) !important; }\n.modal-content { background: linear-gradient(180deg, rgba(255,255,255,0.20), rgba(255,255,255,0.08)) !important; border: 1px solid rgba(255,255,255,0.42) !important; border-radius: 12px !important; box-shadow: 0 24px 64px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.42) !important; color: #fff !important; backdrop-filter: blur(18px) saturate(150%) !important; -webkit-backdrop-filter: blur(18px) saturate(150%) !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #f6f6ff !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #fff !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: rgba(255,255,255,0.72) !important; }\n.community-template { background: rgba(255,255,255,0.10) !important; border: 1px solid rgba(255,255,255,0.22) !important; }\n.modal-btn.primary { background: rgba(65,105,225,0.78) !important; border: 1px solid rgba(255,255,255,0.42) !important; color: #fff !important; }\n.modal-btn.secondary { background: rgba(255,255,255,0.12) !important; border: 1px solid rgba(255,255,255,0.28) !important; color: #fff !important; }\n.modal-btn:hover { box-shadow: 0 0 0 2px rgba(255,255,255,0.18) !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: rgba(255,90,120,0.82) !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #ffb3c0 !important; }"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "data/themes/light.json",
+    "input": {
+      "name": "Light",
+      "id": "light",
+      "version": "1.0.1",
+      "author": "Echosight",
+      "description": "Clean light theme with dark text",
+      "isDefault": true,
+      "supportsTransparency": true,
+      "fonts": {
+        "primary": {
+          "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+          "sizes": {
+            "header": "16px",
+            "task": "13px",
+            "progress": "12px",
+            "ui": "12px"
+          },
+          "weights": {
+            "normal": "400",
+            "bold": "700"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#d4af37",
+        "secondary": "#32cd32",
+        "accent": "#4169e1",
+        "danger": "#dc143c",
+        "text": {
+          "primary": "#000000",
+          "secondary": "#333333",
+          "muted": "#666666",
+          "inverse": "#ffffff"
+        },
+        "background": {
+          "primary": "rgba(255, 255, 255, var(--user-transparency, 1))",
+          "secondary": "rgba(255, 255, 255, var(--user-transparency, 1))",
+          "tertiary": "rgba(255, 255, 255, var(--user-transparency, 1))",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "rgba(0, 0, 0, 0.8)",
+          "secondary": "#cccccc",
+          "interactive": "#32cd32"
+        }
+      },
+      "transparency": {
+        "clickThrough": "var(--user-transparency, 1)",
+        "interactive": "var(--user-transparency, 1)"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "background": "var(--bg-primary)",
+            "border": "2px solid var(--border-interactive)",
+            "borderRadius": "8px",
+            "boxShadow": "0 0 10px rgba(50, 205, 50, 0.5)"
+          },
+          "header": {
+            "background": "linear-gradient(135deg, rgba(220, 220, 220, 0.9), rgba(240, 240, 240, 0.9))",
+            "borderBottom": "1px solid var(--border-secondary)"
+          },
+          "templateSection": {
+            "background": "var(--bg-secondary)",
+            "borderBottom": "1px solid var(--border-secondary)"
+          },
+          "tasksSection": {
+            "background": "var(--bg-tertiary)"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "var(--bg-primary)",
+            "border": "2px solid var(--border-primary)",
+            "borderRadius": "4px"
+          },
+          "tasksSection": {
+            "background": "transparent"
+          }
+        }
+      },
+      "customCSS": "/* Theme Modal */\n.modal { background: rgba(30,30,30,0.34) !important; backdrop-filter: blur(3px) !important; -webkit-backdrop-filter: blur(3px) !important; }\n.modal-content { background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(242,242,242,0.98)) !important; border: 1px solid rgba(0,0,0,0.24) !important; border-radius: 8px !important; box-shadow: 0 18px 38px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.9) !important; color: #111 !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #6f5600 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #111 !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #555 !important; }\n.community-template { background: rgba(255,255,255,0.78) !important; border: 1px solid rgba(0,0,0,0.14) !important; }\n.modal-btn.primary { background: #4169e1 !important; border: 1px solid #2f54c9 !important; color: #fff !important; }\n.modal-btn.secondary { background: #f4f4f4 !important; border: 1px solid #bdbdbd !important; color: #111 !important; }\n.modal-btn:hover { border-color: #4169e1 !important; box-shadow: 0 0 0 2px rgba(65,105,225,0.16) !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #dc143c !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #b00024 !important; }"
+    },
+    "expected": {
+      "theme": {
+        "name": "Light",
+        "id": "light",
+        "version": "1.0.1",
+        "author": "Echosight",
+        "description": "Clean light theme with dark text",
+        "isDefault": true,
+        "supportsTransparency": true,
+        "fonts": {
+          "primary": {
+            "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+            "sizes": {
+              "header": "16px",
+              "task": "13px",
+              "progress": "12px",
+              "ui": "12px"
+            },
+            "weights": {
+              "normal": "400",
+              "bold": "700"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#d4af37",
+          "secondary": "#32cd32",
+          "accent": "#4169e1",
+          "danger": "#dc143c",
+          "text": {
+            "primary": "#000000",
+            "secondary": "#333333",
+            "muted": "#666666",
+            "inverse": "#ffffff"
+          },
+          "background": {
+            "primary": "rgba(255, 255, 255, var(--user-transparency, 1))",
+            "secondary": "rgba(255, 255, 255, var(--user-transparency, 1))",
+            "tertiary": "rgba(255, 255, 255, var(--user-transparency, 1))",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "rgba(0, 0, 0, 0.8)",
+            "secondary": "#cccccc",
+            "interactive": "#32cd32"
+          }
+        },
+        "transparency": {
+          "clickThrough": "var(--user-transparency, 1)",
+          "interactive": "var(--user-transparency, 1)"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "background": "var(--bg-primary)",
+              "border": "2px solid var(--border-interactive)",
+              "borderRadius": "8px",
+              "boxShadow": "0 0 10px rgba(50, 205, 50, 0.5)"
+            },
+            "header": {
+              "background": "linear-gradient(135deg, rgba(220, 220, 220, 0.9), rgba(240, 240, 240, 0.9))",
+              "borderBottom": "1px solid var(--border-secondary)"
+            },
+            "templateSection": {
+              "background": "var(--bg-secondary)",
+              "borderBottom": "1px solid var(--border-secondary)"
+            },
+            "tasksSection": {
+              "background": "var(--bg-tertiary)"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "var(--bg-primary)",
+              "border": "2px solid var(--border-primary)",
+              "borderRadius": "4px"
+            },
+            "tasksSection": {
+              "background": "transparent"
+            }
+          }
+        },
+        "customCSS": "/* Theme Modal */\n.modal { background: rgba(30,30,30,0.34) !important; backdrop-filter: blur(3px) !important; -webkit-backdrop-filter: blur(3px) !important; }\n.modal-content { background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(242,242,242,0.98)) !important; border: 1px solid rgba(0,0,0,0.24) !important; border-radius: 8px !important; box-shadow: 0 18px 38px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.9) !important; color: #111 !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #6f5600 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #111 !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #555 !important; }\n.community-template { background: rgba(255,255,255,0.78) !important; border: 1px solid rgba(0,0,0,0.14) !important; }\n.modal-btn.primary { background: #4169e1 !important; border: 1px solid #2f54c9 !important; color: #fff !important; }\n.modal-btn.secondary { background: #f4f4f4 !important; border: 1px solid #bdbdbd !important; color: #111 !important; }\n.modal-btn:hover { border-color: #4169e1 !important; box-shadow: 0 0 0 2px rgba(65,105,225,0.16) !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #dc143c !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #b00024 !important; }"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "data/themes/minimal.json",
+    "input": {
+      "name": "Minimal",
+      "id": "minimal",
+      "version": "1.0.1",
+      "author": "Echoesight",
+      "description": "Clean minimal theme with no background",
+      "isDefault": true,
+      "supportsTransparency": true,
+      "fonts": {
+        "primary": {
+          "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+          "sizes": {
+            "header": "16px",
+            "task": "13px",
+            "progress": "12px",
+            "ui": "12px"
+          },
+          "weights": {
+            "normal": "700",
+            "bold": "900"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#ffffff",
+        "secondary": "#32cd32",
+        "accent": "#4169e1",
+        "danger": "#dc143c",
+        "text": {
+          "primary": "#ffffff",
+          "secondary": "#cccccc",
+          "muted": "#aaaaaa",
+          "inverse": "#000000"
+        },
+        "background": {
+          "primary": "transparent",
+          "secondary": "transparent",
+          "tertiary": "transparent",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#ffffff",
+          "secondary": "#ffffff",
+          "interactive": "#ffffff"
+        }
+      },
+      "transparency": {
+        "clickThrough": "1.0",
+        "interactive": "1.0"
+      },
+      "effects": {
+        "textShadow": "none",
+        "dropShadow": "none",
+        "boxShadow": "none"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "background": "none",
+            "border": "none",
+            "borderRadius": "0",
+            "boxShadow": "none"
+          },
+          "header": {
+            "background": "none",
+            "borderBottom": "2px solid var(--border-primary)",
+            "boxShadow": "none"
+          },
+          "templateSection": {
+            "background": "none",
+            "borderBottom": "2px solid var(--border-primary)",
+            "boxShadow": "none"
+          },
+          "tasksSection": {
+            "background": "none"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "none",
+            "border": "none",
+            "borderRadius": "0",
+            "boxShadow": "none"
+          },
+          "tasksSection": {
+            "background": "none"
+          }
+        }
+      },
+      "customCSS": "/* Theme Modal */\n.modal { background: rgba(0,0,0,0.42) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }\n.modal-content { background: rgba(0,0,0,0.9) !important; border: 2px solid #fff !important; border-radius: 0 !important; box-shadow: none !important; color: #fff !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #fff !important; text-transform: uppercase !important; letter-spacing: 0 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #fff !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #d6d6d6 !important; }\n.community-template { background: transparent !important; border: 1px solid #fff !important; }\n.modal-btn.primary { background: #fff !important; border: 2px solid #fff !important; color: #000 !important; }\n.modal-btn.secondary { background: transparent !important; border: 2px solid #fff !important; color: #fff !important; }\n.modal-btn:hover { outline: 2px solid #fff !important; outline-offset: 2px !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #ff4a4a !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #ff6b6b !important; }"
+    },
+    "expected": {
+      "theme": {
+        "name": "Minimal",
+        "id": "minimal",
+        "version": "1.0.1",
+        "author": "Echoesight",
+        "description": "Clean minimal theme with no background",
+        "isDefault": true,
+        "supportsTransparency": true,
+        "fonts": {
+          "primary": {
+            "family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+            "sizes": {
+              "header": "16px",
+              "task": "13px",
+              "progress": "12px",
+              "ui": "12px"
+            },
+            "weights": {
+              "normal": "700",
+              "bold": "900"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#ffffff",
+          "secondary": "#32cd32",
+          "accent": "#4169e1",
+          "danger": "#dc143c",
+          "text": {
+            "primary": "#ffffff",
+            "secondary": "#cccccc",
+            "muted": "#aaaaaa",
+            "inverse": "#000000"
+          },
+          "background": {
+            "primary": "transparent",
+            "secondary": "transparent",
+            "tertiary": "transparent",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "#ffffff",
+            "secondary": "#ffffff",
+            "interactive": "#ffffff"
+          }
+        },
+        "transparency": {
+          "clickThrough": "1.0",
+          "interactive": "1.0"
+        },
+        "effects": {
+          "textShadow": "none",
+          "dropShadow": "none",
+          "boxShadow": "none"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "background": "none",
+              "border": "none",
+              "borderRadius": "0",
+              "boxShadow": "none"
+            },
+            "header": {
+              "background": "none",
+              "borderBottom": "2px solid var(--border-primary)",
+              "boxShadow": "none"
+            },
+            "templateSection": {
+              "background": "none",
+              "borderBottom": "2px solid var(--border-primary)",
+              "boxShadow": "none"
+            },
+            "tasksSection": {
+              "background": "none"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "none",
+              "border": "none",
+              "borderRadius": "0",
+              "boxShadow": "none"
+            },
+            "tasksSection": {
+              "background": "none"
+            }
+          }
+        },
+        "customCSS": "/* Theme Modal */\n.modal { background: rgba(0,0,0,0.42) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }\n.modal-content { background: rgba(0,0,0,0.9) !important; border: 2px solid #fff !important; border-radius: 0 !important; box-shadow: none !important; color: #fff !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #fff !important; text-transform: uppercase !important; letter-spacing: 0 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #fff !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #d6d6d6 !important; }\n.community-template { background: transparent !important; border: 1px solid #fff !important; }\n.modal-btn.primary { background: #fff !important; border: 2px solid #fff !important; color: #000 !important; }\n.modal-btn.secondary { background: transparent !important; border: 2px solid #fff !important; color: #fff !important; }\n.modal-btn:hover { outline: 2px solid #fff !important; outline-offset: 2px !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #ff4a4a !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #ff6b6b !important; }"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "data/themes/winamp-classic/theme.json",
+    "input": {
+      "name": "Winamp Classic",
+      "id": "winamp-classic",
+      "version": "1.0.2",
+      "author": "Community",
+      "description": "Classic Winamp-inspired theme with authentic retro styling",
+      "isDefault": false,
+      "fonts": {
+        "primary": {
+          "family": "MS Sans Serif, Arial, sans-serif",
+          "sizes": {
+            "header": "11px",
+            "task": "11px",
+            "progress": "10px",
+            "ui": "10px"
+          },
+          "weights": {
+            "normal": "400",
+            "bold": "700"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#00ff00",
+        "secondary": "#008000",
+        "accent": "#80ff80",
+        "danger": "#ff3333",
+        "text": {
+          "primary": "#00ff00",
+          "secondary": "#80ff80",
+          "muted": "#408040",
+          "inverse": "#000000",
+          "disabled": "#404040"
+        },
+        "background": {
+          "primary": "pink",
+          "secondary": "#202020",
+          "tertiary": "#101010",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#404040",
+          "secondary": "#202020",
+          "interactive": "#00ff00",
+          "light": "#606060",
+          "dark": "#101010"
+        }
+      },
+      "effects": {
+        "borderRadius": "0px",
+        "textShadow": "1px 1px 0px rgba(0, 0, 0, 0.8)",
+        "boxShadow": "inset 1px 1px 0px #606060, inset -1px -1px 0px #202020",
+        "buttonShadow": "inset 2px 2px 0px #606060, inset -2px -2px 0px #202020",
+        "bevelInset": "inset 1px 1px 0px #202020, inset -1px -1px 0px #606060",
+        "bevelOutset": "inset 1px 1px 0px #606060, inset -1px -1px 0px #202020"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "border": "2px solid #404040",
+            "borderRadius": "0px",
+            "fontFamily": "MS Sans Serif, Arial, sans-serif",
+            "color": "#00ff00"
+          },
+          "header": {
+            "background": "linear-gradient(to bottom, #404040, #202020)",
+            "borderBottom": "1px solid #101010",
+            "color": "#00ff00",
+            "textShadow": "1px 1px 0px rgba(0, 0, 0, 0.8)",
+            "fontSize": "11px",
+            "fontWeight": "bold"
+          },
+          "templateSection": {
+            "background": "#101010",
+            "borderBottom": "1px solid #404040",
+            "color": "#00ff00"
+          },
+          "tasksSection": {
+            "background": "#000000",
+            "border": "1px solid #404040",
+            "color": "#00ff00"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "rgba(0, 0, 0, 0.9)",
+            "border": "1px solid rgba(0, 255, 0, 0.6)",
+            "borderRadius": "0px"
+          },
+          "tasksSection": {
+            "background": "rgba(16, 16, 16, 0.8)",
+            "border": "1px solid rgba(64, 64, 64, 0.8)"
+          }
+        }
+      },
+      "sounds": {
+        "enabled": true,
+        "volume": 0.8,
+        "events": {
+          "taskCompleted": "complete.wav"
+        }
+      },
+      "cssFile": "styles.css"
+    },
+    "expected": {
+      "theme": {
+        "name": "Winamp Classic",
+        "id": "winamp-classic",
+        "version": "1.0.2",
+        "author": "Community",
+        "description": "Classic Winamp-inspired theme with authentic retro styling",
+        "isDefault": false,
+        "fonts": {
+          "primary": {
+            "family": "MS Sans Serif, Arial, sans-serif",
+            "sizes": {
+              "header": "11px",
+              "task": "11px",
+              "progress": "10px",
+              "ui": "10px"
+            },
+            "weights": {
+              "normal": "400",
+              "bold": "700"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#00ff00",
+          "secondary": "#008000",
+          "accent": "#80ff80",
+          "danger": "#ff3333",
+          "text": {
+            "primary": "#00ff00",
+            "secondary": "#80ff80",
+            "muted": "#408040",
+            "inverse": "#000000",
+            "disabled": "#404040"
+          },
+          "background": {
+            "primary": "pink",
+            "secondary": "#202020",
+            "tertiary": "#101010",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "#404040",
+            "secondary": "#202020",
+            "interactive": "#00ff00",
+            "light": "#606060",
+            "dark": "#101010"
+          }
+        },
+        "effects": {
+          "borderRadius": "0px",
+          "textShadow": "1px 1px 0px rgba(0, 0, 0, 0.8)",
+          "boxShadow": "inset 1px 1px 0px #606060, inset -1px -1px 0px #202020",
+          "buttonShadow": "inset 2px 2px 0px #606060, inset -2px -2px 0px #202020",
+          "bevelInset": "inset 1px 1px 0px #202020, inset -1px -1px 0px #606060",
+          "bevelOutset": "inset 1px 1px 0px #606060, inset -1px -1px 0px #202020"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "border": "2px solid #404040",
+              "borderRadius": "0px",
+              "fontFamily": "MS Sans Serif, Arial, sans-serif",
+              "color": "#00ff00"
+            },
+            "header": {
+              "background": "linear-gradient(to bottom, #404040, #202020)",
+              "borderBottom": "1px solid #101010",
+              "color": "#00ff00",
+              "textShadow": "1px 1px 0px rgba(0, 0, 0, 0.8)",
+              "fontSize": "11px",
+              "fontWeight": "bold"
+            },
+            "templateSection": {
+              "background": "#101010",
+              "borderBottom": "1px solid #404040",
+              "color": "#00ff00"
+            },
+            "tasksSection": {
+              "background": "#000000",
+              "border": "1px solid #404040",
+              "color": "#00ff00"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "rgba(0, 0, 0, 0.9)",
+              "border": "1px solid rgba(0, 255, 0, 0.6)",
+              "borderRadius": "0px"
+            },
+            "tasksSection": {
+              "background": "rgba(16, 16, 16, 0.8)",
+              "border": "1px solid rgba(64, 64, 64, 0.8)"
+            }
+          }
+        },
+        "sounds": {
+          "enabled": true,
+          "volume": 0.8,
+          "events": {
+            "taskCompleted": "complete.wav"
+          }
+        },
+        "cssFile": "styles.css"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "data/themes/windows-7/theme.json",
+    "input": {
+      "name": "Windows 7",
+      "id": "windows-7",
+      "version": "1.0.1",
+      "author": "Echosight",
+      "description": "Authentic Windows 7 Aero theme with glass effects, subtle gradients, and modern UI styling",
+      "isDefault": false,
+      "supportsTransparency": false,
+      "fonts": {
+        "primary": {
+          "family": "Segoe UI, SegoeUI, Noto Sans, sans-serif",
+          "sizes": {
+            "header": "12px",
+            "task": "11px",
+            "progress": "11px",
+            "ui": "11px"
+          },
+          "weights": {
+            "normal": "400",
+            "bold": "600"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#4285f4",
+        "secondary": "#1e88e5",
+        "accent": "#2196f3",
+        "danger": "#f44336",
+        "text": {
+          "primary": "#222222",
+          "secondary": "#333333",
+          "muted": "#666666",
+          "inverse": "#ffffff",
+          "disabled": "#999999"
+        },
+        "background": {
+          "primary": "#f0f0f0",
+          "secondary": "#f2f2f2",
+          "tertiary": "#e8e8e8",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#cccccc",
+          "secondary": "#dddddd",
+          "interactive": "#4285f4",
+          "light": "#ffffff",
+          "dark": "#aaaaaa"
+        }
+      },
+      "effects": {
+        "borderRadius": "3px",
+        "textShadow": "none",
+        "boxShadow": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9",
+        "buttonShadow": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9, 0 1px 3px rgba(0,0,0,0.1)",
+        "bevelInset": "inset 0 1px 3px rgba(0,0,0,0.1)",
+        "bevelOutset": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "background": "linear-gradient(to bottom, #f8f8f8, #f0f0f0)",
+            "border": "1px solid #cccccc",
+            "borderRadius": "3px",
+            "fontFamily": "Segoe UI, SegoeUI, Noto Sans, sans-serif",
+            "color": "#222222"
+          },
+          "header": {
+            "background": "linear-gradient(to bottom, #4285f4, #1e88e5)",
+            "borderBottom": "1px solid #1565c0",
+            "color": "#ffffff",
+            "textShadow": "0 1px 2px rgba(0,0,0,0.2)",
+            "fontSize": "12px",
+            "fontWeight": "600"
+          },
+          "templateSection": {
+            "background": "linear-gradient(to bottom, #fafafa, #f2f2f2)",
+            "borderBottom": "1px solid #dddddd",
+            "color": "#222222"
+          },
+          "tasksSection": {
+            "background": "linear-gradient(to bottom, #ffffff, #f8f8f8)",
+            "border": "1px solid #dddddd",
+            "color": "#222222"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "rgba(248, 248, 248, 0.9)",
+            "border": "1px solid rgba(204, 204, 204, 0.8)",
+            "borderRadius": "3px"
+          },
+          "tasksSection": {
+            "background": "rgba(255, 255, 255, 0.8)",
+            "border": "1px solid rgba(221, 221, 221, 0.8)"
+          }
+        }
+      },
+      "cssFile": "styles.css"
+    },
+    "expected": {
+      "theme": {
+        "name": "Windows 7",
+        "id": "windows-7",
+        "version": "1.0.1",
+        "author": "Echosight",
+        "description": "Authentic Windows 7 Aero theme with glass effects, subtle gradients, and modern UI styling",
+        "isDefault": false,
+        "supportsTransparency": false,
+        "fonts": {
+          "primary": {
+            "family": "Segoe UI, SegoeUI, Noto Sans, sans-serif",
+            "sizes": {
+              "header": "12px",
+              "task": "11px",
+              "progress": "11px",
+              "ui": "11px"
+            },
+            "weights": {
+              "normal": "400",
+              "bold": "600"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#4285f4",
+          "secondary": "#1e88e5",
+          "accent": "#2196f3",
+          "danger": "#f44336",
+          "text": {
+            "primary": "#222222",
+            "secondary": "#333333",
+            "muted": "#666666",
+            "inverse": "#ffffff",
+            "disabled": "#999999"
+          },
+          "background": {
+            "primary": "#f0f0f0",
+            "secondary": "#f2f2f2",
+            "tertiary": "#e8e8e8",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "#cccccc",
+            "secondary": "#dddddd",
+            "interactive": "#4285f4",
+            "light": "#ffffff",
+            "dark": "#aaaaaa"
+          }
+        },
+        "effects": {
+          "borderRadius": "3px",
+          "textShadow": "none",
+          "boxShadow": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9",
+          "buttonShadow": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9, 0 1px 3px rgba(0,0,0,0.1)",
+          "bevelInset": "inset 0 1px 3px rgba(0,0,0,0.1)",
+          "bevelOutset": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "background": "linear-gradient(to bottom, #f8f8f8, #f0f0f0)",
+              "border": "1px solid #cccccc",
+              "borderRadius": "3px",
+              "fontFamily": "Segoe UI, SegoeUI, Noto Sans, sans-serif",
+              "color": "#222222"
+            },
+            "header": {
+              "background": "linear-gradient(to bottom, #4285f4, #1e88e5)",
+              "borderBottom": "1px solid #1565c0",
+              "color": "#ffffff",
+              "textShadow": "0 1px 2px rgba(0,0,0,0.2)",
+              "fontSize": "12px",
+              "fontWeight": "600"
+            },
+            "templateSection": {
+              "background": "linear-gradient(to bottom, #fafafa, #f2f2f2)",
+              "borderBottom": "1px solid #dddddd",
+              "color": "#222222"
+            },
+            "tasksSection": {
+              "background": "linear-gradient(to bottom, #ffffff, #f8f8f8)",
+              "border": "1px solid #dddddd",
+              "color": "#222222"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "rgba(248, 248, 248, 0.9)",
+              "border": "1px solid rgba(204, 204, 204, 0.8)",
+              "borderRadius": "3px"
+            },
+            "tasksSection": {
+              "background": "rgba(255, 255, 255, 0.8)",
+              "border": "1px solid rgba(221, 221, 221, 0.8)"
+            }
+          }
+        },
+        "cssFile": "styles.css"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "data/themes/windows-98/theme.json",
+    "input": {
+      "name": "Windows 98",
+      "id": "windows-98",
+      "version": "1.0.1",
+      "author": "Echosight",
+      "description": "Authentic Windows 98 theme with classic silver styling and pixelated fonts",
+      "isDefault": false,
+      "supportsTransparency": false,
+      "fonts": {
+        "primary": {
+          "family": "Pixelated MS Sans Serif, Arial, sans-serif",
+          "sizes": {
+            "header": "11px",
+            "task": "11px",
+            "progress": "11px",
+            "ui": "11px"
+          },
+          "weights": {
+            "normal": "400",
+            "bold": "700"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#1084d0",
+        "secondary": "#000080",
+        "accent": "#ff0000",
+        "danger": "#ff0000",
+        "text": {
+          "primary": "#222222",
+          "secondary": "#000000",
+          "muted": "#666666",
+          "inverse": "#ffffff",
+          "disabled": "#808080"
+        },
+        "background": {
+          "primary": "#c0c7c8",
+          "secondary": "#c0c7c8",
+          "tertiary": "#c0c7c8",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#000080",
+          "secondary": "#808080",
+          "interactive": "#1084d0",
+          "light": "#ffffff",
+          "dark": "#808080"
+        }
+      },
+      "effects": {
+        "borderRadius": "0px",
+        "textShadow": "none",
+        "boxShadow": "inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf",
+        "buttonShadow": "inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf",
+        "bevelInset": "inset -1px -1px #dfdfdf, inset 1px 1px #0a0a0a, inset -2px -2px #fff, inset 2px 2px grey",
+        "bevelOutset": "inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "background": "#c0c7c8",
+            "border": "2px outset #c0c7c8",
+            "borderRadius": "0px",
+            "fontFamily": "Pixelated MS Sans Serif, Arial, sans-serif",
+            "color": "#222222"
+          },
+          "header": {
+            "background": "linear-gradient(90deg, #000080, #1084d0)",
+            "borderBottom": "1px solid #808080",
+            "color": "#ffffff",
+            "textShadow": "none",
+            "fontSize": "11px",
+            "fontWeight": "bold"
+          },
+          "templateSection": {
+            "background": "#c0c7c8",
+            "borderBottom": "1px solid #808080",
+            "color": "#222222"
+          },
+          "tasksSection": {
+            "background": "#c0c7c8",
+            "border": "1px inset #c0c7c8",
+            "color": "#222222"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "rgba(192, 199, 200, 0.9)",
+            "border": "1px solid rgba(128, 128, 128, 0.8)",
+            "borderRadius": "0px"
+          },
+          "tasksSection": {
+            "background": "rgba(192, 199, 200, 0.8)",
+            "border": "1px solid rgba(128, 128, 128, 0.8)"
+          }
+        }
+      },
+      "cssFile": "styles.css"
+    },
+    "expected": {
+      "theme": {
+        "name": "Windows 98",
+        "id": "windows-98",
+        "version": "1.0.1",
+        "author": "Echosight",
+        "description": "Authentic Windows 98 theme with classic silver styling and pixelated fonts",
+        "isDefault": false,
+        "supportsTransparency": false,
+        "fonts": {
+          "primary": {
+            "family": "Pixelated MS Sans Serif, Arial, sans-serif",
+            "sizes": {
+              "header": "11px",
+              "task": "11px",
+              "progress": "11px",
+              "ui": "11px"
+            },
+            "weights": {
+              "normal": "400",
+              "bold": "700"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#1084d0",
+          "secondary": "#000080",
+          "accent": "#ff0000",
+          "danger": "#ff0000",
+          "text": {
+            "primary": "#222222",
+            "secondary": "#000000",
+            "muted": "#666666",
+            "inverse": "#ffffff",
+            "disabled": "#808080"
+          },
+          "background": {
+            "primary": "#c0c7c8",
+            "secondary": "#c0c7c8",
+            "tertiary": "#c0c7c8",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "#000080",
+            "secondary": "#808080",
+            "interactive": "#1084d0",
+            "light": "#ffffff",
+            "dark": "#808080"
+          }
+        },
+        "effects": {
+          "borderRadius": "0px",
+          "textShadow": "none",
+          "boxShadow": "inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf",
+          "buttonShadow": "inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf",
+          "bevelInset": "inset -1px -1px #dfdfdf, inset 1px 1px #0a0a0a, inset -2px -2px #fff, inset 2px 2px grey",
+          "bevelOutset": "inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "background": "#c0c7c8",
+              "border": "2px outset #c0c7c8",
+              "borderRadius": "0px",
+              "fontFamily": "Pixelated MS Sans Serif, Arial, sans-serif",
+              "color": "#222222"
+            },
+            "header": {
+              "background": "linear-gradient(90deg, #000080, #1084d0)",
+              "borderBottom": "1px solid #808080",
+              "color": "#ffffff",
+              "textShadow": "none",
+              "fontSize": "11px",
+              "fontWeight": "bold"
+            },
+            "templateSection": {
+              "background": "#c0c7c8",
+              "borderBottom": "1px solid #808080",
+              "color": "#222222"
+            },
+            "tasksSection": {
+              "background": "#c0c7c8",
+              "border": "1px inset #c0c7c8",
+              "color": "#222222"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "rgba(192, 199, 200, 0.9)",
+              "border": "1px solid rgba(128, 128, 128, 0.8)",
+              "borderRadius": "0px"
+            },
+            "tasksSection": {
+              "background": "rgba(192, 199, 200, 0.8)",
+              "border": "1px solid rgba(128, 128, 128, 0.8)"
+            }
+          }
+        },
+        "cssFile": "styles.css"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  },
+  {
+    "name": "data/themes/windows-xp/theme.json",
+    "input": {
+      "name": "Windows XP",
+      "id": "windows-xp",
+      "version": "1.0.1",
+      "author": "Echosight",
+      "description": "Authentic Windows XP theme with classic Luna styling",
+      "isDefault": false,
+      "supportsTransparency": false,
+      "fonts": {
+        "primary": {
+          "family": "Tahoma, Arial, sans-serif",
+          "sizes": {
+            "header": "11px",
+            "task": "11px",
+            "progress": "11px",
+            "ui": "11px"
+          },
+          "weights": {
+            "normal": "400",
+            "bold": "700"
+          }
+        }
+      },
+      "colors": {
+        "primary": "#0054e3",
+        "secondary": "#316ac5",
+        "accent": "#ffd700",
+        "danger": "#ff6b6b",
+        "text": {
+          "primary": "#000000",
+          "secondary": "#333333",
+          "muted": "#666666",
+          "inverse": "#ffffff",
+          "disabled": "#999999"
+        },
+        "background": {
+          "primary": "#ece9d8",
+          "secondary": "#f1efe2",
+          "tertiary": "#ddd9c3",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#0054e3",
+          "secondary": "#8b8680",
+          "interactive": "#0054e3",
+          "light": "#ffffff",
+          "dark": "#aca899"
+        }
+      },
+      "effects": {
+        "borderRadius": "0px",
+        "textShadow": "none",
+        "boxShadow": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680",
+        "buttonShadow": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680",
+        "bevelInset": "inset 1px 1px 0px #8b8680, inset -1px -1px 0px #ffffff",
+        "bevelOutset": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680"
+      },
+      "styles": {
+        "interactive": {
+          "container": {
+            "background": "#ece9d8",
+            "border": "2px outset #ece9d8",
+            "borderRadius": "0px",
+            "fontFamily": "Tahoma, Arial, sans-serif",
+            "color": "#000000"
+          },
+          "header": {
+            "background": "linear-gradient(to bottom, #0054e3, #316ac5)",
+            "borderBottom": "1px solid #8b8680",
+            "color": "#ffffff",
+            "textShadow": "none",
+            "fontSize": "11px",
+            "fontWeight": "bold"
+          },
+          "templateSection": {
+            "background": "#f1efe2",
+            "borderBottom": "1px solid #8b8680",
+            "color": "#000000"
+          },
+          "tasksSection": {
+            "background": "#ece9d8",
+            "border": "1px inset #ece9d8",
+            "color": "#000000"
+          }
+        },
+        "clickThrough": {
+          "container": {
+            "background": "rgba(236, 233, 216, 0.9)",
+            "border": "1px solid rgba(139, 134, 128, 0.8)",
+            "borderRadius": "0px"
+          },
+          "tasksSection": {
+            "background": "rgba(241, 239, 226, 0.8)",
+            "border": "1px solid rgba(139, 134, 128, 0.8)"
+          }
+        }
+      },
+      "cssFile": "styles.css"
+    },
+    "expected": {
+      "theme": {
+        "name": "Windows XP",
+        "id": "windows-xp",
+        "version": "1.0.1",
+        "author": "Echosight",
+        "description": "Authentic Windows XP theme with classic Luna styling",
+        "isDefault": false,
+        "supportsTransparency": false,
+        "fonts": {
+          "primary": {
+            "family": "Tahoma, Arial, sans-serif",
+            "sizes": {
+              "header": "11px",
+              "task": "11px",
+              "progress": "11px",
+              "ui": "11px"
+            },
+            "weights": {
+              "normal": "400",
+              "bold": "700"
+            }
+          }
+        },
+        "colors": {
+          "primary": "#0054e3",
+          "secondary": "#316ac5",
+          "accent": "#ffd700",
+          "danger": "#ff6b6b",
+          "text": {
+            "primary": "#000000",
+            "secondary": "#333333",
+            "muted": "#666666",
+            "inverse": "#ffffff",
+            "disabled": "#999999"
+          },
+          "background": {
+            "primary": "#ece9d8",
+            "secondary": "#f1efe2",
+            "tertiary": "#ddd9c3",
+            "transparent": "transparent"
+          },
+          "border": {
+            "primary": "#0054e3",
+            "secondary": "#8b8680",
+            "interactive": "#0054e3",
+            "light": "#ffffff",
+            "dark": "#aca899"
+          }
+        },
+        "effects": {
+          "borderRadius": "0px",
+          "textShadow": "none",
+          "boxShadow": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680",
+          "buttonShadow": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680",
+          "bevelInset": "inset 1px 1px 0px #8b8680, inset -1px -1px 0px #ffffff",
+          "bevelOutset": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680"
+        },
+        "styles": {
+          "interactive": {
+            "container": {
+              "background": "#ece9d8",
+              "border": "2px outset #ece9d8",
+              "borderRadius": "0px",
+              "fontFamily": "Tahoma, Arial, sans-serif",
+              "color": "#000000"
+            },
+            "header": {
+              "background": "linear-gradient(to bottom, #0054e3, #316ac5)",
+              "borderBottom": "1px solid #8b8680",
+              "color": "#ffffff",
+              "textShadow": "none",
+              "fontSize": "11px",
+              "fontWeight": "bold"
+            },
+            "templateSection": {
+              "background": "#f1efe2",
+              "borderBottom": "1px solid #8b8680",
+              "color": "#000000"
+            },
+            "tasksSection": {
+              "background": "#ece9d8",
+              "border": "1px inset #ece9d8",
+              "color": "#000000"
+            }
+          },
+          "clickThrough": {
+            "container": {
+              "background": "rgba(236, 233, 216, 0.9)",
+              "border": "1px solid rgba(139, 134, 128, 0.8)",
+              "borderRadius": "0px"
+            },
+            "tasksSection": {
+              "background": "rgba(241, 239, 226, 0.8)",
+              "border": "1px solid rgba(139, 134, 128, 0.8)"
+            }
+          }
+        },
+        "cssFile": "styles.css"
+      },
+      "errors": [],
+      "warnings": []
+    }
+  }
+]

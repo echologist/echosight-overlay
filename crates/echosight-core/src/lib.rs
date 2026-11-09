@@ -6,4 +6,5 @@
 pub mod jscompat;
 pub mod storage;
 pub mod task;
+pub mod theme;
 pub mod window;
