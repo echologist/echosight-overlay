@@ -157,6 +157,11 @@
       "pretty": "1e+21"
     },
     {
+      "input": "\"",
+      "status": "ok",
+      "pretty": "\"\""
+    },
+    {
       "input": "\"raw\nline\"",
       "status": "ok",
       "pretty": "\"raw\\nline\""
@@ -234,7 +239,7 @@
     {
       "input": "{\"x\":1e400}",
       "status": "unsupported",
-      "reason": "nested nonfinite"
+      "reason": "Infinity"
     },
     {
       "input": "[\"\\ud800\"]",

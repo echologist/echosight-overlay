@@ -14,6 +14,19 @@ const names = ['current_tasks.json', 'templates.json', 'settings.json'];
 const kinds = ['tasks', 'templates', 'settings'];
 const logger = { log() {}, error() {}, warn() {} };
 
+function unsupported(value: unknown): string | undefined {
+  if (value === undefined) return 'undefined';
+  if (typeof value === 'number' && !Number.isFinite(value)) return String(value);
+  if (typeof value === 'string' && /[\uD800-\uDFFF]/u.test(value)) return 'unpaired surrogate';
+  if (value && typeof value === 'object') {
+    for (const child of Object.values(value)) {
+      const reason = unsupported(child);
+      if (reason) return reason;
+    }
+  }
+  return undefined;
+}
+
 function harness(root: string) {
   const handlers = new Map<string, (...args: unknown[]) => unknown>();
   registerStorageIpc({ handle(channel: string, handler: (...args: unknown[]) => unknown) {
@@ -36,7 +49,7 @@ test('generate storage fixtures from the actual TypeScript implementation', asyn
       'NaN', 'Infinity', '-Infinity', '1e400', '0', '-0', '1.25',
       '1749938954072.5596', '12345678901234567', '1234567890123456',
       '0.123456789012345678', '01', '+1', '.5', '1.', '1e-7', '1e21',
-      '"raw\nline"', '"inner"quote"', ' "normal" ', '"escaped\\nline"',
+      '"', '"raw\nline"', '"inner"quote"', ' "normal" ', '"escaped\\nline"',
       '"\\ud800"', '[1,true,null]', '{"b":1,"2":2,"1":1,"a":0}',
       '{"__proto__":{}}', '{"constructor":1}', '{"x":{"constructor":null}}',
       '{"\\u005f\\u005fproto__":1}', '{"\\u0063onstructor":1}',
@@ -46,15 +59,8 @@ test('generate storage fixtures from the actual TypeScript implementation', asyn
     const parse = inputs.map(input => {
       try {
         const value = parseJson(input);
-        if (value === undefined) return { input, status: 'unsupported', reason: 'undefined' };
-        if (typeof value === 'number' && !Number.isFinite(value)) {
-          return { input, status: 'unsupported', reason: String(value) };
-        }
-        // serde_json::Value cannot represent unpaired UTF-16 surrogates.
-        if (JSON.stringify(value).includes('\\ud800')) {
-          return { input, status: 'unsupported', reason: 'unpaired surrogate' };
-        }
-        if (input === '{"x":1e400}') return { input, status: 'unsupported', reason: 'nested nonfinite' };
+        const reason = unsupported(value);
+        if (reason) return { input, status: 'unsupported', reason };
         return { input, status: 'ok', pretty: JSON.stringify(value, null, 2) };
       } catch {
         return { input, status: 'invalid' };

@@ -37,8 +37,11 @@ fn js_space(c: char) -> bool {
 pub fn parse_json(text: &str) -> Result<Value, ParseError> {
     // destr's pre-trim fast path intentionally accepts unescaped embedded quotes
     // and controls. Replacing this with serde parsing would change existing data.
-    if text.len() >= 2 && text.starts_with('"') && text.ends_with('"') && !text.contains('\\') {
-        return Ok(Value::String(text[1..text.len() - 1].to_owned()));
+    if text.starts_with('"') && text.ends_with('"') && !text.contains('\\') {
+        // JS slice(1, -1) returns empty even for the single-character string `"`.
+        return Ok(Value::String(
+            text.get(1..text.len() - 1).unwrap_or("").to_owned(),
+        ));
     }
     let trimmed = text.trim_matches(js_space);
     match trimmed.to_ascii_lowercase().as_str() {
