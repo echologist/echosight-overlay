@@ -12,6 +12,10 @@ echosight-core.workspace = true
 log.workspace = true
 gpui.workspace = true
 unicode-segmentation = "1.12"
+serde_json.workspace = true
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+rand = "0.9"
 
 [dev-dependencies]
 gpui = { workspace = true, features = ["test-support"] }
+tempfile = "3"
