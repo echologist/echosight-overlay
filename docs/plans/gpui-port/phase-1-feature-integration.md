@@ -35,7 +35,7 @@ All inputs were clean, committed topic worktrees. The parent combined them witho
 - Linux `echosight` application and `s8_task_app` example link successfully.
 - Executable without `--data-dir` exits 2 with usage and no data access.
 - Real executable launched from an unrelated scratch directory with a new explicit data path: task window opened through headless platform, externally terminated after three seconds (124), no startup data directory created. **Not a screenshot, visual approval or native Windows pass.**
-- Independent spec/quality reviewers are inspecting all five frozen slices. Resolve their concrete findings and rerun affected/combined gates before publication.
+- Independent review approved the background scheduler. Corrections are required before publication: fallible JSON numeric coercion and exact radix rounding in template/settings normalization, integer-key ordering in raw hotkey maps, sequential destination-root retargeting in theme sync, and visible dialog actions/modal Escape priority in the task app. Fixes are isolated on `gpui-port-coercion-fixes` plus the original theme-library and app-task-ui topics. Re-review and combined gates remain required. Theme v2 contract/resolver/conversion work proceeds independently in its own worktree; it does not imply these review gates passed.
 
 ## Next implementation seams
 
