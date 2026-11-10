@@ -80,6 +80,31 @@ fn observed_background_color_keeps_gradient_and_reports_unrepresentable_underlay
 }
 
 #[test]
+fn background_longhand_respects_prior_rules_and_shorthand_resets() {
+    let c = convert(
+        &json!({"id":"x","name":"X","customCSS":".header { background:linear-gradient(red, blue); } .header { background-color:green; }"}),
+    );
+    assert!(c.theme["slots"]["header"]["fill"]["gradient"].is_object());
+    assert!(
+        c.diagnostics
+            .iter()
+            .any(|d| d.code == "background-layer-loss"
+                && d.location == "/customCSS/1/.header/background-color")
+    );
+    for props in [
+        json!({"backgroundColor":"green","background":"linear-gradient(red,blue)"}),
+        json!({"background":"red","backgroundColor":"green"}),
+    ] {
+        let c = convert(&json!({"id":"x","name":"X","components":{"button":props}}));
+        assert!(
+            !c.diagnostics
+                .iter()
+                .any(|d| d.code == "background-layer-loss")
+        );
+    }
+}
+
+#[test]
 fn observed_json_simultaneous_state_order_loss_is_specific() {
     // Raw JSON pins active-before-hover insertion order; Chrome's forced active+hover is blue.
     let source = serde_json::from_str(r#"{"id":"x","name":"X","components":{"button":{"states":{"active":{"background":"red"},"hover":{"background":"blue"}}}}}"#).unwrap();
@@ -96,7 +121,9 @@ fn observed_json_simultaneous_state_order_loss_is_specific() {
             .iter()
             .any(|d| d.code == "simultaneous-state-order"
                 && d.location == "/components/button/states"
-                && d.value["sourceOrder"] == json!(["active", "hover"])),
+                && d.value["sourceOrder"] == json!(["active", "hover"])
+                && d.value["sourceResult"]["fill"] == "blue"
+                && d.value["v2Result"]["fill"] == "red"),
         "fixed v2 precedence cannot encode this JSON source order"
     );
     for states in [
@@ -162,6 +189,9 @@ fn observed_effects_reach_known_generated_targets_and_report_utility_classes() {
             1,
             "{slot}: Chrome applies the supported OUTER bevelInset shadow"
         );
+        let shadow = s.shadows().unwrap().remove(0);
+        assert_eq!((shadow.x, shadow.y, shadow.color.as_str()), (1., 2., "red"));
+        assert_eq!(s.edges("radius"), Some([9.; 4]));
         assert_eq!(c.theme["slots"][slot]["radius"], "@radius.default");
     }
     for slot in [
@@ -262,6 +292,59 @@ fn observed_valid_css_trivia_is_not_a_malformed_declaration() {
         c.diagnostics
             .iter()
             .any(|d| d.code == "malformed-declaration" && d.value == "broken")
+    );
+}
+
+#[test]
+fn opacity_reset_still_preserves_transparent_token_variants_and_state_fills() {
+    let c = convert(&json!({"id":"x","name":"X",
+        "colors":{"background":{"primary":"rgba(10,20,30,0.8)"}},
+        "styles":{"interactive":{"container":{"background":"rgba(10,20,30,var(--user-transparency))"}}},
+        "variants":{"token":{"styles":{"interactive":{"container":{"background":"var(--bg-primary)"}}}}},
+        "customCSS":"button { background:rgba(10,20,30,var(--user-transparency)); } button:hover { background:#fff; }"}));
+    let t = Theme::parse(&c.theme).unwrap();
+    assert_eq!(
+        t.variant("token")
+            .unwrap()
+            .slot("window.interactive", &[], 0.25)
+            .unwrap()
+            .fill()
+            .unwrap()
+            .solid()
+            .unwrap()
+            .a,
+        0.2
+    );
+    assert_eq!(
+        t.slot("button", &[State::Hover], 0.25)
+            .unwrap()
+            .fill()
+            .unwrap()
+            .solid()
+            .unwrap()
+            .a,
+        1.
+    );
+}
+
+#[test]
+fn variant_omissions_and_array_replacement_remain_explicit() {
+    let c = convert(&json!({"id":"x","name":"X",
+        "components":{"button":{"color":"red"}},
+        "variants":{"states":{"components":{"button":{"states":{"hover":{"background":"blue"}}}}}}}));
+    assert!(
+        c.diagnostics
+            .iter()
+            .any(|d| d.code == "variant-inherited-value"
+                && d.location == "/variants/states/slots/button/text")
+    );
+    let c = convert(
+        &json!({"id":"x","name":"X","effects":{"textShadow":"1px 1px red"},"variants":{"none":{"effects":{"textShadow":"none"}}}}),
+    );
+    assert!(
+        c.diagnostics
+            .iter()
+            .any(|d| d.code == "variant-array-replacement")
     );
 }
 
