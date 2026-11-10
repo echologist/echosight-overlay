@@ -343,6 +343,11 @@ impl TextInput {
     }
 
     fn vertical(&mut self, down: bool, select: bool, window: &Window, cx: &mut Context<Self>) {
+        // Empty-buffer layout shapes the placeholder, not editable text. Its
+        // line offsets must never become caret or selection offsets.
+        if self.content.is_empty() {
+            return;
+        }
         let Some(layout) = self.last_layout.as_ref().filter(|l| l.text == self.content) else {
             return;
         };

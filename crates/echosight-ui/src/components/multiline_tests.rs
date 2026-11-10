@@ -10,6 +10,94 @@ fn open(cx: &mut TestAppContext) -> (Entity<TextInput>, &mut VisualTestContext) 
     (input, cx)
 }
 
+fn open_placeholder<'a>(
+    cx: &'a mut TestAppContext,
+    placeholder: &'static str,
+) -> (Entity<TextInput>, &'a mut VisualTestContext) {
+    cx.update(init);
+    let (input, cx) =
+        cx.add_window_view(|_, cx| TextInput::new(cx).multiline(8).placeholder(placeholder));
+    input.update_in(cx, |input, window, cx| input.focus(window, cx));
+    cx.run_until_parked();
+    (input, cx)
+}
+
+fn assert_empty_caret(input: &Entity<TextInput>, cx: &mut VisualTestContext) {
+    input.update_in(cx, |input, window, cx| {
+        assert_eq!(input.text(), "");
+        assert_eq!(input.selected_range(), 0..0);
+        assert_eq!(input.cursor_offset(), 0);
+        assert!(!input.selection_reversed);
+        assert_eq!(
+            input.selected_text_range(false, window, cx).unwrap().range,
+            0..0
+        );
+    });
+}
+
+#[gpui::test]
+fn empty_placeholder_down_backspace_does_not_edit_display_text(cx: &mut TestAppContext) {
+    let (input, cx) = open_placeholder(cx, "JSON\nshare code");
+    // Keep the original crash sequence uninterrupted: invalid offsets must not
+    // reach Backspace's replacement range, even before a test asserts on them.
+    cx.simulate_keystrokes("down backspace");
+    assert_empty_caret(&input, cx);
+}
+
+#[gpui::test]
+fn empty_placeholder_select_down_backspace_does_not_edit_display_text(cx: &mut TestAppContext) {
+    let (input, cx) = open_placeholder(cx, "JSON\nshare code");
+    cx.simulate_keystrokes("shift-down backspace");
+    assert_empty_caret(&input, cx);
+}
+
+#[gpui::test]
+fn empty_placeholder_arrows_keep_zero_selection_and_allow_typing(cx: &mut TestAppContext) {
+    for placeholder in ["", "😀界", "JSON\nshare code", "😀\né\n\n🦀", "\n\n"] {
+        let (input, cx) = open_placeholder(cx, placeholder);
+        for key in ["up", "down", "shift-up", "shift-down", "down", "down"] {
+            cx.simulate_keystrokes(key);
+            assert_empty_caret(&input, cx);
+            cx.simulate_input("🦀");
+            input.read_with(cx, |input, _| {
+                assert_eq!(input.text(), "🦀");
+                let range = input.selected_range();
+                assert_eq!(range, "🦀".len().."🦀".len());
+                assert!(input.text().is_char_boundary(range.start));
+                assert!(input.text().is_char_boundary(range.end));
+            });
+            cx.simulate_keystrokes("backspace");
+            assert_empty_caret(&input, cx);
+        }
+        cx.simulate_keystrokes("up down shift-up shift-down backspace delete");
+        assert_empty_caret(&input, cx);
+    }
+}
+
+#[gpui::test]
+fn multiline_placeholder_does_not_change_nonempty_navigation(cx: &mut TestAppContext) {
+    let (input, cx) = open_placeholder(cx, "😀\nshare code\n");
+    cx.simulate_input("abcd\nx\nabcd\n");
+    cx.simulate_keystrokes("up home right right right up up");
+    assert_eq!(input.read_with(cx, |i, _| i.selected_range()), 3..3);
+    cx.simulate_keystrokes("shift-down shift-down");
+    assert_eq!(input.read_with(cx, |i, _| i.selected_range()), 3..10);
+    cx.simulate_keystrokes("right shift-up shift-up");
+    input.read_with(cx, |i, _| {
+        assert_eq!(i.selected_range(), 3..10);
+        assert!(i.selection_reversed);
+    });
+    cx.simulate_keystrokes("backspace");
+    assert_eq!(input.read_with(cx, |i, _| i.text().to_owned()), "abcd\n");
+    cx.simulate_keystrokes("ctrl-a backspace");
+    assert_empty_caret(&input, cx);
+    cx.simulate_keystrokes("down shift-down up shift-up");
+    assert_empty_caret(&input, cx);
+    cx.simulate_input("é");
+    cx.simulate_keystrokes("backspace");
+    assert_empty_caret(&input, cx);
+}
+
 #[gpui::test]
 fn multiline_navigation_preserves_column_and_selects_across_lines(cx: &mut TestAppContext) {
     let (input, cx) = open(cx);

@@ -106,6 +106,49 @@ Independent review of this follow-up is pending with the parent lane. The prior
 workflow review covered the superseded fail-closed raw-shadow adapter, not this
 new multiline implementation.
 
+## Empty-buffer placeholder correction (2026-11-10)
+
+Independent component review found a shared-editor panic, not a template workflow
+contract change: with `.multiline(8).placeholder("JSON\nshare code")`, dispatched
+Down then Backspace used placeholder byte offset 5 to edit the empty buffer.
+The current import placeholder is single-line and did not trigger this case.
+`TextLayout.text` identifies the content revision, but its shaped lines display
+the placeholder when content is empty. The revision check therefore did not make
+those display offsets valid editable positions.
+
+The correction makes vertical navigation a no-op for an empty buffer, matching
+its existing mouse-hit-test guard. Nonempty layout/navigation, placeholder
+rendering, default single-line controls, template workflows, core contracts and
+all other production files remain unchanged from `79582c7610faa87413e6690712fe7ca294bfdc93`.
+
+Validation used `CARGO_BUILD_JOBS=2`, the existing local build shim and separate,
+fresh, uncopied targets for the failing and corrected source:
+`template-placeholder-red-NgiORS` and `template-placeholder-green-YB7rLj` under
+the scratch directory. No dependencies or manifests changed.
+
+- RED: `cargo test --locked -p echosight-ui --lib placeholder -- --nocapture --test-threads=1`
+  ran **4 tests, all failing**. Both uninterrupted dispatched Down/Backspace and
+  Shift+Down/Backspace reproduced `end byte index 5 is out of bounds for string of
+  length 0` at `replace_text_in_range`. The invariant matrix observed `5..5`
+  instead of `0..0`; the nonempty control preserved navigation until clearing,
+  then observed an invalid `0..5` selection in the empty buffer.
+- GREEN: the identical command ran **4 passed, 88 filtered out**. New coverage
+  checks Up/Down and both Shift variants, empty/Unicode/multiline placeholders,
+  UTF-8 and UTF-16 zero selections, typing and grapheme Backspace after arrows,
+  preferred-column movement, forward/reversed cross-line selection, deletion,
+  and returning to the placeholder after clearing real content.
+- `cargo test --locked --workspace`: **267 passed, 1 existing ignored**;
+  UI **92 passed**, including all **88 existing tests unchanged**.
+- `cargo fmt --all --check` and
+  `cargo clippy --locked --workspace --all-targets -- -D warnings`: pass.
+
+Local logs are `template-placeholder-{red,green,fmt,workspace,clippy}.log` under
+`/home/agent/.hermes/cache/scratch/`. This is headless dispatched-event evidence,
+not native font/raster/IME acceptance. Linked-app and Windows cross-compilation
+checks for this correction remain the parent's combined-candidate gate; the
+previous revision's checks above are not claimed as this revision's results.
+Independent delta review is also left to the parent. No push or merge performed.
+
 ## Explicit remaining boundaries
 
 - The editor uses horizontal scrolling for long logical lines, not soft wrapping.
