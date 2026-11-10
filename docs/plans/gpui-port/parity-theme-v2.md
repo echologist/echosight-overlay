@@ -1,6 +1,6 @@
 # Theme v2 parity ledger — bounded core checkpoint
 
-Base: `f1f8b21`; topic: `gpui-port-theme-v2`. This lane owns only new core `theme/v2`, the module export, v2 schema/tests/fixtures, and these new docs. It does not change Electron, v1 loading/sync/sounds/helpers, app/UI wiring, dependencies, bundled data, or existing golden fixtures. The converter correction branch `gpui-port-theme-v2-converter-fixes` starts at `889c02f` and changes only the converter, conversion/bundled tests, converted snapshots/reports and migration/parity docs; validator/resolver/schema corrections are a separate lane.
+Base: `f1f8b21`; topic: `gpui-port-theme-v2`. This lane owns only new core `theme/v2`, the module export, v2 schema/tests/fixtures, and these new docs. It does not change Electron, v1 loading/sync/sounds/helpers, app/UI wiring, dependencies, bundled data, or existing golden fixtures. The converter correction branch `gpui-port-theme-v2-converter-fixes` starts at `889c02f` and changes only the converter, conversion/bundled tests, converted snapshots/reports and migration/parity docs; validator/resolver/schema corrections are a separate lane. The follow-up `gpui-port-theme-v2-css-fixes` starts at combined `0db66023fc8a6581d7b5078fe2d09b4fbf296b70` and owns only CSS/converter quality corrections, converter tests, changed conversion reports and these migration/parity docs.
 
 ## Delivered and exercised
 
@@ -15,7 +15,7 @@ Base: `f1f8b21`; topic: `gpui-port-theme-v2`. This lane owns only new core `them
 | Source-driven behavior | Test changes custom theme tokens under a non-bundled ID and observes changed resolved output; no static ID lookup |
 | Bundled structures | All eleven source copies convert, validate, resolve and JSON-roundtrip; output/report snapshots checked without regeneration |
 | Source integrity | Eleven source JSON and four CSS files compared byte-for-byte; independent SHA-256 manifest verifies all 23 files in original `data/themes` |
-| Authoring-schema consistency | 36 shared acceptance cases checked by Rust and independent Python JSON Schema 2020-12 validator; all slot names and supported style properties exercised |
+| Authoring-schema consistency | 70 shared acceptance cases checked by Rust and independent Python JSON Schema 2020-12 validator; all slot names and supported style properties exercised |
 | Previous core behavior | Full core suite and existing task/template/settings/storage/theme/library golden consumers pass; existing golden bytes unchanged |
 
 ## Executed gates
@@ -29,7 +29,7 @@ python crates/echosight-core/tests/theme_v2_contract_check.py
 cargo test --locked -p echosight-core --test theme_v2_bundled -- --nocapture
 ```
 
-Results after converter corrections: **112 Rust test functions passed**, including **16 converter test functions** (the original four plus eight review reproductions and four additional guards). The bundled test iterates eleven distinct source themes; the schema test iterates 36 acceptance cases. These are separate counts, not hundreds of independently named tests. Independent Python checker: 36 corpus cases, eleven converted structures, 23 source-file hashes verified. Clippy and formatting pass. No Cargo manifest/lockfile delta. Python `jsonschema` is a development-only independent checker, not a new runtime/Cargo dependency.
+Results after the CSS quality corrections on the combined candidate: **132 Rust test functions passed**, including **19 converter test functions** (the previous 16 plus three quality regressions with their controls). The bundled test iterates eleven distinct source themes; the schema test iterates 70 acceptance cases. These are separate counts, not hundreds of independently named tests. Independent Python checker: 70 corpus cases, eleven converted structures, 23 source-file hashes verified. Clippy and formatting pass. No Cargo manifest/lockfile delta. Python `jsonschema` is a development-only independent checker, not a new runtime/Cargo dependency.
 
 Frozen source copies intentionally preserve the original trailing whitespace (CS16 JSON and 98/XP CSS). Fixture-local `.gitattributes` disables whitespace lint only for copied `source.json`/`source.css`; their stronger byte/hash checks still run. All authored code, converted outputs and reports retain normal whitespace checks. Do not trim the copied sources to silence `git diff --check`.
 
@@ -37,14 +37,14 @@ The v2 tests cover malformed nested values without panics; metadata/asset string
 
 ## Frozen conversion reports
 
-Counts include loss warnings, font-availability notices, CSS-order caveats and unmapped metadata. They are **not** a visual-fidelity score. Programmatic comparison against `889c02f`: 909 → 688 entries, exactly 232 false empty `malformed-declaration` entries removed and 11 precise effect utility-selector notices added; every other diagnostic-code count is unchanged. All eleven snapshots were intentionally regenerated, then verified read-only with `UPDATE_THEME_V2_FIXTURES` unset.
+Counts include loss warnings, font-availability notices, CSS-order caveats and unmapped metadata. They are **not** a visual-fidelity score. Programmatic comparison against `889c02f`: 909 → 688 entries, exactly 232 false empty `malformed-declaration` entries removed and 11 precise effect utility-selector notices added; every other diagnostic-code count is unchanged. That prior correction intentionally regenerated all eleven snapshots. The follow-up quality correction compares against `0db6602`: **688 → 689** entries, exactly one new `mixed-gradient-opacity` warning for exiles_corruption; all eleven theme payloads are unchanged. Baseline snapshots and then all eleven post-fix conversions/reports were checked read-only (each conversion twice) before the intentional update. Only the exiles converted wrapper/report changed; all eleven final snapshots were verified read-only with `UPDATE_THEME_V2_FIXTURES` unset.
 
 | Source ID | Report entries | Provisional CSS-folder flag |
 |---|---:|---|
 | cs16 | 39 | no |
 | dark | 12 | no |
 | echosight | 117 | no |
-| exiles_corruption | 29 | no |
+| exiles_corruption | 30 | no |
 | glass | 34 | no |
 | light | 11 | no |
 | minimal | 17 | no |
@@ -85,7 +85,19 @@ themeApplicator.ts 3a0a3ce9e2747e652fa9cadd13afae2d702e396eb76f3f4e85f06b9c2a998
 themeCssSelectors.ts 099203ceacdaf38f501e74eaaa4936960a500c61a50f3573e2b2aa13e3d09c9b
 ```
 
-Additional production-API guards cover transparent token variants and opaque state overrides; omitted inherited values with `variant-inherited-value` and the existing legitimate `variant-array-replacement`; background shorthand reset/order. Controls keep aligned/disjoint/identical state outcomes warning-free, preserve quoted URL delimiters and full unsupported font-face content, and verify source input immutability. The shared tokenizer is deliberately unchanged: empty declarations are trivia at the declaration boundary, not permission to accept empty gradient stops.
+Additional production-API guards cover transparent token variants and opaque state overrides; omitted inherited values with `variant-inherited-value` and the existing legitimate `variant-array-replacement`; background shorthand reset/order. Controls keep aligned/disjoint/identical state outcomes warning-free, preserve quoted URL delimiters and full unsupported font-face content, and verify source input immutability. The quality correction makes the shared tokenizer preserve comma-list empties; empty declarations are still ignored at the declaration boundary and whitespace-separated lengths still coalesce repeated whitespace. Empty gradient stops are rejected, not repaired.
+
+## Source-observed CSS quality closures
+
+All three new named production regressions were run before implementation on `0db6602`: **three failed, the previous 16 passed**. Separate production probes plus unchanged TS generators and Chrome reproduced the same three failures. After the fixes, all three and all eight original regressions pass. The six source hashes above still match. The actual-source harness reran the original 16 base/variant cases, 11 quality/control base/variant cases, and 18 additional controls; Chrome/CDP results are browser style-engine evidence, not GPUI/native acceptance.
+
+| Regression / test in `theme_v2_conversion.rs` | Actual v1 observation | Bounded closure |
+|---|---|---|
+| `observed_mixed_gradient_opacity_reports_per_stop_loss` | At .25 opacity, `linear-gradient(var(--bg-primary), red)` with primary rgba alpha .8 has stop alphas `[.2, 1]`; direct user-transparency rgba + red has `[.25, 1]` | Typed `Theme::slot(...).fill()` still yields `[.2, .25]` / `[.25, .25]`. Exact-path `mixed-gradient-opacity` records the source value, intended per-stop multiplier flags, actual v2 flags and converted fill. The v2 contract has one fill alpha, not independent user-opacity flags per stop. |
+| `observed_empty_gradient_items_are_rejected_without_repair` | Adjacent/trailing/leading/whitespace-only gradient items compute `backgroundImage:none` | Reject rather than silently producing two valid stops. `unsupported-property` retains the declaration and its exact JSON/CSS source path. Nested rgb commas, quoted family commas, repeated length whitespace and empty declaration trivia remain valid controls. |
+| `observed_duplicate_css_properties_keep_final_occurrence_order` | `background:red; background-color:green; background:blue` computes blue | Removing a replaced property before reinserting it retains final-occurrence order. Reverse longhand interleaving and border/border-color controls also match Chrome. Duplicate losses explicitly disclose unsupported invalid-value fallback and `!important` precedence, in addition to the existing generic CSS importance warning. |
+
+Homogeneous all-token and all-opaque gradients are warning-free for mixed opacity. Active nested variable fallbacks are classified by their selected source; unused fallback transparency text cannot cause opaque stops to fade. Both JSON properties and recognized CSS declarations are exercised. Chrome controls also confirm the still-unsupported duplicate cases: `background:red !important; background:blue` and `background:red; background:bogus` stay red in v1, whereas the bounded mapper discards the earlier declaration and reports that limitation. No full cascade engine or new schema semantics are claimed.
 
 ## Remaining gates / deliberate limits
 

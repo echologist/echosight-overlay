@@ -175,8 +175,7 @@ impl Converter {
                         // Explicit booleans survive variant/state merging. A solid
                         // override clears a generated flag, while a surface-token
                         // reference still participates in the generated opacity list.
-                        let affects = value.contains("--user-transparency")
-                            || super::resolve::opacity_matches("", &f, tokens);
+                        let affects = css::fill_opacity(value, &f, tokens).contains(&true);
                         json!({"fill":f,"opacityAffects":affects})
                     })
                 }
@@ -265,6 +264,18 @@ impl Converter {
                 _ => None,
             };
             if let Some(mapped) = mapped {
+                if let Some(fill) = mapped.get("fill") {
+                    let source_opacity = css::fill_opacity(value, fill, &self.out["tokens"]);
+                    if source_opacity.contains(&true) && source_opacity.contains(&false) {
+                        self.loss(
+                            &path(p, k),
+                            "mixed-gradient-opacity",
+                            "v1 multiplies only selected stop alphas by user opacity; v2 multiplies every stop alpha by user opacity because fill opacity is shared; unaffected source stops will also fade",
+                            &json!({"source":v,"sourceStopOpacityAffects":source_opacity,
+                                "v2StopOpacityAffects":vec![true; source_opacity.len()],"convertedFill":fill}),
+                        );
+                    }
+                }
                 // CSS background-color changes only the underlay, not a preceding
                 // background gradient. A v2 fill has one layer, so retain the image
                 // and report the missing underlay rather than replacing the gradient.
@@ -315,17 +326,17 @@ impl Converter {
                     let mut props = serde_json::Map::new();
                     for declaration in css::split_top(&body, ';') {
                         // Empty declarations and trailing whitespace are valid trivia.
-                        // Do not change split_top: empty gradient stops are not trivia.
+                        // Comma-list empties remain significant to gradient parsing.
                         if declaration.trim().is_empty() {
                             continue;
                         }
                         if let Some((k, v)) = declaration.split_once(':') {
-                            if props.contains_key(k.trim()) {
+                            if let Some(previous) = props.shift_remove(k.trim()) {
                                 self.loss(
                                     &p,
                                     "duplicate-declaration",
-                                    "earlier declaration replaced in source order",
-                                    &json!({k.trim():props[k.trim()]}),
+                                    "earlier declaration discarded; retained declarations use final-occurrence order; invalid-value fallback and !important precedence are not preserved",
+                                    &json!({k.trim():previous}),
                                 );
                             }
                             props.insert(k.trim().into(), json!(v.trim()));

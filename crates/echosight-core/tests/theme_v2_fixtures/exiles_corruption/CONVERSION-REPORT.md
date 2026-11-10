@@ -70,6 +70,10 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"backdropFilter":"blur(var(--blur)) saturate(1.2)"}
 
+- mixed-gradient-opacity at "/styles/interactive/container/background": v1 multiplies only selected stop alphas by user opacity; v2 multiplies every stop alpha by user opacity because fill opacity is shared; unaffected source stops will also fade
+
+    {"source":"linear-gradient(135deg, var(--bg-primary) 0%, rgba(35, 0, 35, 0.95) 50%, var(--bg-primary) 100%)","sourceStopOpacityAffects":[true,false,true],"v2StopOpacityAffects":[true,true,true],"convertedFill":{"gradient":{"angle":135.0,"stops":[["@colors.surface.primary",0.0],["rgba(35, 0, 35, 0.95)",0.5],["@colors.surface.primary",1.0]]}}}
+
 - unsupported-property at "/styles/interactive/container/borderRadius": CSS declaration not representable by this bounded converter
 
     {"borderRadius":"var(--border-radius)"}
