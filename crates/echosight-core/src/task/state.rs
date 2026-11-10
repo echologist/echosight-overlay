@@ -66,6 +66,26 @@ impl<E: TaskEnvironment> TaskState<E> {
     pub fn tasks(&self) -> &[Task] {
         &self.state.tasks
     }
+    pub(crate) fn tasks_mut(&mut self) -> &mut [Task] {
+        &mut self.state.tasks
+    }
+
+    /// TriggerController saves the ordered selection only when it differs.
+    /// Dormant/background tasks are not excluded from this edit path.
+    pub fn update_triggers(&mut self, id: TaskId, triggers: Vec<TaskId>) -> bool {
+        let Some(task) = self.find_task(id) else {
+            return false;
+        };
+        if task.triggers == triggers {
+            return false;
+        }
+        self.capture_undo_state("update task triggers");
+        super::tree::find_task_by_id_mut(id, &mut self.state.tasks)
+            .expect("task found before history capture")
+            .triggers = triggers;
+        true
+    }
+
     pub fn current_template(&self) -> Option<&str> {
         self.state.current_template.as_deref()
     }

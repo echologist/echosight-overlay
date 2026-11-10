@@ -1472,6 +1472,9 @@ dependencies = [
  "echosight-core",
  "echosight-platform",
  "echosight-ui",
+ "env_logger",
+ "gpui",
+ "gpui_platform",
  "log",
 ]
 
@@ -1479,6 +1482,7 @@ dependencies = [
 name = "echosight-core"
 version = "3.0.0-dev"
 dependencies = [
+ "base64",
  "chrono",
  "log",
  "regex",
@@ -1521,9 +1525,13 @@ dependencies = [
 name = "echosight-ui"
 version = "3.0.0-dev"
 dependencies = [
+ "chrono",
  "echosight-core",
  "gpui",
  "log",
+ "rand 0.9.5",
+ "serde_json",
+ "tempfile",
  "unicode-segmentation",
 ]
 

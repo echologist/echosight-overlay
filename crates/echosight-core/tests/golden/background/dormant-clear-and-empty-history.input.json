@@ -1,0 +1,47 @@
+{
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 20,
+      "text": "Task 20",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": false,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": 1,
+        "priority": "normal"
+      }
+    }
+  ],
+  "ops": [
+    {
+      "op": "clear"
+    },
+    {
+      "op": "undo"
+    },
+    {
+      "op": "redo"
+    },
+    {
+      "op": "delete",
+      "id": 999
+    },
+    {
+      "op": "toggle",
+      "id": 999
+    },
+    {
+      "op": "next"
+    },
+    {
+      "op": "triggers",
+      "id": 999,
+      "selected": []
+    }
+  ]
+}

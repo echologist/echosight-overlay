@@ -1,5 +1,11 @@
-//! Pure v1 JSON validation and helpers, proven against the shipped TypeScript.
-//! This is not a filesystem loader: discovery, sync and asset delivery remain pending.
+//! v1 JSON validation, explicit-root filesystem loading and compatibility delivery.
+//! CSS is returned as data only; v2 conversion and GPUI rendering are separate.
+pub mod assets;
+pub mod library;
+pub mod sounds;
+pub mod sync;
+pub use assets::ThemeRoot;
+pub use library::{ThemeFailure, ThemeLibrary};
 pub mod helpers;
 pub mod v1;
 pub mod validate;

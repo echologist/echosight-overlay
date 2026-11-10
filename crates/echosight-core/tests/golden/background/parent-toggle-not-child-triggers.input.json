@@ -1,0 +1,78 @@
+{
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Task 1",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [
+        {
+          "id": 2,
+          "text": "Task 2",
+          "completed": false,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "children": [],
+          "mode": "main",
+          "triggers": [
+            21
+          ],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": null
+        }
+      ],
+      "mode": "main",
+      "triggers": [
+        20
+      ],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": null
+    },
+    {
+      "id": 20,
+      "text": "Task 20",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": false,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": 1,
+        "priority": "normal"
+      }
+    },
+    {
+      "id": 21,
+      "text": "Task 21",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": false,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": 1,
+        "priority": "normal"
+      }
+    }
+  ],
+  "ops": [
+    {
+      "op": "toggle",
+      "id": 1
+    },
+    {
+      "op": "toggle",
+      "id": 2
+    },
+    {
+      "op": "toggle",
+      "id": 2
+    }
+  ]
+}
