@@ -2,7 +2,8 @@
 use super::{Rgba, resolve::token_path};
 use serde_json::{Value, json};
 
-/// Split only outside parentheses/quotes. Delimiters inside strings/functions survive.
+/// Split only outside parentheses/quotes. Preserve empty list items, but coalesce
+/// whitespace separators for lengths. Declaration callers ignore empty trivia.
 pub(super) fn split_top(s: &str, delimiter: char) -> Vec<&str> {
     let mut out = vec![];
     let mut start = 0;
@@ -33,13 +34,13 @@ pub(super) fn split_top(s: &str, delimiter: char) -> Vec<&str> {
         } else if c == ')' {
             depth = depth.saturating_sub(1);
         } else if depth == 0 && (c == delimiter || (delimiter == ' ' && c.is_whitespace())) {
-            if start < i {
+            if delimiter != ' ' || start < i {
                 out.push(s[start..i].trim());
             }
             start = i + c.len_utf8();
         }
     }
-    if start < s.len() {
+    if delimiter != ' ' || start < s.len() {
         out.push(s[start..].trim());
     }
     out
@@ -158,7 +159,7 @@ pub(super) fn fill(s: &str, tokens: &Value) -> Option<Value> {
     }
     let inner = s.strip_prefix("linear-gradient(")?.strip_suffix(')')?;
     let mut parts = split_top(inner, ',');
-    if parts.len() < 2 {
+    if parts.len() < 2 || parts.iter().any(|p| p.is_empty()) {
         return None;
     }
     let angle = match parts[0] {
@@ -179,18 +180,8 @@ pub(super) fn fill(s: &str, tokens: &Value) -> Option<Value> {
     }
     let mut stops: Vec<(Value, Option<f64>)> = vec![];
     for part in parts {
-        let fields = split_top(part, ' ');
-        let (c, pos) = if let Some(pos) = fields
-            .last()
-            .and_then(|x| x.strip_suffix('%'))
-            .and_then(length)
-        {
-            let end = part.rfind(fields.last()?)?;
-            (color(part[..end].trim(), tokens)?, Some(pos / 100.))
-        } else {
-            (color(part, tokens)?, None)
-        };
-        stops.push((c, pos));
+        let (source, pos) = gradient_stop(part);
+        stops.push((color(source, tokens)?, pos));
     }
     let last = stops.len() - 1;
     if stops[0].1.is_none() {
@@ -216,6 +207,50 @@ pub(super) fn fill(s: &str, tokens: &Value) -> Option<Value> {
         json!({"gradient":{"angle":angle,"stops":stops.into_iter().map(|(c,p)|json!([c,p])).collect::<Vec<_>>()}}),
     )
 }
+fn gradient_stop(part: &str) -> (&str, Option<f64>) {
+    if let Some(field) = split_top(part, ' ').last()
+        && let Some(pos) = field.strip_suffix('%').and_then(length)
+    {
+        let end = part.len() - field.len();
+        (part[..end].trim(), Some(pos / 100.))
+    } else {
+        (part, None)
+    }
+}
+
+/// Classify the selected source color, not text in an unused var() fallback.
+fn color_opacity(s: &str, tokens: &Value) -> bool {
+    if let Some(v) = variable(s, tokens) {
+        if v.as_str().is_some_and(|v| v.starts_with('@')) {
+            return super::resolve::opacity_matches("", &v, tokens);
+        }
+        return s
+            .strip_prefix("var(")
+            .and_then(|s| s.strip_suffix(')'))
+            .and_then(|inner| split_top(inner, ',').get(1).copied())
+            .is_some_and(|fallback| color_opacity(fallback, tokens));
+    }
+    legacy_alpha(s).is_some()
+}
+
+/// One flag per source stop (or one for a solid), for an already accepted fill.
+/// The v2 fill alpha cannot express a mixture of these flags.
+pub(super) fn fill_opacity(s: &str, fill: &Value, tokens: &Value) -> Vec<bool> {
+    if let Some(stops) = fill["gradient"]["stops"].as_array()
+        && let Some(inner) = s
+            .strip_prefix("linear-gradient(")
+            .and_then(|s| s.strip_suffix(')'))
+    {
+        let parts = split_top(inner, ',');
+        return parts
+            .iter()
+            .skip(parts.len() - stops.len())
+            .map(|part| color_opacity(gradient_stop(part).0, tokens))
+            .collect();
+    }
+    vec![color_opacity(s, tokens)]
+}
+
 pub(super) fn shadows(s: &str, tokens: &Value) -> Option<Value> {
     if s == "none" {
         return Some(json!([]));

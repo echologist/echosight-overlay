@@ -517,6 +517,217 @@ fn malformed_fonts_variants_and_css_values_are_never_silent() {
     );
 }
 
+// Additional quality cases observed through unchanged TS + Chrome at 0db6602.
+// The migration ledger records source provenance and the bounded loss semantics.
+#[test]
+fn observed_mixed_gradient_opacity_reports_per_stop_loss() {
+    use echosight_core::theme::v2::Fill;
+    for (background, expected_alphas, source_mask) in [
+        (
+            "linear-gradient(var(--bg-primary), red)",
+            vec![0.2, 0.25],
+            vec![true, false],
+        ),
+        (
+            "linear-gradient(rgba(10,20,30,var(--user-transparency)), red)",
+            vec![0.25, 0.25],
+            vec![true, false],
+        ),
+        (
+            "linear-gradient(90deg, red 0%, var(--missing, var(--bg-primary)) 100%)",
+            vec![0.25, 0.2],
+            vec![false, true],
+        ),
+    ] {
+        for css_source in [false, true] {
+            let mut source = json!({"id":"x","name":"X","colors":{"background":{"primary":"rgba(10,20,30,0.8)"}}});
+            let location = if css_source {
+                source["customCSS"] = json!(format!("button {{ background: {background}; }}"));
+                "/customCSS/0/button/background"
+            } else {
+                source["components"] = json!({"button":{"background":background}});
+                "/components/button/background"
+            };
+            let c = convert(&source);
+            let t = Theme::parse(&c.theme).unwrap();
+            let Some(Fill::Linear { stops, .. }) = t.slot("button", &[], 0.25).unwrap().fill()
+            else {
+                panic!("expected typed gradient");
+            };
+            assert_eq!(
+                stops.iter().map(|s| s.color.a).collect::<Vec<_>>(),
+                expected_alphas
+            );
+            let loss = c
+                .diagnostics
+                .iter()
+                .find(|d| d.code == "mixed-gradient-opacity")
+                .expect("v1 fades only selected stops; v2 fades the whole fill");
+            assert_eq!(loss.location, location);
+            assert_eq!(loss.value["source"], background);
+            assert_eq!(loss.value["sourceStopOpacityAffects"], json!(source_mask));
+            assert_eq!(loss.value["v2StopOpacityAffects"], json!([true, true]));
+        }
+    }
+    // Known variables ignore unused fallbacks, including user-transparency text.
+    for (background, expected) in [
+        (
+            "linear-gradient(var(--bg-primary), var(--bg-secondary))",
+            vec![0.2, 0.25],
+        ),
+        ("linear-gradient(white, red)", vec![1., 1.]),
+        (
+            "linear-gradient(var(--bg-opaque, rgba(0,0,0,var(--user-transparency))), red)",
+            vec![1., 1.],
+        ),
+        (
+            "linear-gradient(var(--missing, rgba(0,0,0,var(--user-transparency))), var(--bg-primary))",
+            vec![0.25, 0.2],
+        ),
+    ] {
+        let c = convert(
+            &json!({"id":"x","name":"X","colors":{"background":{"primary":"rgba(10,20,30,0.8)","secondary":"rgb(40,50,60)","opaque":"#fff"}},"components":{"button":{"background":background}}}),
+        );
+        assert!(
+            !c.diagnostics
+                .iter()
+                .any(|d| d.code == "mixed-gradient-opacity")
+        );
+        let t = Theme::parse(&c.theme).unwrap();
+        let Some(Fill::Linear { stops, .. }) = t.slot("button", &[], 0.25).unwrap().fill() else {
+            panic!("expected typed gradient")
+        };
+        assert_eq!(
+            stops.iter().map(|s| s.color.a).collect::<Vec<_>>(),
+            expected,
+            "{background}"
+        );
+    }
+}
+
+#[test]
+fn observed_empty_gradient_items_are_rejected_without_repair() {
+    for background in [
+        "linear-gradient(red,,blue)",
+        "linear-gradient(red,blue,)",
+        "linear-gradient(,red,blue)",
+        "linear-gradient(red, ,blue)",
+        "linear-gradient(90deg,,red,blue)",
+    ] {
+        for (source, location) in [
+            (
+                json!({"id":"x","name":"X","components":{"button":{"background":background}}}),
+                "/components/button/background",
+            ),
+            (
+                json!({"id":"x","name":"X","customCSS":format!("button {{ background:{background}; }}")}),
+                "/customCSS/0/button/background",
+            ),
+        ] {
+            let c = convert(&source);
+            assert!(
+                c.theme["slots"]["button"].get("fill").is_none(),
+                "invalid CSS must not become a repaired gradient: {background}"
+            );
+            assert!(
+                c.diagnostics
+                    .iter()
+                    .any(|d| d.code == "unsupported-property"
+                        && d.location == location
+                        && d.value == json!({"background":background}))
+            );
+        }
+    }
+    let c = convert(
+        &json!({"id":"x","name":"X","customCSS":"button { ; background: linear-gradient(rgb(1, 2, 3), rgba(4, 5, 6, 0.5)); padding:  2px   4px; font-family: 'A,B', serif; ; }"}),
+    );
+    let t = Theme::parse(&c.theme).unwrap();
+    assert!(t.slot("button", &[], 1.).unwrap().fill().is_some());
+    assert_eq!(
+        t.slot("button", &[], 1.).unwrap().edges("padding"),
+        Some([2., 4., 2., 4.])
+    );
+    assert_eq!(
+        c.theme["slots"]["button"]["text"]["family"],
+        json!(["A,B", "serif"])
+    );
+    assert!(!c.diagnostics.iter().any(|d| matches!(
+        d.code.as_str(),
+        "malformed-declaration" | "unsupported-property"
+    )));
+}
+
+#[test]
+fn observed_duplicate_css_properties_keep_final_occurrence_order() {
+    for (body, property, expected) in [
+        (
+            "background:red; background-color:green; background:blue;",
+            "fill",
+            json!("blue"),
+        ),
+        (
+            "background-color:red; background:green; background-color:blue;",
+            "fill",
+            json!("blue"),
+        ),
+        (
+            "border:1px solid red; border-color:green; border:2px solid blue;",
+            "border",
+            json!({"width":2.,"style":"solid","color":"blue"}),
+        ),
+        (
+            "border-color:red; border:1px solid green; border-color:blue;",
+            "border",
+            json!({"width":1.,"style":"solid","color":"blue"}),
+        ),
+    ] {
+        let c = convert(&json!({"id":"x","name":"X","customCSS":format!("button {{{body}}}")}));
+        let t = Theme::parse(&c.theme).unwrap();
+        assert_eq!(
+            t.slot("button", &[], 1.).unwrap().properties()[property],
+            expected,
+            "{body}"
+        );
+        let d = c
+            .diagnostics
+            .iter()
+            .find(|d| d.code == "duplicate-declaration")
+            .unwrap();
+        assert!(d.message.contains("final-occurrence order"));
+        assert!(d.message.contains("invalid-value fallback") && d.message.contains("!important"));
+    }
+    let c = convert(
+        &json!({"id":"x","name":"X","customCSS":"button {background:red !important; background:blue;}"}),
+    );
+    assert!(
+        c.diagnostics
+            .iter()
+            .any(|d| d.code == "css-source-order" && d.message.contains("importance"))
+    );
+    assert!(
+        c.diagnostics
+            .iter()
+            .any(|d| d.code == "duplicate-declaration")
+    );
+    let c = convert(
+        &json!({"id":"x","name":"X","customCSS":"button {background:red; background:bogus;}"}),
+    );
+    assert!(
+        c.diagnostics
+            .iter()
+            .any(|d| d.code == "duplicate-declaration"
+                && d.message.contains("invalid-value fallback")
+                && d.value == json!({"background":"red"}))
+    );
+    assert!(
+        c.diagnostics
+            .iter()
+            .any(|d| d.code == "unsupported-property"
+                && d.location == "/customCSS/0/button/background"
+                && d.value == json!({"background":"bogus"}))
+    );
+}
+
 #[test]
 fn invalid_inputs_and_unavailable_css_are_explicit() {
     for source in [
