@@ -1,4 +1,4 @@
-use echosight_core::theme::v2::{ConversionInput, State, Theme, convert_v1};
+use echosight_core::theme::v2::{ConversionInput, Diagnostic, Severity, State, Theme, convert_v1};
 use serde_json::{Value, json};
 
 fn convert(source: &Value) -> echosight_core::theme::v2::Conversion {
@@ -11,6 +11,161 @@ fn convert(source: &Value) -> echosight_core::theme::v2::Conversion {
     .unwrap();
     assert_eq!(*source, before);
     conversion
+}
+
+fn future_fields(count: usize) -> Value {
+    Value::Object(
+        (0..count)
+            .map(|i| (format!("future{i}"), json!(true)))
+            .collect(),
+    )
+}
+
+fn diagnostic_source(count: usize) -> Value {
+    let mut source = json!({"id":"x","name":"x"});
+    source
+        .as_object_mut()
+        .unwrap()
+        .extend(future_fields(count).as_object().unwrap().clone());
+    source
+}
+
+fn budget_failure(source: &Value) -> Vec<Diagnostic> {
+    let result = convert_v1(ConversionInput {
+        document: source,
+        css_file: None,
+        asset_files: &[],
+    });
+    assert!(result.is_err(), "diagnostic exhaustion must not return Ok");
+    let diagnostics = result.unwrap_err();
+    assert_eq!(diagnostics.len(), 512);
+    assert!(
+        diagnostics
+            .iter()
+            .any(|d| d.severity == Severity::Error && d.code == "budget")
+    );
+    assert!(
+        diagnostics
+            .iter()
+            .any(|d| d.code == "unmapped-field" && d.location == "/future0" && d.value == true),
+        "retain earlier conversion losses"
+    );
+    diagnostics
+}
+
+#[test]
+fn diagnostic_budget_rejects_root_loss_overflow() {
+    budget_failure(&diagnostic_source(600));
+}
+
+#[test]
+fn diagnostic_budget_accepts_root_losses_through_limit() {
+    for count in [0, 511, 512] {
+        let c = convert(&diagnostic_source(count));
+        assert_eq!(c.diagnostics.len(), count);
+        assert!(c.diagnostics.iter().all(|d| d.severity != Severity::Error));
+    }
+}
+
+#[test]
+fn diagnostic_budget_rejects_combined_under_limit_variants() {
+    let mut source = diagnostic_source(200);
+    source["variants"] = json!({"first":{},"second":{}});
+    // Each effective child succeeds independently; only aggregation exceeds the cap.
+    for id in ["first", "second"] {
+        let effective = Value::Object(echosight_core::theme::create_variant_theme(
+            source.as_object().unwrap(),
+            id,
+            source["variants"][id].as_object().unwrap(),
+        ));
+        let child = convert(&effective);
+        assert_eq!(child.diagnostics.len(), 200);
+        assert!(
+            child
+                .diagnostics
+                .iter()
+                .all(|d| d.severity != Severity::Error)
+        );
+    }
+    let diagnostics = budget_failure(&source);
+    assert!(
+        diagnostics
+            .iter()
+            .any(|d| d.location == "/variants/first/future0")
+    );
+}
+
+#[test]
+fn diagnostic_budget_accepts_combined_under_limit_variants() {
+    let mut source = diagnostic_source(170);
+    source["variants"] = json!({"first":{},"second":{}});
+    let c = convert(&source);
+    assert_eq!(c.diagnostics.len(), 510);
+    assert!(c.diagnostics.iter().all(|d| d.severity != Severity::Error));
+    assert!(Theme::parse(&c.theme).unwrap().variant("second").is_ok());
+}
+
+#[test]
+fn diagnostic_budget_rejects_combined_parser_warnings() {
+    let mut source = diagnostic_source(0);
+    source["sounds"] = future_fields(100);
+    assert_eq!(convert(&source).diagnostics.len(), 100);
+    source
+        .as_object_mut()
+        .unwrap()
+        .extend(future_fields(413).as_object().unwrap().clone());
+    let diagnostics = budget_failure(&source);
+    assert!(diagnostics.iter().any(|d| d.location == "/sounds/future0"));
+}
+
+#[test]
+fn diagnostic_budget_accepts_combined_parser_warnings_at_limit() {
+    let mut source = diagnostic_source(412);
+    source["sounds"] = future_fields(100);
+    let c = convert(&source);
+    assert_eq!(c.diagnostics.len(), 512);
+    assert!(c.diagnostics.iter().all(|d| d.severity != Severity::Error));
+    assert!(
+        c.diagnostics
+            .iter()
+            .any(|d| d.location == "/sounds/future0")
+    );
+}
+
+#[test]
+fn diagnostic_budget_keeps_losses_when_output_parser_fails() {
+    let mut source = diagnostic_source(1);
+    source["sounds"] = future_fields(600);
+    budget_failure(&source);
+}
+
+#[test]
+fn diagnostic_budget_keeps_parent_losses_when_child_fails() {
+    let mut source = diagnostic_source(1);
+    source["variants"] = json!({"broken":{"futureVariant":true,"sounds":future_fields(600)}});
+    let diagnostics = budget_failure(&source);
+    assert!(
+        diagnostics
+            .iter()
+            .any(|d| d.code == "unmapped-variant-field"
+                && d.location == "/variants/broken/futureVariant")
+    );
+    assert!(
+        diagnostics
+            .iter()
+            .any(|d| d.location == "/variants/broken/sounds/future0")
+    );
+}
+
+#[test]
+fn diagnostic_budget_bounds_prefixed_variant_locations() {
+    let mut source = diagnostic_source(1);
+    let id = "é".repeat(600);
+    source["variants"] = json!({id:{}});
+    let c = convert(&source);
+    assert_eq!(c.diagnostics.len(), 2);
+    assert!(c.diagnostics.iter().all(|d| d.location.len() <= 1024));
+    assert!(c.diagnostics.iter().all(|d| d.severity != Severity::Error));
 }
 
 // Source-observed regressions, not a second CSS implementation. See the provenance
