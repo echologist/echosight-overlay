@@ -109,6 +109,14 @@ impl Render for TaskApp {
                 "Noto Sans"
             })
             .on_key_down(cx.listener(Self::key))
+            .capture_action(cx.listener(
+                |this, _: &crate::components::text_input::Paste, window, cx| {
+                    if matches!(this.dialog, Some(Dialog::Template(TemplateDialog::Import))) {
+                        this.paste_template(window, cx);
+                        cx.stop_propagation();
+                    }
+                },
+            ))
             .on_mouse_move(cx.listener(|this, event: &gpui::MouseMoveEvent, _, cx| {
                 if event.pressed_button == Some(gpui::MouseButton::Left) {
                     this.drag_to(event.position, cx);
@@ -143,6 +151,9 @@ impl Render for TaskApp {
                             .child("Development task slice"),
                     ),
             );
+        root = root.child(self.template_bar(window, cx));
+        // Preserve existing task keyboard navigation; template controls follow rows.
+        let template_tab_order = std::mem::take(&mut self.tab_order);
         if enabled {
             self.tab_order.push((self.input.focus_handle(cx), None));
         }
@@ -422,6 +433,7 @@ impl Render for TaskApp {
                 )
                 .child(rows),
         );
+        self.tab_order.extend(template_tab_order);
         let status = if let Some(drag) = self.dragging.as_ref().filter(|d| d.active) {
             drag.intent
                 .as_ref()
@@ -465,7 +477,7 @@ impl Render for TaskApp {
         if let Some(error) = &self.error {
             root = root.child(div().text_color(rgb(0xe3804a)).child(error.clone()));
         }
-        root = root.child(div().text_xs().text_color(rgb(MUTED)).child("Pending: themes/V2, templates, settings, native audio and overlay integration. Local undo: Ctrl+Shift+Z / Y."));
+        root = root.child(div().text_xs().text_color(rgb(MUTED)).child("Pending: themes/V2, settings, native audio and overlay integration. Local undo: Ctrl+Shift+Z / Y."));
         if let Some(dialog) = self.dialog.clone() {
             if std::mem::take(&mut self.select_editor) {
                 let focus = self.editor.focus_handle(cx);
@@ -482,7 +494,8 @@ impl Render for TaskApp {
             self.tab_order.clear();
             let delete = matches!(dialog, Dialog::Delete(_));
             let quitting = matches!(dialog, Dialog::Quit);
-            let title = match dialog {
+            let title = match &dialog {
+                Dialog::Template(dialog) => dialog.title(),
                 Dialog::Triggers(_) => "Configure Triggers",
                 Dialog::Child(_) => "Add Subtask",
                 Dialog::Edit(..) => "Edit Task",
@@ -511,14 +524,18 @@ impl Render for TaskApp {
                 .min_h_0()
                 .overflow_y_scroll();
             let mut fields = div().flex().flex_col().gap_3();
-            if quitting {
-                fields = fields.child(if self.saving {
-                    "Waiting for pending saves…"
-                } else if self.error.is_some() {
-                    "Storage reported an error. Unsaved changes will be lost. Quit anyway?"
-                } else {
-                    "Quit Echosight?"
-                });
+            if let Dialog::Template(ref dialog) = dialog {
+                fields = self.template_fields(dialog, window, cx);
+            } else if quitting {
+                fields = fields.child(
+                    if self.saving || self.templates.saving || self.templates.transferring {
+                        "Waiting for pending saves…"
+                    } else if self.error.is_some() {
+                        "Storage reported an error. Unsaved changes will be lost. Quit anyway?"
+                    } else {
+                        "Quit Echosight?"
+                    },
+                );
             } else if let Dialog::Delete(id) = dialog {
                 if let Some(task) = self.state().and_then(|s| s.find_task(id)) {
                     fields = fields.child(delete_message(&task.text));
@@ -543,7 +560,12 @@ impl Render for TaskApp {
                     ));
                 }
             }
-            if let Some(error) = self.form_error.as_ref().or(self.error.as_ref()) {
+            if let Some(error) = self
+                .form_error
+                .as_ref()
+                .or(self.error.as_ref())
+                .or(self.templates.error.as_ref())
+            {
                 fields = fields.child(
                     div()
                         .id("form-error")
@@ -570,6 +592,15 @@ impl Render for TaskApp {
                         "accept".into(),
                         if quitting {
                             "Quit"
+                        } else if let Dialog::Template(ref template_dialog) = dialog {
+                            match template_dialog {
+                                TemplateDialog::Import => "Import",
+                                TemplateDialog::Load(_) => "Load",
+                                TemplateDialog::Delete(_) => "Delete",
+                                TemplateDialog::Replace(_) => "Replace",
+                                TemplateDialog::Preview(_) => "OK",
+                                _ => "Save",
+                            }
                         } else if delete {
                             "Delete"
                         } else {
@@ -577,7 +608,15 @@ impl Render for TaskApp {
                         },
                         Command::Accept,
                         if quitting {
-                            !self.saving
+                            !self.saving && !self.templates.saving && !self.templates.transferring
+                        } else if matches!(dialog, Dialog::Template(_)) {
+                            self.templates_ready()
+                                && !matches!(
+                                    dialog,
+                                    Dialog::Template(
+                                        TemplateDialog::Choose | TemplateDialog::Community
+                                    )
+                                )
                         } else {
                             self.writable()
                         },

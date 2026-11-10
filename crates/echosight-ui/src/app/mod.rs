@@ -2,9 +2,12 @@
 //! runs off the UI thread. This is not the complete overlay/theme runtime.
 mod drag;
 mod persistence;
+mod ports;
 mod runtime;
+mod templates;
 mod triggers;
 pub use runtime::{TaskClock, TaskEventSink, TaskRuntimeEvent};
+use templates::{TemplateCommand, TemplateDialog};
 mod view;
 mod window;
 pub use window::window_options;
@@ -29,6 +32,7 @@ use std::{
 
 #[derive(Clone)]
 enum Command {
+    Template(TemplateCommand),
     Add,
     Child(TaskId),
     Edit(TaskId),
@@ -47,6 +51,7 @@ enum Command {
 }
 #[derive(Clone)]
 enum Dialog {
+    Template(TemplateDialog),
     Triggers(TaskId),
     Child(TaskId),
     Edit(TaskId, bool),
@@ -55,6 +60,7 @@ enum Dialog {
 }
 
 pub struct TaskApp {
+    templates: templates::Templates,
     background: Option<BackgroundTaskState<TaskClock>>,
     expiry_task: Option<gpui::Task<()>>,
     expiry_generation: u64,
@@ -163,6 +169,7 @@ impl TaskApp {
         })
         .detach();
         let mut this = Self {
+            templates: templates::Templates::default(),
             background: None,
             expiry_task: None,
             expiry_generation: 0,
@@ -193,9 +200,13 @@ impl TaskApp {
             dragging: None,
         };
         match storage {
-            Err(e) => this.error = Some(e),
+            Err(e) => {
+                this.templates.error = Some(e.clone());
+                this.error = Some(e);
+            }
             Ok((storage, paths)) => {
                 this.storage = Some(storage.clone());
+                this.load_templates(storage.clone(), paths.clone(), clock.clone(), cx);
                 let task = cx
                     .background_executor()
                     .spawn(async move { persistence::load(&storage, &paths) });
@@ -373,9 +384,19 @@ impl TaskApp {
             return;
         }
         if matches!(command, Command::Accept) && matches!(self.dialog, Some(Dialog::Quit)) {
-            if !self.saving {
+            if !self.saving && !self.templates.saving && !self.templates.transferring {
                 cx.quit();
             }
+            return;
+        }
+        if let Command::Template(command) = command {
+            self.template_command(command, window, cx);
+            return;
+        }
+        if matches!(command, Command::Accept)
+            && let Some(Dialog::Template(dialog)) = self.dialog.clone()
+        {
+            self.accept_template(dialog, window, cx);
             return;
         }
         if !self.writable() {
@@ -532,7 +553,7 @@ impl TaskApp {
                         }),
                     }),
                     Dialog::Delete(id) => Some(BackgroundCommand::Delete(id)),
-                    Dialog::Quit => None,
+                    Dialog::Quit | Dialog::Template(_) => None,
                 };
                 if deleting {
                     self.restore_focus = Some(self.input.focus_handle(cx));
@@ -540,7 +561,7 @@ impl TaskApp {
                 self.close_dialog(window, cx);
                 operation
             }
-            Command::Cancel | Command::Quit => None,
+            Command::Cancel | Command::Quit | Command::Template(_) => None,
         };
         if let Some(operation) = operation {
             self.dispatch_background(operation, cx);
@@ -548,6 +569,7 @@ impl TaskApp {
     }
 
     fn close_dialog(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        self.templates_closed();
         let focus = self
             .restore_focus
             .take()
@@ -607,10 +629,7 @@ impl TaskApp {
                 .find(|(h, _)| h.is_focused(window))
                 .and_then(|(_, c)| c.clone());
             if let Some(command) = command {
-                if key != "enter"
-                    || !matches!(self.dialog, Some(Dialog::Delete(_) | Dialog::Quit))
-                    || matches!(command, Command::Cancel)
-                {
+                if key != "enter" || !self.danger_dialog() || matches!(command, Command::Cancel) {
                     self.activate(command, window, cx);
                 }
             } else {
@@ -624,5 +643,7 @@ impl TaskApp {
     }
 }
 
+#[cfg(test)]
+mod template_tests;
 #[cfg(test)]
 mod tests;
