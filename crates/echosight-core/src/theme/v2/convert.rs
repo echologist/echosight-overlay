@@ -1,6 +1,6 @@
 //! Pure, deterministic, explicitly lossy v1 -> v2 conversion. No files are read or written.
 use super::{
-    Diagnostic, Severity, Theme, ThemeFormat,
+    Diagnostic, Severity, State, Theme, ThemeFormat,
     contract::{issue, path, safe_asset},
     css, detect_format,
     resolve::merge_style,
@@ -40,6 +40,17 @@ impl Conversion {
         s
     }
 }
+// Generated common CSS applies these effects to every button, including modal
+// and header buttons. v2 slots are independent, not implicit DOM descendants.
+const BUTTON_EFFECT_SLOTS: &[&str] = &[
+    "button",
+    "button.primary",
+    "button.danger",
+    "button.icon",
+    "dialog.button.primary",
+    "dialog.button.secondary",
+];
+
 struct Converter {
     out: Value,
     diagnostics: Vec<Diagnostic>,
@@ -112,7 +123,13 @@ impl Converter {
         );
         None
     }
-    fn declarations(&mut self, props: &Value, p: &str) -> Value {
+    fn declarations(&mut self, props: &Value, p: &str, slot: &str, state: Option<&str>) -> Value {
+        let base = &self.out["slots"][slot];
+        let previous_fill = state
+            .and_then(|state| base["states"][state].get("fill"))
+            .or_else(|| base.get("fill"))
+            .cloned()
+            .unwrap_or(Value::Null);
         let mut style = json!({});
         let Some(props) = props.as_object() else {
             self.loss(p, "unsupported-style", "expected CSS property map", props);
@@ -148,13 +165,21 @@ impl Converter {
                 .trim();
             let tokens = &self.out["tokens"];
             let mapped: Option<Value> = match property.as_str() {
-                "background" | "background-color" => css::fill(value, tokens).map(|f| {
-                    let mut o = json!({"fill":f});
-                    if value.contains("--user-transparency") {
-                        o["opacityAffects"] = json!(true);
-                    }
-                    o
-                }),
+                "background" | "background-color" => {
+                    let fill = if property == "background-color" {
+                        css::color(value, tokens)
+                    } else {
+                        css::fill(value, tokens)
+                    };
+                    fill.map(|f| {
+                        // Explicit booleans survive variant/state merging. A solid
+                        // override clears a generated flag, while a surface-token
+                        // reference still participates in the generated opacity list.
+                        let affects = value.contains("--user-transparency")
+                            || super::resolve::opacity_matches("", &f, tokens);
+                        json!({"fill":f,"opacityAffects":affects})
+                    })
+                }
                 "color" => css::color(value, tokens).map(|c| json!({"text":{"color":c}})),
                 "border" => css::border(value, tokens).map(|b| json!({"border":b})),
                 "border-color" => css::color(value, tokens).map(|c| json!({"border":{"color":c}})),
@@ -240,6 +265,19 @@ impl Converter {
                 _ => None,
             };
             if let Some(mapped) = mapped {
+                // CSS background-color changes only the underlay, not a preceding
+                // background gradient. A v2 fill has one layer, so retain the image
+                // and report the missing underlay rather than replacing the gradient.
+                let retained_fill = style.get("fill").unwrap_or(&previous_fill);
+                if property == "background-color" && retained_fill.get("gradient").is_some() {
+                    self.loss(
+                        &path(p, k),
+                        "background-layer-loss",
+                        "background-color under a gradient cannot be represented by a single v2 fill; gradient retained, color underlay omitted",
+                        &json!({"backgroundColor":v,"retainedFill":retained_fill}),
+                    );
+                    continue;
+                }
                 merge_style(&mut style, &mapped);
                 if property == "font-family" {
                     self.loss(
@@ -276,6 +314,11 @@ impl Converter {
                 css::Rule::Style { selector, body } => {
                     let mut props = serde_json::Map::new();
                     for declaration in css::split_top(&body, ';') {
+                        // Empty declarations and trailing whitespace are valid trivia.
+                        // Do not change split_top: empty gradient stops are not trivia.
+                        if declaration.trim().is_empty() {
+                            continue;
+                        }
                         if let Some((k, v)) = declaration.split_once(':') {
                             if props.contains_key(k.trim()) {
                                 self.loss(
@@ -298,8 +341,13 @@ impl Converter {
                     for selector in css::split_top(&selector, ',') {
                         let p = path(&p, selector);
                         if let Some((slots, state)) = css::selector(selector) {
-                            let style = self.declarations(&Value::Object(props.clone()), &p);
                             for slot in slots {
+                                let style = self.declarations(
+                                    &Value::Object(props.clone()),
+                                    &p,
+                                    slot,
+                                    state,
+                                );
                                 self.slot(slot, state, &style);
                             }
                         } else {
@@ -324,6 +372,57 @@ impl Converter {
                 }
             }
         }
+    }
+    fn state_order(&mut self, states: &[(&str, Value)], p: &str) {
+        let rank = |name: &str| State::PRECEDENCE.iter().position(|s| s.as_str() == name);
+        for (i, (later, later_style)) in states.iter().enumerate() {
+            for (earlier, earlier_style) in &states[..i] {
+                if rank(earlier) <= rank(later) {
+                    continue;
+                }
+                let mut source_order = earlier_style.clone();
+                merge_style(&mut source_order, later_style);
+                let mut v2_order = later_style.clone();
+                merge_style(&mut v2_order, earlier_style);
+                if source_order != v2_order {
+                    self.loss(
+                        p,
+                        "simultaneous-state-order",
+                        "v1 JSON state insertion order and fixed v2 state precedence differ when these states are simultaneous; individual states retained",
+                        &json!({"sourceOrder":[earlier,later],"v2Order":[later,earlier],"sourceResult":source_order,"v2Result":v2_order}),
+                    );
+                }
+            }
+        }
+    }
+    fn component_font_size(&mut self, slot: &str, props: &Value, p: &str, style: &mut Value) {
+        // The appended font stylesheet wins equal-specificity plain button/select
+        // selectors. Class selectors still win in v1 and cannot share this one slot.
+        // Input's generated attribute selectors are more specific: do not reset it.
+        if !matches!(slot, "button" | "select") {
+            return;
+        }
+        let Some(ui) = self.out["tokens"]["fonts"]["sizes"].get("ui").cloned() else {
+            return;
+        };
+        let Some(size) = style["text"].get("size") else {
+            return;
+        };
+        if size == &ui {
+            return;
+        }
+        let key = if props.get("fontSize").is_some() {
+            "fontSize"
+        } else {
+            "font-size"
+        };
+        self.loss(
+            &path(p, key),
+            "font-selector-precedence",
+            "v1 appended fonts.primary.sizes.ui wins on the plain element but component class selectors retain their font-size; v2 keeps the plain-element size, not both selector outcomes",
+            &json!({"component":props[key],"ui":ui}),
+        );
+        style["text"]["size"] = json!("@fonts.sizes.ui");
     }
     fn fonts(&mut self, fonts: &Value) {
         if let Some(primary) = fonts.get("primary")
@@ -469,7 +568,12 @@ impl Converter {
                     && let Some(n) = css::edges(s, false, "radius")
                 {
                     self.out["tokens"]["radius"] = json!({"default":n});
-                    for slot in ["button", "input", "progressBar"] {
+                    for slot in BUTTON_EFFECT_SLOTS.iter().copied().chain([
+                        "input",
+                        "textarea",
+                        "select",
+                        "progressBar",
+                    ]) {
                         self.slot(slot, None, &json!({"radius":"@radius.default"}));
                     }
                     continue;
@@ -489,7 +593,11 @@ impl Converter {
                     self.out["tokens"]["shadows"][target] = shadows;
                     match k.as_str() {
                         "textShadow" => {
-                            for slot in ["taskText", "progressText", "button"] {
+                            for slot in BUTTON_EFFECT_SLOTS
+                                .iter()
+                                .copied()
+                                .chain(["taskText", "progressText"])
+                            {
                                 self.slot(
                                     slot,
                                     None,
@@ -497,17 +605,45 @@ impl Converter {
                                 );
                             }
                         }
-                        "buttonShadow" => self.slot(
-                            "button",
-                            None,
-                            &json!({"shadow":format!("@shadows.{target}")}),
-                        ),
+                        "buttonShadow" => {
+                            for slot in BUTTON_EFFECT_SLOTS {
+                                self.slot(
+                                    slot,
+                                    None,
+                                    &json!({"shadow":format!("@shadows.{target}")}),
+                                );
+                            }
+                        }
+                        "bevelInset" => {
+                            for slot in ["input", "textarea", "select"] {
+                                self.slot(
+                                    slot,
+                                    None,
+                                    &json!({"shadow":format!("@shadows.{target}")}),
+                                );
+                            }
+                        }
                         "boxShadow" => self.slot(
                             "progressBar",
                             None,
                             &json!({"shadow":format!("@shadows.{target}")}),
                         ),
                         _ => {}
+                    }
+                    let utility = match k.as_str() {
+                        "textShadow" => Some(".text-shadow"),
+                        "bevelInset" => Some(".bevel-inset"),
+                        "bevelOutset" => Some(".bevel-outset"),
+                        "glow" => Some(".glow"),
+                        _ => None,
+                    };
+                    if let Some(selector) = utility {
+                        self.loss(
+                            &path("/effects", k),
+                            "effect-utility-selector",
+                            "effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references",
+                            &json!({"selector":selector,"effect":v}),
+                        );
                     }
                     continue;
                 }
@@ -610,7 +746,7 @@ fn convert_depth(input: ConversionInput<'_>, depth: usize) -> Result<Conversion,
         let stem = asset.rsplit_once('.').map(|(s, _)| s).unwrap_or(asset);
         let mapping = match stem {
             "main_bg" => Some(("window.interactive", None, "stretch")),
-            "titlebar_bg" => Some(("header", None, "stretch")),
+            "titlebar_bg" => Some(("header", None, "cover")),
             "button_normal" => Some(("button", None, "cover")),
             "button_hover" => Some(("button", Some("hover"), "cover")),
             "button_pressed" => Some(("button", Some("active"), "cover")),
@@ -654,7 +790,7 @@ fn convert_depth(input: ConversionInput<'_>, depth: usize) -> Result<Conversion,
                         _ => None,
                     };
                     if let Some(slot) = slot {
-                        let style = c.declarations(props, &p);
+                        let style = c.declarations(props, &p, slot, None);
                         c.slot(slot, None, &style);
                     } else {
                         c.loss(&p,"unsupported-mode-slot","no mode-qualified section slot in v2; manual application decision required",props);
@@ -686,7 +822,8 @@ fn convert_depth(input: ConversionInput<'_>, depth: usize) -> Result<Conversion,
                 }
             };
             let p = path("/components", name);
-            if let Some(states) = props.get("states") {
+            // themeCssComponents.ts uses isRecord, not presence/truthiness.
+            if let Some(states) = props.get("states").and_then(Value::as_object) {
                 if let Some(o) = props.as_object() {
                     for (k, v) in o {
                         if k != "states" {
@@ -699,30 +836,41 @@ fn convert_depth(input: ConversionInput<'_>, depth: usize) -> Result<Conversion,
                         }
                     }
                 }
-                if let Some(states) = states.as_object() {
-                    for (state, props) in states {
-                        if matches!(state.as_str(), "hover" | "active" | "focus" | "disabled") {
-                            let style = c.declarations(props, &path(&path(&p, "states"), state));
-                            c.slot(slot, Some(state), &style);
-                        } else {
-                            c.loss(
-                                &path(&path(&p, "states"), state),
-                                "unsupported-state",
-                                "not a v1 component state",
-                                props,
-                            );
-                        }
+                let mut translated = Vec::new();
+                for (state, props) in states {
+                    if matches!(state.as_str(), "hover" | "active" | "focus" | "disabled") {
+                        let style = c.declarations(
+                            props,
+                            &path(&path(&p, "states"), state),
+                            slot,
+                            Some(state),
+                        );
+                        c.slot(slot, Some(state), &style);
+                        translated.push((state.as_str(), style));
+                    } else {
+                        c.loss(
+                            &path(&path(&p, "states"), state),
+                            "unsupported-state",
+                            "not a v1 component state",
+                            props,
+                        );
                     }
-                } else {
+                }
+                c.state_order(&translated, &path(&p, "states"));
+            } else {
+                let mut base = props.clone();
+                if let Some(o) = base.as_object_mut()
+                    && let Some(states) = o.shift_remove("states")
+                {
                     c.loss(
                         &path(&p, "states"),
                         "unsupported-state",
-                        "expected state map",
-                        states,
+                        "non-record states is not a v1 state branch; sibling base declarations retained",
+                        &states,
                     );
                 }
-            } else {
-                let style = c.declarations(props, &p);
+                let mut style = c.declarations(&base, &p, slot, None);
+                c.component_font_size(slot, &base, &p, &mut style);
                 c.slot(slot, None, &style);
             }
         }
@@ -802,9 +950,13 @@ fn convert_depth(input: ConversionInput<'_>, depth: usize) -> Result<Conversion,
                     d.location = format!("{}{}", path("/variants", id), d.location);
                     c.diagnostics.push(d);
                 }
+                let mut base = c.out.clone();
+                base.as_object_mut()
+                    .expect("initialized")
+                    .shift_remove("variants");
                 let mut patch = variant_delta(
                     &converted.theme,
-                    &c.out,
+                    &base,
                     &path("/variants", id),
                     &mut c.diagnostics,
                 )
@@ -855,6 +1007,25 @@ fn variant_delta(new: &Value, base: &Value, p: &str, d: &mut Vec<Diagnostic>) ->
                 variant_delta(v, base.get(k).unwrap_or(&Value::Null), &path(p, k), d)
             {
                 result.insert(k.clone(), value);
+            }
+        }
+        for (k, inherited) in base {
+            if new.contains_key(k) {
+                continue;
+            }
+            if k == "opacityAffects" && inherited == &json!(true) {
+                // Absence cannot undo an inherited defu boolean. An effective
+                // variant with an opaque fill must explicitly clear this flag.
+                result.insert(k.clone(), json!(false));
+            } else {
+                issue(
+                    d,
+                    &path(p, k),
+                    "variant-inherited-value",
+                    "effective v1 conversion omits this value but v2 defu cannot delete inherited keys; inherited value retained; author a separate slot/token",
+                    inherited,
+                    Severity::Warning,
+                );
             }
         }
         return Some(Value::Object(result));

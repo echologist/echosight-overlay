@@ -6,10 +6,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "/customCSS"
 
-- malformed-declaration at "/customCSS/0": declaration has no colon
-
-    ""
-
 - unsupported-property at "/customCSS/0/.modal/-webkit-backdrop-filter": CSS declaration not representable by this bounded converter
 
     {"-webkit-backdrop-filter":"blur(7px) saturate(130%) !important"}
@@ -18,10 +14,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"backdrop-filter":"blur(7px) saturate(130%) !important"}
 
-- malformed-declaration at "/customCSS/1": declaration has no colon
-
-    ""
-
 - unsupported-property at "/customCSS/1/.modal-content/background": CSS declaration not representable by this bounded converter
 
     {"background":"radial-gradient(circle at 20% 0%, rgba(75,0,130,0.82), rgba(25,0,25,0.98) 48%, rgba(12,0,16,0.98)) !important"}
@@ -29,42 +21,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/customCSS/1/.modal-content/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"0 0 28px rgba(220,20,60,0.32), 0 24px 52px rgba(0,0,0,0.72), inset 0 1px 0 rgba(220,20,60,0.22) !important"}
-
-- malformed-declaration at "/customCSS/10": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/2": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/3": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/4": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/5": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/6": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/7": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/8": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/9": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/customCSS/9/.modal-content-dialog.app-dialog-tone-danger/border-color": selector is not in the fixed selector-to-slot table
 
@@ -77,6 +33,10 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-effect at "/effects/boxShadow": inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed
 
     "0 0 20px rgba(220, 20, 60, 0.4), 0 0 40px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(220, 20, 60, 0.3)"
+
+- effect-utility-selector at "/effects/textShadow": effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references
+
+    {"selector":".text-shadow","effect":"0 0 4px rgba(220, 20, 60, 0.8), 0 1px 2px rgba(0, 0, 0, 0.9)"}
 
 - font-availability at "/fonts/primary/family": family names retained; no fonts bundled or fetched
 

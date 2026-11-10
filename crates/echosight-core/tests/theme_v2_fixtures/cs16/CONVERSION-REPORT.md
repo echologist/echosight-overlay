@@ -54,17 +54,9 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "/customCSS/authentic"
 
-- malformed-declaration at "/customCSS/authentic/0": declaration has no colon
-
-    ""
-
 - css-source-order at "/customCSS/glow": recognized selectors are applied in source order, not CSS specificity/importance; manual review required
 
     "/customCSS/glow"
-
-- malformed-declaration at "/customCSS/glow/0": declaration has no colon
-
-    ""
 
 - unsupported-property at "/customCSS/glow/0/.header h2/filter": CSS declaration not representable by this bounded converter
 
@@ -74,10 +66,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "/customCSS/modal"
 
-- malformed-declaration at "/customCSS/modal/0": declaration has no colon
-
-    ""
-
 - unsupported-property at "/customCSS/modal/0/.modal/-webkit-backdrop-filter": CSS declaration not representable by this bounded converter
 
     {"-webkit-backdrop-filter":"none !important"}
@@ -85,10 +73,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/customCSS/modal/0/.modal/backdrop-filter": CSS declaration not representable by this bounded converter
 
     {"backdrop-filter":"none !important"}
-
-- malformed-declaration at "/customCSS/modal/1": declaration has no colon
-
-    ""
 
 - unsupported-property at "/customCSS/modal/1/.modal-content/box-shadow": CSS declaration not representable by this bounded converter
 
@@ -98,57 +82,25 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "system-ui, sans-serif !important"
 
-- malformed-declaration at "/customCSS/modal/2": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/modal/3": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/modal/4": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/modal/5": declaration has no colon
-
-    ""
-
 - unsupported-property at "/customCSS/modal/5/.community-template/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 1px 1px 0 #8c9284, inset -1px -1px 0 #292c21 !important"}
-
-- malformed-declaration at "/customCSS/modal/6": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/modal/7": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/modal/8": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/customCSS/modal/8/.modal-content-dialog.app-dialog-tone-danger/border-color": selector is not in the fixed selector-to-slot table
 
     {"border-color":"#a0aa95 !important"}
 
-- malformed-declaration at "/customCSS/modal/9": declaration has no colon
-
-    ""
-
 - css-source-order at "/customCSS/retro": recognized selectors are applied in source order, not CSS specificity/importance; manual review required
 
     "/customCSS/retro"
 
-- malformed-declaration at "/customCSS/retro/0": declaration has no colon
-
-    ""
-
 - unsupported-effect at "/effects/bevelInset": inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed
 
     "inset 1px 1px 0px var(--border-light), inset -1px -1px 0px var(--border-dark)"
+
+- effect-utility-selector at "/effects/bevelOutset": effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references
+
+    {"selector":".bevel-outset","effect":"1px 1px 0px var(--border-light), -1px -1px 0px var(--border-dark)"}
 
 - unsupported-effect at "/effects/boxShadow": inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed
 
@@ -157,6 +109,14 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-effect at "/effects/dropShadow": inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed
 
     "drop-shadow(2px 2px 2px rgba(41, 44, 33, 0.6))"
+
+- effect-utility-selector at "/effects/glow": effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references
+
+    {"selector":".glow","effect":"0 0 8px var(--primary)"}
+
+- effect-utility-selector at "/effects/textShadow": effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references
+
+    {"selector":".text-shadow","effect":"1px 1px 0px var(--border-dark)"}
 
 - font-availability at "/fonts/primary/family": family names retained; no fonts bundled or fetched
 

@@ -8,25 +8,13 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "/cssFile"
 
-- malformed-declaration at "/cssFile/0": declaration has no colon
-
-    ""
-
 - font-availability at "/cssFile/0/.overlay-container.interactive/font-family": family names retained; no font file is bundled or downloaded
 
     "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
 
-- malformed-declaration at "/cssFile/1": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/1/.overlay-container.interactive .header/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 0 1px 0 rgba(255, 255, 255, 0.2) !important"}
-
-- malformed-declaration at "/cssFile/10": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/10/.overlay-container.interactive .progress-fill/background-image": CSS declaration not representable by this bounded converter
 
@@ -47,10 +35,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/cssFile/10/.overlay-container.interactive .progress-fill/transition": CSS declaration not representable by this bounded converter
 
     {"transition":"width 0.3s ease !important"}
-
-- malformed-declaration at "/cssFile/11": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/cssFile/11/.overlay-container.interactive .progress-section/background": selector is not in the fixed selector-to-slot table
 
@@ -148,10 +132,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"position":"relative !important"}
 
-- malformed-declaration at "/cssFile/12": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/cssFile/12/.overlay-container.interactive .progress-section::before/box-shadow": selector is not in the fixed selector-to-slot table
 
     {"box-shadow":"inset 0 1px #0000004d, inset 0 -1px #fff !important"}
@@ -236,17 +216,9 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"width":"100% !important"}
 
-- malformed-declaration at "/cssFile/13": declaration has no colon
-
-    ""
-
 - font-availability at "/cssFile/13/.overlay-container.interactive .progress-text/font-family": family names retained; no font file is bundled or downloaded
 
     "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
-
-- malformed-declaration at "/cssFile/14": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/cssFile/14/.overlay-container.interactive .status-bar-field/color": selector is not in the fixed selector-to-slot table
 
@@ -263,10 +235,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-selector at "/cssFile/14/.overlay-container.interactive .status-bar-field/padding": selector is not in the fixed selector-to-slot table
 
     {"padding":"2px 4px !important"}
-
-- malformed-declaration at "/cssFile/15": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/15/.overlay-container.interactive .add-btn/box-shadow": CSS declaration not representable by this bounded converter
 
@@ -364,10 +332,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"transition":"all 0.1s ease !important"}
 
-- malformed-declaration at "/cssFile/16": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/16/.overlay-container.interactive .add-btn:hover/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 0 0 0 1px #fffc !important"}
@@ -379,10 +343,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/cssFile/16/.overlay-container.interactive button:hover/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 0 0 0 1px #fffc !important"}
-
-- malformed-declaration at "/cssFile/17": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/17/.overlay-container.interactive .add-btn:active/background": CSS declaration not representable by this bounded converter
 
@@ -408,14 +368,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"box-shadow":"inset 0 0 0 1px #fffc !important"}
 
-- malformed-declaration at "/cssFile/18": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/19": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/cssFile/19/.overlay-container.interactive .add-btn.default/background": selector is not in the fixed selector-to-slot table
 
     {"background":"linear-gradient(to bottom, #bee6fd 45%, #a7d9f5 45%, #7fc4e8) !important"}
@@ -440,17 +392,9 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"border-color":"#5586a3 !important"}
 
-- malformed-declaration at "/cssFile/2": declaration has no colon
-
-    ""
-
 - font-availability at "/cssFile/2/.overlay-container.interactive .header h2/font-family": family names retained; no font file is bundled or downloaded
 
     "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
-
-- malformed-declaration at "/cssFile/20": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/cssFile/20/.overlay-container.interactive .status-section button/font-size": selector is not in the fixed selector-to-slot table
 
@@ -483,10 +427,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-selector at "/cssFile/20/.overlay-container.interactive .window-footer button/padding": selector is not in the fixed selector-to-slot table
 
     {"padding":"0 8px !important"}
-
-- malformed-declaration at "/cssFile/21": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/21/.overlay-container.interactive input/box-shadow": CSS declaration not representable by this bounded converter
 
@@ -524,10 +464,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"transition":"border-color 0.2s ease, box-shadow 0.2s ease !important"}
 
-- malformed-declaration at "/cssFile/22": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/22/.overlay-container.interactive input:focus/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 0 1px 3px rgba(0, 0, 0, 0.1),\n              0 0 0 2px rgba(66, 133, 244, 0.3) !important"}
@@ -539,10 +475,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/cssFile/22/.overlay-container.interactive textarea:focus/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 0 1px 3px rgba(0, 0, 0, 0.1),\n              0 0 0 2px rgba(66, 133, 244, 0.3) !important"}
-
-- malformed-declaration at "/cssFile/23": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/23/.overlay-container.interactive .task-checkbox/appearance": CSS declaration not representable by this bounded converter
 
@@ -568,21 +500,9 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"width":"16px !important"}
 
-- malformed-declaration at "/cssFile/24": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/25": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/25/.overlay-container.interactive .task-checkbox:checked/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 0 1px 0 rgba(255, 255, 255, 0.2) !important"}
-
-- malformed-declaration at "/cssFile/26": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/cssFile/26/.overlay-container.interactive .task-checkbox:checked::after/color": selector is not in the fixed selector-to-slot table
 
@@ -616,29 +536,13 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"top":"1px !important"}
 
-- malformed-declaration at "/cssFile/27": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/27/.overlay-container.interactive .task-item/transition": CSS declaration not representable by this bounded converter
 
     {"transition":"background-color 0.2s ease !important"}
 
-- malformed-declaration at "/cssFile/28": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/29": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/cssFile/29/.overlay-container.interactive .task-item:hover .task-text/color": selector is not in the fixed selector-to-slot table
 
     {"color":"#222 !important"}
-
-- malformed-declaration at "/cssFile/3": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/3/.overlay-container.interactive .template-section/border-bottom": CSS declaration not representable by this bounded converter
 
@@ -647,10 +551,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/cssFile/3/.overlay-container.interactive .template-section/margin-bottom": CSS declaration not representable by this bounded converter
 
     {"margin-bottom":"0 !important"}
-
-- malformed-declaration at "/cssFile/30": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/cssFile/30/.overlay-container.interactive::before/background": selector is not in the fixed selector-to-slot table
 
@@ -692,10 +592,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"z-index":"-1 !important"}
 
-- malformed-declaration at "/cssFile/31": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/cssFile/31/.overlay-container.interactive .window-controls/display": selector is not in the fixed selector-to-slot table
 
     {"display":"flex !important"}
@@ -707,10 +603,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-selector at "/cssFile/31/.overlay-container.interactive .window-controls/margin-left": selector is not in the fixed selector-to-slot table
 
     {"margin-left":"auto !important"}
-
-- malformed-declaration at "/cssFile/32": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/cssFile/32/.overlay-container.interactive .window-control-btn/background": selector is not in the fixed selector-to-slot table
 
@@ -740,17 +632,9 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"width":"16px !important"}
 
-- malformed-declaration at "/cssFile/33": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/cssFile/33/.overlay-container.interactive .window-control-btn:hover/background": selector is not in the fixed selector-to-slot table
 
     {"background":"rgba(255, 255, 255, 0.2) !important"}
-
-- malformed-declaration at "/cssFile/34": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/34/.overlay-container.click-through/-webkit-backdrop-filter": CSS declaration not representable by this bounded converter
 
@@ -759,10 +643,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/cssFile/34/.overlay-container.click-through/backdrop-filter": CSS declaration not representable by this bounded converter
 
     {"backdrop-filter":"blur(10px) !important"}
-
-- malformed-declaration at "/cssFile/35": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/cssFile/35/.overlay-container.click-through .tasks-section/background": selector is not in the fixed selector-to-slot table
 
@@ -780,10 +660,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"border-top":"1px solid rgba(221, 221, 221, 0.8) !important"}
 
-- malformed-declaration at "/cssFile/36": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/36/.modal/-webkit-backdrop-filter": CSS declaration not representable by this bounded converter
 
     {"-webkit-backdrop-filter":"blur(10px) saturate(125%) !important"}
@@ -792,10 +668,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"backdrop-filter":"blur(10px) saturate(125%) !important"}
 
-- malformed-declaration at "/cssFile/37": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/37/.modal-content/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"0 10px 34px rgba(0,0,0,0.28), inset 0 0 0 1px #fff9 !important"}
@@ -803,10 +675,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - font-availability at "/cssFile/37/.modal-content/font-family": family names retained; no font file is bundled or downloaded
 
     "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
-
-- malformed-declaration at "/cssFile/38": declaration has no colon
-
-    ""
 
 - font-availability at "/cssFile/38/.modal-content h4/font-family": family names retained; no font file is bundled or downloaded
 
@@ -819,10 +687,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - font-availability at "/cssFile/38/.settings-title/font-family": family names retained; no font file is bundled or downloaded
 
     "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
-
-- malformed-declaration at "/cssFile/39": declaration has no colon
-
-    ""
 
 - font-availability at "/cssFile/39/.app-dialog-message/font-family": family names retained; no font file is bundled or downloaded
 
@@ -856,10 +720,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
 
-- malformed-declaration at "/cssFile/4": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/4/.overlay-container.interactive .tasks-section/margin-top": CSS declaration not representable by this bounded converter
 
     {"margin-top":"0 !important"}
@@ -892,17 +752,9 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"margin-top":"0 !important"}
 
-- malformed-declaration at "/cssFile/40": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/40/.community-template/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 0 0 0 1px #fff9 !important"}
-
-- malformed-declaration at "/cssFile/41": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/41/.modal-btn/box-shadow": CSS declaration not representable by this bounded converter
 
@@ -920,22 +772,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"min-width":"75px !important"}
 
-- malformed-declaration at "/cssFile/42": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/43": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/44": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/5": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/cssFile/5/.overlay-container.interactive .tasks-section.has-space/padding": selector is not in the fixed selector-to-slot table
 
     {"padding":"6px !important"}
@@ -943,10 +779,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-selector at "/cssFile/5/.overlay-container.interactive .window-body.has-space/padding": selector is not in the fixed selector-to-slot table
 
     {"padding":"6px !important"}
-
-- malformed-declaration at "/cssFile/6": declaration has no colon
-
-    ""
 
 - font-availability at "/cssFile/6/.overlay-container.interactive .task-text/font-family": family names retained; no font file is bundled or downloaded
 
@@ -956,21 +788,9 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"line-height":"1.4 !important"}
 
-- malformed-declaration at "/cssFile/7": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/8": declaration has no colon
-
-    ""
-
 - font-availability at "/cssFile/8/.overlay-container.interactive .progress-text/font-family": family names retained; no font file is bundled or downloaded
 
     "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
-
-- malformed-declaration at "/cssFile/9": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/9/.overlay-container.interactive .progress-bar/background": CSS declaration not representable by this bounded converter
 
@@ -999,6 +819,10 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-effect at "/effects/buttonShadow": inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed
 
     "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9, 0 1px 3px rgba(0,0,0,0.1)"
+
+- effect-utility-selector at "/effects/textShadow": effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references
+
+    {"selector":".text-shadow","effect":"none"}
 
 - font-availability at "/fonts/primary/family": family names retained; no fonts bundled or fetched
 

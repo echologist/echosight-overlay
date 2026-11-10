@@ -6,10 +6,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "/customCSS"
 
-- malformed-declaration at "/customCSS/0": declaration has no colon
-
-    ""
-
 - unsupported-property at "/customCSS/0/.modal/-webkit-backdrop-filter": CSS declaration not representable by this bounded converter
 
     {"-webkit-backdrop-filter":"blur(12px) saturate(140%) !important"}
@@ -17,10 +13,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/customCSS/0/.modal/backdrop-filter": CSS declaration not representable by this bounded converter
 
     {"backdrop-filter":"blur(12px) saturate(140%) !important"}
-
-- malformed-declaration at "/customCSS/1": declaration has no colon
-
-    ""
 
 - unsupported-property at "/customCSS/1/.modal-content/-webkit-backdrop-filter": CSS declaration not representable by this bounded converter
 
@@ -34,42 +26,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"box-shadow":"0 24px 64px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.42) !important"}
 
-- malformed-declaration at "/customCSS/10": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/2": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/3": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/4": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/5": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/6": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/7": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/8": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/9": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/customCSS/9/.modal-content-dialog.app-dialog-tone-danger/border-color": selector is not in the fixed selector-to-slot table
 
     {"border-color":"rgba(255,90,120,0.82) !important"}
@@ -81,6 +37,10 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-effect at "/effects/boxShadow": inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed
 
     "0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4)"
+
+- effect-utility-selector at "/effects/textShadow": effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references
+
+    {"selector":".text-shadow","effect":"0 1px 2px rgba(0, 0, 0, 0.5)"}
 
 - font-availability at "/fonts/primary/family": family names retained; no fonts bundled or fetched
 

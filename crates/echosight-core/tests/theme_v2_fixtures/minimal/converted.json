@@ -129,6 +129,67 @@
           "size": "@fonts.sizes.header"
         }
       },
+      "button.primary": {
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "button.danger": {
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "button.icon": {
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "dialog.button.primary": {
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#000"
+        },
+        "fill": "#fff",
+        "opacityAffects": false,
+        "border": {
+          "width": 2.0,
+          "style": "solid",
+          "color": "#fff"
+        },
+        "states": {
+          "hover": {
+            "ring": {
+              "width": 2.0,
+              "style": "solid",
+              "color": "#fff",
+              "inset": -2.0
+            }
+          }
+        }
+      },
+      "dialog.button.secondary": {
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#fff"
+        },
+        "fill": "transparent",
+        "opacityAffects": false,
+        "border": {
+          "width": 2.0,
+          "style": "solid",
+          "color": "#fff"
+        },
+        "states": {
+          "hover": {
+            "ring": {
+              "width": 2.0,
+              "style": "solid",
+              "color": "#fff",
+              "inset": -2.0
+            }
+          }
+        }
+      },
       "progressBar": {
         "shadow": "@shadows.window"
       },
@@ -140,10 +201,12 @@
       },
       "tasksSection": {},
       "dialog.scrim": {
-        "fill": "rgba(0,0,0,0.42)"
+        "fill": "rgba(0,0,0,0.42)",
+        "opacityAffects": false
       },
       "dialog.window": {
         "fill": "rgba(0,0,0,0.9)",
+        "opacityAffects": false,
         "border": {
           "width": 2.0,
           "style": "solid",
@@ -174,52 +237,11 @@
       },
       "communityTemplateCard": {
         "fill": "transparent",
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
           "color": "#fff"
-        }
-      },
-      "dialog.button.primary": {
-        "fill": "#fff",
-        "border": {
-          "width": 2.0,
-          "style": "solid",
-          "color": "#fff"
-        },
-        "text": {
-          "color": "#000"
-        },
-        "states": {
-          "hover": {
-            "ring": {
-              "width": 2.0,
-              "style": "solid",
-              "color": "#fff",
-              "inset": -2.0
-            }
-          }
-        }
-      },
-      "dialog.button.secondary": {
-        "fill": "transparent",
-        "border": {
-          "width": 2.0,
-          "style": "solid",
-          "color": "#fff"
-        },
-        "text": {
-          "color": "#fff"
-        },
-        "states": {
-          "hover": {
-            "ring": {
-              "width": 2.0,
-              "style": "solid",
-              "color": "#fff",
-              "inset": -2.0
-            }
-          }
         }
       },
       "dialog.danger.title": {
@@ -244,13 +266,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/0",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/0/.modal/-webkit-backdrop-filter",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -269,76 +284,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/1",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/10",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/2",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/3",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/4",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/5",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/6",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/7",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/8",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/9",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/9/.modal-content-dialog.app-dialog-tone-danger/border-color",
       "code": "unsupported-selector",
       "message": "selector is not in the fixed selector-to-slot table",
@@ -352,6 +297,16 @@
       "code": "unsupported-effect",
       "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
       "value": "none"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/textShadow",
+      "code": "effect-utility-selector",
+      "message": "effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references",
+      "value": {
+        "selector": ".text-shadow",
+        "effect": "none"
+      }
     },
     {
       "severity": "warning",

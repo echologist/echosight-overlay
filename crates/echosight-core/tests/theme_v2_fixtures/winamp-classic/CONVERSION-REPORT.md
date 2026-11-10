@@ -8,25 +8,13 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "/cssFile"
 
-- malformed-declaration at "/cssFile/0": declaration has no colon
-
-    ""
-
 - font-availability at "/cssFile/0/.overlay-container.interactive/font-family": family names retained; no font file is bundled or downloaded
 
     "'MS Sans Serif', Arial, sans-serif !important"
 
-- malformed-declaration at "/cssFile/1": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/1/.overlay-container.interactive .header/border-bottom": CSS declaration not representable by this bounded converter
 
     {"border-bottom":"1px solid #101010 !important"}
-
-- malformed-declaration at "/cssFile/10": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/10/.overlay-container.interactive .add-btn/border": CSS declaration not representable by this bounded converter
 
@@ -76,18 +64,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"min-height":"20px !important"}
 
-- malformed-declaration at "/cssFile/11": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/12": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/13": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/13/.overlay-container.interactive input/border": CSS declaration not representable by this bounded converter
 
     {"border":"1px inset #404040 !important"}
@@ -112,10 +88,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "'MS Sans Serif', Arial, sans-serif !important"
 
-- malformed-declaration at "/cssFile/14": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/14/.overlay-container.interactive .task-checkbox/accent-color": CSS declaration not representable by this bounded converter
 
     {"accent-color":"#00ff00 !important"}
@@ -124,17 +96,9 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"filter":"drop-shadow(0 0 2px #00ff00) !important"}
 
-- malformed-declaration at "/cssFile/15": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/15/.overlay-container.interactive .task-item:hover/border-left": CSS declaration not representable by this bounded converter
 
     {"border-left":"2px solid #00ff00 !important"}
-
-- malformed-declaration at "/cssFile/16": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/16/.modal/-webkit-backdrop-filter": CSS declaration not representable by this bounded converter
 
@@ -144,10 +108,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"backdrop-filter":"none !important"}
 
-- malformed-declaration at "/cssFile/17": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/17/.modal-content/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 1px 1px 0 #606060, inset -1px -1px 0 #202020, 0 0 18px rgba(0,255,0,0.18) !important"}
@@ -155,10 +115,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - font-availability at "/cssFile/17/.modal-content/font-family": family names retained; no font file is bundled or downloaded
 
     "'MS Sans Serif', Arial, sans-serif !important"
-
-- malformed-declaration at "/cssFile/18": declaration has no colon
-
-    ""
 
 - font-availability at "/cssFile/18/.modal-content h4/font-family": family names retained; no font file is bundled or downloaded
 
@@ -172,26 +128,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "'MS Sans Serif', Arial, sans-serif !important"
 
-- malformed-declaration at "/cssFile/19": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/2": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/20": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/21": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/22": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/22/.modal-btn/border": CSS declaration not representable by this bounded converter
 
     {"border":"1px outset #606060 !important"}
@@ -204,61 +140,21 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"min-height":"20px !important"}
 
-- malformed-declaration at "/cssFile/23": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/24": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/cssFile/24/.modal-content-dialog.app-dialog-tone-danger/border-color": selector is not in the fixed selector-to-slot table
 
     {"border-color":"#ff3333 !important"}
-
-- malformed-declaration at "/cssFile/25": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/3": declaration has no colon
-
-    ""
 
 - unsupported-property at "/cssFile/3/.overlay-container.interactive .template-section/border-bottom": CSS declaration not representable by this bounded converter
 
     {"border-bottom":"1px solid #404040 !important"}
 
-- malformed-declaration at "/cssFile/4": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/5": declaration has no colon
-
-    ""
-
 - font-availability at "/cssFile/5/.overlay-container.interactive .task-text/font-family": family names retained; no font file is bundled or downloaded
 
     "'MS Sans Serif', Arial, sans-serif !important"
 
-- malformed-declaration at "/cssFile/6": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/7": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/cssFile/8": declaration has no colon
-
-    ""
-
 - unsupported-property at "/cssFile/8/.overlay-container.interactive .progress-bar/border": CSS declaration not representable by this bounded converter
 
     {"border":"1px inset #404040 !important"}
-
-- malformed-declaration at "/cssFile/9": declaration has no colon
-
-    ""
 
 - unsupported-effect at "/effects/bevelInset": inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed
 
@@ -275,6 +171,10 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-effect at "/effects/buttonShadow": inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed
 
     "inset 2px 2px 0px #606060, inset -2px -2px 0px #202020"
+
+- effect-utility-selector at "/effects/textShadow": effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references
+
+    {"selector":".text-shadow","effect":"1px 1px 0px rgba(0, 0, 0, 0.8)"}
 
 - font-availability at "/fonts/primary/family": family names retained; no fonts bundled or fetched
 
