@@ -35,6 +35,24 @@ pub(super) fn load(storage: &Storage, paths: &DataPaths) -> Result<TaskSaveData,
     serde_json::from_value(raw).map_err(|e| format!("Unsupported task data; writes blocked: {e}"))
 }
 
+/// Same read-only missing-file policy as tasks; Storage retains load guards.
+pub(super) fn load_templates(storage: &Storage, paths: &DataPaths) -> Result<Value, String> {
+    let missing = match std::fs::symlink_metadata(paths.file(FileKind::Templates)) {
+        Ok(_) => false,
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => true,
+        Err(e) => return Err(e.to_string()),
+    };
+    let raw = storage
+        .load(FileKind::Templates)
+        .map_err(|e| e.to_string())?;
+    if missing {
+        serde_json::from_str(include_str!("../../../../data/templates.json"))
+            .map_err(|e| e.to_string())
+    } else {
+        Ok(raw)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
