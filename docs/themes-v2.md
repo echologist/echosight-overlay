@@ -165,4 +165,28 @@ if let Some(style) = theme.slot("button.primary", &[State::Hover], 0.7) {
 
 `Theme::parse` returns `Result<Theme, Vec<Diagnostic>>`. Each diagnostic has severity, JSON-pointer location, code, message and offending value. Destination-type errors may contain the resolved value; reference errors contain the authored reference. Warnings are sorted by location/code/message/severity and deduplicated. CSS converter locations extend pointers with escaped selectors and declaration names.
 
-Input nesting is bounded to 64 levels / 100,000 nodes; reference expansion to 64 levels / 100,000 visits. Budget diagnostics omit oversized source values for safety. The check is before cloning the document. Invalid data is returned as diagnostics, not a panic or partial runnable theme. No schema/runtime/Cargo dependency was added.
+These are **parser resource guards**, not schema vocabulary changes or accepted visual deltas. Unknown/future properties remain warning-only and opaque within the limits; they are charged for storage even when their semantics are ignored. The independent JSON Schema describes shapes, not allocation limits. All 11 converted fixture themes remain accepted without fixture changes.
+
+| Resource | Limit / policy |
+|---|---|
+| Input | 64 levels, 100,000 JSON value nodes, 16 MiB of UTF-8 string values plus object keys; inspected without cloning or building a breadth-sized queue of diagnostic paths |
+| Materialization work | One shared allowance of **1,000,000 nodes and 16 MiB of UTF-8 payload bytes** for a parse, including all variants. Both limits must fit. Checked multiplication/subtraction fails closed on overflow. This is conservative clone-work accounting, not serialized size or an exact RSS promise. |
+| Before document/image copies | Reserve six copies of the input to cover the owned document, slot/image/state mapping and validation scaffolding. This means the effective source-byte acceptance limit can be lower than 16 MiB. |
+| Before inheritance copies | Reserve three copies of each visited ancestor on **every** slot traversal, including unknown slots, overwritten values and opaque subtrees. This covers merge materialization and the expanded validation copy; reference output is charged separately. Work is not refunded when temporary values are dropped. |
+| Before variant merge | Charge the initial document clone plus both sides of each overlapping object subtree that the existing recursive defu helper copies. Merged variant parsing spends the same allowance, not a fresh one. |
+| Reference expansion | The existing 64-level / 100,000-visit limits remain; charge each output node and string/key bytes to the shared materialization allowance **before** allocating it. Stop on the first failed expansion rather than producing a diagnostic per remaining node. |
+| Renderer access | A slot lookup reserves its base/state copies and charges reference output before materialization. It returns `None` if that bounded operation cannot complete. |
+| Diagnostics | At most 512 entries per collection, including aggregated variant diagnostics. Exhaustion installs an error with code `budget`, never silently hides errors behind warnings. Values larger than 64 nodes or 4 KiB UTF-8 payload are represented as `null` with an omission message; the actual theme property is retained. Diagnostic paths/codes/text are truncated at UTF-8 boundaries to 1 KiB (messages may add the fixed omission suffix). |
+
+The cumulative allowance intentionally overestimates some merges: overwritten inherited data and already-dropped variant intermediates still consume work. This bounds both allocation amplification and repeated traversal without introducing a general allocator or changing extension interpretation. It is not a guarantee that arbitrary caller-owned JSON can be created/deserialized within these limits; the loader must separately bound file reading/JSON decoding. Invalid or over-budget data returns diagnostics, not a partial runnable theme. No schema/runtime/Cargo dependency was added.
+
+### Allocation regression probe
+
+```sh
+CARGO_TARGET_DIR="$PWD/target" cargo test --locked -p echosight-core
+python crates/echosight-core/tests/theme_v2_budget_check.py
+# Optionally append exact saved review JSON paths; each must return a budget error.
+python crates/echosight-core/tests/theme_v2_budget_check.py /path/to/known-inherit-90000.json
+```
+
+The script builds the current production-API integration-test executable in this worktree's `target` directory and prints its path. Only Linux child probes receive 512 MiB address-space, 30-second CPU and zero-core-dump limits; non-Linux skips that resource-specific lane, not the portable Rust budget/diagnostic tests. Each result reports exit status, actual parser outcome and `wait4` peak RSS. Fatal payloads are never run in the host test process. Cases include all 41 declared slots inheriting an opaque 90,000-element array, the 50,000-element control, a 64 KiB string inherited by 1,000/3,000 future slots, known-slot string-byte amplification, reference node/byte expansion, cumulative variants and multi-ancestor inheritance. Large payloads are generated temporarily, not checked into golden fixtures.

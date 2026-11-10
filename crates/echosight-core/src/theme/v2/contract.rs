@@ -1,5 +1,5 @@
 //! The shipped authoring schema is also the structural validator's source of truth.
-use super::{Diagnostic, Severity, color::Rgba};
+use super::{Diagnostic, Severity, budget::Budget, color::Rgba};
 use serde_json::Value;
 use std::sync::LazyLock;
 
@@ -15,16 +15,62 @@ pub(super) fn issue(
     value: &Value,
     severity: Severity,
 ) {
+    if diagnostic_limit(out) {
+        return;
+    }
+    let include = Budget::new(64, 4096).charge(value, 1);
     out.push(Diagnostic {
         severity,
-        location: location.into(),
-        code: code.into(),
-        message: message.into(),
-        value: value.clone(),
+        location: bounded_text(location),
+        code: bounded_text(code),
+        message: if include {
+            bounded_text(message)
+        } else {
+            format!("{}; source value omitted for safety", bounded_text(message))
+        },
+        value: if include { value.clone() } else { Value::Null },
     });
 }
+/// Never silently drop errors behind a flood of warnings.
+fn diagnostic_limit(out: &mut [Diagnostic]) -> bool {
+    if out.len() < 512 {
+        return false;
+    }
+    if let Some(last) = out.last_mut() {
+        *last = Diagnostic {
+            severity: Severity::Error,
+            location: String::new(),
+            code: "budget".into(),
+            message: "diagnostic count exceeds 512; remaining diagnostics omitted".into(),
+            value: Value::Null,
+        };
+    }
+    true
+}
+pub(super) fn append(out: &mut Vec<Diagnostic>, incoming: impl IntoIterator<Item = Diagnostic>) {
+    for diagnostic in incoming {
+        if diagnostic_limit(out) {
+            break;
+        }
+        out.push(diagnostic);
+    }
+}
+pub(super) fn bounded_text(text: &str) -> String {
+    if text.len() <= 1024 {
+        return text.to_owned();
+    }
+    let mut end = 1021;
+    while !text.is_char_boundary(end) {
+        end -= 1;
+    }
+    format!("{}...", &text[..end])
+}
 pub(super) fn path(parent: &str, key: &str) -> String {
-    format!("{parent}/{}", key.replace('~', "~0").replace('/', "~1"))
+    bounded_text(&format!(
+        "{}/{}",
+        bounded_text(parent),
+        bounded_text(key).replace('~', "~0").replace('/', "~1")
+    ))
 }
 pub(super) fn safe_asset(s: &str) -> bool {
     !s.is_empty()
@@ -123,6 +169,9 @@ pub(super) fn json_equal(a: &Value, b: &Value) -> bool {
 }
 
 pub(super) fn check(v: &Value, schema: &Value, p: &str, out: &mut Vec<Diagnostic>, depth: usize) {
+    if diagnostic_limit(out) {
+        return;
+    }
     if depth > 96 {
         issue(
             out,
@@ -157,7 +206,7 @@ pub(super) fn check(v: &Value, schema: &Value, p: &str, out: &mut Vec<Diagnostic
             let mut d = vec![];
             check(v, s, p, &mut d, depth + 1);
             if !d.iter().any(|d| d.severity == Severity::Error) {
-                out.extend(d);
+                append(out, d);
                 return;
             }
             if best
