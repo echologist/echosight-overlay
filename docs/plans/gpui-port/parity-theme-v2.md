@@ -99,6 +99,36 @@ All three new named production regressions were run before implementation on `0d
 
 Homogeneous all-token and all-opaque gradients are warning-free for mixed opacity. Active nested variable fallbacks are classified by their selected source; unused fallback transparency text cannot cause opaque stops to fade. Both JSON properties and recognized CSS declarations are exercised. Chrome controls also confirm the still-unsupported duplicate cases: `background:red !important; background:blue` and `background:red; background:bogus` stay red in v1, whereas the bounded mapper discards the earlier declaration and reports that limitation. No full cascade engine or new schema semantics are claimed.
 
+## Integrated core checkpoint
+
+Independent spec and quality review approved theme candidate
+`b7e25f54cd4faf7f97c721005d56c55e39c87b1b`. The final correction propagates
+converter diagnostic exhaustion as `Err`, bounds child/parser aggregation and
+prefixed locations, and preserves preceding losses. Nine regression/control tests
+were independently observed RED (six failures, three controls) and GREEN (nine
+passes). An additional 31 public-API cases verified bounded collections and
+locations, no errors inside `Ok`, and retained errors inside `Err`.
+
+The earlier allocation-amplification release blocker is independently closed:
+13 resource-limited subprocess probes returned budget errors without aborting,
+including the original array/string inheritance inputs. Maximum measured RSS was
+28,496 KiB with a 512 MiB address-space ceiling; this is adversarial parser evidence,
+not a whole-application memory measurement. Converter CSS quality corrections and
+all eleven unchanged conversion snapshots are also independently approved.
+
+Combined candidate `55d86e3869a8b3f6cec5f840ec6f1acef66db130` includes the landed
+background app from PR #18. Exact Git blob comparisons prove both reviewed path
+sets survived the merge unchanged. Parent verification used a fresh target:
+240 workspace tests passed, one resource-limit probe intentionally ignored by
+ordinary Cargo tests; locked all-target Clippy, formatting and Windows
+app/platform cross-checks passed. All seven TS oracle lanes passed (123 tests),
+with no original fixture changes. The independent schema/provenance checker
+verified 70 cases, 11 converted structures and 23 source hashes. Source-path uses
+of `CARGO_MANIFEST_DIR` are confined to fixture tests, not runtime assets.
+
+This remains a core-only theme checkpoint: no theme rendering or selection is
+wired into the task app, and no native visual acceptance is inferred.
+
 ## Remaining gates / deliberate limits
 
 - **No visual parity established.** No GPUI style application, native screenshots or Windows acceptance performed by this core lane.
