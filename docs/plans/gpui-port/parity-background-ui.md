@@ -149,6 +149,28 @@ comparison failed at the failed move's exact post-tree.
   TypeScript checking of both background tests and config passed. Original jsdom
   tests still emit their existing unimplemented `window.focus` warning.
 
+## Integrated checkpoint review
+
+The combined feature candidate `ecaf18b529f7284a3c2ba3ea061eef739766d2d9`
+passed independent spec-then-quality reviews for both runtime/persistence and
+trigger-dialog/rendering scopes. No publication blockers remained.
+
+Parent verification on the combined source used a fresh build target: 183 Rust
+workspace tests and 123 TypeScript tests across all seven oracle lanes passed;
+formatting, locked all-target Clippy and Windows app/platform checks passed.
+Both linked Linux executables independently passed explicit-directory startup
+and real scheduled-expiry persistence smoke tests from an unrelated directory.
+No-argument startup exited 2, missing data directories remained absent, and expiry
+persisted an inactive task with exactly one snapshot. Event-loop timeout is not
+native acceptance.
+
+Independent runtime stress probes covered 1,000 deterministic typed trees,
+16,056 moves and 3,944 deletions before captured expiry. Independent dispatched
+UI probes covered expiry during nested editing, undo-focus restoration and
+expiry-save failure with intact modal cancellation. All supplied tests and named
+review probes passed; original fixture bytes and protected Electron resources
+were unchanged. Review stress probes remain separate from committed test counts.
+
 ## Remaining native gates
 
 Native global hotkeys, game monitoring, tray, theme runtime and calibrated audio
