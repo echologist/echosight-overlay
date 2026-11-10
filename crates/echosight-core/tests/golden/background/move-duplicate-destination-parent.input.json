@@ -1,0 +1,82 @@
+{
+  "epoch": 1800000000000,
+  "tasks": [
+    {
+      "id": 30,
+      "text": "Task 30",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": true,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": 1,
+        "priority": "normal"
+      }
+    },
+    {
+      "id": 10,
+      "text": "Task 10",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [],
+      "mode": "background",
+      "triggers": [],
+      "activated": false,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": null,
+        "priority": "normal"
+      }
+    },
+    {
+      "id": 10,
+      "text": "Task 10",
+      "completed": false,
+      "createdAt": "2027-01-15T08:00:00.000Z",
+      "children": [
+        {
+          "id": 20,
+          "text": "Task 20",
+          "completed": false,
+          "createdAt": "2027-01-15T08:00:00.000Z",
+          "children": [],
+          "mode": "background",
+          "triggers": [],
+          "activated": true,
+          "activatedAt": null,
+          "backgroundOptions": {
+            "expiresAfterMinutes": 1,
+            "priority": "normal"
+          }
+        }
+      ],
+      "mode": "background",
+      "triggers": [],
+      "activated": false,
+      "activatedAt": null,
+      "backgroundOptions": {
+        "expiresAfterMinutes": null,
+        "priority": "normal"
+      }
+    }
+  ],
+  "ops": [
+    {
+      "op": "restart"
+    },
+    {
+      "op": "move",
+      "id": 30,
+      "target": 20,
+      "above": true,
+      "subtask": false
+    },
+    {
+      "op": "advance",
+      "ms": 60000
+    }
+  ]
+}

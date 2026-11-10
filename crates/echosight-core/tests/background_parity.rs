@@ -32,7 +32,7 @@ fn background_controller_oracle() {
         .filter(|p| p.to_string_lossy().ends_with(".input.json"))
         .collect();
     inputs.sort();
-    assert_eq!(inputs.len(), 15);
+    assert_eq!(inputs.len(), 19);
     for input_path in inputs {
         let input: Value = serde_json::from_str(&fs::read_to_string(&input_path).unwrap()).unwrap();
         let expected_path = input_path.with_file_name(
@@ -65,6 +65,12 @@ fn background_controller_oracle() {
                 "capture" => {
                     background.dispatch(Command::CaptureUndo(op["label"].as_str().unwrap().into()))
                 }
+                "move" => background.dispatch(Command::Move {
+                    id: id(),
+                    target: TaskId(op["target"].as_f64().unwrap()),
+                    above: op["above"].as_bool().unwrap(),
+                    subtask: op["subtask"].as_bool().unwrap(),
+                }),
                 "next" => background.dispatch(Command::CompleteNext),
                 "toggle" => background.dispatch(Command::Toggle(id())),
                 "restart" => background.dispatch(Command::Restart),

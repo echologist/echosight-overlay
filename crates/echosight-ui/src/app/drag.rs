@@ -51,15 +51,16 @@ impl TaskApp {
         };
         if drag.active && self.writable() && self.dialog.is_none() {
             if let Some(intent) = self.drop_intent(drag.id, point) {
-                let result = self.state.as_mut().unwrap().move_task(
-                    drag.id,
-                    intent.target,
-                    intent.above,
-                    intent.subtask,
+                let transition = self.dispatch_background(
+                    BackgroundCommand::Move {
+                        id: drag.id,
+                        target: intent.target,
+                        above: intent.above,
+                        subtask: intent.subtask,
+                    },
+                    cx,
                 );
-                if result.success {
-                    self.save(cx);
-                } else {
+                if let Some(result) = transition.moved.filter(|r| !r.success) {
                     self.status = result.reason.unwrap_or_else(|| "Move rejected".into());
                 }
             } else {
@@ -98,7 +99,7 @@ impl TaskApp {
         if row.id == source || !self.addressable(row.id) {
             return None;
         }
-        let tasks = self.state.as_ref()?.tasks();
+        let tasks = self.state()?.tasks();
         let from = find_task_with_parent(source, tasks)?;
         let to = find_task_with_parent(row.id, tasks)?;
         if from.task.mode != to.task.mode || find_task_by_id(row.id, &from.task.children).is_some()
