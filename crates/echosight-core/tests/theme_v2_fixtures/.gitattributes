@@ -1,0 +1,4 @@
+# Byte-for-byte copies of existing Electron sources, not authored test code.
+# Their intentional original whitespace is verified by byte/hash tests.
+*/source.json -whitespace
+*/source.css -whitespace

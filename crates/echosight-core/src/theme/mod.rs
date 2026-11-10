@@ -8,6 +8,7 @@ pub use assets::ThemeRoot;
 pub use library::{ThemeFailure, ThemeLibrary};
 pub mod helpers;
 pub mod v1;
+pub mod v2;
 pub mod validate;
 pub use helpers::*;
 pub use validate::{Validation, ValidationMessages, validate_theme, validate_theme_variant_config};

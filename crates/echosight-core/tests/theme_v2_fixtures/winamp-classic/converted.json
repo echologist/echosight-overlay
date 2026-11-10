@@ -1,0 +1,968 @@
+{
+  "theme": {
+    "format": 2,
+    "id": "winamp-classic",
+    "name": "Winamp Classic",
+    "tokens": {
+      "colors": {
+        "primary": "#00ff00",
+        "secondary": "#008000",
+        "accent": "#80ff80",
+        "danger": "#ff3333",
+        "text": {
+          "primary": "#00ff00",
+          "secondary": "#80ff80",
+          "muted": "#408040",
+          "inverse": "#000000",
+          "disabled": "#404040"
+        },
+        "surface": {
+          "primary": "pink",
+          "secondary": "#202020",
+          "tertiary": "#101010",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#404040",
+          "secondary": "#202020",
+          "interactive": "#00ff00",
+          "light": "#606060",
+          "dark": "#101010"
+        }
+      },
+      "opacity": {
+        "appliesTo": []
+      },
+      "fonts": {
+        "ui": {
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ]
+        },
+        "sizes": {
+          "header": 11.0,
+          "task": 11.0,
+          "progress": 10.0,
+          "ui": 10.0
+        },
+        "weights": {
+          "normal": 400.0,
+          "bold": 700.0
+        }
+      },
+      "shadows": {
+        "text": [
+          {
+            "x": 1.0,
+            "y": 1.0,
+            "blur": 0.0,
+            "spread": 0.0,
+            "color": "rgba(0, 0, 0, 0.8)"
+          }
+        ]
+      },
+      "radius": {
+        "default": 0.0
+      }
+    },
+    "slots": {
+      "taskText": {
+        "text": {
+          "color": "#00ff00",
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 10.0,
+          "weight": "@fonts.weights.normal",
+          "shadow": [
+            {
+              "x": 1.0,
+              "y": 1.0,
+              "blur": 0.0,
+              "spread": 0.0,
+              "color": "rgba(0, 0, 0, 0.8)"
+            }
+          ]
+        },
+        "states": {
+          "completed": {
+            "text": {
+              "color": "#408040",
+              "strikethrough": true
+            }
+          }
+        }
+      },
+      "progressText": {
+        "text": {
+          "color": "#80ff80",
+          "family": "@fonts.ui.family",
+          "size": 10.0,
+          "weight": 700.0,
+          "shadow": "@shadows.text"
+        }
+      },
+      "window.interactive": {
+        "text": {
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "color": "#00ff00"
+        },
+        "image": {
+          "asset": "main_bg.svg",
+          "mode": "stretch"
+        },
+        "border": {
+          "width": 2.0,
+          "style": "solid",
+          "color": "#404040"
+        },
+        "radius": 0.0
+      },
+      "window.clickThrough": {
+        "text": {
+          "family": "@fonts.ui.family"
+        },
+        "image": {
+          "asset": "main_bg.svg",
+          "mode": "stretch"
+        },
+        "fill": "rgba(0, 0, 0, 0.9)",
+        "opacityAffects": false,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(0, 255, 0, 0.6)"
+        },
+        "radius": 0.0
+      },
+      "button": {
+        "text": {
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 10.0,
+          "shadow": [
+            {
+              "x": 1.0,
+              "y": 1.0,
+              "blur": 0.0,
+              "spread": 0.0,
+              "color": "rgba(0, 0, 0, 0.8)"
+            }
+          ],
+          "color": "#00ff00"
+        },
+        "radius": 0.0,
+        "states": {
+          "hover": {
+            "image": {
+              "asset": "button_hover.svg",
+              "mode": "cover"
+            },
+            "text": {
+              "color": "#000000",
+              "shadow": []
+            }
+          },
+          "active": {
+            "image": {
+              "asset": "button_pressed.svg",
+              "mode": "cover"
+            }
+          }
+        },
+        "image": {
+          "asset": "button_normal.svg",
+          "mode": "cover"
+        }
+      },
+      "input": {
+        "text": {
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 10.0,
+          "color": "#00ff00"
+        },
+        "radius": 0.0,
+        "fill": "rgba(0, 0, 0, 0.8)",
+        "opacityAffects": false
+      },
+      "select": {
+        "text": {
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 10.0,
+          "color": "#00ff00"
+        },
+        "radius": 0.0,
+        "fill": "rgba(0, 0, 0, 0.8)",
+        "opacityAffects": false
+      },
+      "headerTitle": {
+        "text": {
+          "family": "@fonts.ui.family",
+          "size": 11.0,
+          "color": "#00ff00",
+          "transform": "uppercase",
+          "letterSpacing": 1.0,
+          "shadow": [
+            {
+              "x": 1.0,
+              "y": 1.0,
+              "blur": 0.0,
+              "spread": 0.0,
+              "color": "rgba(0, 0, 0, 0.8)"
+            }
+          ]
+        }
+      },
+      "button.primary": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "button.danger": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "button.icon": {
+        "radius": 0.0,
+        "text": {
+          "shadow": [
+            {
+              "x": 1.0,
+              "y": 1.0,
+              "blur": 0.0,
+              "spread": 0.0,
+              "color": "rgba(0, 0, 0, 0.8)"
+            }
+          ],
+          "color": "#00ff00",
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 10.0
+        }
+      },
+      "dialog.button.primary": {
+        "radius": 0.0,
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#00ff00",
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 10.0
+        },
+        "fill": "#202020",
+        "opacityAffects": false,
+        "states": {
+          "hover": {
+            "fill": "#00ff00",
+            "opacityAffects": false,
+            "text": {
+              "color": "#000",
+              "shadow": []
+            }
+          }
+        }
+      },
+      "dialog.button.secondary": {
+        "radius": 0.0,
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#00ff00",
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 10.0
+        },
+        "fill": "#202020",
+        "opacityAffects": false,
+        "states": {
+          "hover": {
+            "fill": "#00ff00",
+            "opacityAffects": false,
+            "text": {
+              "color": "#000",
+              "shadow": []
+            }
+          }
+        }
+      },
+      "textarea": {
+        "radius": 0.0,
+        "fill": "rgba(0, 0, 0, 0.8)",
+        "opacityAffects": false,
+        "text": {
+          "color": "#00ff00",
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 10.0
+        }
+      },
+      "progressBar": {
+        "radius": "@radius.default",
+        "image": {
+          "asset": "progress_bg.svg",
+          "mode": "cover"
+        },
+        "height": 12.0
+      },
+      "progressFill": {
+        "image": {
+          "asset": "progress_fill.svg",
+          "mode": "cover"
+        },
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 3.0,
+            "spread": 0.0,
+            "color": "#00ff00"
+          }
+        ]
+      },
+      "header": {
+        "image": {
+          "asset": "titlebar_bg.svg",
+          "mode": "cover"
+        },
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#404040",
+                0.0
+              ],
+              [
+                "#202020",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": false,
+        "text": {
+          "color": "#00ff00",
+          "shadow": [
+            {
+              "x": 1.0,
+              "y": 1.0,
+              "blur": 0.0,
+              "spread": 0.0,
+              "color": "rgba(0, 0, 0, 0.8)"
+            }
+          ],
+          "size": 11.0,
+          "weight": 700.0
+        }
+      },
+      "templateSection": {
+        "fill": "rgba(16, 16, 16, 0.8)",
+        "opacityAffects": false,
+        "text": {
+          "color": "#00ff00"
+        }
+      },
+      "tasksSection": {
+        "fill": "rgba(0, 0, 0, 0.7)",
+        "opacityAffects": false,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#404040"
+        },
+        "text": {
+          "color": "#00ff00"
+        }
+      },
+      "checkbox": {},
+      "taskRow": {
+        "states": {
+          "hover": {
+            "fill": "rgba(0, 255, 0, 0.1)",
+            "opacityAffects": false
+          }
+        }
+      },
+      "dialog.scrim": {
+        "fill": "rgba(0, 0, 0, 0.82)",
+        "opacityAffects": false
+      },
+      "dialog.window": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#202020",
+                0.0
+              ],
+              [
+                "#101010",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": false,
+        "border": {
+          "width": 2.0,
+          "style": "solid",
+          "color": "#404040"
+        },
+        "radius": 0.0,
+        "text": {
+          "color": "#00ff00",
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 10.0
+        }
+      },
+      "dialog.title": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#404040",
+                0.0
+              ],
+              [
+                "#202020",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": false,
+        "text": {
+          "color": "#00ff00",
+          "family": [
+            "MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "letterSpacing": 1.0,
+          "shadow": [
+            {
+              "x": 1.0,
+              "y": 1.0,
+              "blur": 0.0,
+              "spread": 0.0,
+              "color": "rgba(0,0,0,0.8)"
+            }
+          ],
+          "transform": "uppercase"
+        },
+        "margin": [
+          -20.0,
+          -20.0,
+          12.0,
+          -20.0
+        ],
+        "padding": [
+          5.0,
+          7.0
+        ]
+      },
+      "dialog.text": {
+        "text": {
+          "color": "#00ff00"
+        }
+      },
+      "dialog.hint": {
+        "text": {
+          "color": "#80ff80"
+        }
+      },
+      "communityTemplateCard": {
+        "fill": "#101010",
+        "opacityAffects": false,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#404040"
+        }
+      },
+      "dialog.danger.title": {
+        "text": {
+          "color": "#ff6666"
+        }
+      }
+    },
+    "images": {
+      "button": {
+        "asset": "button_normal.svg",
+        "mode": "cover"
+      },
+      "window.interactive": {
+        "asset": "main_bg.svg",
+        "mode": "stretch"
+      },
+      "window.clickThrough": {
+        "asset": "main_bg.svg",
+        "mode": "stretch"
+      },
+      "progressBar": {
+        "asset": "progress_bg.svg",
+        "mode": "cover"
+      },
+      "progressFill": {
+        "asset": "progress_fill.svg",
+        "mode": "cover"
+      },
+      "header": {
+        "asset": "titlebar_bg.svg",
+        "mode": "cover"
+      }
+    },
+    "version": "1.0.2",
+    "author": "Community",
+    "description": "Classic Winamp-inspired theme with authentic retro styling",
+    "sounds": {
+      "enabled": true,
+      "volume": 0.8,
+      "events": {
+        "taskCompleted": "complete.wav"
+      }
+    }
+  },
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "location": "/cssFile",
+      "code": "css-source-order",
+      "message": "recognized selectors are applied in source order, not CSS specificity/importance; manual review required",
+      "value": "/cssFile"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/0/.overlay-container.interactive/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/1/.overlay-container.interactive .header/border-bottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border-bottom": "1px solid #101010 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .add-btn/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "1px outset #606060 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .add-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .add-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "20px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .header-btn/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "1px outset #606060 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .header-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .header-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "20px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .template-btn/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "1px outset #606060 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .template-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .template-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "20px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive button/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "1px outset #606060 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive button/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive button/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "20px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/13/.overlay-container.interactive input/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "1px inset #404040 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/13/.overlay-container.interactive input/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/13/.overlay-container.interactive select/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "1px inset #404040 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/13/.overlay-container.interactive select/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/13/.overlay-container.interactive textarea/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "1px inset #404040 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/13/.overlay-container.interactive textarea/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive .task-checkbox/accent-color",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "accent-color": "#00ff00 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive .task-checkbox/filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "filter": "drop-shadow(0 0 2px #00ff00) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .task-item:hover/border-left",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border-left": "2px solid #00ff00 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/16/.modal/-webkit-backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "-webkit-backdrop-filter": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/16/.modal/backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdrop-filter": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/17/.modal-content/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 1px 1px 0 #606060, inset -1px -1px 0 #202020, 0 0 18px rgba(0,255,0,0.18) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/17/.modal-content/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/18/.modal-content h4/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/18/.modal-title/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/18/.settings-title/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/22/.modal-btn/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "1px outset #606060 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/22/.modal-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/22/.modal-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "20px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/24/.modal-content-dialog.app-dialog-tone-danger/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "#ff3333 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/3/.overlay-container.interactive .template-section/border-bottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border-bottom": "1px solid #404040 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/5/.overlay-container.interactive .task-text/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'MS Sans Serif', Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/8/.overlay-container.interactive .progress-bar/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "1px inset #404040 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/bevelInset",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 1px 1px 0px #202020, inset -1px -1px 0px #606060"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/bevelOutset",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 1px 1px 0px #606060, inset -1px -1px 0px #202020"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/boxShadow",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 1px 1px 0px #606060, inset -1px -1px 0px #202020"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/buttonShadow",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 2px 2px 0px #606060, inset -2px -2px 0px #202020"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/textShadow",
+      "code": "effect-utility-selector",
+      "message": "effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references",
+      "value": {
+        "selector": ".text-shadow",
+        "effect": "1px 1px 0px rgba(0, 0, 0, 0.8)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/fonts/primary/family",
+      "code": "font-availability",
+      "message": "family names retained; no fonts bundled or fetched",
+      "value": "MS Sans Serif, Arial, sans-serif"
+    },
+    {
+      "severity": "warning",
+      "location": "/isDefault",
+      "code": "unmapped-field",
+      "message": "v1 field is not interpreted by the v2 converter",
+      "value": false
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/tasksSection",
+      "code": "unsupported-mode-slot",
+      "message": "no mode-qualified section slot in v2; manual application decision required",
+      "value": {
+        "background": "rgba(16, 16, 16, 0.8)",
+        "border": "1px solid rgba(64, 64, 64, 0.8)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/fontFamily",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "MS Sans Serif, Arial, sans-serif"
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/header/borderBottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderBottom": "1px solid #101010"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/templateSection/borderBottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderBottom": "1px solid #404040"
+      }
+    }
+  ],
+  "provisional": true
+}
