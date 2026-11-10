@@ -2,7 +2,39 @@
 
 The v1 Electron files in `data/themes` are **untouched**. Format 2 is a new, renderer-independent contract described in `themes-v2.md`. Conversion produces a reviewable starting point, not an approved port. Do not overwrite an installed or bundled v1 theme just because its converted JSON validates.
 
-## Available API (CLI wiring is a separate task)
+## Command-line usage
+
+Build with `cargo build --locked -p echosight-theme-cli`; the binary is `echosight-theme`. Every path is explicit and relative paths are relative to the caller's working directory:
+
+```sh
+echosight-theme validate ./my-theme.json
+echosight-theme --json validate ./my-theme-folder
+echosight-theme convert ./my-theme-folder ./new-v2-folder
+echosight-theme convert ./custom.json ./new-custom-v2
+echosight-theme --json list ./themes
+```
+
+`--json` may occur before or after the command; `--` ends option parsing for filenames beginning with `-`. `--help` prints the usage contract. Exit codes: **0** error-free, possibly with warnings; **1** document/format/I/O/conversion failure; **2** bad arguments or unimplemented command. `doctor` returns 2 and explicitly says no scan was performed.
+
+JSON stdout is one object with `ok`, `command`, and `diagnostics` (each has `severity`, `code`, `location`, `message`, `value`). Successful validate adds `format` and `id`; convert adds `format`, `id`, `output`, `provisional`; list adds `themes`, whose rows contain `id`, `name`, `format`, `source`, `variant` (null for base). JSON errors are also emitted on stdout. Human output sends warnings/errors to stderr. Conversion success never means CSS visual equivalence.
+
+`validate` uses the reviewed v1 validator (including variant configs) or v2 parser/reference/union validator. It validates the document, not external asset availability; it never reads or executes CSS. V2 CSS properties are forbidden by the v2 contract. A successful v1 validation does not promise successful conversion or report conversion losses. Format absent/1 is v1, 2 is v2; unsupported formats are errors, not downgraded.
+
+`list` is read-only: sorted immediate ordinary lowercase `.json` files and folders containing exactly `theme.json`, no seeding or bundled sync. It includes valid declared variants before their base, canonical numeric variant keys before insertion-order string keys, duplicate IDs replacing their existing row without moving it. Unlike the legacy runtime library, this authoring inventory includes declared variants of single-file themes as well. Invalid candidates produce diagnostics and nonzero status while valid rows remain available; symlink entries are not ordinary discovery entries. Missing `theme.json` in a candidate folder is a diagnosed error. Listing is not a runtime chooser.
+
+`convert` runs the actual pure converter, reads a declared CSS file as UTF-8 data, and writes **both `theme.json` and `CONVERSION-REPORT.md`** into a new output directory. Folder inputs and explicit `theme.json` inputs discover supported immediate image/audio files; ordinary standalone JSON does not scan unrelated sibling assets. Only files referenced by converted image/sound positions are copied, byte-for-byte with exact names (including Winamp SVGs and `complete.wav`); unused images retain converter loss diagnostics. Base assets referenced by variants are inherited. Explicit nested CSS paths are supported after containment checks; v1 itself rejects nested sound filenames. No arbitrary recursion, CSS execution, font/network download or runtime build-machine paths are introduced.
+
+The pure API has one inherited asset set, not per-variant asset-directory overrides. A supported asset under a declared `variants/<id>` folder therefore causes an explicit `variant-assets` failure with its path and no output: author that override in v2 rather than silently substituting base bytes. This boundary does not affect ordinary base-asset inheritance.
+
+### Filesystem safety and limits
+
+Input folders authorize their existing root; single files authorize their parent for explicitly referenced files. Every read is a bounded regular-file read through the existing `ThemeRoot` containment check plus stored-root revalidation. Asset/CSS paths reject absolute paths, traversal, backslashes, drive/stream colons and NULs; symlink escapes are rejected. Stable authorized directory aliases work. The output parent must already exist. Existing output files/directories, including dangling symlinks, are refused; folder conversions cannot write inside their source folder or to a source-containing destination. A standalone JSON file may convert to a new sibling directory.
+
+After complete conversion, output validation and asset reads, files are staged in an exclusively-created private sibling directory and fsynced. The output directory is exclusively created, then files are hard-linked without replacement, with `theme.json` last as the publication marker. Failures clean only owned paths. Portable whole-directory atomic visibility and power-loss durability are **not** promised: a crash may leave a private staging directory or an output directory without a manifest. Filesystems without hard-link support fail rather than fall back to overwriting. Static/sequential containment is checked; concurrent hostile path swaps and native Windows junction behavior remain outside acceptance.
+
+Limits fail explicitly rather than silently truncate: 1 MiB per JSON/CSS file, 1,024 directory entries, 32 MiB per copied asset, 64 MiB aggregate copied assets, 16 MiB aggregate list input, and 512 aggregate CLI diagnostics. V1 validation additionally bounds work before its unbounded legacy validator (4,096 nodes, 64 levels, 256-byte keys); conversion and v2 parsing retain their reviewed core allocation/diagnostic budgets. The ordinary eleven-theme corpus fits these limits. Budget/validation/conversion failures produce no publishable partial theme.
+
+## Pure core API
 
 ```rust
 use echosight_core::theme::v2::{convert_v1, ConversionInput, Theme};
@@ -24,20 +56,14 @@ let _validated = Theme::parse(&result.theme)?;
 
 `Conversion` exposes `theme`, sorted `diagnostics` (with source locations and values), and `provisional`. A declared `cssFile` makes `provisional=true` whether or not its text was supplied. Missing CSS text produces `missing-css`; the converter never finds files itself. It also never downloads fonts, runs CSS/JavaScript, changes authored IDs/versions/authors, updates the user directory, or changes a theme based on a known bundled ID. Sounds are copied unchanged. Conversion errors return diagnostics rather than a misleading partially valid success. Exhausting the shared 512-diagnostic limit, including combined variant or output-validation diagnostics, returns `Err` with a `budget` error and retained earlier losses; no converted theme is returned.
 
-The CLI adapter should:
-
-1. Read input bytes from an explicitly chosen root; detect the format. Do not run conversion on v2.
-2. Resolve the declared CSS and asset filenames using the existing safe theme-root API, then pass their data to this pure function. Do not accept arbitrary CSS paths or trust an asset extension alone.
-3. Write to a new directory, preserving the source. Write both `theme.json` and `CONVERSION-REPORT.md`; expose warnings in the UI/CLI even if validation succeeds. Copy fonts/images/audio only after safe filesystem verification. No version bump is done by core.
-4. Validate the saved JSON again, then request author review. A future release/version bump and bundled sync change require a separate accepted port.
-
-There is intentionally **no claim that `echosight-theme convert` is wired yet**. The currently executable conversion harness is:
+The CLI adapter implements the explicit-root I/O boundary above; the core API remains filesystem-free. No version bump or bundled sync change is performed. Both executable and pure conversion harnesses are available:
 
 ```sh
+cargo test --locked -p echosight-theme-cli
 cargo test --locked -p echosight-core --test theme_v2_bundled -- --nocapture
 ```
 
-It runs conversion twice for all eleven frozen source copies, checks deterministic output/report snapshots, validates/resolves output, serializes and parses it back, and verifies the original JSON/CSS bytes remain unchanged. Snapshot regeneration is explicit (`UPDATE_THEME_V2_FIXTURES=1`); review the resulting diff, never regenerate merely to make a failing test green.
+The CLI harness copies all eleven frozen sources plus real declared CSS/assets into disposable roots, invokes the actual executable from an unrelated directory, compares reviewed output structures and exact Markdown reports, and verifies all copied source bytes remain unchanged. The core harness additionally runs conversion twice, resolves output and checks serialization round trips. Snapshot regeneration is explicit (`UPDATE_THEME_V2_FIXTURES=1`); review the resulting diff, never regenerate merely to make a failing test green.
 
 ## What is actually converted
 
