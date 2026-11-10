@@ -7,6 +7,7 @@
 //! injected clock, then dispatch `ExpireDue`. Never infer object identity from IDs.
 use super::{
     model::{BackgroundPriority, Task, TaskEnvironment, TaskId, TaskMode, TaskSaveData},
+    mutations::{MoveTaskResult, move_task_in_tree},
     state::{TaskState, UndoTaskActionResult},
     tree::flatten_tasks,
 };
@@ -53,6 +54,12 @@ pub enum BackgroundCommand {
         text: String,
         parent: Option<TaskId>,
     },
+    Move {
+        id: TaskId,
+        target: TaskId,
+        above: bool,
+        subtask: bool,
+    },
     CaptureUndo(String),
     Save,
 }
@@ -87,8 +94,11 @@ pub enum BackgroundEffect {
 
 #[derive(Clone, Debug, Default)]
 pub struct BackgroundTransition {
+    /// Actual structurally selected completion; never re-search by ID in the shell.
+    pub completed_task: Option<Task>,
     pub activated_count: usize,
     pub history: Option<UndoTaskActionResult>,
+    pub moved: Option<MoveTaskResult>,
     pub effects: Vec<BackgroundEffect>,
 }
 
@@ -180,6 +190,7 @@ impl<E: TaskEnvironment> BackgroundTaskState<E> {
             BackgroundCommand::CompleteNext => {
                 if let Some(result) = self.state.complete_next_task() {
                     self.activate(&result.task.triggers, &mut out);
+                    out.completed_task = Some(result.task);
                     for parent in result.completed_parents {
                         self.activate(&parent.triggers, &mut out);
                     }
@@ -293,6 +304,51 @@ impl<E: TaskEnvironment> BackgroundTaskState<E> {
                 if self.state.add_task(text, parent).is_some() {
                     self.persist(&mut out);
                 }
+            }
+            BackgroundCommand::Move {
+                id,
+                target,
+                above,
+                subtask,
+            } => {
+                // Replay the SAME mutation over a labelled topology. IDs cannot
+                // identify captured objects (collisions are supported), and value
+                // equality cannot distinguish identical siblings. Text is never
+                // consulted for move targeting, so labels preserve exact identity
+                // without adding persisted fields or duplicating the move algorithm.
+                let before = paths(self.state.tasks());
+                let mut topology = self.state.tasks().to_vec();
+                for (token, path) in before.iter().enumerate() {
+                    at_path_mut(&mut topology, path).text = token.to_string();
+                }
+                for pending in &mut self.timers {
+                    if let Some(path) = &pending.path {
+                        pending.detached = at_path(self.state.tasks(), path).clone();
+                    }
+                }
+                let result = self.state.move_task(id, target, above, subtask);
+                if result.success {
+                    let replay = move_task_in_tree(&mut topology, id, target, above, subtask);
+                    debug_assert!(replay.success);
+                    let after = paths(&topology);
+                    for pending in &mut self.timers {
+                        if let Some(old) = &pending.path {
+                            let token =
+                                before.iter().position(|p| p == old).expect("captured path");
+                            let label = token.to_string();
+                            pending.path = after
+                                .iter()
+                                .find(|p| at_path(&topology, p).text == label)
+                                .cloned();
+                            // The legacy self-subtask quirk loses the object. The
+                            // captured closure remains detached, just as on Replace.
+                        }
+                    }
+                    self.persist(&mut out);
+                }
+                // Failure restores the exact original array, so every captured
+                // path remains valid without replay or changing its deadline.
+                out.moved = Some(result);
             }
             BackgroundCommand::CaptureUndo(label) => self.state.capture_undo_state(&label),
             BackgroundCommand::Save => self.persist(&mut out),

@@ -2,6 +2,9 @@
 //! runs off the UI thread. This is not the complete overlay/theme runtime.
 mod drag;
 mod persistence;
+mod runtime;
+mod triggers;
+pub use runtime::{TaskClock, TaskEventSink, TaskRuntimeEvent};
 mod view;
 mod window;
 pub use window::window_options;
@@ -10,6 +13,9 @@ use crate::components::text_input::{TextInput, TextInputEvent};
 use echosight_core::{
     storage::{DataPaths, FileKind, Storage},
     task::{
+        background::{
+            BackgroundCommand, BackgroundEffect, BackgroundTaskState, BackgroundTransition,
+        },
         model::{BackgroundPriority, Task, TaskEnvironment, TaskId, TaskMode},
         state::TaskState,
     },
@@ -21,19 +27,6 @@ use std::{
     path::PathBuf,
 };
 
-struct Clock;
-impl TaskEnvironment for Clock {
-    fn now_ms(&self) -> f64 {
-        chrono::Utc::now().timestamp_millis() as f64
-    }
-    fn now_iso(&self) -> String {
-        chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis, true)
-    }
-    fn random(&mut self) -> f64 {
-        rand::random()
-    }
-}
-
 #[derive(Clone)]
 enum Command {
     Add,
@@ -41,6 +34,9 @@ enum Command {
     Edit(TaskId),
     Delete(TaskId),
     Toggle(TaskId),
+    Triggers(TaskId),
+    TriggerChoice(usize),
+    AddBackground,
     Undo,
     Redo,
     Complete,
@@ -51,6 +47,7 @@ enum Command {
 }
 #[derive(Clone)]
 enum Dialog {
+    Triggers(TaskId),
     Child(TaskId),
     Edit(TaskId, bool),
     Delete(TaskId),
@@ -58,7 +55,14 @@ enum Dialog {
 }
 
 pub struct TaskApp {
-    state: Option<TaskState<Clock>>,
+    background: Option<BackgroundTaskState<TaskClock>>,
+    expiry_task: Option<gpui::Task<()>>,
+    expiry_generation: u64,
+    event_sink: TaskEventSink,
+    feedback: Option<String>,
+    feedback_task: Option<gpui::Task<()>>,
+    activation_toast: Option<String>,
+    toast_task: Option<gpui::Task<()>>,
     storage: Option<Storage>,
     pending: VecDeque<Value>,
     saving: bool,
@@ -68,6 +72,9 @@ pub struct TaskApp {
     editor: Entity<TextInput>,
     dialog: Option<Dialog>,
     high_priority: bool,
+    new_background_high_priority: bool,
+    trigger_rows: Vec<echosight_core::task::background::TriggerRow>,
+    modal_stack: Vec<triggers::ModalFrame>,
     select_editor: bool,
     form_error: Option<String>,
     restore_focus: Option<FocusHandle>,
@@ -89,8 +96,47 @@ impl TaskApp {
         )
     }
 
+    /// Injectable epoch/random and ordered output port; uses production storage,
+    /// executor timers, loading gates and persistence funnel unchanged.
+    pub fn new_with_runtime(
+        dir: PathBuf,
+        clock: TaskClock,
+        events: TaskEventSink,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Self {
+        Self::with_runtime(
+            DataPaths::new(dir)
+                .map(|paths| (Storage::new(paths.clone()), paths))
+                .map_err(|e| e.to_string()),
+            clock,
+            events,
+            window,
+            cx,
+        )
+    }
+
     fn with_storage(
         storage: Result<(Storage, DataPaths), String>,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Self {
+        let clock = TaskClock::realtime(cx.background_executor().clone());
+        Self::with_runtime(
+            storage,
+            clock,
+            std::sync::Arc::new(|event| {
+                eprintln!("task runtime event (audio output not connected): {event:?}");
+            }),
+            window,
+            cx,
+        )
+    }
+
+    fn with_runtime(
+        storage: Result<(Storage, DataPaths), String>,
+        clock: TaskClock,
+        event_sink: TaskEventSink,
         window: &mut Window,
         cx: &mut Context<Self>,
     ) -> Self {
@@ -117,7 +163,14 @@ impl TaskApp {
         })
         .detach();
         let mut this = Self {
-            state: None,
+            background: None,
+            expiry_task: None,
+            expiry_generation: 0,
+            event_sink,
+            feedback: None,
+            feedback_task: None,
+            activation_toast: None,
+            toast_task: None,
             storage: None,
             pending: VecDeque::new(),
             saving: false,
@@ -127,6 +180,9 @@ impl TaskApp {
             editor,
             dialog: None,
             high_priority: false,
+            new_background_high_priority: false,
+            trigger_rows: vec![],
+            modal_stack: vec![],
             select_editor: false,
             form_error: None,
             restore_focus: None,
@@ -148,15 +204,16 @@ impl TaskApp {
                     let _ = this.update(cx, |this, cx| {
                         match result {
                             Ok(data) => {
-                                this.state = Some(TaskState::new(
+                                this.background = Some(BackgroundTaskState::new(TaskState::new(
                                     data.tasks,
                                     data.current_template,
                                     data.snapshots,
-                                    Clock,
-                                ));
+                                    clock,
+                                )));
                                 this.status =
                                     "Ready. Changes save to the explicit development directory."
                                         .into();
+                                this.dispatch_background(BackgroundCommand::Restart, cx);
                             }
                             Err(error) => this.error = Some(error),
                         }
@@ -170,16 +227,33 @@ impl TaskApp {
     }
 
     fn new_editor(text: String, window: &mut Window, cx: &mut Context<Self>) -> Entity<TextInput> {
+        Self::new_editor_with_placeholder(text, "Task name", window, cx)
+    }
+
+    fn new_editor_with_placeholder(
+        text: String,
+        placeholder: &'static str,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Entity<TextInput> {
         let editor = cx.new(|cx| {
             let mut input = TextInput::new(cx)
-                .placeholder("Task name")
+                .placeholder(placeholder)
                 .style(view::input_style());
             // Preserve loaded names before enabling the normal insertion limit.
             input.set_text(text, window, cx);
             input.max_length(100)
         });
         cx.subscribe_in(&editor, window, |this, _, event, window, cx| match event {
-            TextInputEvent::Submit(_) => this.activate(Command::Accept, window, cx),
+            TextInputEvent::Submit(_) => this.activate(
+                if matches!(this.dialog, Some(Dialog::Triggers(_))) {
+                    Command::AddBackground
+                } else {
+                    Command::Accept
+                },
+                window,
+                cx,
+            ),
             TextInputEvent::Cancel => this.close_dialog(window, cx),
             _ => {}
         })
@@ -193,27 +267,21 @@ impl TaskApp {
         }
         self.addressable(id)
             && self
-                .state
-                .as_ref()
+                .state()
                 .and_then(|s| s.find_task(id))
                 .is_some_and(|task| subtree_ok(self, task))
     }
 
     fn writable(&self) -> bool {
-        self.state.is_some() && self.error.is_none()
+        self.background.is_some() && self.error.is_none()
     }
 
-    /// One in-flight save, FIFO snapshots, no debounce. A failed write stops the
-    /// entire funnel; neither later snapshots nor subsequent edits overwrite it.
-    fn save(&mut self, cx: &mut Context<Self>) {
-        if let Some(state) = self.state.as_mut() {
-            self.pending.push_back(
-                serde_json::to_value(state.record_auto_save_snapshot()).expect("finite task state"),
-            );
-            self.pump(cx);
-        }
-        cx.notify();
+    pub fn state(&self) -> Option<&TaskState<TaskClock>> {
+        self.background.as_ref().map(BackgroundTaskState::state)
     }
+
+    /// One in-flight save, FIFO payloads, no debounce. Already snapshot-capped
+    /// by the facade; never prepare another save here.
     fn pump(&mut self, cx: &mut Context<Self>) {
         if self.saving || self.error.is_some() {
             return;
@@ -241,6 +309,7 @@ impl TaskApp {
                         this.error = Some(format!(
                             "Save failed; changes are NOT saved. Further edits blocked. {error}"
                         ));
+                        this.rearm_expiry(cx);
                     }
                 }
                 cx.notify();
@@ -253,7 +322,7 @@ impl TaskApp {
     // duplicate-ID row can be addressed perfectly: deny ambiguous ancestry rather
     // than editing a different task or passing an unsafe destination to the core.
     fn addressable(&self, id: TaskId) -> bool {
-        let Some(state) = &self.state else {
+        let Some(state) = self.state() else {
             return false;
         };
         fn count(tasks: &[Task], id: TaskId) -> usize {
@@ -272,7 +341,7 @@ impl TaskApp {
     }
 
     fn complete_next_addressable(&self) -> bool {
-        let Some(state) = &self.state else {
+        let Some(state) = self.state() else {
             return false;
         };
         // Complete next selects structurally, but resolves parents by ID. Be
@@ -312,13 +381,24 @@ impl TaskApp {
         if !self.writable() {
             return;
         }
-        if self.dialog.is_some() && !matches!(command, Command::Accept | Command::Priority) {
+        let trigger_action = matches!(self.dialog, Some(Dialog::Triggers(_)))
+            && matches!(
+                command,
+                Command::TriggerChoice(_) | Command::AddBackground | Command::Edit(_)
+            );
+        if self.dialog.is_some()
+            && !matches!(command, Command::Accept | Command::Priority)
+            && !trigger_action
+        {
             return;
         }
         let id = match command {
-            Command::Child(id) | Command::Edit(id) | Command::Delete(id) | Command::Toggle(id) => {
-                Some(id)
-            }
+            Command::Child(id)
+            | Command::Edit(id)
+            | Command::Delete(id)
+            | Command::Toggle(id)
+            | Command::Triggers(id) => Some(id),
+            Command::TriggerChoice(index) => self.trigger_rows.get(index).map(|row| row.id),
             _ => None,
         };
         if id.is_some_and(|id| !self.addressable(id))
@@ -330,24 +410,48 @@ impl TaskApp {
             cx.notify();
             return;
         }
-        let changed = match command {
+        let operation = match command {
+            Command::Triggers(id) => {
+                self.restore_focus = window.focused(cx);
+                self.open_triggers(id, window, cx);
+                None
+            }
+            Command::TriggerChoice(index) => {
+                if let Some(row) = self.trigger_rows.get_mut(index) {
+                    row.checked = !row.checked;
+                }
+                cx.notify();
+                None
+            }
+            Command::AddBackground => {
+                self.add_background_from_dialog(window, cx);
+                None
+            }
             Command::Add => {
                 let text =
                     echosight_core::jscompat::js_trim(self.input.read(cx).text()).to_string();
                 if text.is_empty() {
                     return;
                 }
-                let changed = self.state.as_mut().unwrap().add_task(text, None).is_some();
+                let operation = BackgroundCommand::AddTask { text, parent: None };
                 self.input.update(cx, |input, cx| input.clear(window, cx));
-                changed
+                Some(operation)
             }
             Command::Child(id) | Command::Edit(id) | Command::Delete(id) => {
-                let task = self.state.as_ref().unwrap().find_task(id).unwrap();
+                let task = self.state().unwrap().find_task(id).unwrap().clone();
                 let text = if matches!(command, Command::Edit(_)) {
                     task.text.clone()
                 } else {
                     String::new()
                 };
+                if matches!(self.dialog, Some(Dialog::Triggers(_))) {
+                    self.modal_stack.push(triggers::ModalFrame {
+                        dialog: self.dialog.take().unwrap(),
+                        editor: self.editor.clone(),
+                        high_priority: self.high_priority,
+                        restore_focus: self.restore_focus.take(),
+                    });
+                }
                 self.high_priority = task
                     .background_options
                     .as_ref()
@@ -372,16 +476,19 @@ impl TaskApp {
                 window.focus(&focus, cx);
                 self.select_editor = matches!(self.dialog, Some(Dialog::Edit(..)));
                 cx.notify();
-                false
+                None
             }
-            Command::Toggle(id) => self.state.as_mut().unwrap().toggle_task(id).is_some(),
-            Command::Undo => self.state.as_mut().unwrap().undo().restored,
-            Command::Redo => self.state.as_mut().unwrap().redo().restored,
-            Command::Complete => self.state.as_mut().unwrap().complete_next_task().is_some(),
+            Command::Toggle(id) => Some(BackgroundCommand::Toggle(id)),
+            Command::Undo => Some(BackgroundCommand::Undo),
+            Command::Redo => Some(BackgroundCommand::Redo),
+            Command::Complete => Some(BackgroundCommand::CompleteNext),
             Command::Priority => {
                 self.high_priority = !self.high_priority;
+                if matches!(self.dialog, Some(Dialog::Triggers(_))) {
+                    self.new_background_high_priority = self.high_priority;
+                }
                 cx.notify();
-                false
+                None
             }
             Command::Accept => {
                 let Some(dialog) = self.dialog.clone() else {
@@ -395,54 +502,68 @@ impl TaskApp {
                 }
                 let text =
                     echosight_core::jscompat::js_trim(self.editor.read(cx).text()).to_owned();
-                if !matches!(dialog, Dialog::Delete(_)) && text.is_empty() {
+                if !matches!(dialog, Dialog::Delete(_) | Dialog::Triggers(_)) && text.is_empty() {
                     self.form_error = Some("Please enter a task name!".into());
                     cx.notify();
                     return;
                 }
                 let deleting = matches!(dialog, Dialog::Delete(_));
-                let changed = match dialog {
-                    Dialog::Child(id) => self
-                        .state
-                        .as_mut()
-                        .unwrap()
-                        .add_task(text, Some(id))
-                        .is_some(),
-                    Dialog::Edit(id, background) => self.state.as_mut().unwrap().edit_task(
+                let operation = match dialog {
+                    Dialog::Triggers(id) => Some(BackgroundCommand::UpdateTriggers {
                         id,
-                        &text,
-                        background.then_some(if self.high_priority {
+                        triggers: self
+                            .trigger_rows
+                            .iter()
+                            .filter(|r| r.checked)
+                            .map(|r| r.id)
+                            .collect(),
+                    }),
+                    Dialog::Child(id) => Some(BackgroundCommand::AddTask {
+                        text,
+                        parent: Some(id),
+                    }),
+                    Dialog::Edit(id, background) => Some(BackgroundCommand::Edit {
+                        id,
+                        text,
+                        priority: background.then_some(if self.high_priority {
                             BackgroundPriority::High
                         } else {
                             BackgroundPriority::Normal
                         }),
-                    ),
-                    Dialog::Delete(id) => self.state.as_mut().unwrap().delete_task(id).removed,
-                    Dialog::Quit => false,
+                    }),
+                    Dialog::Delete(id) => Some(BackgroundCommand::Delete(id)),
+                    Dialog::Quit => None,
                 };
                 if deleting {
                     self.restore_focus = Some(self.input.focus_handle(cx));
                 }
                 self.close_dialog(window, cx);
-                changed
+                operation
             }
-            Command::Cancel | Command::Quit => false,
+            Command::Cancel | Command::Quit => None,
         };
-        if changed {
-            self.save(cx);
+        if let Some(operation) = operation {
+            self.dispatch_background(operation, cx);
         }
     }
 
     fn close_dialog(&mut self, window: &mut Window, cx: &mut Context<Self>) {
-        self.dialog = None;
+        let focus = self
+            .restore_focus
+            .take()
+            .unwrap_or_else(|| self.input.focus_handle(cx));
+        if let Some(parent) = self.modal_stack.pop() {
+            self.dialog = Some(parent.dialog);
+            self.editor = parent.editor;
+            self.high_priority = parent.high_priority;
+            self.restore_focus = parent.restore_focus;
+        } else {
+            self.dialog = None;
+            self.trigger_rows.clear();
+        }
+        self.select_editor = false;
         self.form_error = None;
-        window.focus(
-            &self
-                .restore_focus
-                .take()
-                .unwrap_or_else(|| self.input.focus_handle(cx)),
-            cx,
-        );
+        window.focus(&focus, cx);
         cx.notify();
     }
 
