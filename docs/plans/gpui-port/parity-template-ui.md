@@ -1,6 +1,8 @@
 # Template UI — runnable development checkpoint
 
-Base: `46789aad6c64cb9c9615f0cb4126b565187ce5eb`, branch `gpui-port-template-ui`.
+Initial workflow base: `46789aad6c64cb9c9615f0cb4126b565187ce5eb`.
+Multiline follow-up base: `e6d0e926792075ace53055ad8e27812472b5b117`,
+local unpublished branch `gpui-port-template-multiline`.
 The real `echosight` and `s8_task_app` now expose template Save/Load/Delete,
 file/clipboard Import, native-save Export and all six community definitions.
 This is a working workflow checkpoint, **not complete native/visual parity**.
@@ -28,50 +30,87 @@ there is no `templateWorkflowController` in this source tree.
 fake export event. Quit waits for template persistence and active native transfer.
 The existing anchored `TaskClock` supplies template IDs and export time.
 
+## Multiline import editor contract
+
+The import editor now opts into `TextInput::multiline(8)`. The default task/name
+controls retain their single-line normalization, UTF-16 maxlength and Enter-submit
+behavior. There is **one authoritative editable buffer**: file input uses
+`set_text`, both clipboard paths use `replace_text_in_range`, and Import passes
+`editor.text()` directly to the unchanged core parser. No raw shadow, edit
+reconciliation, capture-paste interception or truncated preview remains.
+
+- CRLF and CR normalize to LF, never to spaces. This matches an actual headless
+  Chrome `HTMLTextAreaElement.value` probe of the source textarea assignment
+  (`templateUi.ts::setTextControlValue`). Literal JSON string newlines still fail
+  JSON parsing. Source files are never rewritten.
+- Every LF creates a logical display line, including consecutive/trailing empty
+  lines. GPUI's pinned `shape_line` owns glyph layout and x hit testing per logical
+  line; byte start offsets and line height provide y hit testing. Long lines use
+  horizontal scrolling, not wrapping. The eight-row viewport scrolls vertically;
+  wheel browsing does not snap back to an unchanged caret. Editing/navigation
+  reveals the caret. Only visible lines are painted through the viewport mask.
+- Enter inserts LF; the explicit Import button submits. Home/End are line-local;
+  Up/Down retain the preferred x position across short lines. Shift extends the
+  selection; Ctrl+Home/End (and Shift variants) address the whole buffer.
+- Selection, cut/copy/paste and UTF-16 IME ranges span lines and non-BMP text.
+  CRLF composition selection offsets are adjusted for the exact normalization.
+  The plural bounds API returns per-line rectangles; the singular candidate-UI
+  API returns the first rectangle rather than spanning unrelated intervening text.
+- No import maxlength is imposed by the editor. The unchanged parser checks the
+  complete trimmed buffer at 100000 UTF-16 units. Oversize input remains editable;
+  it is not truncated into accepted data.
+
 ## Validation (2026-11-10)
 
-All Rust commands used the local uncommitted environment shim and a separate
-`CARGO_TARGET_DIR=/home/agent/.hermes/cache/scratch/template-ui-46789-fresh`.
+All Rust commands used the existing uncommitted local build shim and the newly
+created, lane-exclusive target
+`CARGO_TARGET_DIR=/home/agent/.hermes/cache/scratch/template-multiline-e6d0-fresh`.
+No copied workspace artifacts, dependency/manifest changes or native claims.
 
+- RED: dispatched import paste exposed normalized spaces instead of LF in
+  `template_multiline_buffer_is_visible_editable_and_roundtrips`. Separate REDs
+  caught missing vertical selection, missing wheel scrolling and CRLF composition
+  selection displacement. All now GREEN.
 - `cargo fmt --all --check`: pass.
 - `cargo clippy --locked --workspace --all-targets -- -D warnings`: pass.
-- `cargo test --locked --workspace`: **254 passed, 1 existing ignored**;
-  UI **79 passed**, including **14 new dispatched template tests**.
-  All 240 pre-existing tests retained; existing task and
-  background test files are unchanged.
-- `cargo check --locked -p echosight -p echosight-platform --all-targets --target x86_64-pc-windows-msvc`: pass. This is cross-checking, not Windows linking/execution.
-- `cargo build --locked -p echosight -p echosight-platform --example s8_task_app --bin echosight`: pass; actual Linux app and S8 binaries linked.
-- Isolated Vitest source/golden suites: **134 passed**: themes 15, templates 2,
-  settings 16, background 24, theme-library 13, new template-ui 11, tasks 33,
-  storage 20. Golden check flags enabled; golden fixture diff empty.
+- `cargo test --locked --workspace`: **263 passed, 1 existing ignored**;
+  UI **88 passed** = all **79 previous tests unchanged** plus **9 new tests**
+  (3 application and 6 reusable editor tests). All 14 previous template workflows
+  and 65 prior UI tests, including S5 single-line controls, remain intact.
+- Tests dispatch real GPUI keyboard, mouse and wheel input. They assert logical
+  line layout/height, distinct y coordinates, cross-line selection rectangles,
+  scrolled XY hit testing, caret reveal, non-BMP IME replacement, clipboard
+  roundtrip, independently editable adjacent spaces/newlines, file/clipboard
+  malformed JSON remaining invalid until corrected, and the exact parser limit.
+  Import-modal tests exercise Tab/Escape, fixed footer and wheel isolation at
+  450×600 / 500×700 logical sizes and scales 1 / 1.5 / 2. These are headless
+  layout/event proofs, **not native raster/screenshot or native IME evidence**.
+- `cargo check --locked -p echosight --all-targets --target x86_64-pc-windows-msvc`
+  and the equivalent `-p echosight-platform` command: pass (cross-check only).
+- `cargo build --locked -p echosight -p echosight-platform --example s8_task_app --bin echosight`:
+  pass; actual Linux application and S8 binaries linked.
+- Unchanged isolated TS/source/golden suites: **134 passed** (themes 15,
+  templates 2, settings 16, background 24, theme-library 13, template-ui 11,
+  tasks 33, storage 20). Read-only golden flags enabled where supported;
+  original TS and golden fixture diffs remain empty.
 - Both linked executables launched from an unrelated scratch cwd: no arguments
   exit **2**; explicit missing `--data-dir` opens the task window and stays alive
-  until the 3-second timeout (**124**). Neither missing root was created.
-  Headless logs explicitly state **NOT visual evidence**.
+  until the 3-second timeout (**124**). Neither missing root was created. Logs
+  explicitly state **NOT visual evidence**.
 
-Repro logs (local scratch, not committed): `template-ui-workspace.log`,
-`template-ui-ts-*.log`, `template-ui-windows-{app,platform}.log`, and
-`template-ui-final-smoke-308pdhix/results.json` under
-`/home/agent/.hermes/cache/scratch/`.
-
-Independent read-only review initially caught multiline input being normalized
-into valid JSON after an ordinary edit. A failing dispatched regression was added
-before fixing it. The adapter now retains raw input through typing, deletion and
-subsequent paste using post-edit UTF-16 caret/IME range offsets; it fails closed
-rather than parsing normalized fallback data. Regression covers both actual file
-read and clipboard, non-BMP text, adjacent space/newline deletion, corrective
-newline deletion, and unchanged source-file bytes. Follow-up independent review
-passed with no security or logic blockers; extra IME/mismatched-suffix regression
-coverage was a nonblocking suggestion. Review reports: `template-ui-review.json`
-and `template-ui-review-fixed.json` in the same local scratch directory.
+Local reproducibility logs: `template-multiline-{red,first-green,clippy,workspace,build}.log`,
+`template-multiline-windows-{app,platform}.log`, and `template-multiline-ts-*.log`
+under `/home/agent/.hermes/cache/scratch/`. The DOM probe is
+`template-newline-dom.html`; the startup cwd is `template-multiline-smoke-2rfrezt1`.
+Independent review of this follow-up is pending with the parent lane. The prior
+workflow review covered the superseded fail-closed raw-shadow adapter, not this
+new multiline implementation.
 
 ## Explicit remaining boundaries
 
-- The import control still **renders one line**, not the renderer's full textarea.
-  Raw CR/LF are retained separately. Replacing a visually identical normalized
-  space cannot express every newline edit; complex unreconcilable edits fail
-  closed and require reloading the draft. A dedicated raw multiline control is
-  the remaining UI parity work, not a core parser change.
+- The editor uses horizontal scrolling for long logical lines, not soft wrapping.
+  Native scrollbar cosmetics, native clipboard/IME and pixel-level textarea
+  appearance remain acceptance work; multiline raw-buffer editing is implemented.
 - Successful operations use the existing status surface, and errors use form/
   template error surfaces; the renderer's shared queued alert service is not
   implemented here. This is not a claim of complete modal-alert parity.

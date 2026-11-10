@@ -75,7 +75,6 @@ pub(super) struct Templates {
     pub ports: Option<std::rc::Rc<dyn super::ports::TemplatePorts>>,
     directory: PathBuf,
     clock: Option<TaskClock>,
-    raw_import: Option<(String, String)>,
     pending: VecDeque<TemplateWrite>,
     generation: u64,
 }
@@ -99,17 +98,21 @@ impl TaskApp {
                     "Template name..."
                 })
                 .style(view::input_style());
-            if import { input } else { input.max_length(50) }
+            if import {
+                input.multiline(8)
+            } else {
+                input.max_length(50)
+            }
         });
         cx.subscribe_in(
             &editor,
             window,
             move |this, _, event, window, cx| match event {
-                TextInputEvent::Submit(_) if import => this.insert_import_text("\n", window, cx),
                 TextInputEvent::Submit(_) => this.activate(Command::Accept, window, cx),
                 TextInputEvent::Cancel => this.close_dialog(window, cx),
                 TextInputEvent::Changed if import => {
-                    this.sync_import_text(window, cx);
+                    this.form_error = None;
+                    cx.notify();
                 }
                 _ => {}
             },
@@ -184,100 +187,10 @@ impl TaskApp {
     }
     fn set_import_text(&mut self, raw: String, window: &mut Window, cx: &mut Context<Self>) {
         self.editor
-            .update(cx, |input, cx| input.set_text(raw.clone(), window, cx));
-        // The shared task editor is single-line. Retain original bytes separately
-        // so newlines in invalid JSON strings cannot silently become valid spaces.
-        self.templates.raw_import = Some((raw, self.editor.read(cx).text().to_owned()));
+            .update(cx, |input, cx| input.set_text(raw, window, cx));
         self.form_error = None;
         window.focus(&self.editor.focus_handle(cx), cx);
         cx.notify();
-    }
-    /// Apply the editor's last replacement to the raw draft. CR/LF normalization
-    /// preserves UTF-16 offsets. Anchor the unchanged suffix at the post-edit
-    /// caret (or IME marked end), not a longest-suffix guess: adjacent spaces can
-    /// represent distinct raw newlines. Never fall back to normalized wire data.
-    fn sync_import_text(&mut self, window: &mut Window, cx: &mut Context<Self>) -> bool {
-        if !matches!(self.dialog, Some(Dialog::Template(TemplateDialog::Import))) {
-            return false;
-        }
-        let display = self.editor.read(cx).text().to_owned();
-        let Some((raw, previous)) = self.templates.raw_import.as_ref() else {
-            self.templates.raw_import = Some((display.clone(), display));
-            return true;
-        };
-        if previous == &display {
-            return true;
-        }
-        let old: Vec<_> = previous.encode_utf16().collect();
-        let new: Vec<_> = display.encode_utf16().collect();
-        let raw: Vec<_> = raw.encode_utf16().collect();
-        let caret = self.editor.update(cx, |input, cx| {
-            input
-                .marked_text_range(window, cx)
-                .map(|r| r.end)
-                .unwrap_or_else(|| {
-                    input
-                        .selected_text_range(false, window, cx)
-                        .unwrap()
-                        .range
-                        .end
-                })
-        });
-        let synchronized = new
-            .len()
-            .checked_sub(caret)
-            .and_then(|suffix| old.len().checked_sub(suffix))
-            .filter(|&end| raw.len() == old.len() && old[end..] == new[caret..])
-            .and_then(|end| {
-                let start = old[..end]
-                    .iter()
-                    .zip(&new[..caret])
-                    .take_while(|(a, b)| a == b)
-                    .count();
-                let mut updated = raw[..start].to_vec();
-                updated.extend_from_slice(&new[start..caret]);
-                updated.extend_from_slice(&raw[end..]);
-                String::from_utf16(&updated).ok()
-            });
-        match synchronized {
-            Some(raw) => {
-                self.templates.raw_import = Some((raw, display));
-                self.form_error = None;
-                true
-            }
-            None => {
-                self.form_error = Some(
-                    "Unable to preserve this edit. Paste or choose the original template again."
-                        .into(),
-                );
-                false
-            }
-        }
-    }
-    fn insert_import_text(&mut self, text: &str, window: &mut Window, cx: &mut Context<Self>) {
-        if !matches!(self.dialog, Some(Dialog::Template(TemplateDialog::Import)))
-            || !self.templates_ready()
-        {
-            return;
-        }
-        if !self.sync_import_text(window, cx) {
-            return;
-        }
-        let raw = &self.templates.raw_import.as_ref().unwrap().0;
-        let mut units: Vec<_> = raw.encode_utf16().collect();
-        let selection = self.editor.update(cx, |input, cx| {
-            input.selected_text_range(false, window, cx).unwrap().range
-        });
-        let caret = selection.start + text.encode_utf16().count();
-        units.splice(selection, text.encode_utf16());
-        self.set_import_text(
-            String::from_utf16(&units).expect("editor selection lies on scalar boundaries"),
-            window,
-            cx,
-        );
-        self.editor.update(cx, |input, cx| {
-            input.set_selected_text_range(caret..caret, window, cx)
-        });
     }
     pub(super) fn paste_template(&mut self, window: &mut Window, cx: &mut Context<Self>) {
         if !matches!(self.dialog, Some(Dialog::Template(TemplateDialog::Import)))
@@ -286,7 +199,10 @@ impl TaskApp {
             return;
         }
         if let Some(text) = cx.read_from_clipboard().and_then(|item| item.text()) {
-            self.insert_import_text(&text, window, cx);
+            self.editor.update(cx, |input, cx| {
+                input.replace_text_in_range(None, &text, window, cx)
+            });
+            window.focus(&self.editor.focus_handle(cx), cx);
         }
     }
     fn import_file(&mut self, window: &mut Window, cx: &mut Context<Self>) {
@@ -445,7 +361,6 @@ impl TaskApp {
         self.dialog = Some(Dialog::Template(dialog));
         let focus = if editing {
             self.editor = Self::template_editor(import, window, cx);
-            self.templates.raw_import = None;
             self.editor.focus_handle(cx)
         } else {
             self.controls
@@ -569,11 +484,7 @@ impl TaskApp {
                 self.persist_incoming(incoming, window, cx);
             }
             TemplateDialog::Import => {
-                if !self.sync_import_text(window, cx) {
-                    cx.notify();
-                    return;
-                }
-                let text = &self.templates.raw_import.as_ref().unwrap().0;
+                let text = self.editor.read(cx).text();
                 if echosight_core::jscompat::js_trim(text).is_empty() {
                     self.form_error =
                         Some("Please paste template JSON, share code, or select a file!".into());
@@ -793,11 +704,6 @@ impl TaskApp {
                         window,
                         cx,
                     ));
-                if let Some((raw, _)) = &self.templates.raw_import {
-                    // Full raw content remains the parser input; only this bounded
-                    // preview is shortened to avoid laying out 100k glyphs.
-                    fields = fields.child(raw.chars().take(2000).collect::<String>());
-                }
             }
             TemplateDialog::Community => {
                 for (i, t) in COMMUNITY_TEMPLATES.iter().enumerate() {

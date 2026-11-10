@@ -601,6 +601,145 @@ fn template_import_retains_raw_newlines_after_typing_deletion_and_paste(cx: &mut
 }
 
 #[gpui::test]
+fn template_multiline_buffer_is_visible_editable_and_roundtrips(cx: &mut TestAppContext) {
+    use gpui::EntityInputHandler;
+    let dir = tempfile::tempdir().unwrap();
+    seed(dir.path());
+    let (scene, vc) = open(cx, dir.path());
+    click(vc, "template-import");
+    let raw = "{\n\"name\":\"multi\",\n\"tasks\":[{\"text\":\"🦀 \nline\"}]}";
+    vc.write_to_clipboard(gpui::ClipboardItem::new_string(raw.into()));
+    vc.simulate_keystrokes("ctrl-v");
+    assert_eq!(
+        scene.read_with(vc, |s, cx| s.editor.read(cx).text().to_owned()),
+        raw
+    );
+    // Replacing a newline with a space must be a real edit, even adjacent to a space.
+    let offset = raw[..raw.rfind('\n').unwrap()].encode_utf16().count();
+    scene.update_in(vc, |s, w, cx| {
+        s.editor.update(cx, |input, cx| {
+            input.set_selected_text_range(offset..offset + 1, w, cx);
+        })
+    });
+    vc.simulate_keystrokes("space");
+    assert_eq!(
+        scene.read_with(vc, |s, cx| s.editor.read(cx).text().to_owned()),
+        raw.replacen(" \nline", "  line", 1)
+    );
+    vc.simulate_keystrokes("ctrl-a ctrl-c ctrl-x ctrl-v");
+    click(vc, "accept");
+    assert_eq!(
+        disk(dir.path(), "templates.json")[0]["tasks"][0]["text"],
+        "🦀  line"
+    );
+}
+
+#[gpui::test]
+fn template_multiline_parser_limit_uses_complete_utf16_buffer(cx: &mut TestAppContext) {
+    let dir = tempfile::tempdir().unwrap();
+    seed(dir.path());
+    let (scene, vc) = open(cx, dir.path());
+    click(vc, "template-import");
+    let prefix = format!(
+        "{{\n\"name\":\"limit\",\"tasks\":[{{\"text\":\"ok\"}}],\"ignored\":\"{}\"",
+        "😀".repeat(49000)
+    );
+    let exact = format!(
+        "{}{} }}",
+        prefix,
+        " ".repeat(100000 - prefix.encode_utf16().count() - 2)
+    );
+    assert_eq!(exact.encode_utf16().count(), 100000);
+    let oversized = exact.replacen("{\n", "{\n ", 1);
+    vc.write_to_clipboard(gpui::ClipboardItem::new_string(oversized.clone()));
+    vc.simulate_keystrokes("ctrl-v");
+    assert_eq!(
+        scene.read_with(vc, |s, cx| s.editor.read(cx).text().to_owned()),
+        oversized
+    );
+    click(vc, "accept");
+    assert!(scene.read_with(vc, |s, _| {
+        s.form_error
+            .as_ref()
+            .unwrap()
+            .contains("Template data too large")
+    }));
+    assert_eq!(disk(dir.path(), "templates.json"), json!([]));
+    scene.update_in(vc, |s, w, cx| w.focus(&s.editor.focus_handle(cx), cx));
+    vc.simulate_keystrokes("ctrl-home down home delete");
+    assert_eq!(
+        scene.read_with(vc, |s, cx| s.editor.read(cx).text().to_owned()),
+        exact
+    );
+    click(vc, "accept");
+    assert_eq!(disk(dir.path(), "templates.json")[0]["name"], "limit");
+}
+
+#[gpui::test]
+fn template_multiline_modal_trap_scroll_and_frozen_footer(cx: &mut TestAppContext) {
+    use gpui::{EntityInputHandler, point};
+    for scale in [1., 1.5, 2.] {
+        let dir = tempfile::tempdir().unwrap();
+        seed(dir.path());
+        let (scene, vc) = open(cx, dir.path());
+        vc.simulate_scale_factor_change(scale);
+        click(vc, "template-import");
+        let raw = format!(
+            "{{\n{}\"name\":\"scroll\",\"tasks\":[{{\"text\":\"ok\"}}]}}",
+            "\n".repeat(40)
+        );
+        vc.write_to_clipboard(gpui::ClipboardItem::new_string(raw.clone()));
+        vc.simulate_keystrokes("ctrl-v");
+        for dimensions in [size(px(500.), px(700.)), size(px(450.), px(600.))] {
+            vc.simulate_resize(dimensions);
+            vc.run_until_parked();
+            let cancel = vc.debug_bounds("cancel").unwrap();
+            let accept = vc.debug_bounds("accept").unwrap();
+            let body = vc.debug_bounds("dialog-body").unwrap();
+            for bounds in [cancel, accept] {
+                assert!(bounds.top() >= px(0.) && bounds.bottom() <= dimensions.height);
+            }
+            let row = vc.debug_bounds("row-0").unwrap();
+            // At this point the editor is the first item in the modal body.
+            vc.simulate_event(gpui::ScrollEvent {
+                position: body.origin + point(px(30.), px(30.)),
+                delta: gpui::ScrollDelta::Lines(point(0., 100.)),
+                ..Default::default()
+            });
+            vc.run_until_parked();
+            assert_eq!(vc.debug_bounds("cancel").unwrap(), cancel);
+            assert_eq!(vc.debug_bounds("accept").unwrap(), accept);
+            assert_eq!(vc.debug_bounds("row-0").unwrap(), row);
+            vc.simulate_click(body.origin + point(px(30.), px(30.)), Default::default());
+            let selection = scene.update_in(vc, |s, w, cx| {
+                s.editor.update(cx, |i, cx| {
+                    i.selected_text_range(false, w, cx).unwrap().range
+                })
+            });
+            assert!(
+                selection.start < 4,
+                "XY click after wheel should hit the first line, not the last"
+            );
+            for _ in 0..12 {
+                vc.simulate_keystrokes("tab");
+            }
+            scene.update_in(vc, |s, w, _| {
+                assert!(s.tab_order.iter().any(|(h, _)| h.is_focused(w)))
+            });
+            scene.update_in(vc, |s, w, cx| w.focus(&s.editor.focus_handle(cx), cx));
+            vc.simulate_keystrokes("ctrl-end enter");
+            assert!(scene.read_with(vc, |s, _| s.dialog.is_some()));
+            assert_eq!(disk(dir.path(), "templates.json"), json!([]));
+        }
+        vc.simulate_keystrokes("escape");
+        scene.update_in(vc, |s, w, _| {
+            assert!(s.dialog.is_none());
+            assert!(s.controls["template-import"].is_focused(w));
+        });
+    }
+}
+
+#[gpui::test]
 fn template_silent_save_overwrite_delete_cancel_then_confirm(cx: &mut TestAppContext) {
     let dir = tempfile::tempdir().unwrap();
     seed(dir.path());

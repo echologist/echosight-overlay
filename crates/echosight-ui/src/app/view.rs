@@ -109,14 +109,6 @@ impl Render for TaskApp {
                 "Noto Sans"
             })
             .on_key_down(cx.listener(Self::key))
-            .capture_action(cx.listener(
-                |this, _: &crate::components::text_input::Paste, window, cx| {
-                    if matches!(this.dialog, Some(Dialog::Template(TemplateDialog::Import))) {
-                        this.paste_template(window, cx);
-                        cx.stop_propagation();
-                    }
-                },
-            ))
             .on_mouse_move(cx.listener(|this, event: &gpui::MouseMoveEvent, _, cx| {
                 if event.pressed_button == Some(gpui::MouseButton::Left) {
                     this.drag_to(event.position, cx);
