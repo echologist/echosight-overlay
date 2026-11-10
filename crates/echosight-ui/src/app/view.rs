@@ -176,7 +176,7 @@ impl Render for TaskApp {
                     cx,
                 )),
         );
-        if let Some(state) = &self.state {
+        if let Some(state) = self.state() {
             let progress = state.progress();
             root = root
                 .child(div().child(format!(
@@ -192,11 +192,7 @@ impl Render for TaskApp {
                     ),
                 );
         }
-        let tasks = self
-            .state
-            .as_ref()
-            .map(|s| s.tasks().to_vec())
-            .unwrap_or_default();
+        let tasks = self.state().map(|s| s.tasks().to_vec()).unwrap_or_default();
         let mut rows = div().id("rows-scroll").size_full().overflow_y_scroll();
         let mut flat = vec![];
         flatten(&tasks, &mut vec![], &mut flat);
@@ -390,6 +386,24 @@ impl Render for TaskApp {
                 .text_color(rgb(MUTED))
                 .child(status),
         );
+        if let Some(message) = &self.feedback {
+            root = root.child(
+                div()
+                    .id("task-feedback")
+                    .debug_selector(|| "task-feedback".into())
+                    .text_color(rgb(TEAL))
+                    .child(message.clone()),
+            );
+        }
+        if let Some(message) = &self.activation_toast {
+            root = root.child(
+                div()
+                    .id("activation-toast")
+                    .debug_selector(|| "activation-toast".into())
+                    .text_color(rgb(GOLD))
+                    .child(message.clone()),
+            );
+        }
         if let Some(error) = &self.error {
             root = root.child(div().text_color(rgb(0xe3804a)).child(error.clone()));
         }
@@ -447,7 +461,7 @@ impl Render for TaskApp {
                     "Quit Echosight?"
                 });
             } else if let Dialog::Delete(id) = dialog {
-                if let Some(task) = self.state.as_ref().and_then(|s| s.find_task(id)) {
+                if let Some(task) = self.state().and_then(|s| s.find_task(id)) {
                     fields = fields.child(delete_message(&task.text));
                 }
             } else {
