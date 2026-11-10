@@ -1,6 +1,6 @@
 # Runnable task application and remaining feature integration
 
-Status: local integration rehearsal on `gpui-port-feature-integration`; independent review pending. **Not the finished application.** Base: `98af9e5` (PR #16 on `gpui-port`).
+Status: reviewed integration checkpoint on `gpui-port-feature-integration`; corrections independently approved and verified in a fresh build target. **Not the finished application.** Base: `98af9e5` (PR #16 on `gpui-port`).
 
 ## User-visible feature status
 
@@ -29,13 +29,14 @@ All inputs were clean, committed topic worktrees. The parent combined them witho
 
 - `cargo fmt --all --check`: pass.
 - `cargo clippy --locked --workspace --all-targets -- -D warnings`: pass.
-- `cargo test --locked --workspace`: **149 passing Rust test functions**, no failures/ignored tests. This is not a count of golden scenarios.
+- `cargo test --locked --workspace`: **161 passing Rust test functions**, no failures/ignored tests. This is not a count of golden scenarios. Final fmt, clippy, tests and Windows checks ran in a fresh target directory after reviewers reproduced misleading results from shared build caches.
 - Windows MSVC-target all-target checks for both `echosight` and `echosight-platform`: pass; not native execution.
 - Seven isolated TypeScript suites: **115 tests pass** (themes 15, templates 2, settings 16, background 16, theme library 13, tasks 33, storage 20). Read-only freshness modes run before rewrite-only generators. Golden fixture diff remains empty.
 - Linux `echosight` application and `s8_task_app` example link successfully.
 - Executable without `--data-dir` exits 2 with usage and no data access.
 - Real executable launched from an unrelated scratch directory with a new explicit data path: task window opened through headless platform, externally terminated after three seconds (124), no startup data directory created. **Not a screenshot, visual approval or native Windows pass.**
-- Independent review approved the background scheduler. Corrections are required before publication: fallible JSON numeric coercion and exact radix rounding in template/settings normalization, integer-key ordering in raw hotkey maps, sequential destination-root retargeting in theme sync, and visible dialog actions/modal Escape priority in the task app. Fixes are isolated on `gpui-port-coercion-fixes` plus the original theme-library and app-task-ui topics. Re-review and combined gates remain required. Theme v2 contract/resolver/conversion work proceeds independently in its own worktree; it does not imply these review gates passed.
+- Independent review approved the background scheduler and the correction/integration closure at `3229a079f6fea4b27ae676d2afaaf6cb4f98fa4b`. Corrections: `fb13f6a`/`c7c6646` (fallible numeric coercion, exact radix rounding, hotkey map enumeration and overflow import shape), `07444ecbbc9086071f95dba3963f1a159d6053d2` (destination-root revalidation), `8fbef941c77c9dd2225b215defd1094c8d6b4127` (visible dialog actions, scrolling and modal/drag Escape priority). Re-review found no blocking defects within these scopes. All combined gates above were rerun after integration.
+- Remaining compatibility gates include legacy infallible task-option coercion and prototype-named theme asset enumeration/delivery. These are documented limitations, not accepted deltas. Native Windows visual/DPI/IME/accessibility and filesystem execution remain pending. Independent Theme v2 work is not part of this checkpoint.
 
 ## Next implementation seams
 
