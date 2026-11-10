@@ -213,6 +213,7 @@
             ]
           }
         },
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
@@ -251,13 +252,14 @@
           "size": "@fonts.sizes.ui",
           "color": "#e8e2d2"
         },
+        "radius": 4.0,
         "fill": "rgba(7,6,13,0.7)",
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
           "color": "rgba(212,168,87,0.18)"
         },
-        "radius": 4.0,
         "states": {
           "focus": {
             "border": {
@@ -304,6 +306,151 @@
           ]
         }
       },
+      "button.primary": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "button.danger": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "button.icon": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "dialog.button.primary": {
+        "radius": 4.0,
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#f1d990",
+          "family": [
+            "Cinzel",
+            "Inter",
+            "sans-serif"
+          ],
+          "weight": 600.0,
+          "transform": "uppercase"
+        },
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(45,38,18,0.58)",
+                0.0
+              ],
+              [
+                "rgba(28,22,10,0.74)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": false,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(212,168,87,0.55)"
+        },
+        "states": {
+          "hover": {
+            "text": {
+              "color": "#fff2cf"
+            },
+            "border": {
+              "color": "rgba(212,168,87,0.86)"
+            }
+          }
+        }
+      },
+      "dialog.button.secondary": {
+        "radius": 4.0,
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#5fd8c8",
+          "family": [
+            "Cinzel",
+            "Inter",
+            "sans-serif"
+          ],
+          "weight": 600.0
+        },
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(20,40,46,0.9)",
+                0.0
+              ],
+              [
+                "rgba(10,18,22,0.95)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": false,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(95,216,200,0.45)"
+        },
+        "states": {
+          "hover": {
+            "text": {
+              "color": "#f1d990"
+            },
+            "border": {
+              "color": "rgba(212,168,87,0.6)"
+            },
+            "shadow": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "blur": 14.0,
+                "spread": 0.0,
+                "color": "rgba(212,168,87,0.18)"
+              }
+            ]
+          }
+        }
+      },
+      "textarea": {
+        "radius": 4.0,
+        "fill": "rgba(7,6,13,0.7)",
+        "opacityAffects": false,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(212,168,87,0.18)"
+        },
+        "text": {
+          "color": "#e8e2d2"
+        },
+        "states": {
+          "focus": {
+            "border": {
+              "color": "rgba(95,216,200,0.6)"
+            },
+            "shadow": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "blur": 0.0,
+                "spread": 2.0,
+                "color": "rgba(95,216,200,0.12)"
+              }
+            ]
+          }
+        }
+      },
       "progressBar": {
         "radius": "@radius.default",
         "shadow": "@shadows.window"
@@ -345,129 +492,8 @@
         "opacityAffects": true
       },
       "tasksSection": {
-        "fill": "transparent"
-      },
-      "dialog.button.secondary": {
-        "fill": {
-          "gradient": {
-            "angle": 180.0,
-            "stops": [
-              [
-                "rgba(20,40,46,0.9)",
-                0.0
-              ],
-              [
-                "rgba(10,18,22,0.95)",
-                1.0
-              ]
-            ]
-          }
-        },
-        "text": {
-          "color": "#5fd8c8",
-          "family": [
-            "Cinzel",
-            "Inter",
-            "sans-serif"
-          ],
-          "weight": 600.0
-        },
-        "border": {
-          "width": 1.0,
-          "style": "solid",
-          "color": "rgba(95,216,200,0.45)"
-        },
-        "radius": 4.0,
-        "states": {
-          "hover": {
-            "text": {
-              "color": "#f1d990"
-            },
-            "border": {
-              "color": "rgba(212,168,87,0.6)"
-            },
-            "shadow": [
-              {
-                "x": 0.0,
-                "y": 0.0,
-                "blur": 14.0,
-                "spread": 0.0,
-                "color": "rgba(212,168,87,0.18)"
-              }
-            ]
-          }
-        }
-      },
-      "dialog.button.primary": {
-        "fill": {
-          "gradient": {
-            "angle": 180.0,
-            "stops": [
-              [
-                "rgba(45,38,18,0.58)",
-                0.0
-              ],
-              [
-                "rgba(28,22,10,0.74)",
-                1.0
-              ]
-            ]
-          }
-        },
-        "text": {
-          "color": "#f1d990",
-          "family": [
-            "Cinzel",
-            "Inter",
-            "sans-serif"
-          ],
-          "weight": 600.0,
-          "transform": "uppercase"
-        },
-        "border": {
-          "width": 1.0,
-          "style": "solid",
-          "color": "rgba(212,168,87,0.55)"
-        },
-        "radius": 4.0,
-        "states": {
-          "hover": {
-            "text": {
-              "color": "#fff2cf"
-            },
-            "border": {
-              "color": "rgba(212,168,87,0.86)"
-            }
-          }
-        }
-      },
-      "textarea": {
-        "fill": "rgba(7,6,13,0.7)",
-        "border": {
-          "width": 1.0,
-          "style": "solid",
-          "color": "rgba(212,168,87,0.18)"
-        },
-        "text": {
-          "color": "#e8e2d2"
-        },
-        "radius": 4.0,
-        "states": {
-          "focus": {
-            "border": {
-              "color": "rgba(95,216,200,0.6)"
-            },
-            "shadow": [
-              {
-                "x": 0.0,
-                "y": 0.0,
-                "blur": 0.0,
-                "spread": 2.0,
-                "color": "rgba(95,216,200,0.12)"
-              }
-            ]
-          }
-        }
+        "fill": "transparent",
+        "opacityAffects": false
       },
       "progressFill": {
         "fill": {
@@ -485,6 +511,7 @@
             ]
           }
         },
+        "opacityAffects": false,
         "shadow": [
           {
             "x": 0.0,
@@ -498,12 +525,14 @@
       "taskRow": {
         "states": {
           "hover": {
-            "fill": "rgba(212,168,87,0.05)"
+            "fill": "rgba(212,168,87,0.05)",
+            "opacityAffects": false
           }
         }
       },
       "dialog.scrim": {
-        "fill": "rgba(0,0,0,0.85)"
+        "fill": "rgba(0,0,0,0.85)",
+        "opacityAffects": false
       },
       "dialog.window": {
         "fill": {
@@ -521,6 +550,7 @@
             ]
           }
         },
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
@@ -571,6 +601,7 @@
       },
       "communityTemplateCard": {
         "fill": "rgba(11,9,18,0.5)",
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
@@ -599,6 +630,7 @@
             ]
           }
         },
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
@@ -645,13 +677,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/1",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/1/body/color",
       "code": "unsupported-selector",
       "message": "selector is not in the fixed selector-to-slot table",
@@ -670,20 +695,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/10",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/11",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/11/.progress-text/font-family",
       "code": "font-availability",
       "message": "family names retained; no font file is bundled or downloaded",
@@ -697,13 +708,6 @@
       "value": {
         "letter-spacing": "0.06em !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/12",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -761,34 +765,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/13",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/14",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/15",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/16",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/16/.task-delete/background",
       "code": "unsupported-selector",
       "message": "selector is not in the fixed selector-to-slot table",
@@ -813,13 +789,6 @@
       "value": {
         "color": "#f0a896 !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/17",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -850,13 +819,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/18",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/18/.modal/-webkit-backdrop-filter",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -875,26 +837,12 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/19",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/19/.modal-content/position",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
       "value": {
         "position": "relative !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/2",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -911,13 +859,6 @@
       "value": {
         "letter-spacing": "0.18em !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/20",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -993,13 +934,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/21",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/21/.modal-content h4/font-family",
       "code": "font-availability",
       "message": "family names retained; no font file is bundled or downloaded",
@@ -1048,61 +982,12 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/22",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/23",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/24",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/25",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/25/.modal-content-dialog.app-dialog-tone-danger/border-color",
       "code": "unsupported-selector",
       "message": "selector is not in the fixed selector-to-slot table",
       "value": {
         "border-color": "rgba(197,74,58,0.75) !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/26",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/27",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/28",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1124,13 +1009,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/29",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/29/.context-menu div:hover/background",
       "code": "unsupported-selector",
       "message": "selector is not in the fixed selector-to-slot table",
@@ -1146,13 +1024,6 @@
       "value": {
         "color": "#f1d990 !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/3",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1210,13 +1081,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/4",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/4/.modal-btn.secondary/font-family",
       "code": "font-availability",
       "message": "family names retained; no font file is bundled or downloaded",
@@ -1264,20 +1128,6 @@
       "value": {
         "transition": "all .2s ease !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/5",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/6",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1349,13 +1199,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/7",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/7/.add-btn:hover/box-shadow",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -1371,13 +1214,6 @@
       "value": {
         "box-shadow": "inset 0 1px 0 rgba(212,168,87,0.2), 0 0 14px rgba(212,168,87,0.25) !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/8",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1579,13 +1415,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/9",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/9/.modal-input:focus/border-color",
       "code": "unsupported-selector",
       "message": "selector is not in the fixed selector-to-slot table",
@@ -1716,6 +1545,16 @@
       "code": "unsupported-effect",
       "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
       "value": "14px"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/textShadow",
+      "code": "effect-utility-selector",
+      "message": "effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references",
+      "value": {
+        "selector": ".text-shadow",
+        "effect": "0 1px 2px rgba(0,0,0,0.7)"
+      }
     },
     {
       "severity": "warning",

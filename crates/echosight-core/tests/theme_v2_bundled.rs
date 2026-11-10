@@ -37,6 +37,14 @@ fn all_eleven_source_copies_convert_validate_resolve_and_roundtrip() {
             asset_files: &assets,
         };
         let conversion = convert_v1(input).unwrap_or_else(|d| panic!("{id}: {d:#?}"));
+        assert!(
+            !conversion
+                .diagnostics
+                .iter()
+                .any(|d| d.code == "malformed-declaration"
+                    && d.value.as_str().is_some_and(|s| s.trim().is_empty())),
+            "valid empty declaration reported as malformed in {id}"
+        );
         assert_eq!(
             conversion,
             convert_v1(input).unwrap(),

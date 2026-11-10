@@ -105,6 +105,7 @@
           "size": 11.0
         },
         "fill": "#ece9d8",
+        "opacityAffects": false,
         "radius": 0.0,
         "border": {
           "width": 0,
@@ -117,6 +118,7 @@
           "family": "@fonts.ui.family"
         },
         "fill": "rgba(236, 233, 216, 0.9)",
+        "opacityAffects": false,
         "border": {
           "width": 0,
           "style": "none",
@@ -137,6 +139,7 @@
         },
         "radius": 0.0,
         "fill": "#ece9d8",
+        "opacityAffects": false,
         "border": {
           "width": 0,
           "style": "none"
@@ -148,6 +151,7 @@
         "states": {
           "hover": {
             "fill": "#ece9d8",
+            "opacityAffects": false,
             "text": {
               "color": "#000000",
               "shadow": []
@@ -155,6 +159,7 @@
           },
           "active": {
             "fill": "#ece9d8",
+            "opacityAffects": false,
             "text": {
               "color": "#000000",
               "shadow": []
@@ -182,6 +187,7 @@
         },
         "radius": 0.0,
         "fill": "#fff",
+        "opacityAffects": false,
         "border": {
           "width": 0,
           "style": "none"
@@ -211,12 +217,13 @@
           "size": 11.0,
           "color": "#000000"
         },
+        "radius": 0.0,
         "fill": "#fff",
+        "opacityAffects": false,
         "border": {
           "width": 0,
           "style": "none"
         },
-        "radius": 0.0,
         "padding": [
           2.0,
           4.0
@@ -247,9 +254,121 @@
         },
         "margin": 0.0
       },
+      "button.primary": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "button.danger": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "button.icon": {
+        "radius": 0.0,
+        "text": {
+          "shadow": [],
+          "color": "#000000",
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0
+        },
+        "fill": "#ece9d8",
+        "opacityAffects": false,
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "padding": [
+          0.0,
+          12.0
+        ]
+      },
+      "dialog.button.primary": {
+        "radius": 0.0,
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#000",
+          "family": [
+            "Tahoma",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0
+        },
+        "fill": "#ece9d8",
+        "opacityAffects": false,
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "states": {
+          "active": {}
+        }
+      },
+      "dialog.button.secondary": {
+        "radius": 0.0,
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#000",
+          "family": [
+            "Tahoma",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0
+        },
+        "fill": "#ece9d8",
+        "opacityAffects": false,
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "states": {
+          "active": {}
+        }
+      },
+      "textarea": {
+        "radius": 0.0,
+        "fill": "#fff",
+        "opacityAffects": false,
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "text": {
+          "color": "#000000",
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0
+        },
+        "padding": [
+          2.0,
+          4.0
+        ],
+        "states": {
+          "focus": {
+            "ring": {
+              "width": 1.0,
+              "style": "dotted",
+              "color": "#000000",
+              "inset": 2.0
+            }
+          }
+        }
+      },
       "progressBar": {
         "radius": 0.0,
         "fill": "#fff",
+        "opacityAffects": false,
         "border": {
           "width": 0,
           "style": "none"
@@ -280,6 +399,7 @@
             ]
           }
         },
+        "opacityAffects": false,
         "text": {
           "color": "#ffffff",
           "shadow": [],
@@ -303,6 +423,7 @@
       },
       "templateSection": {
         "fill": "#ece9d8",
+        "opacityAffects": false,
         "text": {
           "color": "#000000"
         },
@@ -314,6 +435,7 @@
       },
       "tasksSection": {
         "fill": "#ece9d8",
+        "opacityAffects": false,
         "text": {
           "color": "#000000"
         },
@@ -347,61 +469,9 @@
             ]
           }
         },
+        "opacityAffects": false,
         "radius": 0.0,
         "shadow": []
-      },
-      "button.icon": {
-        "fill": "#ece9d8",
-        "border": {
-          "width": 0,
-          "style": "none"
-        },
-        "text": {
-          "color": "#000000",
-          "family": [
-            "Pixelated MS Sans Serif",
-            "Arial",
-            "sans-serif"
-          ],
-          "size": 11.0,
-          "shadow": []
-        },
-        "radius": 0.0,
-        "padding": [
-          0.0,
-          12.0
-        ]
-      },
-      "textarea": {
-        "fill": "#fff",
-        "border": {
-          "width": 0,
-          "style": "none"
-        },
-        "text": {
-          "color": "#000000",
-          "family": [
-            "Pixelated MS Sans Serif",
-            "Arial",
-            "sans-serif"
-          ],
-          "size": 11.0
-        },
-        "radius": 0.0,
-        "padding": [
-          2.0,
-          4.0
-        ],
-        "states": {
-          "focus": {
-            "ring": {
-              "width": 1.0,
-              "style": "dotted",
-              "color": "#000000",
-              "inset": 2.0
-            }
-          }
-        }
       },
       "checkbox": {
         "height": 13.0
@@ -420,9 +490,11 @@
           0.0
         ],
         "fill": "transparent",
+        "opacityAffects": false,
         "states": {
           "hover": {
             "fill": "#316ac5",
+            "opacityAffects": false,
             "text": {
               "color": "#ffffff"
             },
@@ -434,10 +506,12 @@
         }
       },
       "dialog.scrim": {
-        "fill": "rgba(0, 0, 0, 0.28)"
+        "fill": "rgba(0, 0, 0, 0.28)",
+        "opacityAffects": false
       },
       "dialog.window": {
         "fill": "#ece9d8",
+        "opacityAffects": false,
         "border": {
           "width": 0,
           "style": "none"
@@ -482,6 +556,7 @@
             ]
           }
         },
+        "opacityAffects": false,
         "radius": [
           6.0,
           6.0,
@@ -535,49 +610,10 @@
       },
       "communityTemplateCard": {
         "fill": "#f1efe2",
+        "opacityAffects": false,
         "border": {
           "width": 0,
           "style": "none"
-        }
-      },
-      "dialog.button.primary": {
-        "fill": "#ece9d8",
-        "border": {
-          "width": 0,
-          "style": "none"
-        },
-        "radius": 0.0,
-        "text": {
-          "color": "#000",
-          "family": [
-            "Tahoma",
-            "Arial",
-            "sans-serif"
-          ],
-          "size": 11.0
-        },
-        "states": {
-          "active": {}
-        }
-      },
-      "dialog.button.secondary": {
-        "fill": "#ece9d8",
-        "border": {
-          "width": 0,
-          "style": "none"
-        },
-        "radius": 0.0,
-        "text": {
-          "color": "#000",
-          "family": [
-            "Tahoma",
-            "Arial",
-            "sans-serif"
-          ],
-          "size": 11.0
-        },
-        "states": {
-          "active": {}
         }
       },
       "dialog.danger.title": {
@@ -595,7 +631,8 @@
               ]
             ]
           }
-        }
+        },
+        "opacityAffects": false
       }
     },
     "images": {},
@@ -611,13 +648,6 @@
       "code": "css-source-order",
       "message": "recognized selectors are applied in source order, not CSS specificity/importance; manual review required",
       "value": "/cssFile"
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/0",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -637,13 +667,6 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/1",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/1/.overlay-container.interactive .header/border-top-left-radius",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -659,13 +682,6 @@
       "value": {
         "border-top-right-radius": "7px !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/10",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -805,20 +821,6 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/11",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/12",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/12/.overlay-container.interactive .add-btn:active/box-shadow",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -843,20 +845,6 @@
       "value": {
         "box-shadow": "inset -1px -1px #fff,\n              inset 1px 1px #0a0a0a,\n              inset -2px -2px #dfdfdf,\n              inset 2px 2px grey !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/13",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/14",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -908,20 +896,6 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/15",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/16",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/16/.overlay-container.interactive .task-checkbox/accent-color",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -949,40 +923,12 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/17",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/18",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/19",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/19/.overlay-container.interactive .task-item:hover .task-text/color",
       "code": "unsupported-selector",
       "message": "selector is not in the fixed selector-to-slot table",
       "value": {
         "color": "#ffffff !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/2",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -993,26 +939,12 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/20",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/20/.overlay-container.click-through/box-shadow",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
       "value": {
         "box-shadow": "inset -1px -1px rgba(10, 10, 10, 0.5), \n              inset 1px 1px rgba(223, 223, 223, 0.5), \n              inset -2px -2px rgba(128, 128, 128, 0.5), \n              inset 2px 2px rgba(255, 255, 255, 0.5) !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/21",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1043,13 +975,6 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/22",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/22/.modal/-webkit-backdrop-filter",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -1068,13 +993,6 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/23",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/23/.modal-content/box-shadow",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -1088,13 +1006,6 @@
       "code": "font-availability",
       "message": "family names retained; no font file is bundled or downloaded",
       "value": "Tahoma, Arial, sans-serif !important"
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/24",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1116,13 +1027,6 @@
       "code": "font-availability",
       "message": "family names retained; no font file is bundled or downloaded",
       "value": "Tahoma, Arial, sans-serif !important"
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/25",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1182,26 +1086,12 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/26",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/26/.community-template/box-shadow",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
       "value": {
         "box-shadow": "inset -1px -1px #dfdfdf, inset 1px 1px grey !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/27",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1239,33 +1129,12 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/28",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/28/.modal-btn:active/box-shadow",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
       "value": {
         "box-shadow": "inset -1px -1px #fff,\n              inset 1px 1px #0a0a0a,\n              inset -2px -2px #dfdfdf,\n              inset 2px 2px grey !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/29",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/3",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1278,26 +1147,12 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/4",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/4/.overlay-container.interactive .tasks-section/box-shadow",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
       "value": {
         "box-shadow": "inset -1px -1px #dfdfdf, \n              inset 1px 1px grey !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/5",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1308,31 +1163,10 @@
     },
     {
       "severity": "warning",
-      "location": "/cssFile/6",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/7",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/cssFile/7/.overlay-container.interactive .progress-text/font-family",
       "code": "font-availability",
       "message": "family names retained; no font file is bundled or downloaded",
       "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/8",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1342,13 +1176,6 @@
       "value": {
         "box-shadow": "inset -1px -1px #dfdfdf, \n              inset 1px 1px grey, \n              inset -2px -2px #fff, \n              inset 2px 2px #0a0a0a !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/cssFile/9",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -1377,6 +1204,16 @@
       "code": "unsupported-effect",
       "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
       "value": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/textShadow",
+      "code": "effect-utility-selector",
+      "message": "effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references",
+      "value": {
+        "selector": ".text-shadow",
+        "effect": "none"
+      }
     },
     {
       "severity": "warning",

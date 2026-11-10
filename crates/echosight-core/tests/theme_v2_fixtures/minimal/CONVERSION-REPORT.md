@@ -6,10 +6,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "/customCSS"
 
-- malformed-declaration at "/customCSS/0": declaration has no colon
-
-    ""
-
 - unsupported-property at "/customCSS/0/.modal/-webkit-backdrop-filter": CSS declaration not representable by this bounded converter
 
     {"-webkit-backdrop-filter":"none !important"}
@@ -18,46 +14,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"backdrop-filter":"none !important"}
 
-- malformed-declaration at "/customCSS/1": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/10": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/2": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/3": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/4": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/5": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/6": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/7": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/8": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/9": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/customCSS/9/.modal-content-dialog.app-dialog-tone-danger/border-color": selector is not in the fixed selector-to-slot table
 
     {"border-color":"#ff4a4a !important"}
@@ -65,6 +21,10 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-effect at "/effects/dropShadow": inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed
 
     "none"
+
+- effect-utility-selector at "/effects/textShadow": effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references
+
+    {"selector":".text-shadow","effect":"none"}
 
 - font-availability at "/fonts/primary/family": family names retained; no fonts bundled or fetched
 

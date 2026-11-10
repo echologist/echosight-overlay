@@ -349,6 +349,32 @@ fn variant_omissions_and_array_replacement_remain_explicit() {
 }
 
 #[test]
+fn source_oracle_delimiter_and_font_face_controls_remain_reported() {
+    let c = convert(
+        &json!({"id":"x","name":"X","customCSS":"/*trivia*/button, .header:hover { color: rgb(1, 2, 3); background-image: url(\"a;b,c{d}.png\"); } @font-face { font-family: \"A;B\"; src: url(\"font.woff2\"); }"}),
+    );
+    assert_eq!(
+        c.diagnostics
+            .iter()
+            .filter(|d| d.code == "unsupported-property"
+                && d.value == json!({"background-image":"url(\"a;b,c{d}.png\")"}))
+            .count(),
+        2
+    );
+    assert!(c.diagnostics.iter().any(|d| {
+        d.code == "unsupported-rule"
+            && d.value
+                .as_str()
+                .is_some_and(|s| s.contains("font.woff2") && s.contains("A;B"))
+    }));
+    assert!(
+        !c.diagnostics
+            .iter()
+            .any(|d| d.code == "malformed-declaration")
+    );
+}
+
+#[test]
 fn conversion_is_token_driven_preserves_ids_and_reports_every_loss() {
     let source = json!({"id":"mine-not-a-bundled-id","name":"Mine","colors":{"text":{"primary":"#123456"},"background":{"primary":"rgba(10,20,30,0.8)"}},"fonts":{"primary":{"family":"Arial, sans-serif","sizes":{"task":"13px"},"weights":{"normal":"400"}}},"styles":{"interactive":{"container":{"background":"var(--bg-primary)","padding":"2px 4px","position":"fixed"}}},"customCSS":".modal-content { color: var(--text-primary); background: linear-gradient(90deg, #fff 0%, #000 100%); } .unknown { color: red; padding: 2px; } @import url('secret-font.css');","sounds":{"enabled":true,"events":{"taskCompleted":"ding.wav"}}});
     let before = source.clone();

@@ -86,6 +86,7 @@
           "family": "@fonts.ui.family"
         },
         "fill": "@colors.surface.primary",
+        "opacityAffects": true,
         "border": {
           "width": 2.0,
           "style": "solid",
@@ -107,6 +108,7 @@
           "family": "@fonts.ui.family"
         },
         "fill": "@colors.surface.primary",
+        "opacityAffects": true,
         "border": {
           "width": 0,
           "style": "none"
@@ -152,16 +154,20 @@
               ]
             ]
           }
-        }
+        },
+        "opacityAffects": false
       },
       "templateSection": {
-        "fill": "@colors.surface.tertiary"
+        "fill": "@colors.surface.tertiary",
+        "opacityAffects": true
       },
       "tasksSection": {
-        "fill": "@colors.surface.secondary"
+        "fill": "@colors.surface.secondary",
+        "opacityAffects": true
       },
       "dialog.scrim": {
-        "fill": "rgba(0,0,0,0.78)"
+        "fill": "rgba(0,0,0,0.78)",
+        "opacityAffects": false
       },
       "dialog.window": {
         "fill": {
@@ -179,6 +185,7 @@
             ]
           }
         },
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
@@ -222,6 +229,7 @@
       },
       "communityTemplateCard": {
         "fill": "rgba(0,0,0,0.46)",
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
@@ -230,6 +238,7 @@
       },
       "dialog.button.primary": {
         "fill": "#4169e1",
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
@@ -257,6 +266,7 @@
       },
       "dialog.button.secondary": {
         "fill": "#2b2b2b",
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
@@ -304,13 +314,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/0",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/0/.modal/-webkit-backdrop-filter",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -326,76 +329,6 @@
       "value": {
         "backdrop-filter": "blur(4px) !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/1",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/10",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/2",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/3",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/4",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/5",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/6",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/7",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/8",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/9",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",

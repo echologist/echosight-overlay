@@ -10,10 +10,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     "@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');"
 
-- malformed-declaration at "/customCSS/1": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/customCSS/1/body/color": selector is not in the fixed selector-to-slot table
 
     {"color":"#e8e2d2 !important"}
@@ -22,14 +18,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"font-family":"'Inter','Segoe UI',sans-serif !important"}
 
-- malformed-declaration at "/customCSS/10": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/11": declaration has no colon
-
-    ""
-
 - font-availability at "/customCSS/11/.progress-text/font-family": family names retained; no font file is bundled or downloaded
 
     "'JetBrains Mono','Inter',monospace !important"
@@ -37,10 +25,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/customCSS/11/.progress-text/letter-spacing": CSS declaration not representable by this bounded converter
 
     {"letter-spacing":"0.06em !important"}
-
-- malformed-declaration at "/customCSS/12": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/customCSS/12/.task-section-label/border-bottom": selector is not in the fixed selector-to-slot table
 
@@ -66,22 +50,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"text-transform":"uppercase !important"}
 
-- malformed-declaration at "/customCSS/13": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/14": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/15": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/16": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/customCSS/16/.task-delete/background": selector is not in the fixed selector-to-slot table
 
     {"background":"rgba(197,74,58,0.18) !important"}
@@ -93,10 +61,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-selector at "/customCSS/16/.task-delete/color": selector is not in the fixed selector-to-slot table
 
     {"color":"#f0a896 !important"}
-
-- malformed-declaration at "/customCSS/17": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/customCSS/17/.task-delete:hover/background": selector is not in the fixed selector-to-slot table
 
@@ -110,10 +74,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"color":"#ffe1d6 !important"}
 
-- malformed-declaration at "/customCSS/18": declaration has no colon
-
-    ""
-
 - unsupported-property at "/customCSS/18/.modal/-webkit-backdrop-filter": CSS declaration not representable by this bounded converter
 
     {"-webkit-backdrop-filter":"blur(4px) !important"}
@@ -122,17 +82,9 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"backdrop-filter":"blur(4px) !important"}
 
-- malformed-declaration at "/customCSS/19": declaration has no colon
-
-    ""
-
 - unsupported-property at "/customCSS/19/.modal-content/position": CSS declaration not representable by this bounded converter
 
     {"position":"relative !important"}
-
-- malformed-declaration at "/customCSS/2": declaration has no colon
-
-    ""
 
 - font-availability at "/customCSS/2/.header h2/font-family": family names retained; no font file is bundled or downloaded
 
@@ -141,10 +93,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/customCSS/2/.header h2/letter-spacing": CSS declaration not representable by this bounded converter
 
     {"letter-spacing":"0.18em !important"}
-
-- malformed-declaration at "/customCSS/20": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/customCSS/20/.modal-content::before/background": selector is not in the fixed selector-to-slot table
 
@@ -178,10 +126,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"top":"0"}
 
-- malformed-declaration at "/customCSS/21": declaration has no colon
-
-    ""
-
 - font-availability at "/customCSS/21/.modal-content h4/font-family": family names retained; no font file is bundled or downloaded
 
     "'Cinzel','Inter',serif !important"
@@ -206,37 +150,9 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"letter-spacing":"0.14em !important"}
 
-- malformed-declaration at "/customCSS/22": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/23": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/24": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/25": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/customCSS/25/.modal-content-dialog.app-dialog-tone-danger/border-color": selector is not in the fixed selector-to-slot table
 
     {"border-color":"rgba(197,74,58,0.75) !important"}
-
-- malformed-declaration at "/customCSS/26": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/27": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/28": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/customCSS/28/.context-menu div/color": selector is not in the fixed selector-to-slot table
 
@@ -246,10 +162,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"font-family":"'Inter',sans-serif !important"}
 
-- malformed-declaration at "/customCSS/29": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/customCSS/29/.context-menu div:hover/background": selector is not in the fixed selector-to-slot table
 
     {"background":"linear-gradient(90deg, rgba(212,168,87,0.18), rgba(212,168,87,0.06)) !important"}
@@ -257,10 +169,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-selector at "/customCSS/29/.context-menu div:hover/color": selector is not in the fixed selector-to-slot table
 
     {"color":"#f1d990 !important"}
-
-- malformed-declaration at "/customCSS/3": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/customCSS/3/.header h2 #shortcut-hint/color": selector is not in the fixed selector-to-slot table
 
@@ -286,10 +194,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"text-transform":"none !important"}
 
-- malformed-declaration at "/customCSS/4": declaration has no colon
-
-    ""
-
 - font-availability at "/customCSS/4/.modal-btn.secondary/font-family": family names retained; no font file is bundled or downloaded
 
     "'Cinzel','Inter',sans-serif !important"
@@ -313,14 +217,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/customCSS/4/.template-btn/transition": CSS declaration not representable by this bounded converter
 
     {"transition":"all .2s ease !important"}
-
-- malformed-declaration at "/customCSS/5": declaration has no colon
-
-    ""
-
-- malformed-declaration at "/customCSS/6": declaration has no colon
-
-    ""
 
 - unsupported-property at "/customCSS/6/.add-btn/box-shadow": CSS declaration not representable by this bounded converter
 
@@ -354,10 +250,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"transition":"all .2s ease !important"}
 
-- malformed-declaration at "/customCSS/7": declaration has no colon
-
-    ""
-
 - unsupported-property at "/customCSS/7/.add-btn:hover/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 0 1px 0 rgba(212,168,87,0.2), 0 0 14px rgba(212,168,87,0.25) !important"}
@@ -365,10 +257,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-property at "/customCSS/7/.modal-btn.primary:hover/box-shadow": CSS declaration not representable by this bounded converter
 
     {"box-shadow":"inset 0 1px 0 rgba(212,168,87,0.2), 0 0 14px rgba(212,168,87,0.25) !important"}
-
-- malformed-declaration at "/customCSS/8": declaration has no colon
-
-    ""
 
 - unsupported-selector at "/customCSS/8/.modal-input/background": selector is not in the fixed selector-to-slot table
 
@@ -458,10 +346,6 @@ Structural conversion only; not visual parity. Review every loss before publishi
 
     {"transition":"border-color .2s, box-shadow .2s !important"}
 
-- malformed-declaration at "/customCSS/9": declaration has no colon
-
-    ""
-
 - unsupported-selector at "/customCSS/9/.modal-input:focus/border-color": selector is not in the fixed selector-to-slot table
 
     {"border-color":"rgba(95,216,200,0.6) !important"}
@@ -521,6 +405,10 @@ Structural conversion only; not visual parity. Review every loss before publishi
 - unsupported-effect at "/effects/blur": inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed
 
     "14px"
+
+- effect-utility-selector at "/effects/textShadow": effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references
+
+    {"selector":".text-shadow","effect":"0 1px 2px rgba(0,0,0,0.7)"}
 
 - font-availability at "/fonts/primary/family": family names retained; no fonts bundled or fetched
 

@@ -126,6 +126,7 @@
             ]
           }
         },
+        "opacityAffects": true,
         "border": {
           "width": 2.0,
           "style": "solid",
@@ -170,13 +171,103 @@
         "text": {
           "family": "@fonts.ui.family",
           "size": "@fonts.sizes.ui"
-        }
+        },
+        "radius": "@radius.default"
       },
       "headerTitle": {
         "text": {
           "family": "@fonts.ui.family",
           "size": "@fonts.sizes.header"
         }
+      },
+      "button.primary": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "button.danger": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "button.icon": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        }
+      },
+      "dialog.button.primary": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#ffe6ef"
+        },
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(139,0,0,0.86)",
+                0.0
+              ],
+              [
+                "rgba(75,0,130,0.86)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": false,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(220,20,60,0.75)"
+        },
+        "states": {
+          "hover": {
+            "shadow": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "blur": 14.0,
+                "spread": 0.0,
+                "color": "rgba(220,20,60,0.45)"
+              }
+            ]
+          }
+        }
+      },
+      "dialog.button.secondary": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#dda0dd"
+        },
+        "fill": "rgba(35,0,35,0.82)",
+        "opacityAffects": false,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(75,0,130,0.8)"
+        },
+        "states": {
+          "hover": {
+            "shadow": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "blur": 14.0,
+                "spread": 0.0,
+                "color": "rgba(220,20,60,0.45)"
+              }
+            ]
+          }
+        }
+      },
+      "textarea": {
+        "radius": "@radius.default"
       },
       "progressBar": {
         "radius": "@radius.default"
@@ -197,6 +288,7 @@
             ]
           }
         },
+        "opacityAffects": false,
         "shadow": [
           {
             "x": 0.0,
@@ -222,7 +314,8 @@
               ]
             ]
           }
-        }
+        },
+        "opacityAffects": true
       },
       "tasksSection": {
         "fill": {
@@ -239,10 +332,12 @@
               ]
             ]
           }
-        }
+        },
+        "opacityAffects": true
       },
       "dialog.scrim": {
-        "fill": "rgba(10,0,12,0.82)"
+        "fill": "rgba(10,0,12,0.82)",
+        "opacityAffects": false
       },
       "dialog.window": {
         "border": {
@@ -281,72 +376,11 @@
       },
       "communityTemplateCard": {
         "fill": "rgba(25,0,25,0.58)",
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
           "color": "rgba(139,0,0,0.42)"
-        }
-      },
-      "dialog.button.primary": {
-        "fill": {
-          "gradient": {
-            "angle": 180.0,
-            "stops": [
-              [
-                "rgba(139,0,0,0.86)",
-                0.0
-              ],
-              [
-                "rgba(75,0,130,0.86)",
-                1.0
-              ]
-            ]
-          }
-        },
-        "border": {
-          "width": 1.0,
-          "style": "solid",
-          "color": "rgba(220,20,60,0.75)"
-        },
-        "text": {
-          "color": "#ffe6ef"
-        },
-        "states": {
-          "hover": {
-            "shadow": [
-              {
-                "x": 0.0,
-                "y": 0.0,
-                "blur": 14.0,
-                "spread": 0.0,
-                "color": "rgba(220,20,60,0.45)"
-              }
-            ]
-          }
-        }
-      },
-      "dialog.button.secondary": {
-        "fill": "rgba(35,0,35,0.82)",
-        "border": {
-          "width": 1.0,
-          "style": "solid",
-          "color": "rgba(75,0,130,0.8)"
-        },
-        "text": {
-          "color": "#dda0dd"
-        },
-        "states": {
-          "hover": {
-            "shadow": [
-              {
-                "x": 0.0,
-                "y": 0.0,
-                "blur": 14.0,
-                "spread": 0.0,
-                "color": "rgba(220,20,60,0.45)"
-              }
-            ]
-          }
         }
       },
       "dialog.danger.title": {
@@ -371,13 +405,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/0",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/0/.modal/-webkit-backdrop-filter",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -396,13 +423,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/1",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/1/.modal-content/background",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -418,69 +438,6 @@
       "value": {
         "box-shadow": "0 0 28px rgba(220,20,60,0.32), 0 24px 52px rgba(0,0,0,0.72), inset 0 1px 0 rgba(220,20,60,0.22) !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/10",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/2",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/3",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/4",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/5",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/6",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/7",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/8",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/9",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -504,6 +461,16 @@
       "code": "unsupported-effect",
       "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
       "value": "0 0 20px rgba(220, 20, 60, 0.4), 0 0 40px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(220, 20, 60, 0.3)"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/textShadow",
+      "code": "effect-utility-selector",
+      "message": "effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references",
+      "value": {
+        "selector": ".text-shadow",
+        "effect": "0 0 4px rgba(220, 20, 60, 0.8), 0 1px 2px rgba(0, 0, 0, 0.9)"
+      }
     },
     {
       "severity": "warning",

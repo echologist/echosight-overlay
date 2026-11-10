@@ -134,6 +134,7 @@
           ]
         },
         "fill": "@colors.surface.primary",
+        "opacityAffects": false,
         "border": {
           "width": 2.0,
           "style": "solid",
@@ -189,6 +190,7 @@
             ]
           }
         },
+        "opacityAffects": false,
         "border": {
           "width": 2.0,
           "style": "solid",
@@ -214,7 +216,8 @@
                   ]
                 ]
               }
-            }
+            },
+            "opacityAffects": false
           }
         }
       },
@@ -229,6 +232,7 @@
         },
         "radius": "@radius.default",
         "fill": "@colors.surface.primary",
+        "opacityAffects": false,
         "padding": [
           2.0,
           4.0
@@ -243,7 +247,9 @@
           "size": 11.0,
           "color": "@colors.text.primary"
         },
+        "radius": "@radius.default",
         "fill": "@colors.surface.secondary",
+        "opacityAffects": false,
         "shadow": "@shadows.bevelOutset"
       },
       "headerTitle": {
@@ -252,23 +258,125 @@
           "size": "@fonts.sizes.header"
         }
       },
+      "button.primary": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        },
+        "shadow": "@shadows.button"
+      },
+      "button.danger": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        },
+        "shadow": "@shadows.button"
+      },
+      "button.icon": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text"
+        },
+        "shadow": "@shadows.button"
+      },
+      "dialog.button.primary": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#292c21"
+        },
+        "shadow": [
+          {
+            "x": 2.0,
+            "y": 2.0,
+            "blur": 0.0,
+            "spread": 0.0,
+            "color": "#292c21"
+          }
+        ],
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#c4b550",
+                0.0
+              ],
+              [
+                "#958831",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": false,
+        "border": {
+          "width": 2.0,
+          "style": "solid",
+          "color": "#8c9284"
+        }
+      },
+      "dialog.button.secondary": {
+        "radius": "@radius.default",
+        "text": {
+          "shadow": "@shadows.text",
+          "color": "#dedfd6"
+        },
+        "shadow": [
+          {
+            "x": 2.0,
+            "y": 2.0,
+            "blur": 0.0,
+            "spread": 0.0,
+            "color": "#292c21"
+          }
+        ],
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#3e4637",
+                0.0
+              ],
+              [
+                "#4a5942",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": false,
+        "border": {
+          "width": 2.0,
+          "style": "solid",
+          "color": "#8c9284"
+        }
+      },
+      "textarea": {
+        "radius": "@radius.default"
+      },
       "progressBar": {
         "radius": "@radius.default",
         "fill": "@colors.surface.primary",
+        "opacityAffects": false,
         "height": 12.0
       },
       "header": {
         "fill": "@colors.surface.secondary",
+        "opacityAffects": false,
         "text": {
           "color": "@colors.text.primary",
           "shadow": "@shadows.text"
         }
       },
       "templateSection": {
-        "fill": "@colors.surface.secondary"
+        "fill": "@colors.surface.secondary",
+        "opacityAffects": false
       },
       "tasksSection": {
         "fill": "@colors.surface.primary",
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
@@ -291,21 +399,25 @@
             ]
           }
         },
+        "opacityAffects": false,
         "shadow": "@shadows.bevelOutset"
       },
       "checkbox": {},
       "taskRow": {
         "states": {
           "hover": {
-            "fill": "rgba(196, 181, 80, 0.1)"
+            "fill": "rgba(196, 181, 80, 0.1)",
+            "opacityAffects": false
           }
         }
       },
       "dialog.scrim": {
-        "fill": "rgba(20,22,16,0.76)"
+        "fill": "rgba(20,22,16,0.76)",
+        "opacityAffects": false
       },
       "dialog.window": {
         "fill": "#4a5942",
+        "opacityAffects": false,
         "border": {
           "width": 2.0,
           "style": "solid",
@@ -346,79 +458,12 @@
       },
       "communityTemplateCard": {
         "fill": "#3e4637",
+        "opacityAffects": false,
         "border": {
           "width": 1.0,
           "style": "solid",
           "color": "#292c21"
         }
-      },
-      "dialog.button.primary": {
-        "fill": {
-          "gradient": {
-            "angle": 180.0,
-            "stops": [
-              [
-                "#c4b550",
-                0.0
-              ],
-              [
-                "#958831",
-                1.0
-              ]
-            ]
-          }
-        },
-        "border": {
-          "width": 2.0,
-          "style": "solid",
-          "color": "#8c9284"
-        },
-        "text": {
-          "color": "#292c21"
-        },
-        "shadow": [
-          {
-            "x": 2.0,
-            "y": 2.0,
-            "blur": 0.0,
-            "spread": 0.0,
-            "color": "#292c21"
-          }
-        ]
-      },
-      "dialog.button.secondary": {
-        "fill": {
-          "gradient": {
-            "angle": 180.0,
-            "stops": [
-              [
-                "#3e4637",
-                0.0
-              ],
-              [
-                "#4a5942",
-                1.0
-              ]
-            ]
-          }
-        },
-        "border": {
-          "width": 2.0,
-          "style": "solid",
-          "color": "#8c9284"
-        },
-        "text": {
-          "color": "#dedfd6"
-        },
-        "shadow": [
-          {
-            "x": 2.0,
-            "y": 2.0,
-            "blur": 0.0,
-            "spread": 0.0,
-            "color": "#292c21"
-          }
-        ]
       },
       "dialog.danger.title": {
         "text": {
@@ -546,24 +591,10 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/authentic/0",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/glow",
       "code": "css-source-order",
       "message": "recognized selectors are applied in source order, not CSS specificity/importance; manual review required",
       "value": "/customCSS/glow"
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/glow/0",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -580,13 +611,6 @@
       "code": "css-source-order",
       "message": "recognized selectors are applied in source order, not CSS specificity/importance; manual review required",
       "value": "/customCSS/modal"
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/modal/0",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -608,13 +632,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/modal/1",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/modal/1/.modal-content/box-shadow",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
@@ -631,61 +648,12 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/modal/2",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/modal/3",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/modal/4",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/modal/5",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/modal/5/.community-template/box-shadow",
       "code": "unsupported-property",
       "message": "CSS declaration not representable by this bounded converter",
       "value": {
         "box-shadow": "inset 1px 1px 0 #8c9284, inset -1px -1px 0 #292c21 !important"
       }
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/modal/6",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/modal/7",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
-      "location": "/customCSS/modal/8",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
     },
     {
       "severity": "warning",
@@ -698,13 +666,6 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/modal/9",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/customCSS/retro",
       "code": "css-source-order",
       "message": "recognized selectors are applied in source order, not CSS specificity/importance; manual review required",
@@ -712,17 +673,20 @@
     },
     {
       "severity": "warning",
-      "location": "/customCSS/retro/0",
-      "code": "malformed-declaration",
-      "message": "declaration has no colon",
-      "value": ""
-    },
-    {
-      "severity": "warning",
       "location": "/effects/bevelInset",
       "code": "unsupported-effect",
       "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
       "value": "inset 1px 1px 0px var(--border-light), inset -1px -1px 0px var(--border-dark)"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/bevelOutset",
+      "code": "effect-utility-selector",
+      "message": "effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references",
+      "value": {
+        "selector": ".bevel-outset",
+        "effect": "1px 1px 0px var(--border-light), -1px -1px 0px var(--border-dark)"
+      }
     },
     {
       "severity": "warning",
@@ -737,6 +701,26 @@
       "code": "unsupported-effect",
       "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
       "value": "drop-shadow(2px 2px 2px rgba(41, 44, 33, 0.6))"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/glow",
+      "code": "effect-utility-selector",
+      "message": "effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references",
+      "value": {
+        "selector": ".glow",
+        "effect": "0 0 8px var(--primary)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/textShadow",
+      "code": "effect-utility-selector",
+      "message": "effect token and known control usages retained; arbitrary v1 utility-class targets have no fixed v2 slot and require explicit token references",
+      "value": {
+        "selector": ".text-shadow",
+        "effect": "1px 1px 0px var(--border-dark)"
+      }
     },
     {
       "severity": "warning",

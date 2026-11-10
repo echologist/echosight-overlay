@@ -1,6 +1,6 @@
 # Theme v2 parity ledger — bounded core checkpoint
 
-Base: `f1f8b21`; topic: `gpui-port-theme-v2`. This lane owns only new core `theme/v2`, the module export, v2 schema/tests/fixtures, and these new docs. It does not change Electron, v1 loading/sync/sounds/helpers, app/UI wiring, dependencies, bundled data, or existing golden fixtures.
+Base: `f1f8b21`; topic: `gpui-port-theme-v2`. This lane owns only new core `theme/v2`, the module export, v2 schema/tests/fixtures, and these new docs. It does not change Electron, v1 loading/sync/sounds/helpers, app/UI wiring, dependencies, bundled data, or existing golden fixtures. The converter correction branch `gpui-port-theme-v2-converter-fixes` starts at `889c02f` and changes only the converter, conversion/bundled tests, converted snapshots/reports and migration/parity docs; validator/resolver/schema corrections are a separate lane.
 
 ## Delivered and exercised
 
@@ -29,7 +29,7 @@ python crates/echosight-core/tests/theme_v2_contract_check.py
 cargo test --locked -p echosight-core --test theme_v2_bundled -- --nocapture
 ```
 
-Results at this checkpoint: **100 Rust test functions passed**, including **18 new v2 test functions**. The bundled test iterates eleven distinct source themes; the schema test iterates 36 acceptance cases. These are separate counts, not hundreds of independently named tests. Independent Python checker: 36 corpus cases, eleven converted structures, 23 source-file hashes verified. Clippy and formatting pass. No Cargo manifest/lockfile delta. Python `jsonschema` is a development-only independent checker, not a new runtime/Cargo dependency.
+Results after converter corrections: **112 Rust test functions passed**, including **16 converter test functions** (the original four plus eight review reproductions and four additional guards). The bundled test iterates eleven distinct source themes; the schema test iterates 36 acceptance cases. These are separate counts, not hundreds of independently named tests. Independent Python checker: 36 corpus cases, eleven converted structures, 23 source-file hashes verified. Clippy and formatting pass. No Cargo manifest/lockfile delta. Python `jsonschema` is a development-only independent checker, not a new runtime/Cargo dependency.
 
 Frozen source copies intentionally preserve the original trailing whitespace (CS16 JSON and 98/XP CSS). Fixture-local `.gitattributes` disables whitespace lint only for copied `source.json`/`source.css`; their stronger byte/hash checks still run. All authored code, converted outputs and reports retain normal whitespace checks. Do not trim the copied sources to silence `git diff --check`.
 
@@ -37,23 +37,55 @@ The v2 tests cover malformed nested values without panics; metadata/asset string
 
 ## Frozen conversion reports
 
-Counts include loss warnings, font-availability notices, CSS-order caveats and unmapped metadata. They are **not** a visual-fidelity score.
+Counts include loss warnings, font-availability notices, CSS-order caveats and unmapped metadata. They are **not** a visual-fidelity score. Programmatic comparison against `889c02f`: 909 → 688 entries, exactly 232 false empty `malformed-declaration` entries removed and 11 precise effect utility-selector notices added; every other diagnostic-code count is unchanged. All eleven snapshots were intentionally regenerated, then verified read-only with `UPDATE_THEME_V2_FIXTURES` unset.
 
 | Source ID | Report entries | Provisional CSS-folder flag |
 |---|---:|---|
-| cs16 | 49 | no |
-| dark | 23 | no |
-| echosight | 145 | no |
-| exiles_corruption | 39 | no |
-| glass | 44 | no |
-| light | 22 | no |
-| minimal | 27 | no |
-| winamp-classic | 74 | **yes** |
-| windows-7 | 255 | **yes** |
-| windows-98 | 124 | **yes** |
-| windows-xp | 107 | **yes** |
+| cs16 | 39 | no |
+| dark | 12 | no |
+| echosight | 117 | no |
+| exiles_corruption | 29 | no |
+| glass | 34 | no |
+| light | 11 | no |
+| minimal | 17 | no |
+| winamp-classic | 49 | **yes** |
+| windows-7 | 211 | **yes** |
+| windows-98 | 91 | **yes** |
+| windows-xp | 78 | **yes** |
 
 Reports and converted structures live only under `tests/theme_v2_fixtures/<id>/`. Versions and authored IDs are unchanged. The exiles source is the actual single-file baseline, not the discarded sound-branch variant described by the older inventory.
+
+## Source-observed converter regression provenance
+
+The eight `observed_*` tests in `theme_v2_conversion.rs` were first run against production APIs at `889c02f4f7cd7d0ad754de54bfbbe9289267073c`: **eight failed, four pre-existing tests passed**. They now pass. Expectations come from the unchanged TypeScript modules below, executed with installed TypeScript/defu, then inspected through Chrome computed styles—not from a handwritten CSS oracle. The same TS/Chrome harness was rerun from this correction worktree against 16 base/variant cases. These are browser style-engine observations, **not GPUI or native visual acceptance**.
+
+Paths in this table are under `src/renderer/features/themes/` at that frozen revision; no Electron source is modified.
+
+| Regression input / source authority | Observed v1 result | Converter outcome / genuine limit |
+|---|---|---|
+| User-opacity RGBA window → variant `#ffffff`; `themeCssBaseStyles.ts` `generateInteractiveStyles`, main `themeHelpers.ts` `createVariantTheme` | At user opacity .25, opaque variant computes `rgb(255, 255, 255)` | Explicit false clears inherited generated fill opacity; transparent surface-token variants still fade |
+| Component background `linear-gradient(red, blue)` followed by `backgroundColor: green`; same `.header` custom CSS; `themeCssComponents.ts` `generateComponentProperties`, `themeCssBaseStyles.ts` `generateCustomCSS` | Background image remains `linear-gradient(rgb(255, 0, 0), rgb(0, 0, 255))`, with `rgb(0, 128, 0)` color underneath | Retain gradient, report the unrepresentable color underlay (`background-layer-loss`); also guarded across recognized CSS rules |
+| Component state insertion order active:red, hover:blue; `themeCssComponents.ts:28-45` | Simultaneous active+hover computes blue | Fixed v2 precedence still yields red; `simultaneous-state-order` explicitly records both orders/outcomes, rather than claiming parity |
+| Primary UI font size 12px and button component 20px; `themeApplicator.ts:35-36`, `themeRuntime.ts:121-124`, `themeCssSelectors.ts:22-29` | Plain button 12px; `.template-btn` 20px | Preserve plain button 12px; `font-selector-precedence` reports collapsed class-specific outcome |
+| `bevelInset: 1px 2px red`, radius 9px, text shadow; `themeCssBaseStyles.ts:48-89,120-159` | Input/textarea/select outer shadow `rgb(255, 0, 0) 1px 2px 0px 0px`, radius 9px; buttons receive text shadow | Apply known control/button-family targets; report arbitrary generated utility-class targets only |
+| `titlebar_bg.svg`; `themeCssBackground.ts:71-102` | Header background-size `cover` | Emit header image mode `cover`, not stretch |
+| Button color red, states:null; `themeCssComponents.ts:23-50` and `themeCssHelpers.ts` `isRecord` | Base red preserved; only a record activates the state branch | Preserve base for null/array/scalar states; never falsely emit `v1-ignored-base` |
+| `button { color: red; }`; actual generated stylesheet appended to Chrome | Valid red declaration | Ignore empty declaration trivia; retain errors for nonempty malformed declarations |
+
+The simultaneous-state probe uses CDP `CSS.forcePseudoState(['hover','active'])` on the actual generated stylesheet. DOM `matches(':hover')` / `matches(':active')` remain false; the computed background is blue. This tests CSS evaluation, not event dispatch.
+
+Source SHA-256 values (read-only provenance, not replacement fixtures):
+
+```text
+themeCssComponents.ts 9a26ddbb81667b9daa1f7b1c6044f707aa2290d513bf677a4caab506c0cdd2bb
+themeCssBaseStyles.ts 3217139b77df068f09934f4ca11ea56fc17837e854b9dd9b0d7ec1bd87fa0a2c
+themeCssBackground.ts a52d46b7e9291619d97849ae3bf0f8a248139317d48e807173ee63641f2f5d23
+themeRuntime.ts 3b778944f5438a0ee609ac75dd422a6c71e94eebec599bb2ef1b8b648c2cf7c0
+themeApplicator.ts 3a0a3ce9e2747e652fa9cadd13afae2d702e396eb76f3f4e85f06b9c2a998c84
+themeCssSelectors.ts 099203ceacdaf38f501e74eaaa4936960a500c61a50f3573e2b2aa13e3d09c9b
+```
+
+Additional production-API guards cover transparent token variants and opaque state overrides; omitted inherited values with `variant-inherited-value` and the existing legitimate `variant-array-replacement`; background shorthand reset/order. Controls keep aligned/disjoint/identical state outcomes warning-free, preserve quoted URL delimiters and full unsupported font-face content, and verify source input immutability. The shared tokenizer is deliberately unchanged: empty declarations are trivia at the declaration boundary, not permission to accept empty gradient stops.
 
 ## Remaining gates / deliberate limits
 
