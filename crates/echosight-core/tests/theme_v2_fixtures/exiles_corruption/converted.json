@@ -1,0 +1,688 @@
+{
+  "theme": {
+    "format": 2,
+    "id": "exiles_corruption",
+    "name": "Exile's Corruption",
+    "tokens": {
+      "colors": {
+        "primary": "#8b0000",
+        "secondary": "#dc143c",
+        "accent": "#4b0082",
+        "danger": "#ff1744",
+        "text": {
+          "primary": "#e6e6fa",
+          "secondary": "#dda0dd",
+          "muted": "#9370db",
+          "inverse": "#000000"
+        },
+        "surface": {
+          "primary": "rgba(25, 0, 25, 0.9)",
+          "secondary": "rgba(35, 0, 35, 0.8)",
+          "tertiary": "rgba(45, 0, 45, 0.6)",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#8b0000",
+          "secondary": "#4b0082",
+          "interactive": "#dc143c"
+        }
+      },
+      "opacity": {
+        "appliesTo": [
+          "surface.primary",
+          "surface.secondary",
+          "surface.tertiary"
+        ]
+      },
+      "fonts": {
+        "ui": {
+          "family": [
+            "Segoe UI",
+            "Tahoma",
+            "Geneva",
+            "Verdana",
+            "sans-serif"
+          ]
+        },
+        "sizes": {
+          "header": 16.0,
+          "task": 13.0,
+          "progress": 12.0,
+          "ui": 12.0
+        },
+        "weights": {
+          "normal": 400.0,
+          "bold": 600.0
+        }
+      },
+      "shadows": {
+        "text": [
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 4.0,
+            "spread": 0.0,
+            "color": "rgba(220, 20, 60, 0.8)"
+          },
+          {
+            "x": 0.0,
+            "y": 1.0,
+            "blur": 2.0,
+            "spread": 0.0,
+            "color": "rgba(0, 0, 0, 0.9)"
+          }
+        ]
+      },
+      "radius": {
+        "default": 6.0
+      }
+    },
+    "slots": {
+      "taskText": {
+        "text": {
+          "color": "@text.primary",
+          "family": "@fonts.ui.family",
+          "size": "@fonts.sizes.task",
+          "weight": "@fonts.weights.normal",
+          "shadow": "@shadows.text"
+        },
+        "states": {
+          "completed": {
+            "text": {
+              "color": "@text.muted"
+            }
+          }
+        }
+      },
+      "progressText": {
+        "text": {
+          "color": "@text.secondary",
+          "family": "@fonts.ui.family",
+          "size": "@fonts.sizes.progress",
+          "weight": "@fonts.weights.bold",
+          "shadow": "@shadows.text"
+        }
+      },
+      "window.interactive": {
+        "text": {
+          "family": "@fonts.ui.family"
+        },
+        "fill": {
+          "gradient": {
+            "angle": 135.0,
+            "stops": [
+              [
+                "@colors.surface.primary",
+                0.0
+              ],
+              [
+                "rgba(35, 0, 35, 0.95)",
+                0.5
+              ],
+              [
+                "@colors.surface.primary",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 2.0,
+          "style": "solid",
+          "color": "@colors.border.interactive"
+        }
+      },
+      "window.clickThrough": {
+        "text": {
+          "family": "@fonts.ui.family"
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(139, 0, 0, 0.4)"
+        },
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 15.0,
+            "spread": 0.0,
+            "color": "rgba(220, 20, 60, 0.2)"
+          }
+        ]
+      },
+      "button": {
+        "text": {
+          "family": "@fonts.ui.family",
+          "size": "@fonts.sizes.ui",
+          "shadow": "@shadows.text"
+        },
+        "radius": "@radius.default"
+      },
+      "input": {
+        "text": {
+          "family": "@fonts.ui.family",
+          "size": "@fonts.sizes.ui"
+        },
+        "radius": "@radius.default"
+      },
+      "select": {
+        "text": {
+          "family": "@fonts.ui.family",
+          "size": "@fonts.sizes.ui"
+        }
+      },
+      "headerTitle": {
+        "text": {
+          "family": "@fonts.ui.family",
+          "size": "@fonts.sizes.header"
+        }
+      },
+      "progressBar": {
+        "radius": "@radius.default"
+      },
+      "header": {
+        "fill": {
+          "gradient": {
+            "angle": 135.0,
+            "stops": [
+              [
+                "rgba(139, 0, 0, 0.8)",
+                0.0
+              ],
+              [
+                "rgba(75, 0, 130, 0.6)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 2.0,
+            "blur": 10.0,
+            "spread": 0.0,
+            "color": "rgba(220, 20, 60, 0.3)"
+          }
+        ]
+      },
+      "templateSection": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "@colors.surface.secondary",
+                0.0
+              ],
+              [
+                "@colors.surface.tertiary",
+                1.0
+              ]
+            ]
+          }
+        }
+      },
+      "tasksSection": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "@colors.surface.tertiary",
+                0.0
+              ],
+              [
+                "@colors.surface.secondary",
+                1.0
+              ]
+            ]
+          }
+        }
+      },
+      "dialog.scrim": {
+        "fill": "rgba(10,0,12,0.82)"
+      },
+      "dialog.window": {
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(220,20,60,0.72)"
+        },
+        "radius": 6.0,
+        "text": {
+          "color": "#e6e6fa"
+        }
+      },
+      "dialog.title": {
+        "text": {
+          "color": "#ff6b86",
+          "shadow": [
+            {
+              "x": 0.0,
+              "y": 0.0,
+              "blur": 10.0,
+              "spread": 0.0,
+              "color": "rgba(220,20,60,0.7)"
+            }
+          ]
+        }
+      },
+      "dialog.text": {
+        "text": {
+          "color": "#f0e6ff"
+        }
+      },
+      "dialog.hint": {
+        "text": {
+          "color": "#dda0dd"
+        }
+      },
+      "communityTemplateCard": {
+        "fill": "rgba(25,0,25,0.58)",
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(139,0,0,0.42)"
+        }
+      },
+      "dialog.button.primary": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(139,0,0,0.86)",
+                0.0
+              ],
+              [
+                "rgba(75,0,130,0.86)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(220,20,60,0.75)"
+        },
+        "text": {
+          "color": "#ffe6ef"
+        },
+        "states": {
+          "hover": {
+            "shadow": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "blur": 14.0,
+                "spread": 0.0,
+                "color": "rgba(220,20,60,0.45)"
+              }
+            ]
+          }
+        }
+      },
+      "dialog.button.secondary": {
+        "fill": "rgba(35,0,35,0.82)",
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(75,0,130,0.8)"
+        },
+        "text": {
+          "color": "#dda0dd"
+        },
+        "states": {
+          "hover": {
+            "shadow": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "blur": 14.0,
+                "spread": 0.0,
+                "color": "rgba(220,20,60,0.45)"
+              }
+            ]
+          }
+        }
+      },
+      "dialog.danger.title": {
+        "text": {
+          "color": "#ff8ba0"
+        }
+      }
+    },
+    "images": {},
+    "version": "1.0.1",
+    "author": "Echosight",
+    "description": "Dark corruption theme inspired by PoE's corruption mechanics with deep purples and red accents",
+    "supportsTransparency": false
+  },
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "location": "/customCSS",
+      "code": "css-source-order",
+      "message": "recognized selectors are applied in source order, not CSS specificity/importance; manual review required",
+      "value": "/customCSS"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/0",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/0/.modal/-webkit-backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "-webkit-backdrop-filter": "blur(7px) saturate(130%) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/0/.modal/backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdrop-filter": "blur(7px) saturate(130%) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/1",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/1/.modal-content/background",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "background": "radial-gradient(circle at 20% 0%, rgba(75,0,130,0.82), rgba(25,0,25,0.98) 48%, rgba(12,0,16,0.98)) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/1/.modal-content/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "0 0 28px rgba(220,20,60,0.32), 0 24px 52px rgba(0,0,0,0.72), inset 0 1px 0 rgba(220,20,60,0.22) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/10",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/2",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/3",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/4",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/5",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/6",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/7",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/.modal-content-dialog.app-dialog-tone-danger/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "#ff1744 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/blur",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "8px"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/boxShadow",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "0 0 20px rgba(220, 20, 60, 0.4), 0 0 40px rgba(139, 0, 0, 0.2), inset 0 1px 0 rgba(220, 20, 60, 0.3)"
+    },
+    {
+      "severity": "warning",
+      "location": "/fonts/primary/family",
+      "code": "font-availability",
+      "message": "family names retained; no fonts bundled or fetched",
+      "value": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif"
+    },
+    {
+      "severity": "warning",
+      "location": "/isDefault",
+      "code": "unmapped-field",
+      "message": "v1 field is not interpreted by the v2 converter",
+      "value": false
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/container/backdropFilter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdropFilter": "blur(3px) saturate(1.1) brightness(0.7)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/container/background",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "background": "linear-gradient(135deg, rgba(25, 0, 25, var(--user-transparency, 0.15)) 0%, rgba(35, 0, 35, calc(var(--user-transparency, 0.15) * 1.2)) 50%, rgba(25, 0, 25, var(--user-transparency, 0.15)) 100%)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/container/borderRadius",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderRadius": "var(--border-radius)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/container/webkitBackdropFilter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "webkitBackdropFilter": "blur(3px) saturate(1.1) brightness(0.7)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/tasksSection",
+      "code": "unsupported-mode-slot",
+      "message": "no mode-qualified section slot in v2; manual application decision required",
+      "value": {
+        "background": "linear-gradient(180deg, rgba(25, 0, 25, calc(var(--user-transparency, 0.15) * 0.8)) 0%, rgba(35, 0, 35, calc(var(--user-transparency, 0.15) * 1.1)) 100%)",
+        "position": "relative"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/backdropFilter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdropFilter": "blur(var(--blur)) saturate(1.2)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/borderRadius",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderRadius": "var(--border-radius)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/boxShadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "boxShadow": "var(--box-shadow)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/overflow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "overflow": "hidden"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/position",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "position": "relative"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/webkitBackdropFilter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "webkitBackdropFilter": "blur(var(--blur)) saturate(1.2)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/header/backdropFilter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdropFilter": "blur(5px)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/header/borderBottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderBottom": "1px solid var(--border-primary)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/header/webkitBackdropFilter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "webkitBackdropFilter": "blur(5px)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/tasksSection/position",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "position": "relative"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/templateSection/borderBottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderBottom": "1px solid var(--border-secondary)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/templateSection/boxShadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "boxShadow": "inset 0 1px 3px rgba(220, 20, 60, 0.2)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/transparency",
+      "code": "unmapped-field",
+      "message": "v1 field is not interpreted by the v2 converter",
+      "value": {
+        "clickThrough": "0.15",
+        "interactive": "0.9"
+      }
+    }
+  ],
+  "provisional": false
+}

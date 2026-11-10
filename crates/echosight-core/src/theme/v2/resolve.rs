@@ -4,6 +4,36 @@ use super::{
 };
 use serde_json::{Value, json};
 
+/// Check before cloning diagnostics or expanding references, including unknown fields.
+pub(super) fn bounded_input(value: &Value, d: &mut Vec<Diagnostic>) -> bool {
+    let mut pending = vec![(value, String::new(), 0usize)];
+    let mut visits = 0usize;
+    while let Some((value, p, depth)) = pending.pop() {
+        visits += 1;
+        if depth > 64 || visits > 100_000 {
+            issue(
+                d,
+                &p,
+                "budget",
+                "input exceeds 64 levels or 100000 nodes; source value omitted for safety",
+                &Value::Null,
+                Severity::Error,
+            );
+            return false;
+        }
+        match value {
+            Value::Object(o) => pending.extend(o.iter().map(|(k, v)| (v, path(&p, k), depth + 1))),
+            Value::Array(a) => pending.extend(
+                a.iter()
+                    .enumerate()
+                    .map(|(i, v)| (v, path(&p, &i.to_string()), depth + 1)),
+            ),
+            _ => {}
+        }
+    }
+    true
+}
+
 pub(super) fn token_path(reference: &str) -> String {
     let p = reference
         .trim_start_matches('@')
@@ -30,6 +60,67 @@ pub(super) fn resolve_refs(
     d: &mut Vec<Diagnostic>,
     depth: usize,
 ) -> Option<Value> {
+    resolve_bounded(v, tokens, p, stack, d, depth, &mut 100_000)
+}
+fn reference_position(p: &str) -> bool {
+    fn allows(schema: &Value, parts: &[String], depth: usize) -> bool {
+        if depth > 96 {
+            return false;
+        }
+        if let Some(r) = schema["$ref"].as_str() {
+            if parts.is_empty() && r == "#/$defs/reference" {
+                return true;
+            }
+            return super::contract::CONTRACT
+                .pointer(r.trim_start_matches('#'))
+                .is_some_and(|s| allows(s, parts, depth + 1));
+        }
+        if let Some(options) = schema["anyOf"].as_array() {
+            return options.iter().any(|s| allows(s, parts, depth + 1));
+        }
+        let Some((key, rest)) = parts.split_first() else {
+            return false;
+        };
+        let child = if schema["type"] == "array" {
+            key.parse::<usize>()
+                .ok()
+                .and_then(|i| schema["prefixItems"].get(i))
+                .or_else(|| schema.get("items"))
+        } else {
+            schema["properties"]
+                .get(key)
+                .or_else(|| schema.get("additionalProperties"))
+        };
+        child.is_some_and(|s| allows(s, rest, depth + 1))
+    }
+    let parts: Vec<_> = p
+        .trim_start_matches('/')
+        .split('/')
+        .map(|s| s.replace("~1", "/").replace("~0", "~"))
+        .collect();
+    allows(&super::contract::CONTRACT, &parts, 0)
+}
+fn resolve_bounded(
+    v: &Value,
+    tokens: &Value,
+    p: &str,
+    stack: &mut Vec<String>,
+    d: &mut Vec<Diagnostic>,
+    depth: usize,
+    budget: &mut usize,
+) -> Option<Value> {
+    if *budget == 0 {
+        issue(
+            d,
+            p,
+            "budget",
+            "resolved document exceeds 100000 visits",
+            &Value::Null,
+            Severity::Error,
+        );
+        return None;
+    }
+    *budget -= 1;
     if depth > 64 {
         issue(
             d,
@@ -41,7 +132,10 @@ pub(super) fn resolve_refs(
         );
         return None;
     }
-    if let Some(reference) = v.as_str().filter(|s| s.starts_with('@')) {
+    if let Some(reference) = v
+        .as_str()
+        .filter(|s| s.starts_with('@') && reference_position(p))
+    {
         let key = token_path(reference);
         if stack.contains(&key) {
             issue(
@@ -66,7 +160,7 @@ pub(super) fn resolve_refs(
             return None;
         };
         stack.push(key);
-        let result = resolve_refs(target, tokens, p, stack, d, depth + 1);
+        let result = resolve_bounded(target, tokens, p, stack, d, depth + 1, budget);
         stack.pop();
         return result;
     }
@@ -75,7 +169,9 @@ pub(super) fn resolve_refs(
             let mut result = serde_json::Map::new();
             let mut ok = true;
             for (k, v) in o {
-                if let Some(v) = resolve_refs(v, tokens, &path(p, k), stack, d, depth + 1) {
+                if let Some(v) =
+                    resolve_bounded(v, tokens, &path(p, k), stack, d, depth + 1, budget)
+                {
                     result.insert(k.clone(), v);
                 } else {
                     ok = false;
@@ -87,9 +183,15 @@ pub(super) fn resolve_refs(
             let mut result = vec![];
             let mut ok = true;
             for (i, v) in a.iter().enumerate() {
-                if let Some(v) =
-                    resolve_refs(v, tokens, &path(p, &i.to_string()), stack, d, depth + 1)
-                {
+                if let Some(v) = resolve_bounded(
+                    v,
+                    tokens,
+                    &path(p, &i.to_string()),
+                    stack,
+                    d,
+                    depth + 1,
+                    budget,
+                ) {
                     result.push(v);
                 } else {
                     ok = false;

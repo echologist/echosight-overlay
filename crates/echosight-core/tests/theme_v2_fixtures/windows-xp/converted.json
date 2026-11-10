@@ -1,0 +1,1450 @@
+{
+  "theme": {
+    "format": 2,
+    "id": "windows-xp",
+    "name": "Windows XP",
+    "tokens": {
+      "colors": {
+        "primary": "#0054e3",
+        "secondary": "#316ac5",
+        "accent": "#ffd700",
+        "danger": "#ff6b6b",
+        "text": {
+          "primary": "#000000",
+          "secondary": "#333333",
+          "muted": "#666666",
+          "inverse": "#ffffff",
+          "disabled": "#999999"
+        },
+        "surface": {
+          "primary": "#ece9d8",
+          "secondary": "#f1efe2",
+          "tertiary": "#ddd9c3",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#0054e3",
+          "secondary": "#8b8680",
+          "interactive": "#0054e3",
+          "light": "#ffffff",
+          "dark": "#aca899"
+        }
+      },
+      "opacity": {
+        "appliesTo": []
+      },
+      "fonts": {
+        "ui": {
+          "family": [
+            "Tahoma",
+            "Arial",
+            "sans-serif"
+          ]
+        },
+        "sizes": {
+          "header": 11.0,
+          "task": 11.0,
+          "progress": 11.0,
+          "ui": 11.0
+        },
+        "weights": {
+          "normal": 400.0,
+          "bold": 700.0
+        }
+      },
+      "shadows": {
+        "text": []
+      },
+      "radius": {
+        "default": 0.0
+      }
+    },
+    "slots": {
+      "taskText": {
+        "text": {
+          "color": "#000000",
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "weight": "@fonts.weights.normal",
+          "shadow": []
+        },
+        "states": {
+          "completed": {
+            "text": {
+              "color": "#666666",
+              "strikethrough": true
+            }
+          }
+        }
+      },
+      "progressText": {
+        "text": {
+          "color": "#000000",
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "weight": 400.0,
+          "shadow": "@shadows.text"
+        }
+      },
+      "window.interactive": {
+        "text": {
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "color": "#000000",
+          "size": 11.0
+        },
+        "fill": "#ece9d8",
+        "radius": 0.0,
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "padding": 3.0
+      },
+      "window.clickThrough": {
+        "text": {
+          "family": "@fonts.ui.family"
+        },
+        "fill": "rgba(236, 233, 216, 0.9)",
+        "border": {
+          "width": 0,
+          "style": "none",
+          "color": "rgba(139, 134, 128, 0.8)"
+        },
+        "radius": 0.0
+      },
+      "button": {
+        "text": {
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "shadow": [],
+          "color": "#000000"
+        },
+        "radius": 0.0,
+        "fill": "#ece9d8",
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "padding": [
+          0.0,
+          12.0
+        ],
+        "states": {
+          "hover": {
+            "fill": "#ece9d8",
+            "text": {
+              "color": "#000000",
+              "shadow": []
+            }
+          },
+          "active": {
+            "fill": "#ece9d8",
+            "text": {
+              "color": "#000000",
+              "shadow": []
+            }
+          },
+          "focus": {
+            "ring": {
+              "width": 1.0,
+              "style": "dotted",
+              "color": "#000000",
+              "inset": 4.0
+            }
+          }
+        }
+      },
+      "input": {
+        "text": {
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "color": "#000000"
+        },
+        "radius": 0.0,
+        "fill": "#fff",
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "padding": [
+          2.0,
+          4.0
+        ],
+        "states": {
+          "focus": {
+            "ring": {
+              "width": 1.0,
+              "style": "dotted",
+              "color": "#000000",
+              "inset": 2.0
+            }
+          }
+        }
+      },
+      "select": {
+        "text": {
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "color": "#000000"
+        },
+        "fill": "#fff",
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "radius": 0.0,
+        "padding": [
+          2.0,
+          4.0
+        ],
+        "states": {
+          "focus": {
+            "ring": {
+              "width": 1.0,
+              "style": "dotted",
+              "color": "#000000",
+              "inset": 2.0
+            }
+          }
+        }
+      },
+      "headerTitle": {
+        "text": {
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "color": "#ffffff",
+          "transform": "none",
+          "letterSpacing": 0,
+          "shadow": []
+        },
+        "margin": 0.0
+      },
+      "progressBar": {
+        "radius": 0.0,
+        "fill": "#fff",
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "height": 16.0
+      },
+      "header": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#0997ff",
+                0.0
+              ],
+              [
+                "#0050ee",
+                0.08
+              ],
+              [
+                "#06f",
+                0.88
+              ],
+              [
+                "#005bff",
+                0.95
+              ]
+            ]
+          }
+        },
+        "text": {
+          "color": "#ffffff",
+          "shadow": [],
+          "size": 11.0,
+          "weight": 700.0
+        },
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "padding": [
+          3.0,
+          5.0
+        ],
+        "margin": [
+          -3.0,
+          -3.0,
+          3.0,
+          -3.0
+        ]
+      },
+      "templateSection": {
+        "fill": "#ece9d8",
+        "text": {
+          "color": "#000000"
+        },
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "padding": 3.0
+      },
+      "tasksSection": {
+        "fill": "#ece9d8",
+        "text": {
+          "color": "#000000"
+        },
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "padding": 3.0
+      },
+      "progressFill": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#0997ff",
+                0.0
+              ],
+              [
+                "#0050ee",
+                0.08
+              ],
+              [
+                "#06f",
+                0.88
+              ],
+              [
+                "#005bff",
+                0.95
+              ]
+            ]
+          }
+        },
+        "radius": 0.0,
+        "shadow": []
+      },
+      "button.icon": {
+        "fill": "#ece9d8",
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "text": {
+          "color": "#000000",
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "shadow": []
+        },
+        "radius": 0.0,
+        "padding": [
+          0.0,
+          12.0
+        ]
+      },
+      "textarea": {
+        "fill": "#fff",
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "text": {
+          "color": "#000000",
+          "family": [
+            "Pixelated MS Sans Serif",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0
+        },
+        "radius": 0.0,
+        "padding": [
+          2.0,
+          4.0
+        ],
+        "states": {
+          "focus": {
+            "ring": {
+              "width": 1.0,
+              "style": "dotted",
+              "color": "#000000",
+              "inset": 2.0
+            }
+          }
+        }
+      },
+      "checkbox": {
+        "height": 13.0
+      },
+      "taskRow": {
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "padding": [
+          2.0,
+          4.0
+        ],
+        "margin": [
+          1.0,
+          0.0
+        ],
+        "fill": "transparent",
+        "states": {
+          "hover": {
+            "fill": "#316ac5",
+            "text": {
+              "color": "#ffffff"
+            },
+            "border": {
+              "width": 0,
+              "style": "none"
+            }
+          }
+        }
+      },
+      "dialog.scrim": {
+        "fill": "rgba(0, 0, 0, 0.28)"
+      },
+      "dialog.window": {
+        "fill": "#ece9d8",
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "radius": [
+          0.0,
+          0.0,
+          3.0,
+          3.0
+        ],
+        "text": {
+          "color": "#000",
+          "family": [
+            "Tahoma",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0
+        }
+      },
+      "dialog.title": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#0997ff",
+                0.0
+              ],
+              [
+                "#0050ee",
+                0.08
+              ],
+              [
+                "#06f",
+                0.88
+              ],
+              [
+                "#005bff",
+                0.95
+              ]
+            ]
+          }
+        },
+        "radius": [
+          6.0,
+          6.0,
+          0.0,
+          0.0
+        ],
+        "text": {
+          "color": "#fff",
+          "family": [
+            "Tahoma",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "letterSpacing": 0.0,
+          "shadow": [],
+          "transform": "none"
+        },
+        "margin": [
+          -20.0,
+          -20.0,
+          12.0,
+          -20.0
+        ],
+        "padding": [
+          4.0,
+          6.0
+        ]
+      },
+      "dialog.text": {
+        "text": {
+          "color": "#000",
+          "family": [
+            "Tahoma",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0
+        }
+      },
+      "dialog.hint": {
+        "text": {
+          "color": "#000",
+          "family": [
+            "Tahoma",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0
+        }
+      },
+      "communityTemplateCard": {
+        "fill": "#f1efe2",
+        "border": {
+          "width": 0,
+          "style": "none"
+        }
+      },
+      "dialog.button.primary": {
+        "fill": "#ece9d8",
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "radius": 0.0,
+        "text": {
+          "color": "#000",
+          "family": [
+            "Tahoma",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0
+        },
+        "states": {
+          "active": {}
+        }
+      },
+      "dialog.button.secondary": {
+        "fill": "#ece9d8",
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "radius": 0.0,
+        "text": {
+          "color": "#000",
+          "family": [
+            "Tahoma",
+            "Arial",
+            "sans-serif"
+          ],
+          "size": 11.0
+        },
+        "states": {
+          "active": {}
+        }
+      },
+      "dialog.danger.title": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#e35b5b",
+                0.0
+              ],
+              [
+                "#b62525",
+                1.0
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "images": {},
+    "version": "1.0.1",
+    "author": "Echosight",
+    "description": "Authentic Windows XP theme with classic Luna styling",
+    "supportsTransparency": false
+  },
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "location": "/cssFile",
+      "code": "css-source-order",
+      "message": "recognized selectors are applied in source order, not CSS specificity/importance; manual review required",
+      "value": "/cssFile"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/0",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/0/.overlay-container.interactive/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #0a0a0a, \n              inset 1px 1px #dfdfdf, \n              inset -2px -2px grey, \n              inset 2px 2px #fff !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/0/.overlay-container.interactive/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/1",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/1/.overlay-container.interactive .header/border-top-left-radius",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border-top-left-radius": "8px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/1/.overlay-container.interactive .header/border-top-right-radius",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border-top-right-radius": "7px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .add-btn/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #0a0a0a, \n              inset 1px 1px #fff, \n              inset -2px -2px grey, \n              inset 2px 2px #dfdfdf !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .add-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .add-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "23px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .add-btn/min-width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-width": "75px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .header-btn/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #0a0a0a, \n              inset 1px 1px #fff, \n              inset -2px -2px grey, \n              inset 2px 2px #dfdfdf !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .header-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .header-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "23px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .header-btn/min-width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-width": "75px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .template-btn/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #0a0a0a, \n              inset 1px 1px #fff, \n              inset -2px -2px grey, \n              inset 2px 2px #dfdfdf !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .template-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .template-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "23px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .template-btn/min-width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-width": "75px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive button/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #0a0a0a, \n              inset 1px 1px #fff, \n              inset -2px -2px grey, \n              inset 2px 2px #dfdfdf !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive button/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive button/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "23px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive button/min-width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-width": "75px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .add-btn:active/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #fff,\n              inset 1px 1px #0a0a0a,\n              inset -2px -2px #dfdfdf,\n              inset 2px 2px grey !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .template-btn:active/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #fff,\n              inset 1px 1px #0a0a0a,\n              inset -2px -2px #dfdfdf,\n              inset 2px 2px grey !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive button:active/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #fff,\n              inset 1px 1px #0a0a0a,\n              inset -2px -2px #dfdfdf,\n              inset 2px 2px grey !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/13",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive input/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #dfdfdf, \n              inset 1px 1px grey, \n              inset -2px -2px #fff, \n              inset 2px 2px #0a0a0a !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive input/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive select/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #dfdfdf, \n              inset 1px 1px grey, \n              inset -2px -2px #fff, \n              inset 2px 2px #0a0a0a !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive select/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive textarea/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #dfdfdf, \n              inset 1px 1px grey, \n              inset -2px -2px #fff, \n              inset 2px 2px #0a0a0a !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive textarea/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/16",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/16/.overlay-container.interactive .task-checkbox/accent-color",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "accent-color": "#0997ff !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/16/.overlay-container.interactive .task-checkbox/filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "filter": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/16/.overlay-container.interactive .task-checkbox/width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "width": "13px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/17",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/18",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/19",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/19/.overlay-container.interactive .task-item:hover .task-text/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#ffffff !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/2",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/2/.overlay-container.interactive .header h2/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20/.overlay-container.click-through/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px rgba(10, 10, 10, 0.5), \n              inset 1px 1px rgba(223, 223, 223, 0.5), \n              inset -2px -2px rgba(128, 128, 128, 0.5), \n              inset 2px 2px rgba(255, 255, 255, 0.5) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.click-through .tasks-section/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(236, 233, 216, 0.8) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.click-through .tasks-section/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.click-through .tasks-section/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "inset -1px -1px rgba(223, 223, 223, 0.5), \n              inset 1px 1px rgba(128, 128, 128, 0.5) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/22",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/22/.modal/-webkit-backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "-webkit-backdrop-filter": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/22/.modal/backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdrop-filter": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/23",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/23/.modal-content/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #0a0a0a,\n              inset 1px 1px #fff,\n              inset -2px -2px grey,\n              inset 2px 2px #dfdfdf,\n              4px 4px 10px rgba(0, 0, 0, 0.35) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/23/.modal-content/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/24",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/24/.modal-content h4/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/24/.modal-title/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/24/.settings-title/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25/.app-dialog-message/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25/.community-template .description/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25/.community-template .task-count/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25/.hotkey-help/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25/.import-hint/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25/.range-labels/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25/.settings-help/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25/.trigger-description/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26/.community-template/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #dfdfdf, inset 1px 1px grey !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/27",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/27/.modal-btn/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #0a0a0a,\n              inset 1px 1px #fff,\n              inset -2px -2px grey,\n              inset 2px 2px #dfdfdf !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/27/.modal-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/27/.modal-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "23px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/27/.modal-btn/min-width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-width": "75px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/28",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/28/.modal-btn:active/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #fff,\n              inset 1px 1px #0a0a0a,\n              inset -2px -2px #dfdfdf,\n              inset 2px 2px grey !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/29",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/3",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/3/.overlay-container.interactive .template-section/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #dfdfdf, \n              inset 1px 1px grey !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4/.overlay-container.interactive .tasks-section/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #dfdfdf, \n              inset 1px 1px grey !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/5",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/5/.overlay-container.interactive .task-text/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/6",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/7",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/7/.overlay-container.interactive .progress-text/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Pixelated MS Sans Serif\", Arial, sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/8",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/8/.overlay-container.interactive .progress-bar/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset -1px -1px #dfdfdf, \n              inset 1px 1px grey, \n              inset -2px -2px #fff, \n              inset 2px 2px #0a0a0a !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/9",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/bevelInset",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 1px 1px 0px #8b8680, inset -1px -1px 0px #ffffff"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/bevelOutset",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/boxShadow",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/buttonShadow",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 1px 1px 0px #ffffff, inset -1px -1px 0px #8b8680"
+    },
+    {
+      "severity": "warning",
+      "location": "/fonts/primary/family",
+      "code": "font-availability",
+      "message": "family names retained; no fonts bundled or fetched",
+      "value": "Tahoma, Arial, sans-serif"
+    },
+    {
+      "severity": "warning",
+      "location": "/isDefault",
+      "code": "unmapped-field",
+      "message": "v1 field is not interpreted by the v2 converter",
+      "value": false
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/tasksSection",
+      "code": "unsupported-mode-slot",
+      "message": "no mode-qualified section slot in v2; manual application decision required",
+      "value": {
+        "background": "rgba(241, 239, 226, 0.8)",
+        "border": "1px solid rgba(139, 134, 128, 0.8)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "2px outset #ece9d8"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/fontFamily",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Tahoma, Arial, sans-serif"
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/header/borderBottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderBottom": "1px solid #8b8680"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/tasksSection/border",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border": "1px inset #ece9d8"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/templateSection/borderBottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderBottom": "1px solid #8b8680"
+      }
+    }
+  ],
+  "provisional": true
+}

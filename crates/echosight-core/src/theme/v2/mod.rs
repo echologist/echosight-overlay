@@ -1,5 +1,8 @@
 //! CSS-free theme data. No filesystem, renderer, CSS execution or format dispatch side effects.
 mod color;
+mod convert;
+mod css;
+pub use convert::{Conversion, ConversionInput, convert_v1};
 mod contract;
 mod resolve;
 mod resolved;
@@ -94,6 +97,9 @@ impl Theme {
     }
     fn parse_depth(value: &Value, depth: usize) -> Result<Self, Vec<Diagnostic>> {
         let mut d = vec![];
+        if !resolve::bounded_input(value, &mut d) {
+            return Err(d);
+        }
         check(value, &CONTRACT, "", &mut d, 0);
         if depth > 16 {
             issue(
@@ -220,7 +226,7 @@ impl Theme {
         let mut resolved = resolve_refs(
             &raw,
             &self.document["tokens"],
-            "",
+            &path("/slots", name),
             &mut vec![],
             &mut vec![],
             0,
@@ -236,10 +242,17 @@ impl Theme {
                 "window.clickThrough" => "clickThrough",
                 _ => "",
             };
-            let factor = user
-                * self.document["tokens"]["opacity"][mode]
-                    .as_f64()
-                    .unwrap_or(1.);
+            let mode_opacity = resolve_refs(
+                &self.document["tokens"]["opacity"][mode],
+                &self.document["tokens"],
+                &path("/tokens/opacity", mode),
+                &mut vec![],
+                &mut vec![],
+                0,
+            )
+            .and_then(|v| v.as_f64())
+            .unwrap_or(1.);
+            let factor = user * mode_opacity;
             if let Some(fill) = resolved.get_mut("fill") {
                 if fill.is_string() {
                     *fill = json!({"color":fill.clone(),"alpha":factor});

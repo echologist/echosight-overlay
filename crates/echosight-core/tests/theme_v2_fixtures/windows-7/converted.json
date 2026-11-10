@@ -1,0 +1,3094 @@
+{
+  "theme": {
+    "format": 2,
+    "id": "windows-7",
+    "name": "Windows 7",
+    "tokens": {
+      "colors": {
+        "primary": "#4285f4",
+        "secondary": "#1e88e5",
+        "accent": "#2196f3",
+        "danger": "#f44336",
+        "text": {
+          "primary": "#222222",
+          "secondary": "#333333",
+          "muted": "#666666",
+          "inverse": "#ffffff",
+          "disabled": "#999999"
+        },
+        "surface": {
+          "primary": "#f0f0f0",
+          "secondary": "#f2f2f2",
+          "tertiary": "#e8e8e8",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "#cccccc",
+          "secondary": "#dddddd",
+          "interactive": "#4285f4",
+          "light": "#ffffff",
+          "dark": "#aaaaaa"
+        }
+      },
+      "opacity": {
+        "appliesTo": []
+      },
+      "fonts": {
+        "ui": {
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ]
+        },
+        "sizes": {
+          "header": 12.0,
+          "task": 11.0,
+          "progress": 11.0,
+          "ui": 11.0
+        },
+        "weights": {
+          "normal": 400.0,
+          "bold": 600.0
+        }
+      },
+      "shadows": {
+        "text": []
+      },
+      "radius": {
+        "default": 3.0
+      }
+    },
+    "slots": {
+      "taskText": {
+        "text": {
+          "color": "#222",
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "weight": "@fonts.weights.normal",
+          "shadow": []
+        },
+        "states": {
+          "completed": {
+            "text": {
+              "color": "#666666",
+              "strikethrough": true
+            }
+          }
+        }
+      },
+      "progressText": {
+        "text": {
+          "color": "#222",
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "weight": 400.0,
+          "shadow": "@shadows.text"
+        }
+      },
+      "window.interactive": {
+        "text": {
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "color": "#222",
+          "size": 11.0
+        },
+        "fill": "#f0f0f0",
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#aaaaaa"
+        },
+        "radius": 3.0,
+        "padding": 0.0,
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 2.0,
+            "blur": 8.0,
+            "spread": 0.0,
+            "color": "rgba(0, 0, 0, 0.1)"
+          }
+        ]
+      },
+      "window.clickThrough": {
+        "text": {
+          "family": "@fonts.ui.family"
+        },
+        "fill": "rgba(248, 248, 248, 0.9)",
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(204, 204, 204, 0.8)"
+        },
+        "radius": 3.0,
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 2.0,
+            "blur": 8.0,
+            "spread": 0.0,
+            "color": "rgba(0, 0, 0, 0.1)"
+          }
+        ]
+      },
+      "button": {
+        "text": {
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "shadow": [],
+          "color": "#222"
+        },
+        "radius": 3.0,
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#f2f2f2",
+                0.45
+              ],
+              [
+                "#e5e5e5",
+                0.45
+              ],
+              [
+                "#d1d1d1",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#8e8f8f"
+        },
+        "padding": [
+          0.0,
+          12.0
+        ],
+        "states": {
+          "hover": {
+            "fill": {
+              "gradient": {
+                "angle": 180.0,
+                "stops": [
+                  [
+                    "#eaf6fd",
+                    0.45
+                  ],
+                  [
+                    "#bee6fd",
+                    0.45
+                  ],
+                  [
+                    "#a7d9f5",
+                    1.0
+                  ]
+                ]
+              }
+            },
+            "border": {
+              "color": "#3c7fb1"
+            },
+            "text": {
+              "color": "#222",
+              "shadow": []
+            }
+          },
+          "active": {
+            "border": {
+              "color": "#2c628f"
+            },
+            "text": {
+              "color": "#222",
+              "shadow": []
+            }
+          },
+          "focus": {
+            "ring": {
+              "width": 1.0,
+              "style": "dotted",
+              "color": "#222",
+              "inset": 4.0
+            }
+          }
+        }
+      },
+      "input": {
+        "text": {
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "color": "#222"
+        },
+        "radius": 3.0,
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#ffffff",
+                0.0
+              ],
+              [
+                "#f8f8f8",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#cccccc"
+        },
+        "padding": [
+          4.0,
+          8.0
+        ],
+        "states": {
+          "focus": {
+            "ring": {
+              "width": 0,
+              "style": "none"
+            },
+            "border": {
+              "color": "#4285f4"
+            },
+            "fill": "#ffffff"
+          }
+        }
+      },
+      "select": {
+        "text": {
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "color": "#222"
+        },
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#ffffff",
+                0.0
+              ],
+              [
+                "#f8f8f8",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#cccccc"
+        },
+        "radius": 3.0,
+        "padding": [
+          4.0,
+          8.0
+        ],
+        "states": {
+          "focus": {
+            "ring": {
+              "width": 0,
+              "style": "none"
+            },
+            "border": {
+              "color": "#4285f4"
+            },
+            "fill": "#ffffff"
+          }
+        }
+      },
+      "headerTitle": {
+        "text": {
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 12.0,
+          "color": "#ffffff",
+          "transform": "none",
+          "letterSpacing": 0,
+          "shadow": [
+            {
+              "x": 0.0,
+              "y": 1.0,
+              "blur": 2.0,
+              "spread": 0.0,
+              "color": "rgba(0, 0, 0, 0.2)"
+            }
+          ],
+          "weight": 600.0
+        },
+        "margin": 0.0
+      },
+      "progressBar": {
+        "radius": 3.0,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#aaaaaa"
+        },
+        "height": 15.0,
+        "margin": [
+          2.0,
+          0.0
+        ]
+      },
+      "header": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#4285f4",
+                0.0
+              ],
+              [
+                "#1e88e5",
+                0.5
+              ],
+              [
+                "#1565c0",
+                1.0
+              ]
+            ]
+          }
+        },
+        "text": {
+          "color": "#ffffff",
+          "shadow": [
+            {
+              "x": 0.0,
+              "y": 1.0,
+              "blur": 2.0,
+              "spread": 0.0,
+              "color": "rgba(0, 0, 0, 0.2)"
+            }
+          ],
+          "size": 12.0,
+          "weight": 600.0
+        },
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "radius": [
+          3.0,
+          3.0,
+          0.0,
+          0.0
+        ],
+        "padding": [
+          8.0,
+          12.0
+        ],
+        "margin": 0.0
+      },
+      "templateSection": {
+        "fill": "#f0f0f0",
+        "text": {
+          "color": "#222",
+          "size": 11.0
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#aaaaaa"
+        },
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 0.0,
+            "spread": 1.0,
+            "color": "#fff9"
+          }
+        ],
+        "margin": 6.0,
+        "padding": 6.0
+      },
+      "tasksSection": {
+        "fill": "#f0f0f0",
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#aaaaaa"
+        },
+        "text": {
+          "color": "#222",
+          "size": 11.0
+        },
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 0.0,
+            "spread": 1.0,
+            "color": "#fff9"
+          }
+        ],
+        "margin": 6.0
+      },
+      "progressFill": {
+        "fill": "#0bd82c",
+        "radius": 0.0,
+        "margin": 0.0
+      },
+      "button.icon": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#f2f2f2",
+                0.45
+              ],
+              [
+                "#e5e5e5",
+                0.45
+              ],
+              [
+                "#d1d1d1",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#8e8f8f"
+        },
+        "radius": 3.0,
+        "text": {
+          "color": "#222",
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0,
+          "shadow": []
+        },
+        "padding": [
+          0.0,
+          12.0
+        ]
+      },
+      "textarea": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#ffffff",
+                0.0
+              ],
+              [
+                "#f8f8f8",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#cccccc"
+        },
+        "text": {
+          "color": "#222",
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0
+        },
+        "radius": 3.0,
+        "padding": [
+          4.0,
+          8.0
+        ],
+        "states": {
+          "focus": {
+            "ring": {
+              "width": 0,
+              "style": "none"
+            },
+            "border": {
+              "color": "#4285f4"
+            },
+            "fill": "#ffffff"
+          }
+        }
+      },
+      "checkbox": {
+        "height": 16.0,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#cccccc"
+        },
+        "radius": 3.0,
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#ffffff",
+                0.0
+              ],
+              [
+                "#f8f8f8",
+                1.0
+              ]
+            ]
+          }
+        },
+        "states": {
+          "hover": {
+            "border": {
+              "color": "#4285f4"
+            },
+            "fill": {
+              "gradient": {
+                "angle": 180.0,
+                "stops": [
+                  [
+                    "#eaf6fd",
+                    0.0
+                  ],
+                  [
+                    "#ffffff",
+                    1.0
+                  ]
+                ]
+              }
+            }
+          },
+          "checked": {
+            "fill": {
+              "gradient": {
+                "angle": 180.0,
+                "stops": [
+                  [
+                    "#4285f4",
+                    0.0
+                  ],
+                  [
+                    "#1976d2",
+                    1.0
+                  ]
+                ]
+              }
+            },
+            "border": {
+              "color": "#1565c0"
+            }
+          }
+        }
+      },
+      "taskRow": {
+        "border": {
+          "width": 0,
+          "style": "none"
+        },
+        "padding": [
+          4.0,
+          8.0
+        ],
+        "margin": [
+          2.0,
+          0.0
+        ],
+        "fill": "transparent",
+        "radius": 3.0,
+        "states": {
+          "hover": {
+            "fill": {
+              "gradient": {
+                "angle": 180.0,
+                "stops": [
+                  [
+                    "#eaf6fd",
+                    0.0
+                  ],
+                  [
+                    "#d6effc",
+                    1.0
+                  ]
+                ]
+              }
+            },
+            "text": {
+              "color": "#222"
+            },
+            "border": {
+              "width": 0,
+              "style": "none"
+            }
+          }
+        }
+      },
+      "dialog.scrim": {
+        "fill": "rgba(10, 20, 34, 0.35)"
+      },
+      "dialog.window": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(255,255,255,0.96)",
+                0.0
+              ],
+              [
+                "rgba(240,240,240,0.96)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#aaaaaa"
+        },
+        "radius": 3.0,
+        "text": {
+          "color": "#222",
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0
+        }
+      },
+      "dialog.title": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#4285f4",
+                0.0
+              ],
+              [
+                "#1e88e5",
+                0.5
+              ],
+              [
+                "#1565c0",
+                1.0
+              ]
+            ]
+          }
+        },
+        "radius": [
+          3.0,
+          3.0,
+          0.0,
+          0.0
+        ],
+        "text": {
+          "color": "#fff",
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 12.0,
+          "weight": 600.0,
+          "letterSpacing": 0.0,
+          "shadow": [
+            {
+              "x": 0.0,
+              "y": 1.0,
+              "blur": 2.0,
+              "spread": 0.0,
+              "color": "rgba(0,0,0,0.2)"
+            }
+          ],
+          "transform": "none"
+        },
+        "margin": [
+          -20.0,
+          -20.0,
+          12.0,
+          -20.0
+        ],
+        "padding": [
+          8.0,
+          12.0
+        ]
+      },
+      "dialog.text": {
+        "text": {
+          "color": "#222",
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0
+        }
+      },
+      "dialog.hint": {
+        "text": {
+          "color": "#222",
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0
+        }
+      },
+      "communityTemplateCard": {
+        "fill": "#fff",
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#cccccc"
+        }
+      },
+      "dialog.button.primary": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#bee6fd",
+                0.45
+              ],
+              [
+                "#a7d9f5",
+                0.45
+              ],
+              [
+                "#7fc4e8",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#5586a3"
+        },
+        "radius": 3.0,
+        "text": {
+          "color": "#222",
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0
+        },
+        "states": {
+          "hover": {
+            "fill": {
+              "gradient": {
+                "angle": 180.0,
+                "stops": [
+                  [
+                    "#eaf6fd",
+                    0.45
+                  ],
+                  [
+                    "#bee6fd",
+                    0.45
+                  ],
+                  [
+                    "#a7d9f5",
+                    1.0
+                  ]
+                ]
+              }
+            },
+            "border": {
+              "color": "#3c7fb1"
+            }
+          }
+        }
+      },
+      "dialog.button.secondary": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#f2f2f2",
+                0.45
+              ],
+              [
+                "#e5e5e5",
+                0.45
+              ],
+              [
+                "#d1d1d1",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "#8e8f8f"
+        },
+        "radius": 3.0,
+        "text": {
+          "color": "#222",
+          "family": [
+            "Segoe UI",
+            "SegoeUI",
+            "Noto Sans",
+            "sans-serif"
+          ],
+          "size": 11.0
+        },
+        "states": {
+          "hover": {
+            "fill": {
+              "gradient": {
+                "angle": 180.0,
+                "stops": [
+                  [
+                    "#eaf6fd",
+                    0.45
+                  ],
+                  [
+                    "#bee6fd",
+                    0.45
+                  ],
+                  [
+                    "#a7d9f5",
+                    1.0
+                  ]
+                ]
+              }
+            },
+            "border": {
+              "color": "#3c7fb1"
+            }
+          }
+        }
+      },
+      "dialog.danger.title": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "#f06a5f",
+                0.0
+              ],
+              [
+                "#d33a2c",
+                1.0
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "images": {},
+    "version": "1.0.1",
+    "author": "Echosight",
+    "description": "Authentic Windows 7 Aero theme with glass effects, subtle gradients, and modern UI styling",
+    "supportsTransparency": false
+  },
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "location": "/cssFile",
+      "code": "css-source-order",
+      "message": "recognized selectors are applied in source order, not CSS specificity/importance; manual review required",
+      "value": "/cssFile"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/0",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/0/.overlay-container.interactive/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/1",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/1/.overlay-container.interactive .header/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 0 rgba(255, 255, 255, 0.2) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .progress-fill/background-image",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "background-image": "linear-gradient(180deg, #f3f3f3af, #fcfcfcaf 3px, #dbdbdbaf 6px, transparent 0),\n                    radial-gradient(circle at 0 50%, #0000002f 10px, transparent 30px),\n                    radial-gradient(circle at 100% 50%, #0000002f 10px, transparent 30px),\n                    linear-gradient(180deg, transparent 65%, #ffffff55),\n                    linear-gradient(180deg, transparent 6px, #cacaca33 0, #d5d5d533) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .progress-fill/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #ffffff1f !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .progress-fill/height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "height": "100% !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .progress-fill/overflow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "overflow": "hidden !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/10/.overlay-container.interactive .progress-fill/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "width 0.3s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .progress-section/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "#f0f0f0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .progress-section/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "1px solid #aaaaaa !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .progress-section/border-radius",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-radius": "0 0 3px 3px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .progress-section/border-top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-top": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .progress-section/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "0 0.5px 1px 0.5px #fff !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .progress-section/margin",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "margin": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .progress-section/padding",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "padding": "10px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .progress-section/position",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "position": "relative !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .status-section/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "#f0f0f0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .status-section/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "1px solid #aaaaaa !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .status-section/border-radius",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-radius": "0 0 3px 3px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .status-section/border-top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-top": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .status-section/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "0 0.5px 1px 0.5px #fff !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .status-section/margin",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "margin": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .status-section/padding",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "padding": "10px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .status-section/position",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "position": "relative !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .window-footer/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "#f0f0f0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .window-footer/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "1px solid #aaaaaa !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .window-footer/border-radius",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-radius": "0 0 3px 3px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .window-footer/border-top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-top": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .window-footer/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "0 0.5px 1px 0.5px #fff !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .window-footer/margin",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "margin": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .window-footer/padding",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "padding": "10px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/11/.overlay-container.interactive .window-footer/position",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "position": "relative !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .progress-section::before/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "inset 0 1px #0000004d, inset 0 -1px #fff !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .progress-section::before/content",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "content": "\"\" !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .progress-section::before/height",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "height": "2px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .progress-section::before/left",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "left": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .progress-section::before/position",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "position": "absolute !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .progress-section::before/top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "top": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .progress-section::before/width",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "width": "100% !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .status-section::before/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "inset 0 1px #0000004d, inset 0 -1px #fff !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .status-section::before/content",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "content": "\"\" !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .status-section::before/height",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "height": "2px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .status-section::before/left",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "left": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .status-section::before/position",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "position": "absolute !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .status-section::before/top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "top": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .status-section::before/width",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "width": "100% !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .window-footer::before/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "inset 0 1px #0000004d, inset 0 -1px #fff !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .window-footer::before/content",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "content": "\"\" !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .window-footer::before/height",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "height": "2px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .window-footer::before/left",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "left": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .window-footer::before/position",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "position": "absolute !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .window-footer::before/top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "top": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/12/.overlay-container.interactive .window-footer::before/width",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "width": "100% !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/13",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/13/.overlay-container.interactive .progress-text/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive .status-bar-field/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#222 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive .status-bar-field/font-size",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-size": "11px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive .status-bar-field/margin-right",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "margin-right": "8px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/14/.overlay-container.interactive .status-bar-field/padding",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "padding": "2px 4px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .add-btn/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .add-btn/cursor",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "cursor": "pointer !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .add-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .add-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "23px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .add-btn/min-width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-width": "75px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .add-btn/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "all 0.1s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .header-btn/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .header-btn/cursor",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "cursor": "pointer !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .header-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .header-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "23px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .header-btn/min-width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-width": "75px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .header-btn/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "all 0.1s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .template-btn/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .template-btn/cursor",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "cursor": "pointer !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .template-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .template-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "23px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .template-btn/min-width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-width": "75px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive .template-btn/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "all 0.1s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive button/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive button/cursor",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "cursor": "pointer !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive button/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive button/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "23px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive button/min-width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-width": "75px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/15/.overlay-container.interactive button/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "all 0.1s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/16",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/16/.overlay-container.interactive .add-btn:hover/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/16/.overlay-container.interactive .template-btn:hover/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/16/.overlay-container.interactive button:hover/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/17",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/17/.overlay-container.interactive .add-btn:active/background",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "background": "linear-gradient(to bottom, #e5f4fc, #cce8fa 30% 50%, #bee6fd 50%, #68b3db) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/17/.overlay-container.interactive .add-btn:active/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/17/.overlay-container.interactive .template-btn:active/background",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "background": "linear-gradient(to bottom, #e5f4fc, #cce8fa 30% 50%, #bee6fd 50%, #68b3db) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/17/.overlay-container.interactive .template-btn:active/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/17/.overlay-container.interactive button:active/background",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "background": "linear-gradient(to bottom, #e5f4fc, #cce8fa 30% 50%, #bee6fd 50%, #68b3db) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/17/.overlay-container.interactive button:active/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/18",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/19",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/19/.overlay-container.interactive .add-btn.default/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "linear-gradient(to bottom, #bee6fd 45%, #a7d9f5 45%, #7fc4e8) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/19/.overlay-container.interactive .add-btn.default/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "#5586a3 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/19/.overlay-container.interactive .template-btn.default/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "linear-gradient(to bottom, #bee6fd 45%, #a7d9f5 45%, #7fc4e8) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/19/.overlay-container.interactive .template-btn.default/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "#5586a3 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/19/.overlay-container.interactive button.default/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "linear-gradient(to bottom, #bee6fd 45%, #a7d9f5 45%, #7fc4e8) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/19/.overlay-container.interactive button.default/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "#5586a3 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/2",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/2/.overlay-container.interactive .header h2/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20/.overlay-container.interactive .status-section button/font-size",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-size": "11px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20/.overlay-container.interactive .status-section button/min-height",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "min-height": "21px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20/.overlay-container.interactive .status-section button/min-width",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "min-width": "65px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20/.overlay-container.interactive .status-section button/padding",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "padding": "0 8px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20/.overlay-container.interactive .window-footer button/font-size",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-size": "11px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20/.overlay-container.interactive .window-footer button/min-height",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "min-height": "21px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20/.overlay-container.interactive .window-footer button/min-width",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "min-width": "65px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/20/.overlay-container.interactive .window-footer button/padding",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "padding": "0 8px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.interactive input/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 3px rgba(0, 0, 0, 0.1) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.interactive input/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.interactive input/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "border-color 0.2s ease, box-shadow 0.2s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.interactive select/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 3px rgba(0, 0, 0, 0.1) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.interactive select/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.interactive select/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "border-color 0.2s ease, box-shadow 0.2s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.interactive textarea/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 3px rgba(0, 0, 0, 0.1) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.interactive textarea/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/21/.overlay-container.interactive textarea/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "border-color 0.2s ease, box-shadow 0.2s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/22",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/22/.overlay-container.interactive input:focus/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 3px rgba(0, 0, 0, 0.1),\n              0 0 0 2px rgba(66, 133, 244, 0.3) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/22/.overlay-container.interactive select:focus/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 3px rgba(0, 0, 0, 0.1),\n              0 0 0 2px rgba(66, 133, 244, 0.3) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/22/.overlay-container.interactive textarea:focus/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 3px rgba(0, 0, 0, 0.1),\n              0 0 0 2px rgba(66, 133, 244, 0.3) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/23",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/23/.overlay-container.interactive .task-checkbox/appearance",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "appearance": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/23/.overlay-container.interactive .task-checkbox/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 3px rgba(0, 0, 0, 0.1) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/23/.overlay-container.interactive .task-checkbox/cursor",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "cursor": "pointer !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/23/.overlay-container.interactive .task-checkbox/position",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "position": "relative !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/23/.overlay-container.interactive .task-checkbox/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "all 0.2s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/23/.overlay-container.interactive .task-checkbox/width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "width": "16px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/24",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/25/.overlay-container.interactive .task-checkbox:checked/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 0 rgba(255, 255, 255, 0.2) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26/.overlay-container.interactive .task-checkbox:checked::after/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#ffffff !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26/.overlay-container.interactive .task-checkbox:checked::after/content",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "content": "'✓' !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26/.overlay-container.interactive .task-checkbox:checked::after/font-size",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-size": "11px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26/.overlay-container.interactive .task-checkbox:checked::after/font-weight",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-weight": "bold !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26/.overlay-container.interactive .task-checkbox:checked::after/left",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "left": "3px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26/.overlay-container.interactive .task-checkbox:checked::after/position",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "position": "absolute !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26/.overlay-container.interactive .task-checkbox:checked::after/text-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "text-shadow": "0 1px 1px rgba(0, 0, 0, 0.3) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/26/.overlay-container.interactive .task-checkbox:checked::after/top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "top": "1px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/27",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/27/.overlay-container.interactive .task-item/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "background-color 0.2s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/28",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/29",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/29/.overlay-container.interactive .task-item:hover .task-text/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#222 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/3",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/3/.overlay-container.interactive .template-section/border-bottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "border-bottom": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/3/.overlay-container.interactive .template-section/margin-bottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "margin-bottom": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30/.overlay-container.interactive::before/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(255, 255, 255, 0.1) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30/.overlay-container.interactive::before/border-radius",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-radius": "3px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30/.overlay-container.interactive::before/bottom",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "bottom": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30/.overlay-container.interactive::before/content",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "content": "'' !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30/.overlay-container.interactive::before/left",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "left": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30/.overlay-container.interactive::before/pointer-events",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "pointer-events": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30/.overlay-container.interactive::before/position",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "position": "absolute !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30/.overlay-container.interactive::before/right",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "right": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30/.overlay-container.interactive::before/top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "top": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/30/.overlay-container.interactive::before/z-index",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "z-index": "-1 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/31",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/31/.overlay-container.interactive .window-controls/display",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "display": "flex !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/31/.overlay-container.interactive .window-controls/gap",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "gap": "2px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/31/.overlay-container.interactive .window-controls/margin-left",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "margin-left": "auto !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/32",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/32/.overlay-container.interactive .window-control-btn/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(255, 255, 255, 0.1) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/32/.overlay-container.interactive .window-control-btn/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "1px solid rgba(255, 255, 255, 0.3) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/32/.overlay-container.interactive .window-control-btn/border-radius",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-radius": "2px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/32/.overlay-container.interactive .window-control-btn/cursor",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "cursor": "pointer !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/32/.overlay-container.interactive .window-control-btn/height",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "height": "16px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/32/.overlay-container.interactive .window-control-btn/transition",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "transition": "background-color 0.2s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/32/.overlay-container.interactive .window-control-btn/width",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "width": "16px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/33",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/33/.overlay-container.interactive .window-control-btn:hover/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(255, 255, 255, 0.2) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/34",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/34/.overlay-container.click-through/-webkit-backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "-webkit-backdrop-filter": "blur(10px) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/34/.overlay-container.click-through/backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdrop-filter": "blur(10px) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/35",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/35/.overlay-container.click-through .tasks-section/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(255, 255, 255, 0.8) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/35/.overlay-container.click-through .tasks-section/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/35/.overlay-container.click-through .tasks-section/border-radius",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-radius": "0 0 3px 3px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/35/.overlay-container.click-through .tasks-section/border-top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-top": "1px solid rgba(221, 221, 221, 0.8) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/36",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/36/.modal/-webkit-backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "-webkit-backdrop-filter": "blur(10px) saturate(125%) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/36/.modal/backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdrop-filter": "blur(10px) saturate(125%) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/37",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/37/.modal-content/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "0 10px 34px rgba(0,0,0,0.28), inset 0 0 0 1px #fff9 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/37/.modal-content/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/38",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/38/.modal-content h4/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/38/.modal-title/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/38/.settings-title/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/39",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/39/.app-dialog-message/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/39/.community-template .description/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/39/.community-template .task-count/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/39/.hotkey-help/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/39/.import-hint/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/39/.range-labels/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/39/.settings-help/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/39/.trigger-description/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4/.overlay-container.interactive .tasks-section/margin-top",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "margin-top": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4/.overlay-container.interactive .window-body/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "#f0f0f0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4/.overlay-container.interactive .window-body/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "1px solid #aaaaaa !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4/.overlay-container.interactive .window-body/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "0 0 0 1px #fff9 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4/.overlay-container.interactive .window-body/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#222 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4/.overlay-container.interactive .window-body/font-size",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-size": "11px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4/.overlay-container.interactive .window-body/margin",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "margin": "6px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/4/.overlay-container.interactive .window-body/margin-top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "margin-top": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/40",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/40/.community-template/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fff9 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/41",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/41/.modal-btn/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #fffc !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/41/.modal-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/41/.modal-btn/min-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-height": "23px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/41/.modal-btn/min-width",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "min-width": "75px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/42",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/43",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/44",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/5",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/5/.overlay-container.interactive .tasks-section.has-space/padding",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "padding": "6px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/5/.overlay-container.interactive .window-body.has-space/padding",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "padding": "6px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/6",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/6/.overlay-container.interactive .task-text/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/6/.overlay-container.interactive .task-text/line-height",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "line-height": "1.4 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/7",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/8",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/8/.overlay-container.interactive .progress-text/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "\"Segoe UI\", \"SegoeUI\", \"Noto Sans\", sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/9",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/9/.overlay-container.interactive .progress-bar/background",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "background": "radial-gradient(circle at 0 50%, #0000001f 10px, transparent 30px),\n              radial-gradient(circle at 100% 50%, #0000001f 10px, transparent 30px),\n              linear-gradient(180deg, #f3f3f3af, #fcfcfcaf 3px, #dbdbdbaf 6px, #cacacaaf 0, #d5d5d5af),\n              #ddd !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/9/.overlay-container.interactive .progress-bar/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 0 0 1px #f3f3f388, 0 0 0 1px #eaeaea88 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/cssFile/9/.overlay-container.interactive .progress-bar/overflow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "overflow": "hidden !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/bevelInset",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 0 1px 3px rgba(0,0,0,0.1)"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/bevelOutset",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/boxShadow",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9"
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/buttonShadow",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "inset 0 1px 0 #fff, inset 0 -1px 0 #d9d9d9, 0 1px 3px rgba(0,0,0,0.1)"
+    },
+    {
+      "severity": "warning",
+      "location": "/fonts/primary/family",
+      "code": "font-availability",
+      "message": "family names retained; no fonts bundled or fetched",
+      "value": "Segoe UI, SegoeUI, Noto Sans, sans-serif"
+    },
+    {
+      "severity": "warning",
+      "location": "/isDefault",
+      "code": "unmapped-field",
+      "message": "v1 field is not interpreted by the v2 converter",
+      "value": false
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/tasksSection",
+      "code": "unsupported-mode-slot",
+      "message": "no mode-qualified section slot in v2; manual application decision required",
+      "value": {
+        "background": "rgba(255, 255, 255, 0.8)",
+        "border": "1px solid rgba(221, 221, 221, 0.8)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/fontFamily",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "Segoe UI, SegoeUI, Noto Sans, sans-serif"
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/header/borderBottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderBottom": "1px solid #1565c0"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/templateSection/borderBottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderBottom": "1px solid #dddddd"
+      }
+    }
+  ],
+  "provisional": true
+}
