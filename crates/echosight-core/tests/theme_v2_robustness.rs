@@ -277,6 +277,121 @@ fn reference_expansion_retains_destination_semantic_checks() {
 }
 
 #[test]
+fn oversized_diagnostic_values_are_omitted_not_rejected() {
+    let future = json!({"text":"é".repeat(4096), "items":vec![0; 100]});
+    let doc = fill_document(json!("red"));
+    let mut doc = doc;
+    doc["slots"]["button"]["future"] = future.clone();
+    let theme = Theme::parse(&doc).unwrap();
+    assert!(theme.diagnostics().iter().all(|d| d.value.is_null()));
+    assert!(
+        theme
+            .diagnostics()
+            .iter()
+            .all(|d| d.message.contains("omitted"))
+    );
+    assert_eq!(
+        theme.slot("button", &[], 1.).unwrap().properties()["future"],
+        future
+    );
+}
+
+#[test]
+fn diagnostic_count_exhaustion_is_a_bounded_error() {
+    let mut doc = fill_document(json!("red"));
+    for i in 0..2000 {
+        doc[format!("future{i}")] = json!({"nested": "value"});
+    }
+    let Err(errors) = Theme::parse(&doc) else {
+        panic!("bounded diagnostic collection");
+    };
+    assert!(errors.len() <= 512);
+    assert!(
+        errors
+            .iter()
+            .any(|d| d.code == "budget" && d.severity == Severity::Error)
+    );
+}
+
+#[test]
+fn inherited_string_bytes_are_bounded_even_with_only_declared_slots() {
+    let schema: Value = serde_json::from_str(echosight_core::theme::v2::SCHEMA).unwrap();
+    let mut doc = fill_document(json!("red"));
+    doc["slots"]["button"]["future"] = json!("é".repeat(128 * 1024));
+    for name in schema["$defs"]["slots"]["properties"]
+        .as_object()
+        .unwrap()
+        .keys()
+    {
+        if name != "button" {
+            doc["slots"][name] = json!({"$extends":"button"});
+        }
+    }
+    let Err(errors) = Theme::parse(&doc) else {
+        panic!("copied UTF-8 bytes must be bounded");
+    };
+    assert!(
+        errors
+            .iter()
+            .any(|d| d.code == "budget" && d.message.contains("materialization"))
+    );
+    // Below the byte allowance, the same opaque inherited field is retained.
+    doc["slots"]["button"]["future"] = json!("é".repeat(16 * 1024));
+    let theme = Theme::parse(&doc).unwrap();
+    assert!(
+        theme
+            .diagnostics()
+            .iter()
+            .all(|d| d.severity == Severity::Warning)
+    );
+    for name in theme.slot_names() {
+        assert_eq!(
+            theme.slot(name, &[], 1.).unwrap().properties()["future"],
+            doc["slots"]["button"]["future"]
+        );
+    }
+}
+
+#[test]
+fn variant_diagnostic_aggregation_cannot_bypass_the_cap() {
+    let mut doc = fill_document(json!("red"));
+    doc["future"] = json!(true);
+    doc["variants"] = json!({});
+    for i in 0..600 {
+        doc["variants"][format!("v{i}")] = json!({});
+    }
+    let Err(errors) = Theme::parse(&doc) else {
+        panic!("bounded variant diagnostics");
+    };
+    assert!(errors.len() <= 512);
+    assert!(
+        errors
+            .iter()
+            .any(|d| d.code == "budget" && d.severity == Severity::Error)
+    );
+}
+
+#[test]
+fn ordinary_unknown_inheritance_and_variants_stay_warning_only() {
+    let doc = json!({"format":2,"id":"x","name":"x","slots":{
+        "button":{"fill":"red","future":{"values":[0,1,2],"literal":"@missing"}},
+        "future.slot":{"$extends":"button"}},"variants":{"blue":{"slots":{"button":{"fill":"blue"}}}}});
+    let theme = Theme::parse(&doc).unwrap();
+    assert!(
+        theme
+            .diagnostics()
+            .iter()
+            .all(|d| d.severity == Severity::Warning)
+    );
+    for t in [theme.clone(), theme.variant("blue").unwrap()] {
+        assert_eq!(
+            t.slot("future.slot", &[], 1.).unwrap().properties()["future"],
+            doc["slots"]["button"]["future"]
+        );
+    }
+}
+
+#[test]
 fn malformed_nested_values_never_panic() {
     let values = [
         Value::Null,

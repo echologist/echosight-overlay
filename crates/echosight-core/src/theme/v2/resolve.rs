@@ -1,37 +1,26 @@
 use super::{
     Diagnostic, Severity,
+    budget::{self, Budget, Cost},
     contract::{CONTRACT, check, child_schema, issue, path, reference_position, selected_schema},
 };
 use serde_json::{Value, json};
 
 /// Check before cloning diagnostics or expanding references, including unknown fields.
 pub(super) fn bounded_input(value: &Value, d: &mut Vec<Diagnostic>) -> bool {
-    let mut pending = vec![(value, String::new(), 0usize)];
-    let mut visits = 0usize;
-    while let Some((value, p, depth)) = pending.pop() {
-        visits += 1;
-        if depth > 64 || visits > 100_000 {
-            issue(
-                d,
-                &p,
-                "budget",
-                "input exceeds 64 levels or 100000 nodes; source value omitted for safety",
-                &Value::Null,
-                Severity::Error,
-            );
-            return false;
-        }
-        match value {
-            Value::Object(o) => pending.extend(o.iter().map(|(k, v)| (v, path(&p, k), depth + 1))),
-            Value::Array(a) => pending.extend(
-                a.iter()
-                    .enumerate()
-                    .map(|(i, v)| (v, path(&p, &i.to_string()), depth + 1)),
-            ),
-            _ => {}
-        }
+    // Depth-first bounded traversal: do not allocate a path for every queued node.
+    if Budget::new(100_000, budget::BYTES).charge(value, 1) {
+        true
+    } else {
+        issue(
+            d,
+            "",
+            "budget",
+            "input exceeds 64 levels, 100000 nodes or 16777216 UTF-8 bytes; source value omitted",
+            &Value::Null,
+            Severity::Error,
+        );
+        false
     }
-    true
 }
 
 pub(super) fn token_path(reference: &str) -> String {
@@ -59,10 +48,22 @@ pub(super) fn resolve_refs(
     schema: &Value,
     d: &mut Vec<Diagnostic>,
 ) -> Option<Value> {
+    resolve_refs_budgeted(v, tokens, p, schema, d, &mut Budget::default())
+}
+
+pub(super) fn resolve_refs_budgeted(
+    v: &Value,
+    tokens: &Value,
+    p: &str,
+    schema: &Value,
+    d: &mut Vec<Diagnostic>,
+    allocations: &mut Budget,
+) -> Option<Value> {
     ReferenceResolver {
         tokens,
         diagnostics: d,
         budget: 100_000,
+        allocations,
     }
     .resolve(v, schema, p, &mut vec![], 0)
 }
@@ -71,6 +72,7 @@ struct ReferenceResolver<'a> {
     tokens: &'a Value,
     diagnostics: &'a mut Vec<Diagnostic>,
     budget: usize,
+    allocations: &'a mut Budget,
 }
 impl ReferenceResolver<'_> {
     fn resolve(
@@ -93,6 +95,17 @@ impl ReferenceResolver<'_> {
             return None;
         }
         self.budget -= 1;
+        if !self.allocations.spend(Cost::shallow(v), 1) {
+            issue(
+                self.diagnostics,
+                p,
+                "budget",
+                budget::MESSAGE,
+                &Value::Null,
+                Severity::Error,
+            );
+            return None;
+        }
         if depth > 64 {
             issue(
                 self.diagnostics,
@@ -146,38 +159,27 @@ impl ReferenceResolver<'_> {
         match v {
             Value::Object(o) => {
                 let mut result = serde_json::Map::new();
-                let mut ok = true;
                 for (k, v) in o {
                     // Opaque extensions are copied without interpretation, but still
                     // charged to the expansion budget (including token-sourced data).
                     let child = selected
                         .and_then(|s| child_schema(s, k))
                         .unwrap_or(&Value::Bool(true));
-                    let resolved = self.resolve(v, child, &path(p, k), stack, depth + 1);
-                    if let Some(v) = resolved {
-                        result.insert(k.clone(), v);
-                    } else {
-                        ok = false;
-                    }
+                    let resolved = self.resolve(v, child, &path(p, k), stack, depth + 1)?;
+                    result.insert(k.clone(), resolved);
                 }
-                ok.then_some(Value::Object(result))
+                Some(Value::Object(result))
             }
             Value::Array(a) => {
                 let mut result = vec![];
-                let mut ok = true;
                 for (i, v) in a.iter().enumerate() {
                     let key = i.to_string();
                     let child = selected
                         .and_then(|s| child_schema(s, &key))
                         .unwrap_or(&Value::Bool(true));
-                    let resolved = self.resolve(v, child, &path(p, &key), stack, depth + 1);
-                    if let Some(v) = resolved {
-                        result.push(v);
-                    } else {
-                        ok = false;
-                    }
+                    result.push(self.resolve(v, child, &path(p, &key), stack, depth + 1)?);
                 }
-                ok.then_some(Value::Array(result))
+                Some(Value::Array(result))
             }
             _ => Some(v.clone()),
         }
@@ -205,6 +207,7 @@ pub(super) fn expand_slot(
     slots: &Value,
     stack: &mut Vec<String>,
     d: &mut Vec<Diagnostic>,
+    allocations: &mut Budget,
 ) -> Option<Value> {
     let p = path("/slots", name);
     if stack.len() > 64 || stack.iter().any(|s| s == name) {
@@ -229,9 +232,22 @@ pub(super) fn expand_slot(
         );
         return None;
     };
+    // Reserve every ancestor on every traversal, including overwritten subtrees.
+    // Three copies cover merge materialization, expanded validation copy and slack.
+    if !allocations.charge(slot, 3) {
+        issue(
+            d,
+            &p,
+            "budget",
+            budget::MESSAGE,
+            &Value::Null,
+            Severity::Error,
+        );
+        return None;
+    }
     stack.push(name.to_string());
     let mut result = if let Some(parent) = slot["$extends"].as_str() {
-        expand_slot(parent, slots, stack, d)?
+        expand_slot(parent, slots, stack, d, allocations)?
     } else {
         json!({})
     };

@@ -1,4 +1,5 @@
 //! CSS-free theme data. No filesystem, renderer, CSS execution or format dispatch side effects.
+mod budget;
 mod color;
 mod convert;
 mod css;
@@ -6,9 +7,10 @@ pub use convert::{Conversion, ConversionInput, convert_v1};
 mod contract;
 mod resolve;
 mod resolved;
+use budget::Budget;
 pub use color::Rgba;
 pub use contract::SCHEMA;
-use contract::{CONTRACT, check, issue, path};
+use contract::{CONTRACT, append, bounded_text, check, issue, path};
 use resolve::{expand_slot, resolve_refs};
 pub use resolved::{
     Bevel, Border, Fill, GradientStop, ImageStyle, ResolvedStyle, Shadow, TextStyle,
@@ -93,11 +95,29 @@ pub struct Theme {
 }
 impl Theme {
     pub fn parse(value: &Value) -> Result<Self, Vec<Diagnostic>> {
-        Self::parse_depth(value, 0)
+        Self::parse_depth(value, 0, &mut Budget::default())
     }
-    fn parse_depth(value: &Value, depth: usize) -> Result<Self, Vec<Diagnostic>> {
+    fn parse_depth(
+        value: &Value,
+        depth: usize,
+        allocations: &mut Budget,
+    ) -> Result<Self, Vec<Diagnostic>> {
         let mut d = vec![];
         if !resolve::bounded_input(value, &mut d) {
+            return Err(d);
+        }
+        // Reserve before diagnostics or document clones. Six source copies cover
+        // slots + image defaults/state mapping, check_value and owned document.
+        // Expanded inheritance and reference output are charged separately.
+        if !allocations.charge(value, 6) {
+            issue(
+                &mut d,
+                "",
+                "budget",
+                budget::MESSAGE,
+                &Value::Null,
+                Severity::Error,
+            );
             return Err(d);
         }
         check(value, &CONTRACT, "", &mut d, 0);
@@ -150,8 +170,11 @@ impl Theme {
         }
         if let Some(slots_map) = slots.as_object() {
             for name in slots_map.keys() {
-                if let Some(s) = expand_slot(name, &slots, &mut vec![], &mut d) {
+                if let Some(s) = expand_slot(name, &slots, &mut vec![], &mut d, allocations) {
                     expanded[name] = s;
+                } else {
+                    sort(&mut d);
+                    return Err(d);
                 }
             }
         }
@@ -161,10 +184,20 @@ impl Theme {
             .as_object_mut()
             .expect("checked object")
             .shift_remove("variants");
-        if let Some(resolved) = resolve_refs(&check_value, &value["tokens"], "", &CONTRACT, &mut d)
-        {
+        if let Some(resolved) = resolve::resolve_refs_budgeted(
+            &check_value,
+            &value["tokens"],
+            "",
+            &CONTRACT,
+            &mut d,
+            allocations,
+        ) {
             check(&resolved, &CONTRACT, "", &mut d, 0);
             resolve::semantics(&resolved, &CONTRACT, "", &mut d);
+        }
+        if d.iter().any(|d| d.severity == Severity::Error) {
+            sort(&mut d);
+            return Err(d);
         }
         let mut theme = Self {
             document: value.clone(),
@@ -173,17 +206,23 @@ impl Theme {
         };
         if let Some(variants) = value["variants"].as_object() {
             for id in variants.keys() {
-                let merged = theme.variant_document(id);
+                let merged = theme.variant_document(id, allocations)?;
                 if let Some(merged) = merged {
-                    match Self::parse_depth(&merged, depth + 1) {
-                        Ok(v) => d.extend(v.diagnostics.into_iter().map(|mut d| {
-                            d.location = format!("{}{}", path("/variants", id), d.location);
+                    let diagnostics = match Self::parse_depth(&merged, depth + 1, allocations) {
+                        Ok(v) => v.diagnostics,
+                        Err(errors) => errors,
+                    };
+                    append(
+                        &mut d,
+                        diagnostics.into_iter().map(|mut d| {
+                            d.location =
+                                bounded_text(&format!("{}{}", path("/variants", id), d.location));
                             d
-                        })),
-                        Err(errors) => d.extend(errors.into_iter().map(|mut d| {
-                            d.location = format!("{}{}", path("/variants", id), d.location);
-                            d
-                        })),
+                        }),
+                    );
+                    if d.iter().any(|d| d.severity == Severity::Error) {
+                        sort(&mut d);
+                        return Err(d);
                     }
                 }
             }
@@ -209,7 +248,13 @@ impl Theme {
             .flat_map(|m| m.keys().map(String::as_str))
     }
     pub fn slot(&self, name: &str, states: &[State], user_opacity: f64) -> Option<ResolvedStyle> {
-        let mut raw = self.expanded.get(name)?.clone();
+        let source = self.expanded.get(name)?;
+        let mut allocations = Budget::default();
+        // Base plus six state overlays, before any render-time clones.
+        if !allocations.charge(source, 8) {
+            return None;
+        }
+        let mut raw = source.clone();
         for state in State::PRECEDENCE {
             if states.contains(&state)
                 && let Some(overrides) = self.expanded[name]["states"].get(state.as_str())
@@ -222,12 +267,13 @@ impl Theme {
         let affects = raw["opacityAffects"].as_bool().unwrap_or_else(|| {
             resolve::opacity_matches(name, &raw["fill"], &self.document["tokens"])
         });
-        let mut resolved = resolve_refs(
+        let mut resolved = resolve::resolve_refs_budgeted(
             &raw,
             &self.document["tokens"],
             &path("/slots", name),
             &CONTRACT["$defs"]["slot"],
             &mut vec![],
+            &mut allocations,
         )?;
         if affects {
             let user = if user_opacity.is_finite() {
@@ -260,16 +306,42 @@ impl Theme {
         }
         Some(ResolvedStyle::new(resolved))
     }
-    fn variant_document(&self, id: &str) -> Option<Value> {
-        let patch = self.document["variants"].get(id)?.as_object()?;
-        let mut base = self.document.as_object()?.clone();
+    fn variant_document(
+        &self,
+        id: &str,
+        allocations: &mut Budget,
+    ) -> Result<Option<Value>, Vec<Diagnostic>> {
+        let Some(patch_value) = self.document["variants"].get(id).filter(|v| v.is_object()) else {
+            return Ok(None);
+        };
+        // The initial document clone (including variants) and every recursive
+        // defu subtree copy must fit before invoking the existing merge helper.
+        if !allocations.charge(&self.document, 1)
+            || !allocations.variant_merge(&self.document, patch_value)
+        {
+            let mut d = vec![];
+            issue(
+                &mut d,
+                &path("/variants", id),
+                "budget",
+                budget::MESSAGE,
+                &Value::Null,
+                Severity::Error,
+            );
+            return Err(d);
+        }
+        let patch = patch_value.as_object().expect("checked patch");
+        let mut base = self.document.as_object().expect("checked document").clone();
         base.shift_remove("variants");
         let mut result = super::helpers::deep_merge_defu(patch, &base);
         result.shift_remove("variants");
         result.insert("format".into(), json!(2));
         result.insert(
             "id".into(),
-            json!(format!("{}-{id}", self.document["id"].as_str()?)),
+            json!(format!(
+                "{}-{id}",
+                self.document["id"].as_str().expect("checked id")
+            )),
         );
         if !patch
             .get("name")
@@ -277,14 +349,18 @@ impl Theme {
         {
             result.insert(
                 "name".into(),
-                json!(format!("{} ({id})", self.document["name"].as_str()?)),
+                json!(format!(
+                    "{} ({id})",
+                    self.document["name"].as_str().expect("checked name")
+                )),
             );
         }
-        Some(Value::Object(result))
+        Ok(Some(Value::Object(result)))
     }
     pub fn variant(&self, id: &str) -> Result<Self, Vec<Diagnostic>> {
-        if let Some(v) = self.variant_document(id) {
-            Self::parse(&v)
+        let mut allocations = Budget::default();
+        if let Some(v) = self.variant_document(id, &mut allocations)? {
+            Self::parse_depth(&v, 0, &mut allocations)
         } else {
             let mut d = vec![];
             issue(
