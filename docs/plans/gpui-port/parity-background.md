@@ -4,8 +4,8 @@
 
 `task::background::BackgroundTaskState<E>` owns an existing `TaskState<E>` and a pure expiry schedule. It uses the existing f64 `TaskId` and injected `TaskEnvironment`; no new dependencies, runtime, threads, sleeps, timers, disk access, or real user data.
 
-- `dispatch(BackgroundCommand)` returns `BackgroundTransition { activated_count, history, effects }`.
-- Commands: `CompleteNext`, `Toggle`, `ActivateTriggers`, `DeactivateTriggers`, `Restart`, `Cancel`, `CancelAll`, `ExpireDue`, `Undo`, `Redo`, `Delete`, `Clear`, `Replace`, `Edit`, `UpdateTriggers`, `AddBackground`, `AddTask`, `CaptureUndo`, `Save`.
+- `dispatch(BackgroundCommand)` returns `BackgroundTransition { completed_task, activated_count, history, moved, effects }`.
+- Commands: `CompleteNext`, `Toggle`, `ActivateTriggers`, `DeactivateTriggers`, `Restart`, `Cancel`, `CancelAll`, `ExpireDue`, `Undo`, `Redo`, `Delete`, `Clear`, `Replace`, `Edit`, `UpdateTriggers`, `AddBackground`, `AddTask`, `Move`, `CaptureUndo`, `Save`.
 - Effects: `Schedule { id, due_ms }`, `Cancel { id }`, `Persist { data }`, `Activated { count, message }`, `Sound { event }`, `Log { message }`.
 - `timers()` exposes ID-keyed deadlines; `next_due_ms()` gives the next wakeup. `environment_mut()` permits updating an injected test/runtime clock. A UI can use one wakeup, refresh the clock, dispatch `ExpireDue`, and re-arm from `next_due_ms()`. Stale wakeups cannot expire a later deadline early.
 - `state()` is read-only, preventing timer targets from silently drifting under unrelated structural edits. `trigger_rows(task, tasks)` exposes all nested background tasks, including dormant/completed ones, checked state, optional `HIGH`, `ACTIVE`/`DORMANT`, and edit availability.
@@ -17,7 +17,8 @@ The UI must confirm delete/clear **before** dispatch. `Persist` requests renderi
 
 Sources: unchanged `backgroundTaskController.ts`, `triggerController.ts`, `taskStateController.ts`, `taskWorkflowController.ts`, their real completion/creation/tree/persistence helpers, `backgroundTaskUi.ts`, and renderer wiring at `renderer.ts:68-79,103-115`.
 
-- Complete-next activates the selected leaf's triggers and newly completed ancestors' triggers. Parent toggle recursively completes children but does **not** activate every descendant's triggers. Activation events/counts remain separate per source callback, followed by the original task-completed sound/persistence order.
+- Complete-next filters background roots before descending, returns the actual selected task for shell feedback, and activates the selected leaf's triggers and newly completed ancestors' triggers. Parent toggle recursively completes children but does **not** activate every descendant's triggers. Activation events/counts remain separate per source callback, followed by the original task-completed sound/persistence order.
+- Ordinary rendered lists filter roots only; every descendant of a visible root is rendered, including dormant and mixed-mode children. Dormant roots are available through Configure Triggers.
 - Lookup uses the first matching ID, but completion retains the actual selected object when IDs collide. Timer records overwrite by ID while retaining the actual last-scheduled object's structural identity. Tests include colliding roots, nested leaves under different parents, and colliding background timer targets.
 - Activation skips already-active tasks, not completed dormant tasks. Unchecking deactivates only active, incomplete targets and clears activatedAt. Expiry leaves activatedAt intact and does not create history.
 - Restart does not clear unrelated timers; it resets active incomplete tasks with missing/invalid activatedAt to a full duration, otherwise uses the remaining duration. Past deadlines expire synchronously and request persistence. Zero/null durations don't start timers. Negative durations expire immediately. Fractional/overflow timer delays match the observed fake timer runtime, including integer truncation and overflow to 1ms.
@@ -26,7 +27,9 @@ Sources: unchanged `backgroundTaskController.ts`, `triggerController.ts`, `taskS
 - Delete cancels descendant IDs and adjusts surviving structural paths. Workflow clear is a no-op when progress is zero, even if dormant tasks exist.
 - Raw `Replace` does **not** clear timers, matching `replaceTasks`: old closures can still log/request a save but must not mutate new same-ID tasks. The scheduler retains detached captured targets for this case. Template replacement must dispatch `CancelAll` first, matching renderer/template wiring.
 
-## Oracle and verification
+## Initial core oracle and verification
+
+For subsequent Move/UI integration and current regression counts, see `parity-background-ui.md`.
 
 `tools/golden/background.gen.test.ts` imports and executes the real production controllers, DOM trigger/edit helpers and workflow. It freezes Date and Math.random, advances Vitest fake timers, and lets the **real timer closures** run. An observation-only activatedAt accessor identifies the task associated with a scheduled callback without changing its value. Deadlines come directly from the installed fake clock's actual timer records, not a copied delay algorithm. Effects/save payloads/timers are deep-copied immediately; every operation records tasks, active deadlines, effects, trigger metadata and history results.
 
@@ -51,6 +54,6 @@ The isolated TS config runs the 15 generated scenarios plus the unchanged real d
 ## Explicitly deferred / bounded
 
 - Actual GPUI wakeups, visual notification lifetime/animation, feedback, focus/modal behavior, audio playback, readiness-gated disk writes and Windows runtime integration remain shell work. Core parity does not prove these runtime effects.
-- This is a bounded background workflow facade, not a replacement for every task UI operation. Reordering is not exposed through `BackgroundCommand`; future integration must preserve timer object identity when adding that operation, rather than mutating the underlying task tree behind the scheduler.
+- This is a bounded background workflow facade, not a replacement for every task UI operation. `Move` now preserves captured timer identity through topology replay; failed moves restore their original structural parent without changing schedules. See `parity-background-ui.md` for runtime integration and follow-up regression evidence.
 - Existing typed `Task`/`BackgroundOptions` decoding is unchanged. Arbitrary malformed loaded option objects, nonnumeric loaded expiry fields, non-string activatedAt and implementation-specific JavaScript Date formats/local-time parsing are not newly accepted. This slice proves source-tolerant **creation options** and the documented typed scheduling domain, not arbitrary raw-JS task loading. Keep the existing typed-load parity gate open for those records.
 - Timer overflow behavior is grounded in the real installed Vitest fake-clock execution; native UI scheduling must honor the emitted deadlines, not reinterpret duration fields through another runtime's timer coercion.

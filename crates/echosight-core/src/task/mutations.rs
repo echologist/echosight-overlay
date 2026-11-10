@@ -156,13 +156,23 @@ pub fn move_task_in_tree(
             dragged.task.text, target.task.text
         )
     };
-    let original_parent = dragged.parent.map(|p| p.id);
-    let original_index = dragged
-        .array
-        .iter()
-        .position(|t| t.id == dragged_id)
-        .expect("found task");
-    let target_parent = target.parent.map(|p| p.id);
+    // TS retains originalArray and targetInfo.parent as object references.
+    // IDs can collide: retain structural identity before detaching the task.
+    let dragged_path = path_to_task(tasks, dragged.task).expect("found task");
+    let original_parent = &dragged_path[..dragged_path.len() - 1];
+    let original_index = *dragged_path.last().expect("found task");
+    let mut target_parent = target
+        .parent
+        .map(|parent| path_to_task(tasks, parent).expect("found parent"))
+        .unwrap_or_default();
+    // Removing an earlier sibling shifts the surviving destination's path.
+    let depth = original_parent.len();
+    if target_parent.len() > depth
+        && target_parent[..depth] == *original_parent
+        && target_parent[depth] > original_index
+    {
+        target_parent[depth] -= 1;
+    }
     let task = remove_task_from_parent(dragged_id, tasks).expect("found task");
     // getTaskDropOperation prevents self-drops in the UI, but the lower-level
     // TS function accepts self-subtask and loses the detached task. Match it.
@@ -179,7 +189,7 @@ pub fn move_task_in_tree(
             (&mut t.children, i)
         })
     } else {
-        let array = array_for_parent(tasks, target_parent);
+        let array = array_for_parent(tasks, &target_parent);
         array
             .iter()
             .position(|t| t.id == target_id)
@@ -198,13 +208,22 @@ pub fn move_task_in_tree(
     }
 }
 
-fn array_for_parent(tasks: &mut Vec<Task>, parent: Option<TaskId>) -> &mut Vec<Task> {
-    match parent {
-        Some(id) => {
-            &mut find_task_by_id_mut(id, tasks)
-                .expect("parent survives guarded move")
-                .children
+fn path_to_task(tasks: &[Task], selected: &Task) -> Option<Vec<usize>> {
+    for (index, task) in tasks.iter().enumerate() {
+        if std::ptr::eq(task, selected) {
+            return Some(vec![index]);
         }
-        None => tasks,
+        if let Some(mut path) = path_to_task(&task.children, selected) {
+            path.insert(0, index);
+            return Some(path);
+        }
     }
+    None
+}
+
+fn array_for_parent<'a>(mut tasks: &'a mut Vec<Task>, parent: &[usize]) -> &'a mut Vec<Task> {
+    for &index in parent {
+        tasks = &mut tasks[index].children;
+    }
+    tasks
 }

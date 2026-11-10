@@ -21,6 +21,14 @@ const bg = (id: number, minutes: number | null = 1, extra: Partial<Task> = {}): 
 type Op = { op: string; [key: string]: any };
 type Scenario = { name: string; tasks: Task[]; ops: Op[] };
 const scenarios: Scenario[] = [
+  { name:'failed-move-duplicate-parent-expiry', tasks:[bg(10,null),bg(10,null,{children:[bg(20,1,{activated:true})]})], ops:[
+    {op:'restart'},{op:'move',id:20,target:20,above:true,subtask:false},{op:'advance',ms:60000}] },
+  { name:'move-duplicate-destination-parent', tasks:[bg(30,1,{activated:true}),bg(10,null),bg(10,null,{children:[bg(20,1,{activated:true})]})], ops:[
+    {op:'restart'},{op:'move',id:30,target:20,above:true,subtask:false},{op:'advance',ms:60000}] },
+  { name:'move-captured-timers',tasks:[bg(20,1,{activated:true}),bg(21,2,{activated:true,children:[bg(22,1,{activated:true})]}),bg(23,null)],ops:[
+    {op:'restart'},{op:'advance',ms:10000},{op:'move',id:20,target:21,above:false,subtask:true},{op:'move',id:21,target:23,above:false,subtask:false},{op:'advance',ms:50000},{op:'undo'},{op:'redo'},{op:'advance',ms:60000}] },
+  { name:'move-collisions-and-detached',tasks:[bg(20,1,{activated:true}),bg(20,2,{activated:true,text:'Second'}),bg(21,null,{children:[bg(22,1,{activated:true})]}),bg(23,null)],ops:[
+    {op:'restart'},{op:'move',id:21,target:23,above:false,subtask:true},{op:'move',id:20,target:23,above:false,subtask:false},{op:'move',id:22,target:23,above:true,subtask:false},{op:'advance',ms:60000},{op:'delete',id:21},{op:'advance',ms:60000},{op:'undo'},{op:'cancelAll'},{op:'replace',tasks:[bg(20,1,{activated:true})]},{op:'advance',ms:60000}] },
   { name: 'nested-parent-activation', tasks: [task(1, { triggers: [20], children: [task(2, { triggers: [21], children: [task(3, { triggers: [22,22,999,1] })] })] }), bg(20), bg(21), bg(22)], ops: [
     { op: 'next' }, { op: 'advance', ms: 10000 }, { op: 'toggle', id: 3 }, { op: 'undo' }, { op: 'advance', ms: 50000 }, { op: 'redo' }, { op: 'undo' }, { op: 'save' }] },
   { name: 'parent-toggle-not-child-triggers', tasks: [task(1, { triggers: [20], children: [task(2, { triggers: [21] })] }), bg(20), bg(21)], ops: [{ op: 'toggle', id: 1 }, { op: 'toggle', id: 2 }, { op: 'toggle', id: 2 }] },
@@ -117,6 +125,7 @@ for (const s of scenarios) test(s.name, async()=>{
       case 'activate':background.activateTriggeredTasks(task(0,{triggers:op.triggers}));break;
       case 'deactivate':background.deactivateTriggeredTasks(task(0,{triggers:op.triggers}));break;
       case 'capture':state.captureUndoState(op.label);break;
+      case 'move':if(state.moveTask(op.id,op.target,op.above,op.subtask).success) await state.saveTasks();break;
       case 'next':workflow.completeNextTask();break;
       case 'toggle':workflow.toggleTask(op.id);break;
       case 'restart':background.restartExpirationTimers();break;
