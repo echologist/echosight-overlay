@@ -24,14 +24,14 @@ Base: `f1f8b21`; topic: `gpui-port-theme-v2`. This lane owns only new core `them
 cargo test --locked -p echosight-core
 cargo clippy --locked -p echosight-core --all-targets -- -D warnings
 cargo fmt --all --check
-git diff --check -- . ':!crates/echosight-core/tests/theme_v2_fixtures/*/source.*'
+git diff --check
 python crates/echosight-core/tests/theme_v2_contract_check.py
 cargo test --locked -p echosight-core --test theme_v2_bundled -- --nocapture
 ```
 
 Results at this checkpoint: **100 Rust test functions passed**, including **18 new v2 test functions**. The bundled test iterates eleven distinct source themes; the schema test iterates 36 acceptance cases. These are separate counts, not hundreds of independently named tests. Independent Python checker: 36 corpus cases, eleven converted structures, 23 source-file hashes verified. Clippy and formatting pass. No Cargo manifest/lockfile delta. Python `jsonschema` is a development-only independent checker, not a new runtime/Cargo dependency.
 
-Frozen source copies intentionally preserve the original trailing whitespace (CS16 JSON and 98/XP CSS). The whitespace-only diff gate excludes `*/source.*`; their stronger byte/hash checks still run. Do not trim the copied sources to silence `git diff --check`.
+Frozen source copies intentionally preserve the original trailing whitespace (CS16 JSON and 98/XP CSS). Fixture-local `.gitattributes` disables whitespace lint only for copied `source.json`/`source.css`; their stronger byte/hash checks still run. All authored code, converted outputs and reports retain normal whitespace checks. Do not trim the copied sources to silence `git diff --check`.
 
 The v2 tests cover malformed nested values without panics; metadata/asset strings beginning with `@`; unknown reference-like properties remaining warning-only; missing references, token/slot loops, deep inputs; inherited and simultaneous states; fill union replacement; opacity exclusions and no text fading; images and nine-slice validation; bevels; preserved v1 component-state quirks; custom token influence; reports for unknown selectors/properties/fonts/effects; variant colors/defu behavior; absent CSS and invalid converter inputs.
 
