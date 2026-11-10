@@ -1,5 +1,8 @@
 //! Renderer-facing accessors retain authored omissions: no hidden layout defaults.
-use super::Rgba;
+use super::{
+    Rgba,
+    contract::{CONTRACT, selected_schema},
+};
 use serde::Deserialize;
 use serde_json::Value;
 #[derive(Debug, Clone, PartialEq)]
@@ -127,13 +130,14 @@ impl ResolvedStyle {
         if let Some(s) = v.as_str() {
             return Rgba::parse(s).map(Fill::Solid);
         }
+        let schema = selected_schema(v, &CONTRACT["$defs"]["fill"])?;
         let alpha = v["alpha"].as_f64().unwrap_or(1.);
         let color = |v: &Value| -> Option<Rgba> {
             let mut c = Rgba::parse(v.as_str()?)?;
             c.a *= alpha;
             Some(c)
         };
-        if v.get("color").is_some() {
+        if schema["properties"].get("color").is_some() {
             return color(&v["color"]).map(Fill::Solid);
         }
         let stops = |g: &Value| -> Option<Vec<GradientStop>> {
@@ -148,7 +152,8 @@ impl ResolvedStyle {
                 })
                 .collect()
         };
-        if let Some(g) = v.get("gradient") {
+        if schema["properties"].get("gradient").is_some() {
+            let g = &v["gradient"];
             return Some(Fill::Linear {
                 angle: g["angle"].as_f64()?,
                 stops: stops(g)?,

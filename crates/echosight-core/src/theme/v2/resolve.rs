@@ -1,6 +1,6 @@
 use super::{
     Diagnostic, Severity,
-    contract::{issue, path},
+    contract::{CONTRACT, check, child_schema, issue, path, reference_position, selected_schema},
 };
 use serde_json::{Value, json};
 
@@ -56,150 +56,131 @@ pub(super) fn resolve_refs(
     v: &Value,
     tokens: &Value,
     p: &str,
-    stack: &mut Vec<String>,
+    schema: &Value,
     d: &mut Vec<Diagnostic>,
-    depth: usize,
 ) -> Option<Value> {
-    resolve_bounded(v, tokens, p, stack, d, depth, &mut 100_000)
+    ReferenceResolver {
+        tokens,
+        diagnostics: d,
+        budget: 100_000,
+    }
+    .resolve(v, schema, p, &mut vec![], 0)
 }
-fn reference_position(p: &str) -> bool {
-    fn allows(schema: &Value, parts: &[String], depth: usize) -> bool {
-        if depth > 96 {
-            return false;
-        }
-        if let Some(r) = schema["$ref"].as_str() {
-            if parts.is_empty() && r == "#/$defs/reference" {
-                return true;
-            }
-            return super::contract::CONTRACT
-                .pointer(r.trim_start_matches('#'))
-                .is_some_and(|s| allows(s, parts, depth + 1));
-        }
-        if let Some(options) = schema["anyOf"].as_array() {
-            return options.iter().any(|s| allows(s, parts, depth + 1));
-        }
-        let Some((key, rest)) = parts.split_first() else {
-            return false;
-        };
-        let child = if schema["type"] == "array" {
-            key.parse::<usize>()
-                .ok()
-                .and_then(|i| schema["prefixItems"].get(i))
-                .or_else(|| schema.get("items"))
-        } else {
-            schema["properties"]
-                .get(key)
-                .or_else(|| schema.get("additionalProperties"))
-        };
-        child.is_some_and(|s| allows(s, rest, depth + 1))
-    }
-    let parts: Vec<_> = p
-        .trim_start_matches('/')
-        .split('/')
-        .map(|s| s.replace("~1", "/").replace("~0", "~"))
-        .collect();
-    allows(&super::contract::CONTRACT, &parts, 0)
+
+struct ReferenceResolver<'a> {
+    tokens: &'a Value,
+    diagnostics: &'a mut Vec<Diagnostic>,
+    budget: usize,
 }
-fn resolve_bounded(
-    v: &Value,
-    tokens: &Value,
-    p: &str,
-    stack: &mut Vec<String>,
-    d: &mut Vec<Diagnostic>,
-    depth: usize,
-    budget: &mut usize,
-) -> Option<Value> {
-    if *budget == 0 {
-        issue(
-            d,
-            p,
-            "budget",
-            "resolved document exceeds 100000 visits",
-            &Value::Null,
-            Severity::Error,
-        );
-        return None;
-    }
-    *budget -= 1;
-    if depth > 64 {
-        issue(
-            d,
-            p,
-            "depth",
-            "maximum reference/value depth is 64",
-            v,
-            Severity::Error,
-        );
-        return None;
-    }
-    if let Some(reference) = v
-        .as_str()
-        .filter(|s| s.starts_with('@') && reference_position(p))
-    {
-        let key = token_path(reference);
-        if stack.contains(&key) {
+impl ReferenceResolver<'_> {
+    fn resolve(
+        &mut self,
+        v: &Value,
+        schema: &Value,
+        p: &str,
+        stack: &mut Vec<String>,
+        depth: usize,
+    ) -> Option<Value> {
+        if self.budget == 0 {
             issue(
-                d,
+                self.diagnostics,
                 p,
-                "reference-cycle",
-                &format!("cyclic token reference: {} -> {key}", stack.join(" -> ")),
+                "budget",
+                "resolved document exceeds 100000 visits",
+                &Value::Null,
+                Severity::Error,
+            );
+            return None;
+        }
+        self.budget -= 1;
+        if depth > 64 {
+            issue(
+                self.diagnostics,
+                p,
+                "depth",
+                "maximum reference/value depth is 64",
                 v,
                 Severity::Error,
             );
             return None;
         }
-        let Some(target) = lookup(tokens, &key) else {
-            issue(
-                d,
-                p,
-                "missing-reference",
-                "token does not exist",
-                v,
-                Severity::Error,
-            );
+        let selected = selected_schema(v, schema);
+        if selected.is_none() && schema != &Value::Bool(true) {
+            // Expanded references still have to satisfy their destination shape.
+            check(v, schema, p, self.diagnostics, 0);
             return None;
-        };
-        stack.push(key);
-        let result = resolve_bounded(target, tokens, p, stack, d, depth + 1, budget);
-        stack.pop();
-        return result;
-    }
-    match v {
-        Value::Object(o) => {
-            let mut result = serde_json::Map::new();
-            let mut ok = true;
-            for (k, v) in o {
-                if let Some(v) =
-                    resolve_bounded(v, tokens, &path(p, k), stack, d, depth + 1, budget)
-                {
-                    result.insert(k.clone(), v);
-                } else {
-                    ok = false;
-                }
-            }
-            ok.then_some(Value::Object(result))
         }
-        Value::Array(a) => {
-            let mut result = vec![];
-            let mut ok = true;
-            for (i, v) in a.iter().enumerate() {
-                if let Some(v) = resolve_bounded(
+        if let Some(reference) = v
+            .as_str()
+            .filter(|_| selected.is_some_and(reference_position))
+        {
+            let key = token_path(reference);
+            if stack.contains(&key) {
+                issue(
+                    self.diagnostics,
+                    p,
+                    "reference-cycle",
+                    &format!("cyclic token reference: {} -> {key}", stack.join(" -> ")),
                     v,
-                    tokens,
-                    &path(p, &i.to_string()),
-                    stack,
-                    d,
-                    depth + 1,
-                    budget,
-                ) {
-                    result.push(v);
-                } else {
-                    ok = false;
-                }
+                    Severity::Error,
+                );
+                return None;
             }
-            ok.then_some(Value::Array(result))
+            let Some(target) = lookup(self.tokens, &key) else {
+                issue(
+                    self.diagnostics,
+                    p,
+                    "missing-reference",
+                    "token does not exist",
+                    v,
+                    Severity::Error,
+                );
+                return None;
+            };
+            stack.push(key);
+            // Keep the destination schema, not the token source's schema.
+            let result = self.resolve(target, schema, p, stack, depth + 1);
+            stack.pop();
+            return result;
         }
-        _ => Some(v.clone()),
+        match v {
+            Value::Object(o) => {
+                let mut result = serde_json::Map::new();
+                let mut ok = true;
+                for (k, v) in o {
+                    // Opaque extensions are copied without interpretation, but still
+                    // charged to the expansion budget (including token-sourced data).
+                    let child = selected
+                        .and_then(|s| child_schema(s, k))
+                        .unwrap_or(&Value::Bool(true));
+                    let resolved = self.resolve(v, child, &path(p, k), stack, depth + 1);
+                    if let Some(v) = resolved {
+                        result.insert(k.clone(), v);
+                    } else {
+                        ok = false;
+                    }
+                }
+                ok.then_some(Value::Object(result))
+            }
+            Value::Array(a) => {
+                let mut result = vec![];
+                let mut ok = true;
+                for (i, v) in a.iter().enumerate() {
+                    let key = i.to_string();
+                    let child = selected
+                        .and_then(|s| child_schema(s, &key))
+                        .unwrap_or(&Value::Bool(true));
+                    let resolved = self.resolve(v, child, &path(p, &key), stack, depth + 1);
+                    if let Some(v) = resolved {
+                        result.push(v);
+                    } else {
+                        ok = false;
+                    }
+                }
+                ok.then_some(Value::Array(result))
+            }
+            _ => Some(v.clone()),
+        }
     }
 }
 /// Styles replace arrays; only variants concatenate arrays (defu).
@@ -261,9 +242,14 @@ pub(super) fn expand_slot(
     stack.pop();
     Some(result)
 }
-pub(super) fn semantics(v: &Value, p: &str, d: &mut Vec<Diagnostic>) {
+pub(super) fn semantics(v: &Value, schema: &Value, p: &str, d: &mut Vec<Diagnostic>) {
+    let Some(schema) = selected_schema(v, schema) else {
+        return;
+    };
     if let Some(o) = v.as_object() {
-        if let Some(stops) = o.get("stops").and_then(Value::as_array) {
+        if schema["properties"].get("stops").is_some()
+            && let Some(stops) = o.get("stops").and_then(Value::as_array)
+        {
             let mut previous = 0.;
             for (i, stop) in stops.iter().enumerate() {
                 if let Some(n) = stop.get(1).and_then(Value::as_f64) {
@@ -281,7 +267,10 @@ pub(super) fn semantics(v: &Value, p: &str, d: &mut Vec<Diagnostic>) {
                 }
             }
         }
-        if o.get("mode").and_then(Value::as_str) == Some("nineSlice") && !o.contains_key("insets") {
+        if schema["properties"].get("insets").is_some()
+            && o.get("mode").and_then(Value::as_str) == Some("nineSlice")
+            && !o.contains_key("insets")
+        {
             issue(
                 d,
                 p,
@@ -292,11 +281,16 @@ pub(super) fn semantics(v: &Value, p: &str, d: &mut Vec<Diagnostic>) {
             );
         }
         for (k, v) in o {
-            semantics(v, &path(p, k), d);
+            if let Some(child) = child_schema(schema, k) {
+                semantics(v, child, &path(p, k), d);
+            }
         }
     } else if let Some(a) = v.as_array() {
         for (i, v) in a.iter().enumerate() {
-            semantics(v, &path(p, &i.to_string()), d);
+            let key = i.to_string();
+            if let Some(child) = child_schema(schema, &key) {
+                semantics(v, child, &path(p, &key), d);
+            }
         }
     }
 }
@@ -314,11 +308,20 @@ pub(super) fn opacity_matches(slot: &str, fill: &Value, tokens: &Value) -> bool 
     if patterns.iter().any(|p| matches(p, slot)) {
         return true;
     }
-    fn visit(v: &Value, tokens: &Value, patterns: &[&str], stack: &mut Vec<String>) -> bool {
+    fn visit(
+        v: &Value,
+        schema: &Value,
+        tokens: &Value,
+        patterns: &[&str],
+        stack: &mut Vec<String>,
+    ) -> bool {
         if stack.len() > 64 {
             return false;
         }
-        if let Some(reference) = v.as_str().filter(|s| s.starts_with('@')) {
+        let Some(selected) = selected_schema(v, schema) else {
+            return false;
+        };
+        if let Some(reference) = v.as_str().filter(|_| reference_position(selected)) {
             let key = token_path(reference);
             if patterns.iter().any(|p| {
                 matches(p, &key) || matches(p, key.strip_prefix("colors.").unwrap_or(&key))
@@ -329,15 +332,27 @@ pub(super) fn opacity_matches(slot: &str, fill: &Value, tokens: &Value) -> bool 
                 return false;
             }
             stack.push(key.clone());
-            let result = lookup(tokens, &key).is_some_and(|v| visit(v, tokens, patterns, stack));
+            let result =
+                lookup(tokens, &key).is_some_and(|v| visit(v, schema, tokens, patterns, stack));
             stack.pop();
             return result;
         }
         match v {
-            Value::Object(o) => o.values().any(|v| visit(v, tokens, patterns, stack)),
-            Value::Array(a) => a.iter().any(|v| visit(v, tokens, patterns, stack)),
+            Value::Object(o) => o.iter().any(|(k, v)| {
+                child_schema(selected, k).is_some_and(|s| visit(v, s, tokens, patterns, stack))
+            }),
+            Value::Array(a) => a.iter().enumerate().any(|(i, v)| {
+                child_schema(selected, &i.to_string())
+                    .is_some_and(|s| visit(v, s, tokens, patterns, stack))
+            }),
             _ => false,
         }
     }
-    visit(fill, tokens, &patterns, &mut vec![])
+    visit(
+        fill,
+        &CONTRACT["$defs"]["fill"],
+        tokens,
+        &patterns,
+        &mut vec![],
+    )
 }

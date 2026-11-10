@@ -536,5 +536,694 @@
       }
     },
     "valid": true
+  },
+  {
+    "name": "null color valid gradient",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": null,
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "boolean color valid gradient",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": false,
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "object color valid radial",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": {},
+            "radial": {
+              "center": [
+                0.5,
+                0.5
+              ],
+              "radius": 1,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "null gradient valid radial",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "gradient": null,
+            "radial": {
+              "center": [
+                0.5,
+                0.5
+              ],
+              "radius": 1,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "incomplete gradient valid radial",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "gradient": {
+              "angle": 0
+            },
+            "radial": {
+              "center": [
+                0.5,
+                0.5
+              ],
+              "radius": 1,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "valid solid linear radial branches",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": "red",
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            },
+            "radial": {
+              "center": [
+                0.5,
+                0.5
+              ],
+              "radius": 1,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "valid linear radial branches",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            },
+            "radial": {
+              "center": [
+                0.5,
+                0.5
+              ],
+              "radius": 1,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "solid with invalid other branches",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": "red",
+            "gradient": null,
+            "radial": false
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "gradient with invalid radial future",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            },
+            "radial": null,
+            "future": {
+              "mode": "nineSlice"
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "only null color",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": null
+          }
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "all invalid branches",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": false,
+            "gradient": null,
+            "radial": []
+          }
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "future opacity literal",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": "red",
+            "future": "@surface.foo"
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "future opacity nested literal",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": "red",
+            "future": {
+              "nested": [
+                "@surface.foo",
+                "@missing"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "ignored gradient reference",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": "red",
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  "@surface.missing",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "ignored invalid gradient semantics",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": "red",
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  "red",
+                  1
+                ],
+                [
+                  "blue",
+                  0
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "future image mode",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "future": {
+            "mode": "nineSlice"
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "future gradient stops",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "future": {
+            "stops": [
+              [
+                "red",
+                1
+              ],
+              [
+                "blue",
+                0
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "future nested semantics",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "future": {
+            "nested": {
+              "mode": "nineSlice",
+              "stops": [
+                [
+                  "red",
+                  1
+                ],
+                [
+                  "blue",
+                  0
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "numeric format 2.0",
+    "document": {
+      "format": 2.0,
+      "id": "x",
+      "name": "x"
+    },
+    "valid": true
+  },
+  {
+    "name": "numeric format 2e0",
+    "document": {
+      "format": 2e0,
+      "id": "x",
+      "name": "x"
+    },
+    "valid": true
+  },
+  {
+    "name": "numeric format 1.0",
+    "document": {
+      "format": 1.0,
+      "id": "x",
+      "name": "x"
+    },
+    "valid": false
+  },
+  {
+    "name": "numeric format 0",
+    "document": {
+      "format": 0,
+      "id": "x",
+      "name": "x"
+    },
+    "valid": false
+  },
+  {
+    "name": "numeric format -2",
+    "document": {
+      "format": -2,
+      "id": "x",
+      "name": "x"
+    },
+    "valid": false
+  },
+  {
+    "name": "numeric format 2.5",
+    "document": {
+      "format": 2.5,
+      "id": "x",
+      "name": "x"
+    },
+    "valid": false
+  },
+  {
+    "name": "numeric format 2.0000000000000004",
+    "document": {
+      "format": 2.0000000000000004,
+      "id": "x",
+      "name": "x"
+    },
+    "valid": false
+  },
+  {
+    "name": "numeric format 1e300",
+    "document": {
+      "format": 1e+300,
+      "id": "x",
+      "name": "x"
+    },
+    "valid": false
+  },
+  {
+    "name": "numeric format true",
+    "document": {
+      "format": true,
+      "id": "x",
+      "name": "x"
+    },
+    "valid": false
+  },
+  {
+    "name": "numeric format null",
+    "document": {
+      "format": null,
+      "id": "x",
+      "name": "x"
+    },
+    "valid": false
+  },
+  {
+    "name": "numeric format []",
+    "document": {
+      "format": [],
+      "id": "x",
+      "name": "x"
+    },
+    "valid": false
+  },
+  {
+    "name": "numeric format {}",
+    "document": {
+      "format": {},
+      "id": "x",
+      "name": "x"
+    },
+    "valid": false
+  },
+  {
+    "name": "original probe unknown_nineSlice",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "future": {
+        "mode": "nineSlice"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "original probe unknown_stops",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "future": {
+        "stops": [
+          [
+            "red",
+            1
+          ],
+          [
+            "blue",
+            0
+          ]
+        ]
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "original probe fill_union_wrong_color",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": 42,
+            "gradient": {
+              "angle": 0,
+              "stops": [
+                [
+                  "red",
+                  0
+                ],
+                [
+                  "blue",
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "original probe fill_union_unknown_grad",
+    "document": {
+      "format": 2,
+      "id": "x",
+      "name": "x",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": "red",
+            "gradient": {
+              "angle": "@missing"
+            }
+          }
+        }
+      }
+    },
+    "valid": true
   }
 ]

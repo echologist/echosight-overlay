@@ -49,7 +49,7 @@ The normative structural contract is `crates/echosight-core/schema/theme-v2.sche
 
 Only `format`, nonblank `id`, and nonblank `name` are required. Metadata strings and `supportsTransparency` are optional. No implicit palette, layout size, font, border width or effect is injected. An omitted slot returns `None`; a present empty slot remains empty. The app chooses its own explicit fallback styles.
 
-`detect_format(&Value)` returns v1 for absent `format` or numeric `1`, v2 for numeric `2`, and an error otherwise. **This module does not wire dispatch into the v1 filesystem library.** `Theme::parse` specifically requires format 2. Top-level/variant `cssFile` and `customCSS` are errors even when null or empty.
+`detect_format(&Value)` returns v1 for absent `format` or numeric `1`, v2 for numeric `2`, and an error otherwise. JSON numbers compare by value: `2`, `2.0` and `2e0` all select v2 and pass its schema; `1`, `1.0` and `1e0` select v1. Strings, booleans, null and other numeric values do not select v2. **This module does not wire dispatch into the v1 filesystem library.** `Theme::parse` specifically requires format 2. Top-level/variant `cssFile` and `customCSS` are errors even when null or empty.
 
 ## Tokens and references
 
@@ -62,7 +62,7 @@ Only `format`, nonblank `id`, and nonblank `name` are required. Metadata strings
 
 Where allowed by the schema, a value can be a whole-value `@token.path` reference, e.g. `@colors.accent`, `@fonts.ui.family`, `@shadows.window`, `@bevels.raised`. `@tokens.colors.accent` is equivalent. `@surface.x`, `@text.x`, `@border.x` abbreviate `@colors.surface.x`, etc. No string interpolation or CSS variables. Token names containing dots cannot be addressed by dot-path references; use letters, numbers, `_` or `-` for addressable names.
 
-References resolve recursively and must have the destination property's type after resolution. Missing references and cycles are errors, including unused token definitions. Literal metadata, font-family array entries and file/asset names beginning with `@` remain literal. Unknown properties are not interpreted as references.
+References resolve recursively and must have the destination property's type after resolution. Missing references and cycles are errors, including unused token definitions. Literal metadata, font-family array entries and file/asset names beginning with `@` remain literal. Unknown properties are not interpreted as references. Reference expansion, semantic checks and opacity matching all follow the selected schema branch and its declared child positions, including schema-valued token maps. Opaque extension subtrees are copied without interpreting their strings or field names; they remain subject to input and expansion budgets.
 
 ### Colors
 
@@ -107,7 +107,9 @@ Unknown slot names warn, and their values must still be style objects. A slot do
 
 Gradient `angle` is degrees in CSS orientation (0 up, 90 right); consumers must convert to their renderer's angle convention. Stops are `[[color,position], ...]`, at least two, positions 0–1 in nondecreasing order (equal positions permit hard stops). Radial center is normalized `[x,y]` in 0–1; radius is nonnegative in units of the shorter side. Rendering geometry is a consumer responsibility. Fill alpha multiplies every stop's own alpha. `text.transform` is `none`, `uppercase`, `lowercase` or `capitalize`; letter spacing is signed logical pixels. Text shadows use the same shadow records; representation does not promise native GPUI soft-glow fidelity.
 
-Unknown properties warn and survive in `properties()`, but consumers must ignore properties they do not implement. Partial border/text/ring records intentionally do not acquire defaults.
+Object fills use **first valid branch in schema order**: solid `color`, then linear `gradient`, then `radial`. Presence of a key is not enough: `{color:null,gradient:{angle:0,stops:[["red",0],["blue",1]]}}` is a linear fill. If several branches validate, solid wins over linear, and linear wins over radial, independently of JSON key order. Keys outside the selected branch are retained with warnings and are not interpreted as references, gradient geometry or opacity inputs. A selected branch's missing/cyclic references or semantic errors remain fatal; the resolver does not retry another branch to hide those errors. Authors and converters should emit only their intended branch; renderer consumers should use `ResolvedStyle::fill()` rather than dispatching on key presence. The structural schema remains open (`anyOf`), not a blanket unknown-property rejection.
+
+Unknown properties warn and survive in `properties()`, but consumers must ignore properties they do not implement. An unknown object containing `mode: "nineSlice"` or descending `stops` does not trigger image/gradient validation. Those checks still apply at supported destinations, including reference-expanded shapes. Partial border/text/ring records intentionally do not acquire defaults.
 
 ## Inheritance and state precedence
 
@@ -119,7 +121,7 @@ Unknown properties warn and survive in `properties()`, but consumers must ignore
 
 ### Opacity
 
-`tokens.opacity.appliesTo` is an explicit array of slot names and/or color-token paths. A trailing `*` is prefix matching. `surface.*` and `colors.surface.*` both match surface-token references, including aliases and gradient stops. Without the array, defaults are `surface.*`, `window.*`, `templateSection`, `tasksSection`; an empty array matches nothing.
+`tokens.opacity.appliesTo` is an explicit array of slot names and/or color-token paths. A trailing `*` is prefix matching. `surface.*` and `colors.surface.*` both match surface-token references, including aliases and gradient stops. Without the array, defaults are `surface.*`, `window.*`, `templateSection`, `tasksSection`; an empty array matches nothing. Only references in the selected fill branch count: `{color:"red",future:"@surface.foo"}` is not faded merely because its unknown field looks like a surface reference. Known fill references through aliases still count.
 
 For a matched slot, the fill's alpha is multiplied by clamped `user_opacity` (0–1; nonfinite input uses 1). `opacityAffects:false` excludes it; `true` includes it regardless of the list. On the two window slots only, optional `tokens.opacity.interactive` / `clickThrough` is another 0–1 multiplier. References to these multipliers are supported. A matched gradient fades all stops uniformly. Text, borders, images, children and shadows are **not** faded. `supportsTransparency:false` is UI capability metadata, not a resolver bypass, preserving the v1 distinction.
 

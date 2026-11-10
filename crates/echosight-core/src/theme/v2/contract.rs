@@ -32,6 +32,96 @@ pub(super) fn safe_asset(s: &str) -> bool {
         && !s.starts_with('/')
         && s.split('/').all(|p| !matches!(p, "" | "." | ".."))
 }
+/// Select the first structurally valid union branch in schema order. The validator,
+/// reference walker, semantic checks and renderer must interpret the same branch.
+pub(super) fn selected_schema<'a>(v: &Value, schema: &'a Value) -> Option<&'a Value> {
+    fn select<'a>(v: &Value, schema: &'a Value, depth: usize) -> Option<&'a Value> {
+        if depth > 96 {
+            return None;
+        }
+        if let Some(reference) = schema["$ref"].as_str() {
+            return select(
+                v,
+                CONTRACT.pointer(reference.strip_prefix('#')?)?,
+                depth + 1,
+            );
+        }
+        if let Some(options) = schema["anyOf"].as_array() {
+            for option in options {
+                let mut diagnostics = vec![];
+                check(v, option, "", &mut diagnostics, depth + 1);
+                if !diagnostics.iter().any(|d| d.severity == Severity::Error) {
+                    return select(v, option, depth + 1);
+                }
+            }
+            return None;
+        }
+        schema.is_object().then_some(schema)
+    }
+    select(v, schema, 0)
+}
+
+/// Child positions of a selected schema. Boolean/open extension fields have no
+/// interpreted children; schema-valued additionalProperties (token maps) do.
+pub(super) fn child_schema<'a>(schema: &'a Value, key: &str) -> Option<&'a Value> {
+    let child = if schema["type"] == "array" {
+        key.parse::<usize>()
+            .ok()
+            .and_then(|i| schema["prefixItems"].get(i))
+            .or_else(|| schema.get("items"))
+    } else {
+        schema["properties"]
+            .get(key)
+            .or_else(|| schema.get("additionalProperties"))
+    };
+    child.filter(|s| s.is_object())
+}
+
+pub(super) fn reference_position(schema: &Value) -> bool {
+    // selected_schema has already followed the $ref and chosen the union branch.
+    std::ptr::eq(schema, &CONTRACT["$defs"]["reference"])
+}
+
+/// JSON Schema compares numbers by value, not serde_json's integer/float tag.
+/// Preserve exact integer comparisons rather than rounding large integers to f64.
+pub(super) fn json_equal(a: &Value, b: &Value) -> bool {
+    match (a, b) {
+        (Value::Number(a), Value::Number(b)) => {
+            if a == b {
+                return true;
+            }
+            let integer_float_equal = |integer: &serde_json::Number, float: f64| {
+                if float.fract() != 0. {
+                    return false;
+                }
+                if let Some(n) = integer.as_i64() {
+                    float >= i64::MIN as f64 && float < -(i64::MIN as f64) && float as i64 == n
+                } else if let Some(n) = integer.as_u64() {
+                    float >= 0. && float < -(i64::MIN as f64) * 2. && float as u64 == n
+                } else {
+                    false
+                }
+            };
+            if a.is_f64() && !b.is_f64() {
+                a.as_f64().is_some_and(|f| integer_float_equal(b, f))
+            } else if b.is_f64() && !a.is_f64() {
+                b.as_f64().is_some_and(|f| integer_float_equal(a, f))
+            } else {
+                false
+            }
+        }
+        (Value::Array(a), Value::Array(b)) => {
+            a.len() == b.len() && a.iter().zip(b).all(|(a, b)| json_equal(a, b))
+        }
+        (Value::Object(a), Value::Object(b)) => {
+            a.len() == b.len()
+                && a.iter()
+                    .all(|(k, a)| b.get(k).is_some_and(|b| json_equal(a, b)))
+        }
+        _ => a == b,
+    }
+}
+
 pub(super) fn check(v: &Value, schema: &Value, p: &str, out: &mut Vec<Diagnostic>, depth: usize) {
     if depth > 96 {
         issue(
@@ -107,8 +197,10 @@ pub(super) fn check(v: &Value, schema: &Value, p: &str, out: &mut Vec<Diagnostic
         );
         return;
     }
-    if schema.get("const").is_some_and(|c| c != v)
-        || schema["enum"].as_array().is_some_and(|a| !a.contains(v))
+    if schema.get("const").is_some_and(|c| !json_equal(c, v))
+        || schema["enum"]
+            .as_array()
+            .is_some_and(|a| !a.iter().any(|c| json_equal(c, v)))
     {
         issue(
             out,
@@ -219,6 +311,45 @@ pub(super) fn check(v: &Value, schema: &Value, p: &str, out: &mut Vec<Diagnostic
                 if let Some(s) = schema.get("additionalProperties") {
                     check(x, s, &path(p, k), out, depth + 1);
                 }
+            }
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn enum_and_const_compare_json_numbers_recursively_without_integer_rounding() {
+        for (expected, actual, equal) in [
+            (json!(2), json!(2.0), true),
+            (json!(0), json!(-0.0), true),
+            (json!(-2), json!(-2.0), true),
+            (json!(2), json!(2.0000000000000004), false),
+            (json!(2), json!("2"), false),
+            (json!(1), json!(true), false),
+            (
+                json!(9_007_199_254_740_993u64),
+                json!(9_007_199_254_740_992.0),
+                false,
+            ),
+            (json!(i64::MAX), json!(i64::MAX as f64), false),
+            (json!(i64::MIN), json!(i64::MIN as f64), true),
+            (json!(u64::MAX), json!(u64::MAX as f64), false),
+            (json!(1u64 << 63), json!((1u64 << 63) as f64), true),
+            (json!({"items":[2,0]}), json!({"items":[2.0,-0.0]}), true),
+        ] {
+            for schema in [json!({"enum":[expected]}), json!({"const":expected})] {
+                let mut diagnostics = vec![];
+                check(&actual, &schema, "/probe", &mut diagnostics, 0);
+                assert_eq!(diagnostics.is_empty(), equal, "{schema}: {actual}");
+                assert!(
+                    diagnostics
+                        .iter()
+                        .all(|d| d.location == "/probe" && d.code == "enum")
+                );
             }
         }
     }

@@ -12,6 +12,23 @@ fn shared_schema_corpus_matches_runtime_acceptance() {
             "{}: {result:#?}",
             case["name"]
         );
+        if let Ok(theme) = result {
+            for name in theme.slot_names() {
+                for states in [&[][..], &State::PRECEDENCE[..]] {
+                    let style = theme
+                        .slot(name, states, 0.5)
+                        .expect("accepted slot must resolve");
+                    if style.properties().get("fill").is_some() {
+                        assert!(
+                            style.fill().is_some(),
+                            "{}: {name}: {:?}",
+                            case["name"],
+                            style.properties()
+                        );
+                    }
+                }
+            }
+        }
     }
 }
 #[test]

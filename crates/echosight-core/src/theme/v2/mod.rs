@@ -39,8 +39,8 @@ pub fn detect_format(v: &Value) -> Result<ThemeFormat, Vec<Diagnostic>> {
     if v.is_object() {
         match v.get("format") {
             None => return Ok(ThemeFormat::V1),
-            Some(x) if x == 1 => return Ok(ThemeFormat::V1),
-            Some(x) if x == 2 => return Ok(ThemeFormat::V2),
+            Some(x) if contract::json_equal(x, &json!(1)) => return Ok(ThemeFormat::V1),
+            Some(x) if contract::json_equal(x, &json!(2)) => return Ok(ThemeFormat::V2),
             _ => {}
         }
     }
@@ -161,11 +161,10 @@ impl Theme {
             .as_object_mut()
             .expect("checked object")
             .shift_remove("variants");
-        if let Some(resolved) =
-            resolve_refs(&check_value, &value["tokens"], "", &mut vec![], &mut d, 0)
+        if let Some(resolved) = resolve_refs(&check_value, &value["tokens"], "", &CONTRACT, &mut d)
         {
             check(&resolved, &CONTRACT, "", &mut d, 0);
-            resolve::semantics(&resolved, "", &mut d);
+            resolve::semantics(&resolved, &CONTRACT, "", &mut d);
         }
         let mut theme = Self {
             document: value.clone(),
@@ -227,9 +226,8 @@ impl Theme {
             &raw,
             &self.document["tokens"],
             &path("/slots", name),
+            &CONTRACT["$defs"]["slot"],
             &mut vec![],
-            &mut vec![],
-            0,
         )?;
         if affects {
             let user = if user_opacity.is_finite() {
@@ -246,9 +244,8 @@ impl Theme {
                 &self.document["tokens"]["opacity"][mode],
                 &self.document["tokens"],
                 &path("/tokens/opacity", mode),
+                &CONTRACT["$defs"]["alpha"],
                 &mut vec![],
-                &mut vec![],
-                0,
             )
             .and_then(|v| v.as_f64())
             .unwrap_or(1.);
