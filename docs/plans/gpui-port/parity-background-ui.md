@@ -8,7 +8,9 @@ delete, history, trigger and drag commands pass through the scheduler facade.
 `Move { id, target, above, subtask }` returns `BackgroundTransition.moved` and
 preserves captured timer identity through reorder, nesting and promotion. A
 labelled topology replay uses the existing move implementation, not ID lookup or
-a second move algorithm; duplicate IDs retain the core's existing semantics.
+a second move algorithm. Failed moves restore the exact original structural
+parent, including duplicate parent IDs; successful sibling destinations retain
+the selected parent identity too. Failed moves leave timer paths/deadlines intact.
 The app blocks ambiguous row/ancestor IDs, including trigger-choice dispatch.
 
 `TaskClock::anchored(executor, epoch_ms, random)` anchors UTC milliseconds to the
@@ -33,7 +35,10 @@ auto-save snapshots five deep.
 
 `TaskRuntimeEvent::{Sound, Activated, Log}` is an ordered injectable output port.
 The default logs requests; **no native audio playback is claimed**. Calibrated
-platform audio remains deferred. Completion feedback lasts two seconds;
+platform audio remains deferred. Completion feedback comes only from the actual
+successful `BackgroundTransition.completed_task` result, never a second leaf
+search. Complete-next filters background roots before descending; no eligible
+main-root leaf means no completion feedback. Feedback lasts two seconds;
 activation notification lifetime is 3.3 seconds (the source's 3s + 300ms exit).
 The exit animation itself remains a visual parity gate. Expiry logs are emitted
 through the sink; actual persistence results update Saved/error status. Expiry
@@ -50,7 +55,8 @@ of a focused row restores focus to a surviving composer so local undo still work
   remains Cancel-focused and ignores bare Enter.
 - Checked IDs save in rendered tree order; unchanged ordered selections cause
   no history/save. Editing a dormant task persists immediately without changing
-  trigger selection; cancelling the parent does not roll back that edit.
+  trigger selection; cancelling the parent does not roll back that edit. The
+  parent's displayed trigger labels remain stale after nested editing, matching TS.
 - Creation validates the same trimmed nonempty description, enforces the existing
   100 UTF-16 insertion limit, saves immediately, then rebuilds choices from saved
   triggers. Unsaved checked changes reset; the new task is not automatically
@@ -60,13 +66,16 @@ of a focused row restores focus to a surviving composer so local undo still work
   scheduled expiry is supported for loaded/configured task data. No new expiry
   input was invented contrary to the master plan's preserve-for-parity rule.
 - Active background roots have their own Background Tasks heading/count and HIGH
-  badge; dormant records are not exposed as ordinary task rows. Core progress
-  retains its reviewed root-filter/descendant-counting legacy quirks.
+  badge; dormant **roots** are not exposed as ordinary task rows. As in
+  `taskListView.ts` / `taskListRenderer.ts`, all descendants of visible roots are
+  rendered, even dormant background children and legacy mixed-mode descendants.
+  Activating a parent does not activate its children. Core progress retains its
+  reviewed root-filter/descendant-counting legacy quirks.
 - Dialog title/footer do not shrink. Only the viewport-bounded body scrolls; the
   overlay occludes wheel/pointer events. Loaded long names survive unchanged or
   priority-only saves; insertion limits apply only to new text.
 
-## Verification
+## Initial slice verification
 
 All commands used a distinct worktree `target` directory; no shared-worktree
 build cache was used for RED/GREEN.
@@ -101,6 +110,44 @@ build cache was used for RED/GREEN.
   original trigger/background/edit DOM tests also passed unchanged (jsdom reports
   its existing unimplemented `window.focus` warning). Temporary dependency link
   removed.
+
+## Reviewed parity-blocker regressions
+
+This follow-up uses the worktree's own fresh `target`, never copied workspace
+artifacts. Before production changes, all four named `parity_` UI tests failed:
+wrong completion text, false no-op feedback, missing dormant child after a
+triggered parent activation, and missing legacy mixed-mode descendant. Three
+named core tests also failed: wrong rollback parent, the captured-expiry panic,
+and wrong duplicate-parent sibling destination. The new actual-TS fixture
+comparison failed at the failed move's exact post-tree.
+
+- `BackgroundTransition.completed_task: Option<Task>` is an additive, nonserialized
+  result populated only by successful CompleteNext. Existing serialized oracle
+  shapes and fixtures are unchanged. Duplicate-ID structural completion and app
+  ambiguity guards remain covered by the original suites.
+- `tools/golden/background-ui.test.ts` dispatches DOM clicks into the real TS
+  workflow and inspects production feedback/rendering. It confirms no-op feedback
+  stays absent and activated-parent rows have IDs `[20, 21]` while 21 is dormant.
+  GPUI regressions dispatch actual mouse clicks and assert `row-1-0` bounds.
+- Two new actual-controller input/expected pairs pin failed-move rollback/expiry
+  and successful duplicate-parent destinations, including removal-index shifts.
+  Full trees, schedules, exact effects and save payloads are compared. Original
+  fixture bytes were checked before regeneration and remained unchanged after it.
+  Source self-subtask success/lost-object behavior is deliberately unchanged.
+- `cargo test --locked --workspace`: **183 test functions passed**, including
+  **65 UI tests**. The direct failed-move regression, public-facade expiry probe,
+  background oracle and original task oracle all pass with nonzero named tests.
+- Workspace fmt and locked all-target clippy (`-D warnings`), Windows all-target
+  app/platform checks, and Linux app plus `s8_task_app` linking passed.
+- Both linked binaries were launched from an unrelated disposable directory:
+  no arguments exited 2, a missing explicit directory stayed absent, and a loaded
+  active background task expired through the actual timer and saved one snapshot.
+  Each running event loop was externally bounded (124); no native UI acceptance.
+- TS background freshness **24 passed** (19 scenarios, four new workflow/render
+  regressions, one existing trigger regression); original task lane **33 passed**;
+  original trigger/background/edit DOM tests **3 passed**. Strict standalone
+  TypeScript checking of both background tests and config passed. Original jsdom
+  tests still emit their existing unimplemented `window.focus` warning.
 
 ## Remaining native gates
 

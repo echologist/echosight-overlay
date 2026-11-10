@@ -196,7 +196,8 @@ impl Render for TaskApp {
         let mut rows = div().id("rows-scroll").size_full().overflow_y_scroll();
         let mut flat = vec![];
         // Separate active background roots while preserving structural keys.
-        // Dormant records remain available only through Configure Triggers.
+        // Dormant roots remain available only through Configure Triggers.
+        // Like taskListView/taskListRenderer, include every descendant of a visible root.
         for background in [false, true] {
             for (index, task) in tasks.iter().enumerate().filter(|(_, t)| {
                 (t.mode == TaskMode::Background) == background && (!background || t.activated)
@@ -208,9 +209,6 @@ impl Render for TaskApp {
         }
         let mut background_heading = false;
         for (path, task) in flat {
-            if task.mode == TaskMode::Background && !task.activated {
-                continue;
-            }
             if path.len() == 1 && task.mode == TaskMode::Background && !background_heading {
                 background_heading = true;
                 let active: Vec<_> = tasks

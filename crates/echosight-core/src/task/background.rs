@@ -94,6 +94,8 @@ pub enum BackgroundEffect {
 
 #[derive(Clone, Debug, Default)]
 pub struct BackgroundTransition {
+    /// Actual structurally selected completion; never re-search by ID in the shell.
+    pub completed_task: Option<Task>,
     pub activated_count: usize,
     pub history: Option<UndoTaskActionResult>,
     pub moved: Option<MoveTaskResult>,
@@ -188,6 +190,7 @@ impl<E: TaskEnvironment> BackgroundTaskState<E> {
             BackgroundCommand::CompleteNext => {
                 if let Some(result) = self.state.complete_next_task() {
                     self.activate(&result.task.triggers, &mut out);
+                    out.completed_task = Some(result.task);
                     for parent in result.completed_parents {
                         self.activate(&parent.triggers, &mut out);
                     }
@@ -343,6 +346,8 @@ impl<E: TaskEnvironment> BackgroundTaskState<E> {
                     }
                     self.persist(&mut out);
                 }
+                // Failure restores the exact original array, so every captured
+                // path remains valid without replay or changing its deadline.
                 out.moved = Some(result);
             }
             BackgroundCommand::CaptureUndo(label) => self.state.capture_undo_state(&label),

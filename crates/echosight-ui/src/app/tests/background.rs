@@ -4,6 +4,90 @@ use std::time::Duration;
 const EPOCH: i64 = 1_800_000_000_000;
 
 #[gpui::test]
+async fn parity_complete_feedback_uses_actual_main_root(cx: &mut TestAppContext) {
+    let dir = tempfile::tempdir().unwrap();
+    let mut background = bg(20, true, 0.);
+    background["children"] = serde_json::json!([task(21, "Skipped child")]);
+    seed(
+        dir.path(),
+        serde_json::json!([background, task(1, "Actual completion")]),
+    );
+    let probe = Arc::new(Probe::default());
+    let events = Arc::new(Mutex::new(vec![]));
+    let (scene, vc) = runtime(cx, dir.path(), probe.clone(), events.clone());
+    click(vc, "complete-next");
+    assert!(!snapshot(&scene, vc)[0].children[0].completed);
+    assert!(snapshot(&scene, vc)[1].completed);
+    scene.read_with(vc, |s, _| {
+        assert_eq!(
+            s.feedback.as_deref(),
+            Some("✓ Completed: Actual completion")
+        )
+    });
+    saved(&scene, vc).await;
+    assert_eq!(probe.writes.lock().unwrap().len(), 1);
+    assert_eq!(
+        *events.lock().unwrap(),
+        vec![TaskRuntimeEvent::Sound("taskCompleted")]
+    );
+}
+
+#[gpui::test]
+async fn parity_complete_without_main_root_has_no_feedback(cx: &mut TestAppContext) {
+    let dir = tempfile::tempdir().unwrap();
+    let mut background = bg(20, true, 0.);
+    background["children"] = serde_json::json!([task(21, "Skipped child")]);
+    seed(dir.path(), serde_json::json!([background]));
+    let probe = Arc::new(Probe::default());
+    let events = Arc::new(Mutex::new(vec![]));
+    let (scene, vc) = runtime(cx, dir.path(), probe.clone(), events.clone());
+    let before = snapshot(&scene, vc);
+    click(vc, "complete-next");
+    assert_eq!(snapshot(&scene, vc), before);
+    scene.read_with(vc, |s, _| assert!(s.feedback.is_none(), "{:?}", s.feedback));
+    saved(&scene, vc).await;
+    assert!(probe.writes.lock().unwrap().is_empty());
+    assert!(events.lock().unwrap().is_empty());
+}
+
+#[gpui::test]
+async fn parity_activated_parent_renders_dormant_child(cx: &mut TestAppContext) {
+    let dir = tempfile::tempdir().unwrap();
+    let mut main = task(1, "Activate parent only");
+    main["triggers"] = serde_json::json!([20]);
+    let mut background = bg(20, false, 0.);
+    background["children"] = serde_json::json!([bg(21, false, 0.)]);
+    seed(dir.path(), serde_json::json!([main, background]));
+    let (scene, vc) = runtime(cx, dir.path(), Arc::default(), Arc::default());
+    assert!(vc.debug_bounds("row-1").is_none());
+    assert!(vc.debug_bounds("row-1-0").is_none());
+    click(vc, "complete-next");
+    assert!(snapshot(&scene, vc)[1].activated);
+    assert!(!snapshot(&scene, vc)[1].children[0].activated);
+    assert!(vc.debug_bounds("row-1").is_some());
+    assert!(vc.debug_bounds("row-1-0").is_some());
+    saved(&scene, vc).await;
+}
+
+#[gpui::test]
+fn parity_root_filter_keeps_mixed_mode_descendants(cx: &mut TestAppContext) {
+    let dir = tempfile::tempdir().unwrap();
+    let mut main = task(1, "Main parent");
+    main["children"] = serde_json::json!([bg(21, false, 0.)]);
+    let mut background = bg(20, true, 0.);
+    background["children"] = serde_json::json!([task(22, "Legacy main child")]);
+    seed(
+        dir.path(),
+        serde_json::json!([main, background, bg(23, false, 0.)]),
+    );
+    let (scene, vc) = runtime(cx, dir.path(), Arc::default(), Arc::default());
+    assert!(vc.debug_bounds("row-0-0").is_some());
+    assert!(vc.debug_bounds("row-1-0").is_some());
+    assert!(vc.debug_bounds("row-2").is_none());
+    assert!(!snapshot(&scene, vc)[0].children[0].activated);
+}
+
+#[gpui::test]
 fn failed_load_never_restarts_expired_backgrounds_or_saves(cx: &mut TestAppContext) {
     let dir = tempfile::tempdir().unwrap();
     let mut invalid = bg(21, true, -1.);

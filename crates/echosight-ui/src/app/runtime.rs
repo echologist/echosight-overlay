@@ -65,22 +65,13 @@ impl TaskApp {
         if !self.writable() {
             return BackgroundTransition::default();
         }
-        let completed_text = if matches!(command, BackgroundCommand::CompleteNext) {
-            self.state()
-                .and_then(|s| {
-                    echosight_core::task::completion::find_next_incomplete_leaf_task(s.tasks())
-                })
-                .map(|t| t.text.clone())
-        } else {
-            None
-        };
         let transition = self
             .background
             .as_mut()
             .expect("loaded state")
             .dispatch(command);
-        if let Some(text) = completed_text {
-            self.show_feedback(format!("✓ Completed: {text}"), cx);
+        if let Some(task) = &transition.completed_task {
+            self.show_feedback(format!("✓ Completed: {}", task.text), cx);
         }
         for effect in &transition.effects {
             match effect {

@@ -32,7 +32,7 @@ fn background_controller_oracle() {
         .filter(|p| p.to_string_lossy().ends_with(".input.json"))
         .collect();
     inputs.sort();
-    assert_eq!(inputs.len(), 17);
+    assert_eq!(inputs.len(), 19);
     for input_path in inputs {
         let input: Value = serde_json::from_str(&fs::read_to_string(&input_path).unwrap()).unwrap();
         let expected_path = input_path.with_file_name(

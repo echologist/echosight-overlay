@@ -21,6 +21,10 @@ const bg = (id: number, minutes: number | null = 1, extra: Partial<Task> = {}): 
 type Op = { op: string; [key: string]: any };
 type Scenario = { name: string; tasks: Task[]; ops: Op[] };
 const scenarios: Scenario[] = [
+  { name:'failed-move-duplicate-parent-expiry', tasks:[bg(10,null),bg(10,null,{children:[bg(20,1,{activated:true})]})], ops:[
+    {op:'restart'},{op:'move',id:20,target:20,above:true,subtask:false},{op:'advance',ms:60000}] },
+  { name:'move-duplicate-destination-parent', tasks:[bg(30,1,{activated:true}),bg(10,null),bg(10,null,{children:[bg(20,1,{activated:true})]})], ops:[
+    {op:'restart'},{op:'move',id:30,target:20,above:true,subtask:false},{op:'advance',ms:60000}] },
   { name:'move-captured-timers',tasks:[bg(20,1,{activated:true}),bg(21,2,{activated:true,children:[bg(22,1,{activated:true})]}),bg(23,null)],ops:[
     {op:'restart'},{op:'advance',ms:10000},{op:'move',id:20,target:21,above:false,subtask:true},{op:'move',id:21,target:23,above:false,subtask:false},{op:'advance',ms:50000},{op:'undo'},{op:'redo'},{op:'advance',ms:60000}] },
   { name:'move-collisions-and-detached',tasks:[bg(20,1,{activated:true}),bg(20,2,{activated:true,text:'Second'}),bg(21,null,{children:[bg(22,1,{activated:true})]}),bg(23,null)],ops:[
