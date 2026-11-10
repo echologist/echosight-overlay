@@ -373,6 +373,7 @@
       "x-unknown-warning": true
     },
     "fill": {
+      "$comment": "Rendering selects the first valid branch in schema order: color, gradient, radial. Nonselected keys are warning-only extensions, not reference or opacity inputs. A selected branch failing reference/semantic checks is an error, not a fallback.",
       "anyOf": [
         {
           "$ref": "#/$defs/reference"

@@ -1,5 +1,280 @@
-use echosight_core::theme::v2::{State, Theme};
+use echosight_core::theme::v2::{Fill, Severity, State, Theme, ThemeFormat, detect_format};
 use serde_json::{Value, json};
+
+fn fill_document(fill: Value) -> Value {
+    json!({"format":2,"id":"x","name":"x","slots":{"button":{"fill":fill}}})
+}
+
+#[test]
+fn accepted_fill_selects_first_valid_branch_not_first_present_key() {
+    let linear = json!({"angle":0,"stops":[["red",0],["blue",1]]});
+    let radial = json!({"center":[0.5,0.5],"radius":1,"stops":[["red",0],["blue",1]]});
+    for (fill, expected) in [
+        (json!({"color":null,"gradient":linear}), "linear"),
+        (json!({"color":false,"gradient":linear}), "linear"),
+        (json!({"color":"not-a-color","gradient":linear}), "linear"),
+        (json!({"color":{},"radial":radial}), "radial"),
+        (json!({"gradient":null,"radial":radial}), "radial"),
+        (json!({"gradient":{"angle":0},"radial":radial}), "radial"),
+        (
+            json!({"color":"red","gradient":linear,"radial":radial}),
+            "solid",
+        ),
+        (json!({"gradient":linear,"radial":radial}), "linear"),
+        (
+            json!({"color":"red","gradient":null,"radial":false}),
+            "solid",
+        ),
+        (
+            json!({"gradient":linear,"radial":null,"future":{"mode":"nineSlice"}}),
+            "linear",
+        ),
+    ] {
+        let theme = Theme::parse(&fill_document(fill.clone())).unwrap();
+        let resolved = theme.slot("button", &[], 0.5).unwrap();
+        let actual = match resolved.fill().expect("accepted fill must render") {
+            Fill::Solid(_) => "solid",
+            Fill::Linear { .. } => "linear",
+            Fill::Radial { .. } => "radial",
+        };
+        assert_eq!(actual, expected, "{fill}");
+        assert_eq!(resolved.properties()["fill"], fill);
+        assert!(
+            theme
+                .diagnostics()
+                .iter()
+                .all(|d| d.severity == Severity::Warning)
+        );
+    }
+    for fill in [
+        json!({"color":null}),
+        json!({"gradient":null,"radial":false}),
+    ] {
+        let document = fill_document(fill);
+        let errors = Theme::parse(&document).unwrap_err();
+        assert_eq!(errors, Theme::parse(&document).unwrap_err());
+        assert!(errors.iter().any(|d| d.location == "/slots/button/fill"));
+    }
+}
+
+#[test]
+fn unknown_properties_are_not_semantically_interpreted() {
+    for future in [
+        json!({"mode":"nineSlice"}),
+        json!({"stops":[["red",1],["blue",0]]}),
+        json!({"nested":{"mode":"nineSlice","stops":[["red",1],["blue",0]]}}),
+    ] {
+        let document = json!({"format":2,"id":"x","name":"x","slots":{"button":{"fill":"red","future":future}}});
+        let theme = Theme::parse(&document).unwrap();
+        assert!(
+            theme
+                .diagnostics()
+                .iter()
+                .any(|d| d.location == "/slots/button/future" && d.code == "unknown")
+        );
+        assert!(
+            theme
+                .diagnostics()
+                .iter()
+                .all(|d| d.severity == Severity::Warning)
+        );
+        assert_eq!(
+            theme.slot("button", &[], 1.).unwrap().properties()["future"],
+            future
+        );
+    }
+    for (style, location, code) in [
+        (
+            json!({"image":{"asset":"x.png","mode":"nineSlice"}}),
+            "/slots/button/image",
+            "insets",
+        ),
+        (
+            json!({"fill":{"gradient":{"angle":0,"stops":[["red",1],["blue",0]]}}}),
+            "/slots/button/fill/gradient/stops/1",
+            "stop-order",
+        ),
+        (
+            json!({"fill":{"radial":{"center":[0.5,0.5],"radius":1,"stops":[["red",1],["blue",0]]}}}),
+            "/slots/button/fill/radial/stops/1",
+            "stop-order",
+        ),
+    ] {
+        let document = json!({"format":2,"id":"x","name":"x","slots":{"button":style}});
+        let errors = Theme::parse(&document).unwrap_err();
+        assert_eq!(errors, Theme::parse(&document).unwrap_err());
+        assert!(
+            errors
+                .iter()
+                .any(|d| d.location == location && d.code == code),
+            "{errors:?}"
+        );
+    }
+}
+
+#[test]
+fn unknown_fill_literals_do_not_trigger_opacity_or_reference_traversal() {
+    for future in [
+        json!("@surface.foo"),
+        json!({"nested":["@surface.foo","@missing"]}),
+    ] {
+        let theme = Theme::parse(&fill_document(json!({"color":"red","future":future}))).unwrap();
+        let resolved = theme.slot("button", &[], 0.5).unwrap();
+        assert_eq!(resolved.fill().unwrap().solid().unwrap().a, 1.);
+        assert_eq!(resolved.properties()["fill"]["future"], future);
+    }
+    let theme = Theme::parse(&json!({"format":2,"id":"x","name":"x","tokens":{"colors":{"surface":{"foo":"red"},"alias":"@surface.foo","chain":"@colors.alias"}},"slots":{"button":{"fill":{"color":"@colors.chain","future":"@missing"}}}})).unwrap();
+    assert_eq!(
+        theme
+            .slot("button", &[], 0.5)
+            .unwrap()
+            .fill()
+            .unwrap()
+            .solid()
+            .unwrap()
+            .a,
+        0.5
+    );
+}
+
+#[test]
+fn format_numbers_follow_json_schema_numeric_equality() {
+    for number in ["2", "2.0", "2e0"] {
+        let document: Value =
+            serde_json::from_str(&format!(r#"{{"format":{number},"id":"x","name":"x"}}"#)).unwrap();
+        assert!(Theme::parse(&document).is_ok(), "{number}");
+        assert_eq!(detect_format(&document).unwrap(), ThemeFormat::V2);
+    }
+    for number in ["1", "1.0", "1e0"] {
+        let document: Value =
+            serde_json::from_str(&format!(r#"{{"format":{number},"id":"x","name":"x"}}"#)).unwrap();
+        assert_eq!(detect_format(&document).unwrap(), ThemeFormat::V1);
+        assert!(Theme::parse(&document).is_err());
+    }
+    for value in [
+        json!(0),
+        json!(-2),
+        json!(2.5),
+        json!(2.0000000000000004),
+        json!(1e300),
+        json!("2"),
+        json!(true),
+        Value::Null,
+        json!([]),
+        json!({}),
+    ] {
+        let document = json!({"format":value,"id":"x","name":"x"});
+        assert!(detect_format(&document).is_err(), "{value}");
+        assert!(Theme::parse(&document).is_err(), "{value}");
+    }
+}
+
+#[test]
+fn selected_fill_branch_alone_controls_references_semantics_and_opacity() {
+    let document = fill_document(json!({
+        "gradient":{"angle":0,"stops":[["@surface.missing",1],["blue",0]]},
+        "radial":{"mode":"nineSlice"},
+        "color":"red"
+    }));
+    let theme = Theme::parse(&document).unwrap();
+    let style = theme.slot("button", &[], 0.5).unwrap();
+    assert_eq!(
+        style.fill().unwrap().solid(),
+        echosight_core::theme::v2::Rgba::parse("red")
+    );
+    assert_eq!(
+        style.properties()["fill"],
+        document["slots"]["button"]["fill"]
+    );
+    for key in ["gradient", "radial"] {
+        assert!(
+            theme
+                .diagnostics()
+                .iter()
+                .any(|d| d.location == format!("/slots/button/fill/{key}") && d.code == "unknown")
+        );
+    }
+}
+
+#[test]
+fn selected_branch_errors_are_not_hidden_by_other_valid_branches() {
+    let gradient = json!({"angle":0,"stops":[["red",0],["blue",1]]});
+    let radial = json!({"center":[0.5,0.5],"radius":1,"stops":[["red",0],["blue",1]]});
+    for (fill, location, code) in [
+        (
+            json!({"color":"@missing","gradient":gradient}),
+            "/slots/button/fill/color",
+            "missing-reference",
+        ),
+        (
+            json!({"gradient":{"angle":0,"stops":[["red",1],["blue",0]]},"radial":radial}),
+            "/slots/button/fill/gradient/stops/1",
+            "stop-order",
+        ),
+    ] {
+        let document = fill_document(fill);
+        let errors = Theme::parse(&document).unwrap_err();
+        assert_eq!(errors, Theme::parse(&document).unwrap_err());
+        assert!(
+            errors
+                .iter()
+                .any(|d| d.location == location && d.code == code),
+            "{errors:?}"
+        );
+    }
+}
+
+#[test]
+fn reference_expansion_retains_destination_semantic_checks() {
+    for (style, field, location, code) in [
+        (
+            json!({"asset":"x.png","mode":"nineSlice"}),
+            "image",
+            "/slots/button/image",
+            "insets",
+        ),
+        (
+            json!({"gradient":{"angle":0,"stops":[["red",1],["blue",0]]}}),
+            "fill",
+            "/slots/button/fill/gradient/stops/1",
+            "stop-order",
+        ),
+        (
+            json!({"radial":{"center":[0.5,0.5],"radius":1,"stops":[["red",1],["blue",0]]}}),
+            "fill",
+            "/slots/button/fill/radial/stops/1",
+            "stop-order",
+        ),
+    ] {
+        // Future token storage is opaque until referenced from a supported destination.
+        let mut document = json!({"format":2,"id":"x","name":"x","tokens":{"future":{"shape":style,"alias":"@future.shape"}}});
+        assert!(Theme::parse(&document).is_ok());
+        document["slots"] = json!({"button":{field:"@future.alias"}});
+        let errors = Theme::parse(&document).unwrap_err();
+        assert_eq!(errors, Theme::parse(&document).unwrap_err());
+        assert!(
+            errors
+                .iter()
+                .any(|d| d.location == location && d.code == code),
+            "{errors:?}"
+        );
+    }
+    let document = json!({"format":2,"id":"x","name":"x","tokens":{"future":{"shape":{"color":null,"gradient":{"angle":0,"stops":[["@colors.alias",0],["blue",1]]},"future":"@missing"},"alias":"@future.shape"},"colors":{"alias":"@surface.red","surface":{"red":"red"}}},"slots":{"button":{"fill":"@future.alias"}}});
+    let theme = Theme::parse(&document).unwrap();
+    let Fill::Linear { angle, stops } = theme.slot("button", &[], 0.5).unwrap().fill().unwrap()
+    else {
+        panic!("expected referenced linear fill");
+    };
+    assert_eq!(angle, 0.);
+    assert_eq!(
+        stops.iter().map(|s| s.position).collect::<Vec<_>>(),
+        vec![0., 1.]
+    );
+    assert_eq!(
+        stops.iter().map(|s| s.color.a).collect::<Vec<_>>(),
+        vec![0.5, 0.5]
+    );
+}
 
 #[test]
 fn malformed_nested_values_never_panic() {
