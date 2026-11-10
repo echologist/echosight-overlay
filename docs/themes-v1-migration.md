@@ -22,7 +22,7 @@ let _validated = Theme::parse(&result.theme)?;
 # Ok(()) }
 ```
 
-`Conversion` exposes `theme`, sorted `diagnostics` (with source locations and values), and `provisional`. A declared `cssFile` makes `provisional=true` whether or not its text was supplied. Missing CSS text produces `missing-css`; the converter never finds files itself. It also never downloads fonts, runs CSS/JavaScript, changes authored IDs/versions/authors, updates the user directory, or changes a theme based on a known bundled ID. Sounds are copied unchanged. Conversion errors return diagnostics rather than a misleading partially valid success.
+`Conversion` exposes `theme`, sorted `diagnostics` (with source locations and values), and `provisional`. A declared `cssFile` makes `provisional=true` whether or not its text was supplied. Missing CSS text produces `missing-css`; the converter never finds files itself. It also never downloads fonts, runs CSS/JavaScript, changes authored IDs/versions/authors, updates the user directory, or changes a theme based on a known bundled ID. Sounds are copied unchanged. Conversion errors return diagnostics rather than a misleading partially valid success. Exhausting the shared 512-diagnostic limit, including combined variant or output-validation diagnostics, returns `Err` with a `budget` error and retained earlier losses; no converted theme is returned.
 
 The CLI adapter should:
 

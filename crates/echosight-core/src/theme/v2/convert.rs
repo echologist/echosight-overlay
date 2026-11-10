@@ -1,7 +1,7 @@
 //! Pure, deterministic, explicitly lossy v1 -> v2 conversion. No files are read or written.
 use super::{
     Diagnostic, Severity, State, Theme, ThemeFormat,
-    contract::{issue, path, safe_asset},
+    contract::{append, bounded_text, issue, path, safe_asset},
     css, detect_format,
     resolve::merge_style,
     sort,
@@ -56,6 +56,17 @@ struct Converter {
     diagnostics: Vec<Diagnostic>,
 }
 impl Converter {
+    fn check_errors(&mut self) -> Result<(), Vec<Diagnostic>> {
+        if self
+            .diagnostics
+            .iter()
+            .any(|d| d.severity == Severity::Error)
+        {
+            return Err(std::mem::take(&mut self.diagnostics));
+        }
+        Ok(())
+    }
+
     fn loss(&mut self, p: &str, code: &str, message: &str, v: &Value) {
         issue(
             &mut self.diagnostics,
@@ -720,6 +731,7 @@ fn convert_depth(input: ConversionInput<'_>, depth: usize) -> Result<Conversion,
             ),
         }
     }
+    c.check_errors()?;
     if let Some(v) = source.get("colors")
         && let Some(colors) = c.colors(v, "/colors", "")
     {
@@ -916,9 +928,11 @@ fn convert_depth(input: ConversionInput<'_>, depth: usize) -> Result<Conversion,
             );
         }
     }
+    c.check_errors()?;
     // Expanded v1 variants preserve v1 defu semantics before translating the effective data.
     if let Some(variants) = source["variants"].as_object() {
         for (id, config) in variants {
+            c.check_errors()?;
             if let Some(config) = config.as_object() {
                 for (key, value) in config {
                     if !matches!(
@@ -944,23 +958,36 @@ fn convert_depth(input: ConversionInput<'_>, depth: usize) -> Result<Conversion,
                         );
                     }
                 }
+                c.check_errors()?;
                 let effective = super::super::create_variant_theme(
                     source.as_object().expect("validated"),
                     id,
                     config,
                 );
                 let effective = Value::Object(effective);
-                let converted = convert_depth(
+                let prefix = path("/variants", id);
+                let scoped = |mut d: Diagnostic| {
+                    d.location = bounded_text(&format!("{prefix}{}", d.location));
+                    d
+                };
+                let converted = match convert_depth(
                     ConversionInput {
                         document: &effective,
                         ..input
                     },
                     depth + 1,
-                )?;
-                for mut d in converted.diagnostics {
-                    d.location = format!("{}{}", path("/variants", id), d.location);
-                    c.diagnostics.push(d);
-                }
+                ) {
+                    Ok(converted) => converted,
+                    Err(diagnostics) => {
+                        append(&mut c.diagnostics, diagnostics.into_iter().map(scoped));
+                        return Err(c.diagnostics);
+                    }
+                };
+                append(
+                    &mut c.diagnostics,
+                    converted.diagnostics.into_iter().map(scoped),
+                );
+                c.check_errors()?;
                 let mut base = c.out.clone();
                 base.as_object_mut()
                     .expect("initialized")
@@ -991,15 +1018,24 @@ fn convert_depth(input: ConversionInput<'_>, depth: usize) -> Result<Conversion,
             }
         }
     }
+    c.check_errors()?;
     match Theme::parse(&c.out) {
-        Ok(t) => c.diagnostics.extend(t.diagnostics().iter().cloned()),
-        Err(mut d) => {
-            for item in &mut d {
-                item.message = format!("converted output failed validation: {}", item.message);
-            }
-            return Err(d);
+        Ok(t) => append(&mut c.diagnostics, t.diagnostics().iter().cloned()),
+        Err(diagnostics) => {
+            append(
+                &mut c.diagnostics,
+                diagnostics.into_iter().map(|mut d| {
+                    d.message = bounded_text(&format!(
+                        "converted output failed validation: {}",
+                        d.message
+                    ));
+                    d
+                }),
+            );
+            return Err(c.diagnostics);
         }
     }
+    c.check_errors()?;
     sort(&mut c.diagnostics);
     Ok(Conversion {
         theme: c.out,
