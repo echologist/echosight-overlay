@@ -149,6 +149,35 @@ checks for this correction remain the parent's combined-candidate gate; the
 previous revision's checks above are not claimed as this revision's results.
 Independent delta review is also left to the parent. No push or merge performed.
 
+## Final combined review and verification (2026-11-10)
+
+The frozen template-plus-CLI candidate is `1bb27ef80f2b599a7832c4bcd688c15ca195be55`.
+Independent workflow spec/quality review passed at `79582c7`, including six extra
+scratch-only real-filesystem/callback probes. Independent correction review on the
+union passed spec and quality: all 92 UI tests and five additional placeholder,
+geometry and selection probes passed. The original empty-buffer panic is closed.
+Blob/mode comparison proved the complete union preserves the 12 template paths
+from `a52544a` and 10 CLI paths from `f0907db`; core and Electron remain unchanged.
+
+Parent acceptance used a fresh, unseeded target on that exact combined revision:
+
+- Locked workspace tests: **284 passed, zero failed, one existing ignored core probe**.
+  All four placeholder regressions and both CLI preflight regressions executed by name.
+- Workspace fmt and locked all-target Clippy with `-D warnings`: passed.
+- Windows app, platform and CLI all-target cross-checks: passed, not native linking.
+- Eight actual-TypeScript oracle lanes: **134 passed**; original source/goldens unchanged.
+- Theme contract/provenance check: **70 cases, 11 structures, 23 source hashes**.
+- Actual Linux app, S8 and CLI binaries linked. Both app executables rejected absent
+  arguments with exit 2; unrelated-cwd startup with an explicit missing directory
+  opened a window until timeout 124 without creating that directory.
+- Final checkout clean after removing the parent-owned temporary dependency symlink.
+
+Local evidence: `template-tools-1bb27-parent-3o5heyn5/COMPLETE.json` and
+`union-placeholder-review-ko5bjx_x/review-result.json` in the scratch directory.
+These results supersede the pending parent-review/combined-check notes above,
+not the native acceptance boundaries below. The publication follow-up changes
+only verification documentation, leaving the tested production/test blobs intact.
+
 ## Explicit remaining boundaries
 
 - The editor uses horizontal scrolling for long logical lines, not soft wrapping.

@@ -52,6 +52,32 @@ python3 crates/echosight-theme-cli/tests/budget_check.py \
 
 The full locked workspace fmt/clippy/tests, Windows CLI check/clippy and independent schema/provenance commands above passed again: **257 Rust tests passed**, zero failures, one pre-existing ignored core probe. CLI coverage is now **14 integration tests + 3 filesystem unit tests**, preserving all previous 15 tests, all 11 exact conversions/reports/assets, ordinary custom themes and base-asset inheritance. Schema/provenance remains **70 corpus cases, 11 converted structures, 23 original hashes**. Windows cross-checks do not execute the Linux resource probe or establish native Windows acceptance.
 
+## Final independent closure and combined acceptance (2026-11-10)
+
+The correction is committed as `f0907db0cdbc06b166ea03199199d8371f3874e4`.
+Independent final spec and quality review passed on the exact staged patch
+`f4de2eba9c1c96b8c3134afcc1efeaad17c30272`: 17 CLI tests, 151 core tests
+(one existing ignored probe), ten bounded executable cases and six additional
+key/node/depth boundary controls. The corrected nested-variant fixture uses
+`styles`, which the actual legacy helper merges. Original input bytes/hash matched;
+all ten children returned the exact structured budget error, with empty stderr
+and no source, staging or output changes. Maximum observed RSS was 12,676 KiB.
+
+Parent verification independently repeated the final fixture set and all CLI/core
+checks. The CLI-only full workspace passed 257 tests. The final template-plus-CLI
+union `1bb27ef80f2b599a7832c4bcd688c15ca195be55` then passed fresh-target
+workspace fmt/Clippy, **284 Rust tests** (one existing ignored), **134 actual-TS
+tests**, Windows app/platform/CLI cross-checks, 70/11/23 contract/provenance checks,
+and linked application startup smokes. Independent union review proved all ten
+CLI path blobs/modes exactly match `f0907db`; no core or original Electron changes.
+
+Local evidence: `theme-cli-independent-final-z5wccs_h/`,
+`theme-cli-fix-parent-33vtumrh/`, and `template-tools-1bb27-parent-3o5heyn5/` in the
+scratch directory. These close the CLI preflight blocker only. Public core API
+entrypoint hardening remains a separate requirement before direct untrusted
+conversion consumers are wired; native Windows filesystem and visual acceptance
+are not established by these checks.
+
 ## Deliberate boundaries / remaining acceptance
 
 - Conversion is structural and lossy. Native Electron/GPUI visual comparison remains unclaimed. This work does not change the chooser, renderer, sound player, bundled versions or data paths.
