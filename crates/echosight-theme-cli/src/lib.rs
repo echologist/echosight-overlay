@@ -127,6 +127,31 @@ pub fn run(args: impl IntoIterator<Item = OsString>) -> (i32, bool, Value) {
     )
 }
 
+/// Bound raw v1 input before legacy diagnostics, variant clones or conversion
+/// filesystem work. Traverse opaque extension data too, without constructing paths.
+fn preflight_v1(document: &Value) -> Result<()> {
+    fn walk(v: &Value, depth: usize, left: &mut usize) -> bool {
+        if depth > 64 || *left == 0 {
+            return false;
+        }
+        *left -= 1;
+        match v {
+            Value::Object(o) => o
+                .iter()
+                .all(|(k, v)| k.len() <= 256 && walk(v, depth + 1, left)),
+            Value::Array(a) => a.iter().all(|v| walk(v, depth + 1, left)),
+            _ => true,
+        }
+    }
+    if !walk(document, 0, &mut 4096) {
+        return Err(failure(
+            "budget",
+            "v1 validation exceeds 4096 nodes, 64 levels or 256-byte keys",
+        ));
+    }
+    Ok(())
+}
+
 fn validate_document(document: &Value) -> Result<(ThemeFormat, Vec<Diagnostic>)> {
     let format = v2::detect_format(document)?;
     let mut diagnostics = Vec::new();
@@ -136,27 +161,7 @@ fn validate_document(document: &Value) -> Result<(ThemeFormat, Vec<Diagnostic>)>
             diagnostics.extend_from_slice(parsed.diagnostics());
         }
         ThemeFormat::V1 => {
-            // The legacy validator has no internal work budget. Bound before it
-            // formats paths or clones open maps, including ignored extension data.
-            fn walk(v: &Value, depth: usize, left: &mut usize) -> bool {
-                if depth > 64 || *left == 0 {
-                    return false;
-                }
-                *left -= 1;
-                match v {
-                    Value::Object(o) => o
-                        .iter()
-                        .all(|(k, v)| k.len() <= 256 && walk(v, depth + 1, left)),
-                    Value::Array(a) => a.iter().all(|v| walk(v, depth + 1, left)),
-                    _ => true,
-                }
-            }
-            if !walk(document, 0, &mut 4096) {
-                return Err(failure(
-                    "budget",
-                    "v1 validation exceeds 4096 nodes, 64 levels or 256-byte keys",
-                ));
-            }
+            preflight_v1(document)?;
             let checked = validate_theme(document);
             append(
                 &mut diagnostics,
@@ -243,6 +248,7 @@ fn convert(input: &Path, output: &Path) -> Result<Value> {
             "convert requires v1; v2 input is not downgraded",
         ));
     }
+    preflight_v1(&source.document)?;
     let destination = Destination::new(output, &source.protected).map_err(fs_error)?;
     let css = source.document["cssFile"]
         .as_str()

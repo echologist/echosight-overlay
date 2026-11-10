@@ -162,6 +162,83 @@ fn converter_budget_failure_never_creates_output() {
 }
 
 #[test]
+fn v1_preflight_is_shared_and_precedes_css_and_asset_work() {
+    let mut long_key = v1();
+    long_key["extension"] = json!({"é".repeat(129): null});
+    let mut many_nodes = v1();
+    many_nodes["extension"] = json!(vec![Value::Null; 4096]);
+    let mut deep = Value::Null;
+    for _ in 0..65 {
+        deep = json!({"child": deep});
+    }
+    let mut nested_variant = v1();
+    nested_variant["variants"] = json!({"night": {"extension": deep}});
+    for mut doc in [long_key, many_nodes, nested_variant] {
+        let s = Sandbox::new();
+        // Budget rejection must precede both missing CSS and asset discovery.
+        fs::create_dir_all(s.0.join("src/main_bg.svg")).unwrap();
+        for missing_css in [true, false] {
+            if missing_css {
+                doc["cssFile"] = json!("missing.css");
+            } else {
+                doc.as_object_mut().unwrap().remove("cssFile");
+            }
+            s.write("src/theme.json", &doc);
+            let before = tree(&s.0);
+            let mut expected = None;
+            for args in [
+                vec!["validate", "src", "--json"],
+                vec!["convert", "src", "out", "--json"],
+                vec!["list", ".", "--json"],
+            ] {
+                let out = s.run(&args);
+                assert_eq!(out.status.code(), Some(1), "{out:?}");
+                let result: Value = serde_json::from_slice(&out.stdout).unwrap();
+                let diagnostics = result["diagnostics"].as_array().unwrap();
+                assert_eq!(diagnostics.len(), 1);
+                assert_eq!(diagnostics[0]["code"], "budget", "{result}");
+                assert_eq!(diagnostics[0]["severity"], "error");
+                let message = diagnostics[0]["message"].clone();
+                assert_eq!(*expected.get_or_insert(message.clone()), message);
+                assert_eq!(before, tree(&s.0));
+                assert!(!s.0.join("out").exists());
+                assert_eq!(fs::read_dir(&s.0).unwrap().count(), 1);
+            }
+        }
+    }
+}
+
+// Fatal regression vectors must never execute without child resource limits.
+// Python's stdlib supplies wait4 peak RSS and rlimits without new Rust dependencies.
+#[cfg(target_os = "linux")]
+#[test]
+fn v1_preflight_resource_limited_executable_regression() {
+    let s = Sandbox::new();
+    let out = Command::new("python3")
+        .arg(Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/budget_check.py"))
+        .arg(env!("CARGO_BIN_EXE_echosight-theme"))
+        .arg(s.0.join("evidence"))
+        .current_dir(&s.0)
+        .output()
+        .expect("Linux budget regression requires python3 (stdlib only)");
+    assert!(
+        out.status.success(),
+        "stdout={}\nstderr={}",
+        String::from_utf8_lossy(&out.stdout),
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let report: Value = serde_json::from_slice(&out.stdout).unwrap();
+    assert_eq!(report["results"].as_array().unwrap().len(), 10);
+    assert!(
+        report["results"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|r| r["passed"] == true)
+    );
+}
+
+#[test]
 fn mixed_list_is_deterministic_readonly_with_variants_before_base() {
     let s = Sandbox::new();
     let mut doc = v1();
