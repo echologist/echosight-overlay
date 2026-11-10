@@ -3,6 +3,7 @@
 mod drag;
 mod persistence;
 mod runtime;
+mod triggers;
 pub use runtime::{TaskClock, TaskEventSink, TaskRuntimeEvent};
 mod view;
 mod window;
@@ -33,6 +34,9 @@ enum Command {
     Edit(TaskId),
     Delete(TaskId),
     Toggle(TaskId),
+    Triggers(TaskId),
+    TriggerChoice(usize),
+    AddBackground,
     Undo,
     Redo,
     Complete,
@@ -43,6 +47,7 @@ enum Command {
 }
 #[derive(Clone)]
 enum Dialog {
+    Triggers(TaskId),
     Child(TaskId),
     Edit(TaskId, bool),
     Delete(TaskId),
@@ -67,6 +72,9 @@ pub struct TaskApp {
     editor: Entity<TextInput>,
     dialog: Option<Dialog>,
     high_priority: bool,
+    new_background_high_priority: bool,
+    trigger_rows: Vec<echosight_core::task::background::TriggerRow>,
+    modal_stack: Vec<triggers::ModalFrame>,
     select_editor: bool,
     form_error: Option<String>,
     restore_focus: Option<FocusHandle>,
@@ -172,6 +180,9 @@ impl TaskApp {
             editor,
             dialog: None,
             high_priority: false,
+            new_background_high_priority: false,
+            trigger_rows: vec![],
+            modal_stack: vec![],
             select_editor: false,
             form_error: None,
             restore_focus: None,
@@ -216,16 +227,33 @@ impl TaskApp {
     }
 
     fn new_editor(text: String, window: &mut Window, cx: &mut Context<Self>) -> Entity<TextInput> {
+        Self::new_editor_with_placeholder(text, "Task name", window, cx)
+    }
+
+    fn new_editor_with_placeholder(
+        text: String,
+        placeholder: &'static str,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Entity<TextInput> {
         let editor = cx.new(|cx| {
             let mut input = TextInput::new(cx)
-                .placeholder("Task name")
+                .placeholder(placeholder)
                 .style(view::input_style());
             // Preserve loaded names before enabling the normal insertion limit.
             input.set_text(text, window, cx);
             input.max_length(100)
         });
         cx.subscribe_in(&editor, window, |this, _, event, window, cx| match event {
-            TextInputEvent::Submit(_) => this.activate(Command::Accept, window, cx),
+            TextInputEvent::Submit(_) => this.activate(
+                if matches!(this.dialog, Some(Dialog::Triggers(_))) {
+                    Command::AddBackground
+                } else {
+                    Command::Accept
+                },
+                window,
+                cx,
+            ),
             TextInputEvent::Cancel => this.close_dialog(window, cx),
             _ => {}
         })
@@ -248,7 +276,7 @@ impl TaskApp {
         self.background.is_some() && self.error.is_none()
     }
 
-    fn state(&self) -> Option<&TaskState<TaskClock>> {
+    pub fn state(&self) -> Option<&TaskState<TaskClock>> {
         self.background.as_ref().map(BackgroundTaskState::state)
     }
 
@@ -353,13 +381,24 @@ impl TaskApp {
         if !self.writable() {
             return;
         }
-        if self.dialog.is_some() && !matches!(command, Command::Accept | Command::Priority) {
+        let trigger_action = matches!(self.dialog, Some(Dialog::Triggers(_)))
+            && matches!(
+                command,
+                Command::TriggerChoice(_) | Command::AddBackground | Command::Edit(_)
+            );
+        if self.dialog.is_some()
+            && !matches!(command, Command::Accept | Command::Priority)
+            && !trigger_action
+        {
             return;
         }
         let id = match command {
-            Command::Child(id) | Command::Edit(id) | Command::Delete(id) | Command::Toggle(id) => {
-                Some(id)
-            }
+            Command::Child(id)
+            | Command::Edit(id)
+            | Command::Delete(id)
+            | Command::Toggle(id)
+            | Command::Triggers(id) => Some(id),
+            Command::TriggerChoice(index) => self.trigger_rows.get(index).map(|row| row.id),
             _ => None,
         };
         if id.is_some_and(|id| !self.addressable(id))
@@ -372,6 +411,22 @@ impl TaskApp {
             return;
         }
         let operation = match command {
+            Command::Triggers(id) => {
+                self.restore_focus = window.focused(cx);
+                self.open_triggers(id, window, cx);
+                None
+            }
+            Command::TriggerChoice(index) => {
+                if let Some(row) = self.trigger_rows.get_mut(index) {
+                    row.checked = !row.checked;
+                }
+                cx.notify();
+                None
+            }
+            Command::AddBackground => {
+                self.add_background_from_dialog(window, cx);
+                None
+            }
             Command::Add => {
                 let text =
                     echosight_core::jscompat::js_trim(self.input.read(cx).text()).to_string();
@@ -389,6 +444,14 @@ impl TaskApp {
                 } else {
                     String::new()
                 };
+                if matches!(self.dialog, Some(Dialog::Triggers(_))) {
+                    self.modal_stack.push(triggers::ModalFrame {
+                        dialog: self.dialog.take().unwrap(),
+                        editor: self.editor.clone(),
+                        high_priority: self.high_priority,
+                        restore_focus: self.restore_focus.take(),
+                    });
+                }
                 self.high_priority = task
                     .background_options
                     .as_ref()
@@ -421,6 +484,9 @@ impl TaskApp {
             Command::Complete => Some(BackgroundCommand::CompleteNext),
             Command::Priority => {
                 self.high_priority = !self.high_priority;
+                if matches!(self.dialog, Some(Dialog::Triggers(_))) {
+                    self.new_background_high_priority = self.high_priority;
+                }
                 cx.notify();
                 None
             }
@@ -436,13 +502,22 @@ impl TaskApp {
                 }
                 let text =
                     echosight_core::jscompat::js_trim(self.editor.read(cx).text()).to_owned();
-                if !matches!(dialog, Dialog::Delete(_)) && text.is_empty() {
+                if !matches!(dialog, Dialog::Delete(_) | Dialog::Triggers(_)) && text.is_empty() {
                     self.form_error = Some("Please enter a task name!".into());
                     cx.notify();
                     return;
                 }
                 let deleting = matches!(dialog, Dialog::Delete(_));
                 let operation = match dialog {
+                    Dialog::Triggers(id) => Some(BackgroundCommand::UpdateTriggers {
+                        id,
+                        triggers: self
+                            .trigger_rows
+                            .iter()
+                            .filter(|r| r.checked)
+                            .map(|r| r.id)
+                            .collect(),
+                    }),
                     Dialog::Child(id) => Some(BackgroundCommand::AddTask {
                         text,
                         parent: Some(id),
@@ -473,15 +548,22 @@ impl TaskApp {
     }
 
     fn close_dialog(&mut self, window: &mut Window, cx: &mut Context<Self>) {
-        self.dialog = None;
+        let focus = self
+            .restore_focus
+            .take()
+            .unwrap_or_else(|| self.input.focus_handle(cx));
+        if let Some(parent) = self.modal_stack.pop() {
+            self.dialog = Some(parent.dialog);
+            self.editor = parent.editor;
+            self.high_priority = parent.high_priority;
+            self.restore_focus = parent.restore_focus;
+        } else {
+            self.dialog = None;
+            self.trigger_rows.clear();
+        }
+        self.select_editor = false;
         self.form_error = None;
-        window.focus(
-            &self
-                .restore_focus
-                .take()
-                .unwrap_or_else(|| self.input.focus_handle(cx)),
-            cx,
-        );
+        window.focus(&focus, cx);
         cx.notify();
     }
 

@@ -9,7 +9,7 @@ use std::sync::{Arc, LazyLock};
 // CSS, gradients, custom fonts, transparency and Theme V2 remain pending.
 const SURFACE: u32 = 0x14111f;
 const TEXT: u32 = 0xe8e2d2;
-const GOLD: u32 = 0xd4a857;
+pub(super) const GOLD: u32 = 0xd4a857;
 const TEAL: u32 = 0x5fd8c8;
 const MUTED: u32 = 0xb8b09a;
 static EYE: LazyLock<Arc<Image>> = LazyLock::new(|| {
@@ -42,7 +42,7 @@ pub(super) fn delete_message(text: &str) -> gpui::Stateful<gpui::Div> {
 }
 
 impl TaskApp {
-    fn button(
+    pub(super) fn button(
         &mut self,
         key: String,
         label: impl Into<SharedString>,
@@ -195,8 +195,40 @@ impl Render for TaskApp {
         let tasks = self.state().map(|s| s.tasks().to_vec()).unwrap_or_default();
         let mut rows = div().id("rows-scroll").size_full().overflow_y_scroll();
         let mut flat = vec![];
-        flatten(&tasks, &mut vec![], &mut flat);
+        // Separate active background roots while preserving structural keys.
+        // Dormant records remain available only through Configure Triggers.
+        for background in [false, true] {
+            for (index, task) in tasks.iter().enumerate().filter(|(_, t)| {
+                (t.mode == TaskMode::Background) == background && (!background || t.activated)
+            }) {
+                let mut path = vec![index];
+                flat.push((path.clone(), task));
+                flatten(&task.children, &mut path, &mut flat);
+            }
+        }
+        let mut background_heading = false;
         for (path, task) in flat {
+            if task.mode == TaskMode::Background && !task.activated {
+                continue;
+            }
+            if path.len() == 1 && task.mode == TaskMode::Background && !background_heading {
+                background_heading = true;
+                let active: Vec<_> = tasks
+                    .iter()
+                    .filter(|t| t.mode == TaskMode::Background && t.activated)
+                    .collect();
+                rows = rows.child(
+                    div()
+                        .id("background-heading")
+                        .debug_selector(|| "background-heading".into())
+                        .text_color(rgb(GOLD))
+                        .child(format!(
+                            "Background Tasks ({}/{})",
+                            active.iter().filter(|t| t.completed).count(),
+                            active.len()
+                        )),
+                );
+            }
             let path_key = path
                 .iter()
                 .map(usize::to_string)
@@ -274,6 +306,22 @@ impl Render for TaskApp {
                     )
                     .when(task.completed, |el| el.text_color(rgb(MUTED))),
             );
+            if task.mode == TaskMode::Background
+                && task
+                    .background_options
+                    .as_ref()
+                    .is_some_and(|o| o.priority == BackgroundPriority::High)
+            {
+                let badge_key = format!("high-{path_key}");
+                row = row.child(
+                    div()
+                        .id(SharedString::from(badge_key.clone()))
+                        .debug_selector(move || badge_key.clone())
+                        .text_xs()
+                        .text_color(rgb(GOLD))
+                        .child("HIGH"),
+                );
+            }
             let allowed = enabled && unique;
             row = row.child(
                 div()
@@ -309,6 +357,18 @@ impl Render for TaskApp {
                         "Delete",
                         Command::Delete(task.id),
                         allowed && self.deletable(task.id),
+                        window,
+                        cx,
+                    ))
+                    .child(self.button(
+                        format!("triggers-{path_key}"),
+                        if task.triggers.is_empty() {
+                            "Configure Triggers".to_owned()
+                        } else {
+                            format!("⚡{} Configure Triggers", task.triggers.len())
+                        },
+                        Command::Triggers(task.id),
+                        allowed,
                         window,
                         cx,
                     )),
@@ -407,7 +467,7 @@ impl Render for TaskApp {
         if let Some(error) = &self.error {
             root = root.child(div().text_color(rgb(0xe3804a)).child(error.clone()));
         }
-        root = root.child(div().text_xs().text_color(rgb(MUTED)).child("Pending: themes/V2, templates, settings, trigger timers, sounds and overlay integration. Local undo: Ctrl+Shift+Z / Y."));
+        root = root.child(div().text_xs().text_color(rgb(MUTED)).child("Pending: themes/V2, templates, settings, native audio and overlay integration. Local undo: Ctrl+Shift+Z / Y."));
         if let Some(dialog) = self.dialog.clone() {
             if std::mem::take(&mut self.select_editor) {
                 let focus = self.editor.focus_handle(cx);
@@ -425,6 +485,7 @@ impl Render for TaskApp {
             let delete = matches!(dialog, Dialog::Delete(_));
             let quitting = matches!(dialog, Dialog::Quit);
             let title = match dialog {
+                Dialog::Triggers(_) => "Configure Triggers",
                 Dialog::Child(_) => "Add Subtask",
                 Dialog::Edit(..) => "Edit Task",
                 Dialog::Delete(_) => "Delete Task",
@@ -464,6 +525,8 @@ impl Render for TaskApp {
                 if let Some(task) = self.state().and_then(|s| s.find_task(id)) {
                     fields = fields.child(delete_message(&task.text));
                 }
+            } else if matches!(dialog, Dialog::Triggers(_)) {
+                fields = self.trigger_fields(window, cx);
             } else {
                 self.tab_order.push((self.editor.focus_handle(cx), None));
                 fields = fields.child(self.editor.clone());
@@ -537,6 +600,18 @@ impl Render for TaskApp {
                     .child(content)
                     .on_mouse_down(gpui::MouseButton::Left, |_, _, cx| cx.stop_propagation()),
             );
+        }
+        // Expiry can remove a focused background row without a mouse action.
+        // Keep local history shortcuts routed through a surviving control.
+        if self.dialog.is_none()
+            && enabled
+            && !self
+                .tab_order
+                .iter()
+                .any(|(focus, _)| focus.is_focused(window))
+        {
+            let focus = self.input.focus_handle(cx);
+            window.defer(cx, move |window, cx| window.focus(&focus, cx));
         }
         root
     }

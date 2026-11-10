@@ -227,8 +227,8 @@ fn native_close_during_drag_is_dismissed_by_one_escape(cx: &mut TestAppContext) 
 
 #[gpui::test]
 fn every_modal_opening_discards_an_active_pointer_drag(cx: &mut TestAppContext) {
-    for tabs in [5, 7, 8, 9] {
-        // Quit, Child, Edit, Delete from the composer.
+    for tabs in [5, 7, 8, 9, 10] {
+        // Quit, Child, Edit, Delete, Configure Triggers from the composer.
         let dir = tempfile::tempdir().unwrap();
         seed(
             dir.path(),
@@ -239,7 +239,14 @@ fn every_modal_opening_discards_an_active_pointer_drag(cx: &mut TestAppContext) 
         let destination = start_pointer_drag(vc);
         assert!(scene.read_with(vc, |s, _| s.dragging.as_ref().is_some_and(|d| d.active)));
         vc.simulate_keystrokes(&format!("{}space", "tab ".repeat(tabs)));
-        assert!(scene.read_with(vc, |s, _| s.dialog.is_some()));
+        assert!(scene.read_with(vc, |s, _| match tabs {
+            5 => matches!(s.dialog, Some(Dialog::Quit)),
+            7 => matches!(s.dialog, Some(Dialog::Child(TaskId(1.)))),
+            8 => matches!(s.dialog, Some(Dialog::Edit(TaskId(1.), false))),
+            9 => matches!(s.dialog, Some(Dialog::Delete(TaskId(1.)))),
+            10 => matches!(s.dialog, Some(Dialog::Triggers(TaskId(1.)))),
+            _ => unreachable!(),
+        }));
         assert!(
             scene.read_with(vc, |s, _| s.dragging.is_none()),
             "modal opening must discard the drag"

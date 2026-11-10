@@ -1,6 +1,31 @@
 use super::*;
+mod triggers;
 use std::time::Duration;
 const EPOCH: i64 = 1_800_000_000_000;
+
+#[gpui::test]
+fn failed_load_never_restarts_expired_backgrounds_or_saves(cx: &mut TestAppContext) {
+    let dir = tempfile::tempdir().unwrap();
+    let mut invalid = bg(21, true, -1.);
+    invalid["text"] = serde_json::json!({"unsupported":"not a string"});
+    seed(dir.path(), serde_json::json!([bg(20, true, -1.), invalid]));
+    let before = std::fs::read(dir.path().join("current_tasks.json")).unwrap();
+    let probe = Arc::new(Probe::default());
+    let events = Arc::new(Mutex::new(vec![]));
+    let (scene, vc) = runtime(cx, dir.path(), probe.clone(), events.clone());
+    assert!(scene.read_with(vc, |s, _| s.state().is_none()
+        && s.error.is_some()
+        && s.expiry_task.is_none()));
+    click(vc, "complete-next");
+    vc.simulate_keystrokes("a enter ctrl-shift-z");
+    advance(vc, 60000);
+    assert!(probe.writes.lock().unwrap().is_empty());
+    assert!(events.lock().unwrap().is_empty());
+    assert_eq!(
+        std::fs::read(dir.path().join("current_tasks.json")).unwrap(),
+        before
+    );
+}
 
 fn bg(id: u32, active: bool, minutes: f64) -> Value {
     let mut task = task(id, &format!("Background {id}"));
