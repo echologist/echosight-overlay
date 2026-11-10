@@ -1,0 +1,155 @@
+{
+  "name": "CS 1.6",
+  "id": "cs16",
+  "version": "1.0.1",
+  "author": "Community",
+  "description": "Authentic Counter-Strike 1.6 inspired theme based on cs16.css",
+  "isDefault": false,
+  "supportsTransparency": false,
+  "fonts": {
+    "primary": {
+      "family": "system-ui, sans-serif",
+      "sizes": {
+        "header": "14px",
+        "task": "12px",
+        "progress": "11px",
+        "ui": "11px"
+      },
+      "weights": {
+        "normal": "400",
+        "bold": "400"
+      }
+    }
+  },
+  "colors": {
+    "primary": "#c4b550",
+    "secondary": "#958831",
+    "accent": "#c4b550",
+    "danger": "#a0aa95",
+    "text": {
+      "primary": "#dedfd6",
+      "secondary": "#d8ded3",
+      "muted": "#a0aa95",
+      "inverse": "#292c21",
+      "disabled": "#292c21"
+    },
+    "background": {
+      "primary": "#4a5942",
+      "secondary": "#3e4637",
+      "tertiary": "#1f1f1f",
+      "transparent": "transparent"
+    },
+    "border": {
+      "primary": "#8c9284",
+      "secondary": "#292c21",
+      "interactive": "#c4b550",
+      "light": "#8c9284",
+      "dark": "#292c21"
+    }
+  },
+  "transparency": {
+    "clickThrough": "var(--user-transparency, 0.3)",
+    "interactive": "0.95"
+  },
+  "effects": {
+    "borderRadius": "0px",
+    "textShadow": "1px 1px 0px var(--border-dark)",
+    "boxShadow": "inset 2px 2px 0px var(--border-light), inset -2px -2px 0px var(--border-dark)",
+    "buttonShadow": "2px 2px 0px var(--border-dark)",
+    "bevelInset": "inset 1px 1px 0px var(--border-light), inset -1px -1px 0px var(--border-dark)",
+    "bevelOutset": "1px 1px 0px var(--border-light), -1px -1px 0px var(--border-dark)",
+    "dropShadow": "drop-shadow(2px 2px 2px rgba(41, 44, 33, 0.6))",
+    "glow": "0 0 8px var(--primary)"
+  },
+  "styles": {
+    "interactive": {
+      "container": {
+        "background": "var(--bg-primary)",
+        "border": "2px solid var(--border-primary)",
+        "borderRadius": "0px",
+        "boxShadow": "var(--bevel-outset)",
+        "fontFamily": "system-ui, sans-serif"
+      },
+      "header": {
+        "background": "var(--bg-secondary)",
+        "borderBottom": "2px solid var(--border-dark)",
+        "boxShadow": "var(--bevel-inset)",
+        "color": "var(--text-primary)",
+        "textShadow": "var(--text-shadow)"
+      },
+      "templateSection": {
+        "background": "var(--bg-secondary)",
+        "borderBottom": "1px solid var(--border-dark)",
+        "boxShadow": "var(--bevel-inset)"
+      },
+      "tasksSection": {
+        "background": "var(--bg-primary)",
+        "border": "1px solid var(--border-dark)",
+        "boxShadow": "var(--bevel-inset)"
+      }
+    },
+    "clickThrough": {
+      "container": {
+        "background": "rgba(74, 89, 66, var(--user-transparency, 0.9))",
+        "border": "1px solid var(--border-primary)",
+        "borderRadius": "0px",
+        "boxShadow": "2px 2px 4px rgba(41, 44, 33, 0.8)"
+      },
+      "tasksSection": {
+        "background": "rgba(62, 70, 55, calc(var(--user-transparency, 0.9) * 0.8))",
+        "border": "1px solid var(--border-dark)"
+      }
+    }
+  },
+  "components": {
+    "button": {
+      "background": "linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary))",
+      "border": "2px solid var(--border-primary)",
+      "color": "var(--text-primary)",
+      "fontWeight": "400",
+      "padding": "4px 8px",
+      "cursor": "pointer",
+      "boxShadow": "var(--bevel-outset)",
+      "textShadow": "var(--text-shadow)",
+      "transition": "none"
+    },
+    "input": {
+      "background": "var(--bg-primary)",
+      "border": "2px inset var(--border-primary)",
+      "color": "var(--text-primary)",
+      "fontFamily": "system-ui, sans-serif",
+      "fontSize": "11px",
+      "padding": "2px 4px",
+      "boxShadow": "var(--bevel-inset)"
+    },
+    "select": {
+      "background": "var(--bg-secondary)",
+      "border": "2px outset var(--border-primary)", 
+      "color": "var(--text-primary)",
+      "fontFamily": "system-ui, sans-serif",
+      "fontSize": "11px",
+      "boxShadow": "var(--bevel-outset)"
+    },
+    "progressBar": {
+      "background": "var(--bg-primary)",
+      "border": "1px inset var(--border-dark)",
+      "height": "12px",
+      "boxShadow": "var(--bevel-inset)"
+    },
+    "progressFill": {
+      "background": "linear-gradient(to right, var(--primary), var(--secondary))",
+      "height": "100%",
+      "boxShadow": "var(--bevel-outset)"
+    },
+    "checkbox": {
+      "accentColor": "var(--primary)",
+      "filter": "var(--drop-shadow)"
+    }
+  },
+  "customCSS": {
+    "retro": "button:hover { background: linear-gradient(to bottom, var(--primary), var(--secondary)) !important; }",
+    "glow": ".header h2 { filter: var(--glow) !important; }",
+    "authentic": ".task-item:hover { background: rgba(196, 181, 80, 0.1) !important; }",
+    "modal": "/* Theme Modal */\n.modal { background: rgba(20,22,16,0.76) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }\n.modal-content { background: #4a5942 !important; border: 2px solid #8c9284 !important; border-radius: 0 !important; box-shadow: inset 2px 2px 0 #8c9284, inset -2px -2px 0 #292c21, 4px 4px 0 rgba(41,44,33,0.55) !important; color: #dedfd6 !important; font-family: system-ui, sans-serif !important; }\n.modal-title, .settings-title, .modal-content h4 { color: #c4b550 !important; text-shadow: 1px 1px 0 #292c21 !important; }\n.app-dialog-message, .trigger-description, .community-template .description { color: #dedfd6 !important; }\n.import-hint, .settings-help, .hotkey-help, .range-labels, .community-template .task-count { color: #d8ded3 !important; }\n.community-template { background: #3e4637 !important; border: 1px solid #292c21 !important; box-shadow: inset 1px 1px 0 #8c9284, inset -1px -1px 0 #292c21 !important; }\n.modal-btn.primary { background: linear-gradient(to bottom, #c4b550, #958831) !important; border: 2px solid #8c9284 !important; color: #292c21 !important; box-shadow: 2px 2px 0 #292c21 !important; }\n.modal-btn.secondary { background: linear-gradient(to bottom, #3e4637, #4a5942) !important; border: 2px solid #8c9284 !important; color: #dedfd6 !important; box-shadow: 2px 2px 0 #292c21 !important; }\n.modal-content-dialog.app-dialog-tone-danger { border-color: #a0aa95 !important; }\n.modal-content-dialog.app-dialog-tone-danger .modal-title { color: #d8ded3 !important; }"
+  }
+}

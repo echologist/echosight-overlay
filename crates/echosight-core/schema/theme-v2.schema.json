@@ -1,0 +1,1264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Echosight Theme Format v2",
+  "description": "CSS-free authoring contract. Unknown keys accepted with runtime warnings. References, cycles, sorted gradient stops, safe paths, and merged variants require semantic validation.",
+  "x-state-precedence": [
+    "completed",
+    "checked",
+    "hover",
+    "focus",
+    "active",
+    "disabled"
+  ],
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": 2
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "version": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "supportsTransparency": {
+      "type": "boolean"
+    },
+    "tokens": {
+      "$ref": "#/$defs/tokens"
+    },
+    "slots": {
+      "$ref": "#/$defs/slots"
+    },
+    "images": {
+      "$ref": "#/$defs/images"
+    },
+    "sounds": {
+      "$ref": "#/$defs/sounds"
+    },
+    "effects": {
+      "type": "object",
+      "properties": {
+        "windowBlur": {
+          "enum": [
+            "none",
+            "system"
+          ]
+        }
+      },
+      "additionalProperties": true,
+      "x-unknown-warning": true
+    },
+    "motion": {
+      "type": "object",
+      "properties": {
+        "hoverMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "progressFillMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "toastMs": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true,
+      "x-unknown-warning": true
+    },
+    "cssFile": false,
+    "customCSS": false,
+    "variants": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/variant"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "required": [
+    "format",
+    "id",
+    "name"
+  ],
+  "x-unknown-warning": true,
+  "$defs": {
+    "reference": {
+      "type": "string",
+      "pattern": "^@[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)*$"
+    },
+    "number": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "positive": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "number",
+          "minimum": 0
+        }
+      ]
+    },
+    "alpha": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      ]
+    },
+    "color": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "string",
+          "format": "theme-color"
+        }
+      ]
+    },
+    "asset": {
+      "type": "string",
+      "format": "theme-asset",
+      "minLength": 1
+    },
+    "family": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1
+        }
+      ]
+    },
+    "weight": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 1000
+        }
+      ]
+    },
+    "colorTree": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/color"
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/colorTree"
+          }
+        }
+      ]
+    },
+    "edges": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0
+              },
+              "minItems": 4,
+              "maxItems": 4
+            }
+          ]
+        }
+      ]
+    },
+    "margin": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 4,
+              "maxItems": 4
+            }
+          ]
+        }
+      ]
+    },
+    "radius": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0
+              },
+              "minItems": 4,
+              "maxItems": 4
+            }
+          ]
+        }
+      ]
+    },
+    "size": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ]
+        }
+      ]
+    },
+    "stop": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/color"
+        },
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "gradient": {
+      "type": "object",
+      "properties": {
+        "angle": {
+          "$ref": "#/$defs/number"
+        },
+        "stops": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stop"
+          },
+          "minItems": 2
+        }
+      },
+      "additionalProperties": true,
+      "required": [
+        "angle",
+        "stops"
+      ],
+      "x-unknown-warning": true
+    },
+    "radial": {
+      "type": "object",
+      "properties": {
+        "center": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "radius": {
+          "$ref": "#/$defs/positive"
+        },
+        "stops": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stop"
+          },
+          "minItems": 2
+        }
+      },
+      "additionalProperties": true,
+      "required": [
+        "center",
+        "radius",
+        "stops"
+      ],
+      "x-unknown-warning": true
+    },
+    "fill": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/color"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "color": {
+                  "$ref": "#/$defs/color"
+                },
+                "alpha": {
+                  "$ref": "#/$defs/alpha"
+                }
+              },
+              "additionalProperties": true,
+              "required": [
+                "color"
+              ],
+              "x-unknown-warning": true
+            },
+            {
+              "type": "object",
+              "properties": {
+                "gradient": {
+                  "$ref": "#/$defs/gradient"
+                },
+                "alpha": {
+                  "$ref": "#/$defs/alpha"
+                }
+              },
+              "additionalProperties": true,
+              "required": [
+                "gradient"
+              ],
+              "x-unknown-warning": true
+            },
+            {
+              "type": "object",
+              "properties": {
+                "radial": {
+                  "$ref": "#/$defs/radial"
+                },
+                "alpha": {
+                  "$ref": "#/$defs/alpha"
+                }
+              },
+              "additionalProperties": true,
+              "required": [
+                "radial"
+              ],
+              "x-unknown-warning": true
+            }
+          ]
+        }
+      ]
+    },
+    "border": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "color": {
+              "$ref": "#/$defs/color"
+            },
+            "width": {
+              "$ref": "#/$defs/positive"
+            },
+            "style": {
+              "enum": [
+                "solid",
+                "dashed",
+                "dotted",
+                "none"
+              ]
+            }
+          },
+          "additionalProperties": true,
+          "x-unknown-warning": true
+        }
+      ]
+    },
+    "ring": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "color": {
+              "$ref": "#/$defs/color"
+            },
+            "width": {
+              "$ref": "#/$defs/positive"
+            },
+            "style": {
+              "enum": [
+                "solid",
+                "dashed",
+                "dotted",
+                "none"
+              ]
+            },
+            "inset": {
+              "$ref": "#/$defs/number"
+            }
+          },
+          "additionalProperties": true,
+          "x-unknown-warning": true
+        }
+      ]
+    },
+    "bevel": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "light": {
+              "$ref": "#/$defs/color"
+            },
+            "dark": {
+              "$ref": "#/$defs/color"
+            },
+            "innerLight": {
+              "$ref": "#/$defs/color"
+            },
+            "innerDark": {
+              "$ref": "#/$defs/color"
+            },
+            "width": {
+              "$ref": "#/$defs/positive"
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "light",
+            "dark"
+          ],
+          "x-unknown-warning": true
+        }
+      ]
+    },
+    "shadowItem": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "$ref": "#/$defs/number"
+        },
+        "y": {
+          "$ref": "#/$defs/number"
+        },
+        "blur": {
+          "$ref": "#/$defs/positive"
+        },
+        "spread": {
+          "$ref": "#/$defs/number"
+        },
+        "color": {
+          "$ref": "#/$defs/color"
+        }
+      },
+      "additionalProperties": true,
+      "required": [
+        "x",
+        "y",
+        "color"
+      ],
+      "x-unknown-warning": true
+    },
+    "shadow": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/shadowItem"
+          }
+        }
+      ]
+    },
+    "image": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "asset": {
+              "$ref": "#/$defs/asset"
+            },
+            "mode": {
+              "enum": [
+                "stretch",
+                "cover",
+                "nineSlice"
+              ]
+            },
+            "insets": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0
+              },
+              "minItems": 4,
+              "maxItems": 4
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "asset",
+            "mode"
+          ],
+          "x-unknown-warning": true
+        }
+      ]
+    },
+    "text": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "color": {
+              "$ref": "#/$defs/color"
+            },
+            "size": {
+              "$ref": "#/$defs/positive"
+            },
+            "weight": {
+              "$ref": "#/$defs/weight"
+            },
+            "family": {
+              "$ref": "#/$defs/family"
+            },
+            "transform": {
+              "enum": [
+                "none",
+                "uppercase",
+                "lowercase",
+                "capitalize"
+              ]
+            },
+            "letterSpacing": {
+              "$ref": "#/$defs/number"
+            },
+            "strikethrough": {
+              "type": "boolean"
+            },
+            "shadow": {
+              "$ref": "#/$defs/shadow"
+            }
+          },
+          "additionalProperties": true,
+          "x-unknown-warning": true
+        }
+      ]
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "fill": {
+          "$ref": "#/$defs/fill"
+        },
+        "border": {
+          "$ref": "#/$defs/border"
+        },
+        "bevel": {
+          "$ref": "#/$defs/bevel"
+        },
+        "radius": {
+          "$ref": "#/$defs/radius"
+        },
+        "shadow": {
+          "$ref": "#/$defs/shadow"
+        },
+        "margin": {
+          "$ref": "#/$defs/margin"
+        },
+        "size": {
+          "$ref": "#/$defs/size"
+        },
+        "text": {
+          "$ref": "#/$defs/text"
+        },
+        "ring": {
+          "$ref": "#/$defs/ring"
+        },
+        "image": {
+          "$ref": "#/$defs/image"
+        },
+        "padding": {
+          "$ref": "#/$defs/edges"
+        },
+        "minSize": {
+          "$ref": "#/$defs/size"
+        },
+        "height": {
+          "$ref": "#/$defs/positive"
+        },
+        "opacityAffects": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true,
+      "x-unknown-warning": true
+    },
+    "slot": {
+      "type": "object",
+      "properties": {
+        "fill": {
+          "$ref": "#/$defs/fill"
+        },
+        "border": {
+          "$ref": "#/$defs/border"
+        },
+        "bevel": {
+          "$ref": "#/$defs/bevel"
+        },
+        "radius": {
+          "$ref": "#/$defs/radius"
+        },
+        "shadow": {
+          "$ref": "#/$defs/shadow"
+        },
+        "margin": {
+          "$ref": "#/$defs/margin"
+        },
+        "size": {
+          "$ref": "#/$defs/size"
+        },
+        "text": {
+          "$ref": "#/$defs/text"
+        },
+        "ring": {
+          "$ref": "#/$defs/ring"
+        },
+        "image": {
+          "$ref": "#/$defs/image"
+        },
+        "padding": {
+          "$ref": "#/$defs/edges"
+        },
+        "minSize": {
+          "$ref": "#/$defs/size"
+        },
+        "height": {
+          "$ref": "#/$defs/positive"
+        },
+        "opacityAffects": {
+          "type": "boolean"
+        },
+        "$extends": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "states": {
+          "type": "object",
+          "properties": {
+            "hover": {
+              "$ref": "#/$defs/style"
+            },
+            "active": {
+              "$ref": "#/$defs/style"
+            },
+            "focus": {
+              "$ref": "#/$defs/style"
+            },
+            "disabled": {
+              "$ref": "#/$defs/style"
+            },
+            "checked": {
+              "$ref": "#/$defs/style"
+            },
+            "completed": {
+              "$ref": "#/$defs/style"
+            }
+          },
+          "additionalProperties": true,
+          "x-unknown-warning": true
+        }
+      },
+      "additionalProperties": true,
+      "x-unknown-warning": true
+    },
+    "slots": {
+      "type": "object",
+      "properties": {
+        "window.interactive": {
+          "$ref": "#/$defs/slot"
+        },
+        "window.clickThrough": {
+          "$ref": "#/$defs/slot"
+        },
+        "header": {
+          "$ref": "#/$defs/slot"
+        },
+        "headerTitle": {
+          "$ref": "#/$defs/slot"
+        },
+        "templateSection": {
+          "$ref": "#/$defs/slot"
+        },
+        "tasksSection": {
+          "$ref": "#/$defs/slot"
+        },
+        "sectionTitle": {
+          "$ref": "#/$defs/slot"
+        },
+        "taskRow": {
+          "$ref": "#/$defs/slot"
+        },
+        "taskText": {
+          "$ref": "#/$defs/slot"
+        },
+        "checkbox": {
+          "$ref": "#/$defs/slot"
+        },
+        "subtaskRow": {
+          "$ref": "#/$defs/slot"
+        },
+        "backgroundRow": {
+          "$ref": "#/$defs/slot"
+        },
+        "badge.high": {
+          "$ref": "#/$defs/slot"
+        },
+        "badge.active": {
+          "$ref": "#/$defs/slot"
+        },
+        "badge.dormant": {
+          "$ref": "#/$defs/slot"
+        },
+        "button": {
+          "$ref": "#/$defs/slot"
+        },
+        "button.primary": {
+          "$ref": "#/$defs/slot"
+        },
+        "button.danger": {
+          "$ref": "#/$defs/slot"
+        },
+        "button.icon": {
+          "$ref": "#/$defs/slot"
+        },
+        "input": {
+          "$ref": "#/$defs/slot"
+        },
+        "textarea": {
+          "$ref": "#/$defs/slot"
+        },
+        "select": {
+          "$ref": "#/$defs/slot"
+        },
+        "slider": {
+          "$ref": "#/$defs/slot"
+        },
+        "progressBar": {
+          "$ref": "#/$defs/slot"
+        },
+        "progressFill": {
+          "$ref": "#/$defs/slot"
+        },
+        "progressText": {
+          "$ref": "#/$defs/slot"
+        },
+        "toast": {
+          "$ref": "#/$defs/slot"
+        },
+        "contextMenu": {
+          "$ref": "#/$defs/slot"
+        },
+        "contextMenuItem": {
+          "$ref": "#/$defs/slot"
+        },
+        "dialog.scrim": {
+          "$ref": "#/$defs/slot"
+        },
+        "dialog.window": {
+          "$ref": "#/$defs/slot"
+        },
+        "dialog.title": {
+          "$ref": "#/$defs/slot"
+        },
+        "dialog.text": {
+          "$ref": "#/$defs/slot"
+        },
+        "dialog.hint": {
+          "$ref": "#/$defs/slot"
+        },
+        "dialog.button.primary": {
+          "$ref": "#/$defs/slot"
+        },
+        "dialog.button.secondary": {
+          "$ref": "#/$defs/slot"
+        },
+        "dialog.danger.title": {
+          "$ref": "#/$defs/slot"
+        },
+        "communityTemplateCard": {
+          "$ref": "#/$defs/slot"
+        },
+        "divider": {
+          "$ref": "#/$defs/slot"
+        },
+        "dragPlaceholder": {
+          "$ref": "#/$defs/slot"
+        },
+        "clickThroughHint": {
+          "$ref": "#/$defs/slot"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/slot"
+      },
+      "x-unknown-warning": true
+    },
+    "font": {
+      "type": "object",
+      "properties": {
+        "family": {
+          "$ref": "#/$defs/family"
+        },
+        "file": {
+          "$ref": "#/$defs/asset"
+        }
+      },
+      "additionalProperties": true,
+      "required": [
+        "family"
+      ],
+      "x-unknown-warning": true
+    },
+    "fonts": {
+      "type": "object",
+      "properties": {
+        "ui": {
+          "$ref": "#/$defs/font"
+        },
+        "header": {
+          "$ref": "#/$defs/font"
+        },
+        "mono": {
+          "$ref": "#/$defs/font"
+        },
+        "sizes": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/positive"
+          }
+        },
+        "weights": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/weight"
+          }
+        }
+      },
+      "additionalProperties": true,
+      "x-unknown-warning": true
+    },
+    "tokens": {
+      "type": "object",
+      "properties": {
+        "colors": {
+          "$ref": "#/$defs/colorTree"
+        },
+        "opacity": {
+          "type": "object",
+          "properties": {
+            "appliesTo": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            },
+            "interactive": {
+              "$ref": "#/$defs/alpha"
+            },
+            "clickThrough": {
+              "$ref": "#/$defs/alpha"
+            }
+          },
+          "additionalProperties": true,
+          "x-unknown-warning": true
+        },
+        "fonts": {
+          "$ref": "#/$defs/fonts"
+        },
+        "radius": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/radius"
+          }
+        },
+        "shadows": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/shadow"
+          }
+        },
+        "bevels": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/bevel"
+          }
+        }
+      },
+      "additionalProperties": true,
+      "x-unknown-warning": true
+    },
+    "imageMapping": {
+      "type": "object",
+      "properties": {
+        "asset": {
+          "$ref": "#/$defs/asset"
+        },
+        "mode": {
+          "enum": [
+            "stretch",
+            "cover",
+            "nineSlice"
+          ]
+        },
+        "insets": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "states": {
+          "type": "object",
+          "properties": {
+            "hover": {
+              "$ref": "#/$defs/image"
+            },
+            "active": {
+              "$ref": "#/$defs/image"
+            },
+            "focus": {
+              "$ref": "#/$defs/image"
+            },
+            "disabled": {
+              "$ref": "#/$defs/image"
+            },
+            "checked": {
+              "$ref": "#/$defs/image"
+            },
+            "completed": {
+              "$ref": "#/$defs/image"
+            }
+          },
+          "additionalProperties": true,
+          "x-unknown-warning": true
+        }
+      },
+      "additionalProperties": true,
+      "required": [
+        "asset",
+        "mode"
+      ],
+      "x-unknown-warning": true
+    },
+    "images": {
+      "type": "object",
+      "properties": {
+        "window.interactive": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "window.clickThrough": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "header": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "headerTitle": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "templateSection": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "tasksSection": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "sectionTitle": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "taskRow": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "taskText": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "checkbox": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "subtaskRow": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "backgroundRow": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "badge.high": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "badge.active": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "badge.dormant": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "button": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "button.primary": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "button.danger": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "button.icon": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "input": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "textarea": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "select": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "slider": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "progressBar": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "progressFill": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "progressText": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "toast": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "contextMenu": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "contextMenuItem": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "dialog.scrim": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "dialog.window": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "dialog.title": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "dialog.text": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "dialog.hint": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "dialog.button.primary": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "dialog.button.secondary": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "dialog.danger.title": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "communityTemplateCard": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "divider": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "dragPlaceholder": {
+          "$ref": "#/$defs/imageMapping"
+        },
+        "clickThroughHint": {
+          "$ref": "#/$defs/imageMapping"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/imageMapping"
+      },
+      "x-unknown-warning": true
+    },
+    "soundFile": {
+      "type": "string",
+      "format": "theme-sound"
+    },
+    "soundEvent": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/soundFile"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "file": {
+              "$ref": "#/$defs/soundFile"
+            },
+            "volume": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "file"
+          ],
+          "x-unknown-warning": true
+        }
+      ]
+    },
+    "sounds": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "volume": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "events": {
+          "type": "object",
+          "properties": {
+            "taskCompleted": {
+              "$ref": "#/$defs/soundEvent"
+            },
+            "backgroundActivated": {
+              "$ref": "#/$defs/soundEvent"
+            },
+            "undo": {
+              "$ref": "#/$defs/soundEvent"
+            },
+            "redo": {
+              "$ref": "#/$defs/soundEvent"
+            }
+          },
+          "additionalProperties": true,
+          "x-unknown-warning": true
+        }
+      },
+      "additionalProperties": true,
+      "x-unknown-warning": true
+    },
+    "variant": {
+      "type": "object",
+      "properties": {
+        "cssFile": false,
+        "customCSS": false
+      },
+      "additionalProperties": true
+    }
+  }
+}

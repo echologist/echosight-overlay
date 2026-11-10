@@ -1,0 +1,540 @@
+[
+  {
+    "name": "minimal",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test"
+    },
+    "valid": true
+  },
+  {
+    "name": "missing format",
+    "document": {
+      "id": "test",
+      "name": "Test"
+    },
+    "valid": false
+  },
+  {
+    "name": "missing id",
+    "document": {
+      "format": 2,
+      "name": "Test"
+    },
+    "valid": false
+  },
+  {
+    "name": "missing name",
+    "document": {
+      "format": 2,
+      "id": "test"
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid format 2",
+    "document": {
+      "format": "2",
+      "id": "test",
+      "name": "Test"
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid format 3",
+    "document": {
+      "format": 3,
+      "id": "test",
+      "name": "Test"
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid id  ",
+    "document": {
+      "format": 2,
+      "id": " ",
+      "name": "Test"
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid name False",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": false
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid cssFile None",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "cssFile": null
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid customCSS {}",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "customCSS": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid tokens []",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "tokens": []
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid slots None",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": null
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid supportsTransparency yes",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "supportsTransparency": "yes"
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid variants []",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "variants": []
+    },
+    "valid": false
+  },
+  {
+    "name": "style 0",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "radius": -1
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "style 1",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "padding": [
+            1,
+            2,
+            3
+          ]
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "style 2",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "margin": [
+            -1,
+            2
+          ]
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "style 3",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "fill": {
+            "color": "#fff",
+            "alpha": 2
+          }
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "style 4",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "text": {
+            "weight": 1001
+          }
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "style 5",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "text": {
+            "family": []
+          }
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "style 6",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "fill": {
+            "radial": {
+              "center": [
+                0.5,
+                0.5
+              ],
+              "radius": 1,
+              "stops": [
+                [
+                  "#fff",
+                  0
+                ],
+                [
+                  "#000",
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "style 7",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "image": {
+            "asset": "skin.svg",
+            "mode": "nineSlice",
+            "insets": [
+              1,
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "style 8",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "text": {
+            "shadow": [
+              {
+                "x": 0,
+                "y": 1,
+                "color": "#000",
+                "blur": 2
+              }
+            ]
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "style 9",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "states": {
+            "hover": {
+              "fill": "#f00"
+            },
+            "disabled": {
+              "opacityAffects": false
+            }
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "style 10",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "$extends": 42
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "style 11",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "future": {
+            "nested": true
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "style 12",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "fill": {
+            "gradient": {
+              "angle": 90,
+              "stops": [
+                [
+                  "#fff",
+                  0
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "style 13",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "size": [
+            2,
+            3
+          ]
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "style 14",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "bevel": {
+            "light": "#fff",
+            "dark": "#000",
+            "width": 2
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "style 15",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "ring": {
+            "color": "#abc",
+            "style": "dotted",
+            "inset": -2
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "style 16",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "button": {
+          "shadow": [
+            {
+              "x": 1,
+              "y": 2,
+              "blur": -1,
+              "color": "#000"
+            }
+          ]
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "unknown slot warning",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "slots": {
+        "future": {
+          "futureProp": true
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "sound range",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "sounds": {
+        "volume": 1.01
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "motion range",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "motion": {
+        "hoverMs": -1
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "font array",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "tokens": {
+        "fonts": {
+          "ui": {
+            "family": [
+              "Arial"
+            ],
+            "file": "font.ttf"
+          },
+          "sizes": {
+            "ui": 12
+          }
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "reference and inheriting",
+    "document": {
+      "format": 2,
+      "id": "test",
+      "name": "Test",
+      "tokens": {
+        "colors": {
+          "surface": {
+            "main": "#fff"
+          }
+        }
+      },
+      "slots": {
+        "button": {
+          "fill": "@surface.main"
+        },
+        "button.primary": {
+          "$extends": "button"
+        }
+      }
+    },
+    "valid": true
+  }
+]

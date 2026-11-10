@@ -1,0 +1,1854 @@
+{
+  "theme": {
+    "format": 2,
+    "id": "echosight",
+    "name": "Echosight",
+    "tokens": {
+      "colors": {
+        "primary": "#d4a857",
+        "secondary": "#5fd8c8",
+        "accent": "#e3804a",
+        "danger": "#c54a3a",
+        "text": {
+          "primary": "#e8e2d2",
+          "secondary": "#b8b09a",
+          "muted": "#7a7363",
+          "inverse": "#0a0814"
+        },
+        "surface": {
+          "primary": "rgba(13, 11, 24, 1)",
+          "secondary": "rgba(20, 17, 31, 0.92)",
+          "tertiary": "rgba(11, 9, 18, 0.85)",
+          "transparent": "transparent"
+        },
+        "border": {
+          "primary": "rgba(212, 168, 87, 0.4)",
+          "secondary": "rgba(255, 255, 255, 0.06)",
+          "interactive": "rgba(95, 216, 200, 0.5)"
+        }
+      },
+      "opacity": {
+        "appliesTo": [
+          "surface.primary",
+          "surface.secondary",
+          "surface.tertiary"
+        ]
+      },
+      "fonts": {
+        "ui": {
+          "family": [
+            "Inter",
+            "Segoe UI",
+            "Tahoma",
+            "sans-serif"
+          ]
+        },
+        "sizes": {
+          "header": 14.0,
+          "task": 13.0,
+          "progress": 11.0,
+          "ui": 12.0
+        },
+        "weights": {
+          "normal": 400.0,
+          "bold": 600.0
+        }
+      },
+      "shadows": {
+        "text": [
+          {
+            "x": 0.0,
+            "y": 1.0,
+            "blur": 2.0,
+            "spread": 0.0,
+            "color": "rgba(0,0,0,0.7)"
+          }
+        ],
+        "window": [
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 0.0,
+            "spread": 1.0,
+            "color": "rgba(0,0,0,0.4)"
+          },
+          {
+            "x": 0.0,
+            "y": 24.0,
+            "blur": 48.0,
+            "spread": -12.0,
+            "color": "rgba(0,0,0,0.8)"
+          },
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 32.0,
+            "spread": 0.0,
+            "color": "rgba(95,216,200,0.10)"
+          }
+        ]
+      },
+      "radius": {
+        "default": 6.0
+      }
+    },
+    "slots": {
+      "taskText": {
+        "text": {
+          "color": "#e8e2d2",
+          "family": "@fonts.ui.family",
+          "size": "@fonts.sizes.task",
+          "weight": "@fonts.weights.normal",
+          "shadow": "@shadows.text"
+        },
+        "states": {
+          "completed": {
+            "text": {
+              "color": "#7a7363"
+            }
+          }
+        }
+      },
+      "progressText": {
+        "text": {
+          "color": "#b8b09a",
+          "family": [
+            "JetBrains Mono",
+            "Inter",
+            "monospace"
+          ],
+          "size": "@fonts.sizes.progress",
+          "weight": "@fonts.weights.bold",
+          "shadow": "@shadows.text"
+        }
+      },
+      "window.interactive": {
+        "text": {
+          "family": "@fonts.ui.family"
+        },
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(20, 17, 31, 1)",
+                0.0
+              ],
+              [
+                "rgba(11, 9, 18, 1)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": true,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(95,216,200,0.35)"
+        },
+        "shadow": "@shadows.window"
+      },
+      "window.clickThrough": {
+        "text": {
+          "family": "@fonts.ui.family"
+        },
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(13, 11, 24, 1)",
+                0.0
+              ],
+              [
+                "rgba(7, 6, 13, 1)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": true,
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(95, 216, 200, 0.3)"
+        },
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 14.0,
+            "spread": 0.0,
+            "color": "rgba(95,216,200,0.08)"
+          }
+        ]
+      },
+      "button": {
+        "text": {
+          "family": [
+            "Cinzel",
+            "Inter",
+            "sans-serif"
+          ],
+          "size": "@fonts.sizes.ui",
+          "shadow": "@shadows.text",
+          "color": "#f1d990",
+          "weight": 600.0,
+          "transform": "uppercase"
+        },
+        "radius": 4.0,
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(45,38,18,0.58)",
+                0.0
+              ],
+              [
+                "rgba(28,22,10,0.74)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(212,168,87,0.55)"
+        },
+        "states": {
+          "hover": {
+            "text": {
+              "color": "#fff2cf"
+            },
+            "border": {
+              "color": "rgba(212,168,87,0.86)"
+            },
+            "shadow": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "blur": 14.0,
+                "spread": 0.0,
+                "color": "rgba(212,168,87,0.18)"
+              }
+            ]
+          }
+        }
+      },
+      "input": {
+        "text": {
+          "family": "@fonts.ui.family",
+          "size": "@fonts.sizes.ui"
+        },
+        "radius": "@radius.default"
+      },
+      "select": {
+        "text": {
+          "family": "@fonts.ui.family",
+          "size": "@fonts.sizes.ui",
+          "color": "#e8e2d2"
+        },
+        "fill": "rgba(7,6,13,0.7)",
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(212,168,87,0.18)"
+        },
+        "radius": 4.0,
+        "states": {
+          "focus": {
+            "border": {
+              "color": "rgba(95,216,200,0.6)"
+            },
+            "shadow": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "blur": 0.0,
+                "spread": 2.0,
+                "color": "rgba(95,216,200,0.12)"
+              }
+            ]
+          }
+        }
+      },
+      "headerTitle": {
+        "text": {
+          "family": [
+            "Cinzel",
+            "Inter",
+            "serif"
+          ],
+          "size": 13.0,
+          "color": "#f1d990",
+          "weight": 700.0,
+          "transform": "uppercase",
+          "shadow": [
+            {
+              "x": 0.0,
+              "y": 0.0,
+              "blur": 12.0,
+              "spread": 0.0,
+              "color": "rgba(212,168,87,0.25)"
+            },
+            {
+              "x": 0.0,
+              "y": 1.0,
+              "blur": 2.0,
+              "spread": 0.0,
+              "color": "rgba(0,0,0,0.6)"
+            }
+          ]
+        }
+      },
+      "progressBar": {
+        "radius": "@radius.default",
+        "shadow": "@shadows.window"
+      },
+      "header": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(35, 28, 52, 0.95)",
+                0.0
+              ],
+              [
+                "rgba(20, 17, 31, 0.9)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": true
+      },
+      "templateSection": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(11, 9, 18, 0.55)",
+                0.0
+              ],
+              [
+                "rgba(11, 9, 18, 0.35)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "opacityAffects": true
+      },
+      "tasksSection": {
+        "fill": "transparent"
+      },
+      "dialog.button.secondary": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(20,40,46,0.9)",
+                0.0
+              ],
+              [
+                "rgba(10,18,22,0.95)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "text": {
+          "color": "#5fd8c8",
+          "family": [
+            "Cinzel",
+            "Inter",
+            "sans-serif"
+          ],
+          "weight": 600.0
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(95,216,200,0.45)"
+        },
+        "radius": 4.0,
+        "states": {
+          "hover": {
+            "text": {
+              "color": "#f1d990"
+            },
+            "border": {
+              "color": "rgba(212,168,87,0.6)"
+            },
+            "shadow": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "blur": 14.0,
+                "spread": 0.0,
+                "color": "rgba(212,168,87,0.18)"
+              }
+            ]
+          }
+        }
+      },
+      "dialog.button.primary": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(45,38,18,0.58)",
+                0.0
+              ],
+              [
+                "rgba(28,22,10,0.74)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "text": {
+          "color": "#f1d990",
+          "family": [
+            "Cinzel",
+            "Inter",
+            "sans-serif"
+          ],
+          "weight": 600.0,
+          "transform": "uppercase"
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(212,168,87,0.55)"
+        },
+        "radius": 4.0,
+        "states": {
+          "hover": {
+            "text": {
+              "color": "#fff2cf"
+            },
+            "border": {
+              "color": "rgba(212,168,87,0.86)"
+            }
+          }
+        }
+      },
+      "textarea": {
+        "fill": "rgba(7,6,13,0.7)",
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(212,168,87,0.18)"
+        },
+        "text": {
+          "color": "#e8e2d2"
+        },
+        "radius": 4.0,
+        "states": {
+          "focus": {
+            "border": {
+              "color": "rgba(95,216,200,0.6)"
+            },
+            "shadow": [
+              {
+                "x": 0.0,
+                "y": 0.0,
+                "blur": 0.0,
+                "spread": 2.0,
+                "color": "rgba(95,216,200,0.12)"
+              }
+            ]
+          }
+        }
+      },
+      "progressFill": {
+        "fill": {
+          "gradient": {
+            "angle": 90.0,
+            "stops": [
+              [
+                "#2a8e84",
+                0.0
+              ],
+              [
+                "#5fd8c8",
+                0.8
+              ]
+            ]
+          }
+        },
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 12.0,
+            "spread": 0.0,
+            "color": "rgba(95,216,200,0.5)"
+          }
+        ]
+      },
+      "taskRow": {
+        "states": {
+          "hover": {
+            "fill": "rgba(212,168,87,0.05)"
+          }
+        }
+      },
+      "dialog.scrim": {
+        "fill": "rgba(0,0,0,0.85)"
+      },
+      "dialog.window": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(20,17,31,0.98)",
+                0.0
+              ],
+              [
+                "rgba(11,9,18,0.98)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(212,168,87,0.4)"
+        },
+        "radius": 8.0,
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 24.0,
+            "blur": 60.0,
+            "spread": -10.0,
+            "color": "rgba(0,0,0,0.85)"
+          },
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 40.0,
+            "spread": 0.0,
+            "color": "rgba(95,216,200,0.08)"
+          }
+        ],
+        "text": {
+          "color": "#e8e2d2"
+        }
+      },
+      "dialog.title": {
+        "text": {
+          "family": [
+            "Cinzel",
+            "Inter",
+            "serif"
+          ],
+          "color": "#f1d990",
+          "transform": "uppercase",
+          "weight": 700.0
+        }
+      },
+      "dialog.text": {
+        "text": {
+          "color": "#d8d1bf"
+        }
+      },
+      "dialog.hint": {
+        "text": {
+          "color": "rgba(184,176,154,0.64)"
+        }
+      },
+      "communityTemplateCard": {
+        "fill": "rgba(11,9,18,0.5)",
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(212,168,87,0.18)"
+        },
+        "radius": 6.0
+      },
+      "dialog.danger.title": {
+        "text": {
+          "color": "#f0a896"
+        }
+      },
+      "contextMenu": {
+        "fill": {
+          "gradient": {
+            "angle": 180.0,
+            "stops": [
+              [
+                "rgba(20,17,31,0.98)",
+                0.0
+              ],
+              [
+                "rgba(11,9,18,0.98)",
+                1.0
+              ]
+            ]
+          }
+        },
+        "border": {
+          "width": 1.0,
+          "style": "solid",
+          "color": "rgba(212,168,87,0.4)"
+        },
+        "shadow": [
+          {
+            "x": 0.0,
+            "y": 12.0,
+            "blur": 30.0,
+            "spread": 0.0,
+            "color": "rgba(0,0,0,0.7)"
+          },
+          {
+            "x": 0.0,
+            "y": 0.0,
+            "blur": 0.0,
+            "spread": 1.0,
+            "color": "rgba(0,0,0,0.4)"
+          }
+        ]
+      }
+    },
+    "images": {},
+    "version": "1.0.3",
+    "author": "Echosight",
+    "description": "Default fantasy theme — gold runes, teal arcana, ember accents. Matches the brand.",
+    "supportsTransparency": true
+  },
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "location": "/customCSS",
+      "code": "css-source-order",
+      "message": "recognized selectors are applied in source order, not CSS specificity/importance; manual review required",
+      "value": "/customCSS"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/0",
+      "code": "unsupported-rule",
+      "message": "at-rule, nested rule or malformed CSS is not executed",
+      "value": "@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/1",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/1/body/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#e8e2d2 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/1/body/font-family",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-family": "'Inter','Segoe UI',sans-serif !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/10",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/11",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/11/.progress-text/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'JetBrains Mono','Inter',monospace !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/11/.progress-text/letter-spacing",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "letter-spacing": "0.06em !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/12",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/12/.task-section-label/border-bottom",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-bottom": "1px dashed rgba(212,168,87,0.18) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/12/.task-section-label/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#d4a857 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/12/.task-section-label/font-family",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-family": "'Cinzel','Inter',serif !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/12/.task-section-label/font-size",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-size": "10px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/12/.task-section-label/letter-spacing",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "letter-spacing": "0.18em !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/12/.task-section-label/text-transform",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "text-transform": "uppercase !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/13",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/14",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/15",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/16",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/16/.task-delete/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(197,74,58,0.18) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/16/.task-delete/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "1px solid rgba(197,74,58,0.35) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/16/.task-delete/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#f0a896 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/17",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/17/.task-delete:hover/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(227,128,74,0.4) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/17/.task-delete:hover/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "rgba(227,128,74,0.7) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/17/.task-delete:hover/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#ffe1d6 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/18",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/18/.modal/-webkit-backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "-webkit-backdrop-filter": "blur(4px) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/18/.modal/backdrop-filter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdrop-filter": "blur(4px) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/19",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/19/.modal-content/position",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "position": "relative !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/2",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/2/.header h2/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'Cinzel','Inter',serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/2/.header h2/letter-spacing",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "letter-spacing": "0.18em !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/20",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/20/.modal-content::before/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "linear-gradient(90deg, transparent, rgba(212,168,87,0.5), transparent)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/20/.modal-content::before/content",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "content": "''"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/20/.modal-content::before/height",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "height": "1px"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/20/.modal-content::before/left",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "left": "0"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/20/.modal-content::before/pointer-events",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "pointer-events": "none"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/20/.modal-content::before/position",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "position": "absolute"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/20/.modal-content::before/right",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "right": "0"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/20/.modal-content::before/top",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "top": "0"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/21",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/21/.modal-content h4/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'Cinzel','Inter',serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/21/.modal-content h4/letter-spacing",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "letter-spacing": "0.14em !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/21/.modal-title/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'Cinzel','Inter',serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/21/.modal-title/letter-spacing",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "letter-spacing": "0.14em !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/21/.settings-title/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'Cinzel','Inter',serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/21/.settings-title/letter-spacing",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "letter-spacing": "0.14em !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/22",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/23",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/24",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/25",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/25/.modal-content-dialog.app-dialog-tone-danger/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "rgba(197,74,58,0.75) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/26",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/27",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/28",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/28/.context-menu div/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#e8e2d2 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/28/.context-menu div/font-family",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-family": "'Inter',sans-serif !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/29",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/29/.context-menu div:hover/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "linear-gradient(90deg, rgba(212,168,87,0.18), rgba(212,168,87,0.06)) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/29/.context-menu div:hover/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#f1d990 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/3",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/3/.header h2 #shortcut-hint/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "rgba(184,176,154,0.62) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/3/.header h2 #shortcut-hint/font-family",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-family": "'Inter',sans-serif !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/3/.header h2 #shortcut-hint/font-weight",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "font-weight": "400 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/3/.header h2 #shortcut-hint/letter-spacing",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "letter-spacing": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/3/.header h2 #shortcut-hint/text-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "text-shadow": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/3/.header h2 #shortcut-hint/text-transform",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "text-transform": "none !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/4",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/4/.modal-btn.secondary/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'Cinzel','Inter',sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/4/.modal-btn.secondary/letter-spacing",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "letter-spacing": "0.06em !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/4/.modal-btn.secondary/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "all .2s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/4/.template-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'Cinzel','Inter',sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/4/.template-btn/letter-spacing",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "letter-spacing": "0.06em !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/4/.template-btn/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "all .2s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/5",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/6",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/6/.add-btn/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 0 rgba(212,168,87,0.12) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/6/.add-btn/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'Cinzel','Inter',sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/6/.add-btn/letter-spacing",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "letter-spacing": "0.12em !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/6/.add-btn/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "all .2s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/6/.modal-btn.primary/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 0 rgba(212,168,87,0.12) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/6/.modal-btn.primary/font-family",
+      "code": "font-availability",
+      "message": "family names retained; no font file is bundled or downloaded",
+      "value": "'Cinzel','Inter',sans-serif !important"
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/6/.modal-btn.primary/letter-spacing",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "letter-spacing": "0.12em !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/6/.modal-btn.primary/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "all .2s ease !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/7",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/7/.add-btn:hover/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 0 rgba(212,168,87,0.2), 0 0 14px rgba(212,168,87,0.25) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/7/.modal-btn.primary:hover/box-shadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "box-shadow": "inset 0 1px 0 rgba(212,168,87,0.2), 0 0 14px rgba(212,168,87,0.25) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.modal-input/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(7,6,13,0.7) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.modal-input/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "1px solid rgba(212,168,87,0.18) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.modal-input/border-radius",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-radius": "4px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.modal-input/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#e8e2d2 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.modal-input/transition",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "transition": "border-color .2s, box-shadow .2s !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.task-input/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(7,6,13,0.7) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.task-input/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "1px solid rgba(212,168,87,0.18) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.task-input/border-radius",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-radius": "4px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.task-input/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#e8e2d2 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.task-input/transition",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "transition": "border-color .2s, box-shadow .2s !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.template-select/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(7,6,13,0.7) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.template-select/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "1px solid rgba(212,168,87,0.18) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.template-select/border-radius",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-radius": "4px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.template-select/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#e8e2d2 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/.template-select/transition",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "transition": "border-color .2s, box-shadow .2s !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/input[type='text']/background",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "background": "rgba(7,6,13,0.7) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/input[type='text']/border",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border": "1px solid rgba(212,168,87,0.18) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/input[type='text']/border-radius",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-radius": "4px !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/input[type='text']/color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "color": "#e8e2d2 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/input[type='text']/transition",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "transition": "border-color .2s, box-shadow .2s !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/select/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "border-color .2s, box-shadow .2s !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/8/textarea/transition",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "transition": "border-color .2s, box-shadow .2s !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9",
+      "code": "malformed-declaration",
+      "message": "declaration has no colon",
+      "value": ""
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/.modal-input:focus/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "rgba(95,216,200,0.6) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/.modal-input:focus/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "0 0 0 2px rgba(95,216,200,0.12) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/.modal-input:focus/outline",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "outline": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/.task-input:focus/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "rgba(95,216,200,0.6) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/.task-input:focus/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "0 0 0 2px rgba(95,216,200,0.12) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/.task-input:focus/outline",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "outline": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/.template-select:focus/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "rgba(95,216,200,0.6) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/.template-select:focus/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "0 0 0 2px rgba(95,216,200,0.12) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/.template-select:focus/outline",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "outline": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/input[type='text']:focus/border-color",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "border-color": "rgba(95,216,200,0.6) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/input[type='text']:focus/box-shadow",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "box-shadow": "0 0 0 2px rgba(95,216,200,0.12) !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/input[type='text']:focus/outline",
+      "code": "unsupported-selector",
+      "message": "selector is not in the fixed selector-to-slot table",
+      "value": {
+        "outline": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/select:focus/outline",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "outline": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/customCSS/9/textarea:focus/outline",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "outline": "0 !important"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/effects/blur",
+      "code": "unsupported-effect",
+      "message": "inset/filter/blur or unsupported effect requires manual authoring; no system blur guessed",
+      "value": "14px"
+    },
+    {
+      "severity": "warning",
+      "location": "/fonts/primary/family",
+      "code": "font-availability",
+      "message": "family names retained; no fonts bundled or fetched",
+      "value": "'Inter', 'Segoe UI', Tahoma, sans-serif"
+    },
+    {
+      "severity": "warning",
+      "location": "/isDefault",
+      "code": "unmapped-field",
+      "message": "v1 field is not interpreted by the v2 converter",
+      "value": true
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/container/backdropFilter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdropFilter": "blur(10px) saturate(125%) brightness(0.85)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/container/borderRadius",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderRadius": "var(--border-radius)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/container/webkitBackdropFilter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "webkitBackdropFilter": "blur(10px) saturate(125%) brightness(0.85)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/clickThrough/tasksSection",
+      "code": "unsupported-mode-slot",
+      "message": "no mode-qualified section slot in v2; manual application decision required",
+      "value": {
+        "background": "transparent"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/backdropFilter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "backdropFilter": "blur(var(--blur)) saturate(140%)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/borderRadius",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderRadius": "var(--border-radius)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/overflow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "overflow": "hidden"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/position",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "position": "relative"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/container/webkitBackdropFilter",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "webkitBackdropFilter": "blur(var(--blur)) saturate(140%)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/header/borderBottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderBottom": "1px solid rgba(212,168,87,0.28)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/header/boxShadow",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "boxShadow": "inset 0 -1px 0 rgba(212,168,87,0.08)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/styles/interactive/templateSection/borderBottom",
+      "code": "unsupported-property",
+      "message": "CSS declaration not representable by this bounded converter",
+      "value": {
+        "borderBottom": "1px solid rgba(255,255,255,0.04)"
+      }
+    },
+    {
+      "severity": "warning",
+      "location": "/transparency",
+      "code": "unmapped-field",
+      "message": "v1 field is not interpreted by the v2 converter",
+      "value": {
+        "clickThrough": "var(--user-transparency, 0.7)",
+        "interactive": "var(--user-transparency, 0.7)"
+      }
+    }
+  ],
+  "provisional": false
+}
