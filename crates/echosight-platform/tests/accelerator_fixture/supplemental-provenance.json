@@ -1,0 +1,31 @@
+{
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/tauri-apps/global-hotkey/41b011d42b90498e507754b96ec5909d7bcd6f67/src/platform_impl/macos/mod.rs",
+      "sha256": "a36c6f6feab356fe5f34ceffd911cb5e42b3c140a7e6b484d6c207d0deddf2f9"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/tauri-apps/global-hotkey/41b011d42b90498e507754b96ec5909d7bcd6f67/src/platform_impl/x11/mod.rs",
+      "sha256": "7efa068a2419817c0af05433cd6df3116b8cbbb8e2fbdd75dfb5c08a349ba4af"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/146.0.7680.188/base/strings/string_split_internal.h",
+      "sha256": "a357f3453ddf77f08076b2f677e545dbfb075b1fd01a0df46bf2736f38c23594"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/146.0.7680.188/ui/events/keycodes/keyboard_code_conversion_mac.mm",
+      "sha256": "57d0b35218f58dbb3e20c22daac36657f74561fc2d8ba222e73e2e0aa9afbd92"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/146.0.7680.188/ui/base/accelerators/global_accelerator_listener/global_accelerator_listener_mac.mm",
+      "sha256": "111fb6578f718952e79e73814d1f1c5797266a9e25971d9fb150d4ebd7c97cf7"
+    }
+  ],
+  "notes": [
+    "Primary files retrieved directly by unauthenticated HTTPS at their pinned revisions.",
+    "X11 has no Code::MediaPlayPause arm; do not substitute MediaPlay or MediaPause.",
+    "Mac has no backend mapping for F21-F24, ScrollLock or MediaStop. Chromium returns -1 for PrintScreen and NumLock while the Rust backend selects 0x46 and 0x47.",
+    "Mac media and volume policy is explicitly unproven, not claimed equivalent by Code spelling.",
+    "Chromium char splitting uses kWhitespaceASCII: 09 0B 0C 20 0A 0D."
+  ]
+}

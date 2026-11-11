@@ -1,0 +1,54 @@
+{
+  "electron": "41.3.0",
+  "chromium": "146.0.7680.188",
+  "execution_platform": "linux",
+  "evidence_sha256": "001bff78f8cb53082fbaabdfd4e8143c2fdc2cc573601897b3d2951c2fe2f9fe",
+  "evidence_kind": "Actual globalShortcut.isRegistered conversion, no native registration; chord values separately source-derived.",
+  "known_defect": "Original token-mapping.csv named implied_shift is all true. Not used. Only named plus implies shift.",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v41.3.0/shell/common/keyboard_util.cc",
+      "sha256": "706e260b098bfa34ed7e5ed3aafce67e2beb17ad6c187b479a2c77616fe2ce85"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v41.3.0/shell/browser/ui/accelerator_util.cc",
+      "sha256": "ce75c69df2306f443837e4d7e0cae9ed8506fcb779cf3e58d79e8ffe000502e5"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v41.3.0/shell/browser/ui/accelerator_util_unittests.cc",
+      "sha256": "8ea4f516ebab6a2736203b6eb50b80ded62e21ec93bb4d51089cdf7f533985ba"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v41.3.0/spec/lib/accelerator-helpers.ts",
+      "sha256": "7ac62a968f45f24df13be6649ffd3130eb18f2acfa4148de006fdcb0fbf98230"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/electron/electron/v41.3.0/patches/chromium/command-ismediakey.patch",
+      "sha256": "feea9d2ae0bc1d8caa2eb1870e7b6ac4e3780289efc8e6c5a0f1cab16aa192bd"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/146.0.7680.188/base/strings/string_util_constants.cc",
+      "sha256": "e363ae1039153a48298f07378b2b11df539c379dabd22a58e3afb4e8b7d5fc27"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/146.0.7680.188/ui/events/keycodes/keyboard_codes_win.h",
+      "sha256": "80c5dc2d2d395a0b5efe074427af7585164cb7a94e23dcd3c4ad1acec2388e8f"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/146.0.7680.188/ui/base/accelerators/global_accelerator_listener/global_accelerator_listener_win.cc",
+      "sha256": "8100e98a53714f920595508c63bf5970835905aab1442d1bc10dc05d9412c9bf"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/tauri-apps/global-hotkey/41b011d42b90498e507754b96ec5909d7bcd6f67/src/hotkey.rs",
+      "sha256": "7a966aa3c471575461fa56c1f90d077660f724b7c4a0d6e57308f21fea42e846"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/tauri-apps/global-hotkey/41b011d42b90498e507754b96ec5909d7bcd6f67/src/platform_impl/windows/mod.rs",
+      "sha256": "a6fb1f2953ec5822292311f5cb6aed424ab82f8ce655c3dd2e29aa54ec4294c3"
+    },
+    {
+      "repository_path": "src/main/utils/hotkeys.ts",
+      "sha256": "32110d63b945794af413d33c506fc6facb09b1955a71ddb2e4f0c0ba60cb135f"
+    }
+  ]
+}
