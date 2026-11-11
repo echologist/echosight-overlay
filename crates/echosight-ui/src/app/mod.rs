@@ -1,9 +1,19 @@
 //! Runnable task slice. Domain operations live in TaskState; every disk operation
 //! runs off the UI thread. This is not the complete overlay/theme runtime.
 mod drag;
+mod overlay;
+pub use overlay::{
+    ActionStatus, OverlayConfig, OverlayPorts, RegisterSummary, ReleaseSummary, TrayCommand,
+};
+#[cfg(test)]
+mod overlay_tests;
 mod persistence;
 mod ports;
 mod runtime;
+mod settings;
+mod settings_view;
+pub use settings::RecorderDecodeError;
+use settings::SettingsCommand;
 mod templates;
 mod triggers;
 pub use runtime::{TaskClock, TaskEventSink, TaskRuntimeEvent};
@@ -30,8 +40,21 @@ use std::{
     path::PathBuf,
 };
 
+#[derive(Clone, Copy)]
+enum TaskAction {
+    Complete,
+    Undo,
+    Redo,
+}
+#[derive(Clone, Copy)]
+enum TaskActionOrigin {
+    Ui,
+    Global,
+}
+
 #[derive(Clone)]
 enum Command {
+    Settings(SettingsCommand),
     Template(TemplateCommand),
     Add,
     Child(TaskId),
@@ -51,6 +74,8 @@ enum Command {
 }
 #[derive(Clone)]
 enum Dialog {
+    Settings,
+    SettingsReset,
     Template(TemplateDialog),
     Triggers(TaskId),
     Child(TaskId),
@@ -60,6 +85,9 @@ enum Dialog {
 }
 
 pub struct TaskApp {
+    overlay: overlay::OverlayState,
+    task_loading: bool,
+    settings: settings::SettingsState,
     templates: templates::Templates,
     background: Option<BackgroundTaskState<TaskClock>>,
     expiry_task: Option<gpui::Task<()>>,
@@ -169,6 +197,9 @@ impl TaskApp {
         })
         .detach();
         let mut this = Self {
+            overlay: overlay::OverlayState::default(),
+            task_loading: true,
+            settings: settings::SettingsState::default(),
             templates: templates::Templates::default(),
             background: None,
             expiry_task: None,
@@ -201,11 +232,14 @@ impl TaskApp {
         };
         match storage {
             Err(e) => {
+                this.settings.loading = false;
+                this.task_loading = false;
                 this.templates.error = Some(e.clone());
                 this.error = Some(e);
             }
             Ok((storage, paths)) => {
                 this.storage = Some(storage.clone());
+                this.load_settings(storage.clone(), cx);
                 this.load_templates(storage.clone(), paths.clone(), clock.clone(), cx);
                 let task = cx
                     .background_executor()
@@ -213,6 +247,7 @@ impl TaskApp {
                 cx.spawn(async move |this, cx| {
                     let result = task.await;
                     let _ = this.update(cx, |this, cx| {
+                        this.task_loading = false;
                         match result {
                             Ok(data) => {
                                 this.background = Some(BackgroundTaskState::new(TaskState::new(
@@ -365,6 +400,29 @@ impl TaskApp {
         all_addressable(self, state.tasks())
     }
 
+    fn run_task_action(
+        &mut self,
+        action: TaskAction,
+        origin: TaskActionOrigin,
+        cx: &mut Context<Self>,
+    ) {
+        if !self.writable() || (matches!(origin, TaskActionOrigin::Ui) && self.dialog.is_some()) {
+            return;
+        }
+        if matches!(action, TaskAction::Complete) && !self.complete_next_addressable() {
+            self.status =
+                "Duplicate task IDs: this row or its ancestor is ambiguous; action blocked.".into();
+            cx.notify();
+            return;
+        }
+        let operation = match action {
+            TaskAction::Complete => BackgroundCommand::CompleteNext,
+            TaskAction::Undo => BackgroundCommand::Undo,
+            TaskAction::Redo => BackgroundCommand::Redo,
+        };
+        self.dispatch_background(operation, cx);
+    }
+
     fn activate(&mut self, command: Command, window: &mut Window, cx: &mut Context<Self>) {
         if matches!(command, Command::Cancel) {
             self.close_dialog(window, cx);
@@ -384,9 +442,28 @@ impl TaskApp {
             return;
         }
         if matches!(command, Command::Accept) && matches!(self.dialog, Some(Dialog::Quit)) {
-            if !self.saving && !self.templates.saving && !self.templates.transferring {
-                cx.quit();
+            if self.quit_ready() {
+                self.request_quit(cx);
             }
+            return;
+        }
+        if let Command::Settings(command) = command {
+            self.settings_command(command, window, cx);
+            return;
+        }
+        if matches!(command, Command::Accept)
+            && matches!(self.dialog, Some(Dialog::Settings | Dialog::SettingsReset))
+        {
+            self.accept_settings(window, cx);
+            return;
+        }
+        if let Some(action) = match command {
+            Command::Complete => Some(TaskAction::Complete),
+            Command::Undo => Some(TaskAction::Undo),
+            Command::Redo => Some(TaskAction::Redo),
+            _ => None,
+        } {
+            self.run_task_action(action, TaskActionOrigin::Ui, cx);
             return;
         }
         if let Command::Template(command) = command {
@@ -515,6 +592,21 @@ impl TaskApp {
                 let Some(dialog) = self.dialog.clone() else {
                     return;
                 };
+                if let Dialog::Edit(id, _) | Dialog::Delete(id) = dialog
+                    && self.state().and_then(|s| s.find_task(id)).is_none()
+                {
+                    self.close_dialog(window, cx);
+                    return;
+                }
+                if let Dialog::Child(id) | Dialog::Edit(id, _) | Dialog::Triggers(id) = dialog
+                    && !self.addressable(id)
+                {
+                    // Missing children/owners retain the draft; ambiguous IDs never mutate.
+                    self.form_error =
+                        Some("Task target is missing or ambiguous; action blocked.".into());
+                    cx.notify();
+                    return;
+                }
                 if matches!(dialog, Dialog::Delete(id) if !self.deletable(id)) {
                     self.status =
                         "Duplicate task IDs: deletion subtree is ambiguous; action blocked.".into();
@@ -543,17 +635,24 @@ impl TaskApp {
                         text,
                         parent: Some(id),
                     }),
-                    Dialog::Edit(id, background) => Some(BackgroundCommand::Edit {
+                    Dialog::Edit(id, _) => Some(BackgroundCommand::Edit {
                         id,
                         text,
-                        priority: background.then_some(if self.high_priority {
+                        priority: (self
+                            .state()
+                            .and_then(|s| s.find_task(id))
+                            .is_some_and(|t| t.mode == TaskMode::Background))
+                        .then_some(if self.high_priority {
                             BackgroundPriority::High
                         } else {
                             BackgroundPriority::Normal
                         }),
                     }),
                     Dialog::Delete(id) => Some(BackgroundCommand::Delete(id)),
-                    Dialog::Quit | Dialog::Template(_) => None,
+                    Dialog::Quit
+                    | Dialog::Template(_)
+                    | Dialog::Settings
+                    | Dialog::SettingsReset => None,
                 };
                 if deleting {
                     self.restore_focus = Some(self.input.focus_handle(cx));
@@ -561,7 +660,7 @@ impl TaskApp {
                 self.close_dialog(window, cx);
                 operation
             }
-            Command::Cancel | Command::Quit | Command::Template(_) => None,
+            Command::Cancel | Command::Quit | Command::Template(_) | Command::Settings(_) => None,
         };
         if let Some(operation) = operation {
             self.dispatch_background(operation, cx);
@@ -569,6 +668,15 @@ impl TaskApp {
     }
 
     fn close_dialog(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        if matches!(self.dialog, Some(Dialog::SettingsReset)) {
+            self.dialog = Some(Dialog::Settings);
+            cx.notify();
+            return;
+        }
+        if matches!(self.dialog, Some(Dialog::Settings)) {
+            self.close_settings(window, cx);
+            return;
+        }
         self.templates_closed();
         let focus = self
             .restore_focus
@@ -590,6 +698,14 @@ impl TaskApp {
     }
 
     fn key(&mut self, event: &KeyDownEvent, window: &mut Window, cx: &mut Context<Self>) {
+        // Business-rule safety in this UI only, not a lossless native interception claim.
+        if self.settings.recorder.is_recording() {
+            cx.stop_propagation();
+            return;
+        }
+        if self.settings_range_key(event, window, cx) {
+            return;
+        }
         let key = event.keystroke.key.as_str();
         if key == "tab" && !self.tab_order.is_empty() {
             let current = self
@@ -609,6 +725,7 @@ impl TaskApp {
         } else if key == "escape" && self.dialog.is_some() {
             self.close_dialog(window, cx);
         } else if self.dialog.is_none()
+            && self.overlay.ports.is_none()
             && (event.keystroke.modifiers.control || event.keystroke.modifiers.platform)
             && event.keystroke.modifiers.shift
             && matches!(key, "z" | "y")
@@ -643,6 +760,8 @@ impl TaskApp {
     }
 }
 
+#[cfg(test)]
+mod settings_tests;
 #[cfg(test)]
 mod template_tests;
 #[cfg(test)]

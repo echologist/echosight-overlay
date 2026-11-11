@@ -106,7 +106,9 @@ fn template_preload_guard_and_shared_initialization_error(cx: &mut TestAppContex
         app
     });
     vc.run_until_parked();
-    assert!(!missing.exists());
+    assert!(missing.join("settings.json").exists());
+    assert!(!missing.join("current_tasks.json").exists());
+    assert!(!missing.join("templates.json").exists());
     let (scene, vc) = cx.add_window_view(|w, cx| {
         TaskApp::with_storage(Err("invalid authorized path".into()), w, cx)
     });
@@ -240,7 +242,9 @@ fn template_load_gate_failures_keep_tasks_independent(cx: &mut TestAppContext) {
     let missing = dir.path().join("missing");
     let (scene, vc) = open(cx, &missing);
     assert!(scene.read_with(vc, |s, _| s.templates.collection.is_some()));
-    assert!(!missing.exists());
+    assert!(missing.join("settings.json").exists());
+    assert!(!missing.join("current_tasks.json").exists());
+    assert!(!missing.join("templates.json").exists());
 }
 
 #[derive(Default)]
@@ -255,13 +259,20 @@ impl echosight_core::storage::StorageHooks for TemplateProbe {
         path: &std::path::Path,
     ) -> std::io::Result<()> {
         use echosight_core::storage::Stage;
-        if stage == Stage::Sync {
+        if stage == Stage::Sync
+            && path
+                .file_name()
+                .is_some_and(|n| n.to_string_lossy().starts_with(".templates.json."))
+        {
             self.writes
                 .lock()
                 .unwrap()
                 .push(serde_json::from_slice(&std::fs::read(path)?).unwrap());
         }
-        if stage == Stage::Replace && self.fail.load(std::sync::atomic::Ordering::SeqCst) {
+        if stage == Stage::Replace
+            && path.file_name().is_some_and(|n| n == "templates.json")
+            && self.fail.load(std::sync::atomic::Ordering::SeqCst)
+        {
             return Err(std::io::Error::other("injected template replace failure"));
         }
         Ok(())

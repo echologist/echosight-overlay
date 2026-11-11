@@ -520,13 +520,20 @@ struct Probe {
 }
 impl StorageHooks for Probe {
     fn before(&self, stage: Stage, path: &std::path::Path) -> std::io::Result<()> {
-        if stage == Stage::Sync {
+        if stage == Stage::Sync
+            && path
+                .file_name()
+                .is_some_and(|n| n.to_string_lossy().starts_with(".current_tasks.json."))
+        {
             self.writes
                 .lock()
                 .unwrap()
                 .push(serde_json::from_slice(&std::fs::read(path)?).unwrap());
         }
-        if stage == Stage::Replace && self.fail.load(Ordering::SeqCst) {
+        if stage == Stage::Replace
+            && path.file_name().is_some_and(|n| n == "current_tasks.json")
+            && self.fail.load(Ordering::SeqCst)
+        {
             return Err(std::io::Error::other("injected replacement failure"));
         }
         Ok(())

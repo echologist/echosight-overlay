@@ -426,6 +426,14 @@ impl Render for TaskApp {
                 .child(rows),
         );
         self.tab_order.extend(template_tab_order);
+        root = root.child(self.button(
+            "settings".into(),
+            "Settings",
+            Command::Settings(SettingsCommand::Open),
+            self.dialog.is_none() && !self.settings.loading,
+            window,
+            cx,
+        ));
         let status = if let Some(drag) = self.dragging.as_ref().filter(|d| d.active) {
             drag.intent
                 .as_ref()
@@ -469,7 +477,12 @@ impl Render for TaskApp {
         if let Some(error) = &self.error {
             root = root.child(div().text_color(rgb(0xe3804a)).child(error.clone()));
         }
-        root = root.child(div().text_xs().text_color(rgb(MUTED)).child("Pending: themes/V2, settings, native audio and overlay integration. Local undo: Ctrl+Shift+Z / Y."));
+        root = root.child(
+            div()
+                .text_xs()
+                .text_color(rgb(MUTED))
+                .child("Pending: themes/V2, native recorder input, audio and OS overlay wiring."),
+        );
         if let Some(dialog) = self.dialog.clone() {
             if std::mem::take(&mut self.select_editor) {
                 let focus = self.editor.focus_handle(cx);
@@ -487,6 +500,8 @@ impl Render for TaskApp {
             let delete = matches!(dialog, Dialog::Delete(_));
             let quitting = matches!(dialog, Dialog::Quit);
             let title = match &dialog {
+                Dialog::Settings => "Settings",
+                Dialog::SettingsReset => "Reset Hotkeys",
                 Dialog::Template(dialog) => dialog.title(),
                 Dialog::Triggers(_) => "Configure Triggers",
                 Dialog::Child(_) => "Add Subtask",
@@ -516,18 +531,18 @@ impl Render for TaskApp {
                 .min_h_0()
                 .overflow_y_scroll();
             let mut fields = div().flex().flex_col().gap_3();
-            if let Dialog::Template(ref dialog) = dialog {
+            if matches!(dialog, Dialog::Settings | Dialog::SettingsReset) {
+                fields = self.settings_fields(matches!(dialog, Dialog::SettingsReset), window, cx);
+            } else if let Dialog::Template(ref dialog) = dialog {
                 fields = self.template_fields(dialog, window, cx);
             } else if quitting {
-                fields = fields.child(
-                    if self.saving || self.templates.saving || self.templates.transferring {
-                        "Waiting for pending saves…"
-                    } else if self.error.is_some() {
-                        "Storage reported an error. Unsaved changes will be lost. Quit anyway?"
-                    } else {
-                        "Quit Echosight?"
-                    },
-                );
+                fields = fields.child(if !self.quit_ready() {
+                    "Waiting for pending saves…"
+                } else if self.error.is_some() {
+                    "Storage reported an error. Unsaved changes will be lost. Quit anyway?"
+                } else {
+                    "Quit Echosight?"
+                });
             } else if let Dialog::Delete(id) = dialog {
                 if let Some(task) = self.state().and_then(|s| s.find_task(id)) {
                     fields = fields.child(delete_message(&task.text));
@@ -567,7 +582,21 @@ impl Render for TaskApp {
                 );
             }
             body = body.child(fields);
-            content = content.child(body).child(
+            content = content.child(body);
+            if matches!(dialog, Dialog::Settings | Dialog::SettingsReset)
+                && let Some(notice) = &self.settings.notice
+            {
+                content = content.child(
+                    div()
+                        .id("settings-notice")
+                        .debug_selector(|| "settings-notice".into())
+                        .flex_shrink_0()
+                        .max_h(window.viewport_size().height * 0.2)
+                        .overflow_y_scroll()
+                        .child(notice.clone()),
+                );
+            }
+            content = content.child(
                 div()
                     .flex()
                     .flex_shrink_0()
@@ -582,7 +611,11 @@ impl Render for TaskApp {
                     ))
                     .child(self.button(
                         "accept".into(),
-                        if quitting {
+                        if matches!(dialog, Dialog::Settings) {
+                            "Save Settings"
+                        } else if matches!(dialog, Dialog::SettingsReset) {
+                            "Reset"
+                        } else if quitting {
                             "Quit"
                         } else if let Dialog::Template(ref template_dialog) = dialog {
                             match template_dialog {
@@ -600,7 +633,9 @@ impl Render for TaskApp {
                         },
                         Command::Accept,
                         if quitting {
-                            !self.saving && !self.templates.saving && !self.templates.transferring
+                            self.quit_ready()
+                        } else if matches!(dialog, Dialog::Settings | Dialog::SettingsReset) {
+                            !self.settings.loading
                         } else if matches!(dialog, Dialog::Template(_)) {
                             self.templates_ready()
                                 && !matches!(
