@@ -70,7 +70,9 @@ impl TaskApp {
             .as_mut()
             .expect("loaded state")
             .dispatch(command);
-        if let Some(task) = &transition.completed_task {
+        if let Some(task) = &transition.completed_task
+            && self.overlay.interactive
+        {
             self.show_feedback(format!("✓ Completed: {}", task.text), cx);
         }
         for effect in &transition.effects {

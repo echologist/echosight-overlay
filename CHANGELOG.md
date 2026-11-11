@@ -4,6 +4,25 @@ All notable changes to Echosight are documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## Unreleased - Rust/GPUI development branch
+
+These changes apply only to the experimental `gpui-port` branch, not the shipped Electron application.
+
+### Added
+
+- Settings load-origin reporting, source-backed settings UI observations, immutable save queues, reset controls and typed recorder/overlay integration interfaces.
+- An explicit Electron-compatible accelerator parser with separate conversion errors and unsupported backend-mapping diagnostics. This does not register native global shortcuts.
+- Modal-safe global task-command interfaces that preserve active drafts, selection and focus while retaining stale-target and duplicate-ID safeguards.
+
+### Fixed
+
+- Late settings-save failures remain visible after Settings closes or another dialog opens, without replacing its draft. Successful retries clear the failure.
+
+### Verification and limits
+
+- Reviewed checkpoint: 341 Rust tests passed, one existing ignored test, and 152 source-backed TypeScript tests passed. Formatting, Clippy, Windows cross-checks, Linux application linking and bounded headless startup/reopen checks passed.
+- Native hotkey recording/registration, tray/OS wiring, theme/audio/position effects and Windows interaction acceptance remain pending. The isolated recorder experiment is not part of this application checkpoint. See `docs/plans/gpui-port/settings-checkpoint.md`.
+
 ## [2.1.1] - 2026-07-26
 
 ### Added

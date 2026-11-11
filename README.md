@@ -80,6 +80,20 @@ Use the settings window to open the local themes folder or reload themes after e
 
 ## Development
 
+### Experimental Rust/GPUI port
+
+The `gpui-port` integration branch carries an unreleased native port alongside the unchanged Electron application. It is not yet a replacement for the shipped app. The current checkpoint includes task/template/background workflows, settings persistence and an Electron-compatible accelerator parser. Native global-hotkey registration and hotkey recording are **not wired into the application**.
+
+Use a disposable, explicitly selected development directory, never an installed Electron profile:
+
+```bash
+cargo run --locked -p echosight -- --data-dir /absolute/path/to/disposable-development-data
+```
+
+Startup creates `settings.json` with renderer defaults when missing; task/template files are written by their workflows. Settings controls persist, but theme selection and transparency/audio/position effects remain incomplete. See [the settings checkpoint](docs/plans/gpui-port/settings-checkpoint.md) for verified behavior, boundaries and remaining native gates.
+
+### Electron application
+
 Requirements:
 
 - Node.js `^20.19.0` or `>=22.12.0`

@@ -297,8 +297,10 @@ impl TaskApp {
         self.templates.generation = self.templates.generation.wrapping_add(1);
     }
     pub(super) fn danger_dialog(&self) -> bool {
-        matches!(self.dialog, Some(Dialog::Delete(_) | Dialog::Quit))
-            || matches!(&self.dialog, Some(Dialog::Template(dialog)) if dialog.danger())
+        matches!(
+            self.dialog,
+            Some(Dialog::Delete(_) | Dialog::Quit | Dialog::SettingsReset)
+        ) || matches!(&self.dialog, Some(Dialog::Template(dialog)) if dialog.danger())
     }
     pub(super) fn load_templates(
         &mut self,
@@ -330,6 +332,12 @@ impl TaskApp {
             });
         })
         .detach();
+    }
+    pub(super) fn templates_load_settled(&self) -> bool {
+        self.templates.collection.is_some() || self.templates.error.is_some()
+    }
+    pub(super) fn template_writes_settled(&self) -> bool {
+        !self.templates.saving && !self.templates.transferring && self.templates.pending.is_empty()
     }
     pub(super) fn templates_ready(&self) -> bool {
         self.templates.collection.is_some()

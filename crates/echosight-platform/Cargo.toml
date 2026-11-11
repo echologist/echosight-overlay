@@ -17,6 +17,7 @@ tray-everywhere = ["dep:tray-icon"]
 [dependencies]
 echosight-core.workspace = true
 log.workspace = true
+global-hotkey = "0.10"
 thiserror.workspace = true
 gpui.workspace = true
 gpui_platform.workspace = true
@@ -61,4 +62,3 @@ windows = { version = "0.62", features = [
 [dev-dependencies]
 echosight-ui.workspace = true
 env_logger.workspace = true
-global-hotkey = "0.10"

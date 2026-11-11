@@ -5,6 +5,7 @@
 //!   follow in spike S7.
 
 pub mod error;
+pub mod hotkeys;
 pub mod overlay;
 
 pub use error::PlatformError;
