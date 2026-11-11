@@ -41,6 +41,16 @@ pub(super) fn delete_message(text: &str) -> gpui::Stateful<gpui::Div> {
         .child(message)
 }
 
+fn settings_notice(notice: &str, window: &Window) -> gpui::Stateful<gpui::Div> {
+    div()
+        .id("settings-notice")
+        .debug_selector(|| "settings-notice".into())
+        .flex_shrink_0()
+        .max_h(window.viewport_size().height * 0.2)
+        .overflow_y_scroll()
+        .child(notice.to_owned())
+}
+
 impl TaskApp {
     pub(super) fn button(
         &mut self,
@@ -447,15 +457,21 @@ impl Render for TaskApp {
         } else {
             self.status.clone()
         };
-        root = root.child(
-            div()
-                .h(px(32.))
-                .flex_shrink_0()
-                .overflow_hidden()
-                .text_xs()
-                .text_color(rgb(MUTED))
-                .child(status),
-        );
+        if self.dialog.is_none()
+            && let Some(error) = &self.settings.save_error
+        {
+            root = root.child(settings_notice(error, window));
+        } else {
+            root = root.child(
+                div()
+                    .h(px(32.))
+                    .flex_shrink_0()
+                    .overflow_hidden()
+                    .text_xs()
+                    .text_color(rgb(MUTED))
+                    .child(status),
+            );
+        }
         if let Some(message) = &self.feedback {
             root = root.child(
                 div()
@@ -583,18 +599,15 @@ impl Render for TaskApp {
             }
             body = body.child(fields);
             content = content.child(body);
-            if matches!(dialog, Dialog::Settings | Dialog::SettingsReset)
-                && let Some(notice) = &self.settings.notice
-            {
-                content = content.child(
-                    div()
-                        .id("settings-notice")
-                        .debug_selector(|| "settings-notice".into())
-                        .flex_shrink_0()
-                        .max_h(window.viewport_size().height * 0.2)
-                        .overflow_y_scroll()
-                        .child(notice.clone()),
-                );
+            let notice = if matches!(dialog, Dialog::Settings | Dialog::SettingsReset) {
+                self.settings.notice.as_ref()
+            } else {
+                self.settings.save_error.as_ref()
+            };
+            if let Some(notice) = notice {
+                // Render inside the current opaque panel, not behind it. Keep
+                // its draft, focus and actions; only the body may yield space.
+                content = content.child(settings_notice(notice, window));
             }
             content = content.child(
                 div()

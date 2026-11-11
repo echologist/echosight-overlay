@@ -114,6 +114,8 @@ pub(super) struct SettingsState {
     pub pending: VecDeque<SettingsWrite>,
     pub saving: bool,
     pub notice: Option<String>,
+    // A failed Save must remain visible even after Settings has been closed.
+    pub save_error: Option<String>,
     pub range_bounds: [Option<gpui::Bounds<gpui::Pixels>>; 2],
 }
 impl Default for SettingsState {
@@ -129,6 +131,7 @@ impl Default for SettingsState {
             pending: VecDeque::new(),
             saving: false,
             notice: None,
+            save_error: None,
             range_bounds: [None, None],
         }
     }
@@ -264,10 +267,12 @@ impl TaskApp {
                         this.status =
                             "Settings saved successfully! Hotkey changes are active now.".into();
                         this.settings.notice = Some(this.status.clone());
+                        this.settings.save_error = None;
                     }
                     Err(error) => {
-                        this.settings.notice =
-                            Some(format!("Error saving settings: {error}. Please try again."));
+                        this.status = format!("Error saving settings: {error}. Please try again.");
+                        this.settings.notice = Some(this.status.clone());
+                        this.settings.save_error = Some(this.status.clone());
                     }
                 }
                 this.pump_settings(window, cx);

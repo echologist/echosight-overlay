@@ -1,3 +1,6 @@
+#[path = "settings_error_tests.rs"]
+mod review_probes;
+
 use super::overlay_tests::FakeOverlay;
 use super::*;
 use echosight_core::{
