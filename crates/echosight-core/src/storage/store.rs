@@ -33,6 +33,23 @@ impl FileKind {
     }
 }
 
+/// Where a loaded value came from. Never persisted.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum LoadOrigin {
+    /// The file did not exist; the fallback was returned and nothing was written.
+    Missing,
+    /// The file parsed successfully (including an explicit JSON `null`).
+    Existing,
+    /// Corrupt bytes were backed up and the fallback was written.
+    Recovered,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct LoadedValue {
+    pub value: Value,
+    pub origin: LoadOrigin,
+}
+
 /// An explicitly authorized data directory, not an application-identity guess.
 /// Construction does no filesystem IO beyond resolving the current directory.
 #[derive(Clone, Debug)]
@@ -94,6 +111,12 @@ impl Storage {
     /// IPC-compatible return shape: only recovered tasks expose corruptBackupPath.
     /// A missing file returns the fallback without creating either file or parent.
     pub fn load(&self, kind: FileKind) -> Result<Value, StorageError> {
+        self.load_with_origin(kind).map(|loaded| loaded.value)
+    }
+
+    /// Same single locked load/recovery/block flow as `load`, also reporting
+    /// whether the value was missing, existing, or recovered from corruption.
+    pub fn load_with_origin(&self, kind: FileKind) -> Result<LoadedValue, StorageError> {
         let path = self.paths.file(kind);
         let _ticket = self.writer.lock(&path);
         let result = self.load_locked(&path, kind);
@@ -108,19 +131,27 @@ impl Storage {
         result
     }
 
-    fn load_locked(&self, path: &Path, kind: FileKind) -> Result<Value, StorageError> {
+    fn load_locked(&self, path: &Path, kind: FileKind) -> Result<LoadedValue, StorageError> {
         let bytes = match self
             .writer
             .before(Stage::Read, path)
             .and_then(|()| fs::read(path))
         {
             Ok(bytes) => bytes,
-            Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(kind.fallback()),
+            Err(error) if error.kind() == io::ErrorKind::NotFound => {
+                return Ok(LoadedValue {
+                    value: kind.fallback(),
+                    origin: LoadOrigin::Missing,
+                });
+            }
             Err(error) => return Err(error.into()),
         };
         // Node Buffer.toString('utf8') replaces invalid UTF-8 instead of failing.
         match parse_json(&String::from_utf8_lossy(&bytes)) {
-            Ok(value) => Ok(value),
+            Ok(value) => Ok(LoadedValue {
+                value,
+                origin: LoadOrigin::Existing,
+            }),
             Err(error @ ParseError::Unsupported(_)) => Err(error.into()),
             Err(ParseError::Invalid(_)) => {
                 let stamp = self
@@ -146,7 +177,10 @@ impl Storage {
                     value["corruptBackupPath"] =
                         Value::String(backup.to_string_lossy().into_owned());
                 }
-                Ok(value)
+                Ok(LoadedValue {
+                    value,
+                    origin: LoadOrigin::Recovered,
+                })
             }
         }
     }

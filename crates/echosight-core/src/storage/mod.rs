@@ -3,7 +3,7 @@
 mod atomic;
 mod bootstrap;
 mod store;
-pub use store::{DataPaths, FileKind, Storage, StorageError};
+pub use store::{DataPaths, FileKind, LoadOrigin, LoadedValue, Storage, StorageError};
 mod json;
 mod queue;
 pub use atomic::{AtomicWriter, Stage, StorageHooks};
