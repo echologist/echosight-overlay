@@ -2,19 +2,19 @@
 //! and one explicitly captured own-window numeric snapshot (never text/history).
 //! No user text, raw keyboard bytes, settings or successful chords saved to disk.
 use crate::{
+    canaries::{self, Canary, LongChordCanary, ShortPrefixCanary},
     decode::{RecorderDecodeError, decode},
     native,
     policy::{Batch, Command},
 };
 use echosight_core::settings::HotkeyRecorder;
 use gpui::{
-    App, Bounds, Context, FocusHandle, KeyBinding, Window, WindowBounds, WindowOptions, actions,
-    div, prelude::*, px, rgb, size,
+    App, Bounds, Context, FocusHandle, Window, WindowBounds, WindowOptions, div, prelude::*, px,
+    rgb, size,
 };
 use raw_window_handle::{HasWindowHandle, RawWindowHandle};
 use std::time::{Duration, Instant};
 use windows::Win32::Foundation::HWND;
-actions!(s9, [Canary]);
 struct Probe {
     focus: FocusHandle,
     recorder: HotkeyRecorder,
@@ -27,6 +27,9 @@ struct Probe {
     unsupported: u64,
     gpui_keys: u64,
     actions: u64,
+    short_actions: u64,
+    long_actions: u64,
+    timeout_begins: u64,
     fail_snapshot: bool,
     message: String,
     last_snapshot: String,
@@ -55,6 +58,9 @@ impl Probe {
             unsupported: 0,
             gpui_keys: 0,
             actions: 0,
+            short_actions: 0,
+            long_actions: 0,
+            timeout_begins: 0,
             fail_snapshot: false,
             last_snapshot: "No own-window snapshot yet".into(),
             message: installed.as_ref().map_or_else(
@@ -211,6 +217,23 @@ impl Probe {
     fn click(&mut self, id: &str, window: &mut Window, cx: &mut Context<Self>) {
         match id {
             "begin" => self.command(Command::Begin),
+            "timeout_begin" => {
+                // Inspect the real Window state at this boundary, not a pending
+                // key count or a guessed delay. Do not change focus/pause/reset
+                // input here: this probes the existing timeout, not a repair.
+                if native::status().0 || self.recorder.is_recording() {
+                    self.message = "Timeout probe refused: Stop first".into();
+                } else if !canaries::has_live_ctrl_k_timeout(window, cx) {
+                    self.message = "Timeout probe refused: no live Ctrl+K timeout; retry Ctrl+K while inactive".into();
+                } else {
+                    // No pump or await between the assertion and Begin.
+                    self.command(Command::Begin);
+                    if native::status().0 && self.recorder.is_recording() {
+                        self.timeout_begins = self.timeout_begins.saturating_add(1);
+                        self.message = "Began with verified live Ctrl+K timeout; watch SHORT action counter (not reconciliation)".into();
+                    }
+                }
+            }
             "switch" => self.command(Command::Switch),
             "stop" => self.command(Command::Stop),
             "save" => {
@@ -244,9 +267,8 @@ impl Probe {
                     Err(e) => self.message = e,
                 }
             }
-            "sent" | "retrieval" => {
+            "sent" => {
                 self.apply(native::drain());
-                let sent = id == "sent";
                 cx.spawn(async move |this, cx| {
                     if this
                         .update(cx, |this, _| this.apply(native::drain()))
@@ -254,15 +276,11 @@ impl Probe {
                     {
                         return;
                     }
-                    // SendMessage/PeekMessage can reenter GPUI. No App/entity
-                    // borrow is alive here. This is a TEST, not the drain.
-                    let result = if sent {
-                        native::sent_negative_control().map(|_| {
-                            "Sent key bypassed retrieval: expected negative coverage control".into()
-                        })
-                    } else {
-                        native::retrieval_probe()
-                    };
+                    // SendMessage can reenter GPUI. No App/entity borrow is
+                    // alive here. This is a negative control, not the drain.
+                    let result = native::sent_negative_control().map(|_| {
+                        "Sent key bypassed retrieval: expected negative coverage control".into()
+                    });
                     let _ = this.update(cx, |this, cx| {
                         this.apply(native::drain());
                         this.message = result.unwrap_or_else(|e| e);
@@ -324,9 +342,13 @@ impl Render for Probe {
         let (armed, arm, c, hook_debt, observer_debt) = native::status();
         let mods = window.modifiers();
         let pending = window.pending_input_keystrokes().map_or(0, |v| v.len());
+        let pending_timeout = window
+            .pending_input()
+            .is_some_and(|p| p.timeout().is_some());
         let mut controls = div().flex().flex_wrap().gap_2();
         for (id, label) in [
             ("begin", "Start recording"),
+            ("timeout_begin", "Begin with live Ctrl+K timeout"),
             ("switch", "Switch recorder"),
             ("stop", "Stop"),
             ("timer", "200 ms Stop"),
@@ -337,7 +359,6 @@ impl Render for Probe {
             ("global", "Global boundary"),
             ("focus", "Focus boundary"),
             ("sent", "Sent negative control"),
-            ("retrieval", "Peek + FIFO probe"),
             ("load", "Nested-pump load"),
             ("debt", "Retain unhook debt"),
             ("retry", "Retry cleanup"),
@@ -359,6 +380,8 @@ impl Render for Probe {
         div().size_full().p_5().bg(rgb(0x101725)).text_color(rgb(0xdce4f2)).flex().flex_col().gap_3().track_focus(&self.focus).key_context("S9")
             .on_key_down(cx.listener(|this,_,_,cx| {this.gpui_keys=this.gpui_keys.saturating_add(1);cx.notify();}))
             .on_action(cx.listener(|this,_:&Canary,_,cx| {this.apply(native::drain());this.actions=this.actions.saturating_add(1);cx.notify();}))
+            .on_action(cx.listener(|this,_:&ShortPrefixCanary,_,cx| {this.apply(native::drain());this.short_actions=this.short_actions.saturating_add(1);cx.notify();}))
+            .on_action(cx.listener(|this,_:&LongChordCanary,_,cx| {this.apply(native::drain());this.long_actions=this.long_actions.saturating_add(1);cx.notify();}))
             .child("S9 — OWN-WINDOW RAW SNAPSHOT PROBE — NO-GO FOR INTEGRATION")
             .child("No DOM decoder; no text editor; no user data saved. Mouse controls remain usable while armed.")
             .child(controls)
@@ -366,12 +389,13 @@ impl Render for Probe {
             .child(format!("consumed={} down={} up={} chars={} raw={} overflow={} stale={} last_seq={}",c.consumed,c.downs,c.ups,c.characters,self.records,self.losses,self.stale,self.last_sequence))
             .child(format!("typed diagnostics: SnapshotFailed={} UnsupportedTranslation={} (all keydowns unsupported)",self.snapshot_errors,self.unsupported))
             .child(format!("GPUI keys={} canary actions={} pending_keys={pending}; modifiers Ctrl={} Alt={} Shift={} Win={}",self.gpui_keys,self.actions,mods.control,mods.alt,mods.shift,mods.platform))
+            .child(format!("SHORT Ctrl+K={} LONG Ctrl+K Ctrl+C={} pending_timeout={pending_timeout} verified_timeout_begins={}",self.short_actions,self.long_actions,self.timeout_begins))
             .child(format!("armed WNDPROC: system_commands={} IME={} bypass_keys={}; depth={} focus_losses={} destroyed={}",c.system_commands,c.ime_messages,c.bypass_keys,c.max_depth,c.focus_losses,c.destroyed))
             .child(format!("inactive cleanup debt: hook={hook_debt} observer={observer_debt}"))
             .child(self.last_snapshot.clone())
             .child(self.message.clone())
-            .child("Canaries: F10, Alt, Ctrl+K then Ctrl+C. Counts alone do not prove native acceptance.")
-            .child("BLOCKERS: preheld-release swallowing can strand GPUI private modifiers/keymaps; IME/composition is not reconciled. Sent input and OS-reserved keys are outside this seam.")
+            .child("Canaries: F10/Alt; distinct SHORT Ctrl+K and LONG Ctrl+K Ctrl+C. Timeout Begin refuses unless the real Ctrl+K timer is live. Counts are not native acceptance.")
+            .child("BLOCKERS: backend dedup caches, GPUI lone modifiers/pending keys, UTF-16 surrogate and IME/composition remain unreconciled. Sent input and OS-reserved keys are outside this seam.")
     }
 }
 pub fn run() {
@@ -392,11 +416,7 @@ pub fn run() {
         }
     }
     gpui_platform::application().run(move |cx: &mut App| {
-        cx.bind_keys([
-            KeyBinding::new("f10", Canary, Some("S9")),
-            KeyBinding::new("alt", Canary, Some("S9")),
-            KeyBinding::new("ctrl-k ctrl-c", Canary, Some("S9")),
-        ]);
+        cx.bind_keys(canaries::bindings());
         cx.on_window_closed(|cx, _| {
             if cx.windows().is_empty() {
                 // Unexpected destruction can bypass should-close. The observer

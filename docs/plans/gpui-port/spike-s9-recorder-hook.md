@@ -1,6 +1,6 @@
 # S9: app-owned Windows recorder interception experiment
 
-**Verdict: NO-GO for recorder integration.** This is a runnable Windows-only GPUI
+**Verdict: NO-GO for recorder integration.** This is an isolated Windows-only GPUI
 component probe, not the settings recorder, a native-accepted adapter, or a
 replacement for the mandatory recorder. Linux policy tests and Windows target
 compilation do not establish native consumption, DOM decoding or state repair.
@@ -8,7 +8,10 @@ Independent safety review is required before delivering any Windows artifact.
 
 ## Frozen scope and evidence
 
-- Application base: `02671b05fcd9fb11b64d79979c872690f7f92fe7`.
+- Original spike base: `02671b05fcd9fb11b64d79979c872690f7f92fe7`.
+- R1/R2 correction base: `a25f2aee5f7c5c84abd2eae825b9a424512d3e9c`.
+  This correction changes only the S9 example/support files and this document;
+  no manifests, lockfile, GPUI sources/pin, production core/UI or integration.
 - GPUI and gpui_platform remain on
   `4ed72e0135aaab74a43914491c915dd6cbd10c67`. No fork, cache edits, new library or
   version change. The only manifest additions are existing windows 0.62 features
@@ -30,8 +33,9 @@ Independent safety review is required before delivering any Windows artifact.
   The final selected dependency checkout was read-only verified at the pin; its
   pre-existing untracked `.cargo-ok` remains the only checkout status entry.
 
-Allowed files are the new example, its `examples/recorder_hook_support/` modules,
-this document, and the two feature additions above. No production library,
+The original spike included the two feature additions above; this correction
+does not change them. Its allowlist is the example,
+`examples/recorder_hook_support/`, and this document. No production library,
 application binary, UI/core module, Electron/TypeScript, golden, workflow or
 configuration changes are part of S9. Nothing is pushed/published/merged.
 
@@ -54,7 +58,8 @@ cargo build --locked --release -p echosight-platform --example s9_recorder_hook
 No data-directory argument exists. No settings, files, clipboard, sound, global
 hotkey registration or user text are saved. The probe opens its own ordinary GPUI
 window, not the production overlay. Installation starts **inactive**; only Start,
-Switch, Prequeue chars + Begin, or the explicit CLI flag requests activation.
+Switch, Begin with live Ctrl+K timeout, Prequeue chars + Begin, or the explicit
+CLI flag requests activation.
 Begin fails visibly if the exact window does not have focus or preheld snapshot
 validation fails. Installation failure has no ordinary-GPUI-event fallback.
 
@@ -78,6 +83,9 @@ starting a fake Windows window or claiming a native result.
 | `recorder_hook_support/decode.rs` | closed typed diagnostic interface; deliberately no DOM decoder |
 | `recorder_hook_support/native.rs` | own-thread hook, narrow observer, native diagnostics/probes |
 | `recorder_hook_support/probe.rs` | GPUI window, foreground drain, existing core recorder lifecycle, controls |
+| `recorder_hook_support/canaries.rs` | shared distinct key bindings, live pending-timeout guard, keymap/removal regression tests |
+| `recorder_hook_support/gpui_timeout_tests.rs` | opt-in headless GPUI dispatch/timer tests, no native hook |
+| `recorder_hook_support/run_gpui_timeout_tests.py` | builds the opt-in harness and asserts exact named tests execute |
 
 ## Implemented safety policy (experimental, not accepted source parity)
 
@@ -162,12 +170,28 @@ pinned states:
 - `gpui/src/window.rs:6305–6334`: `pending_modifier` can synthesize lone-modifier
   actions when a later update finally arrives;
 - `gpui/src/window.rs:6381–6465,6606–6715`: pending keymap input/replay/timeouts;
-- `gpui_windows/src/events.rs:709–...`: IME/composition and the text input handler.
+- `gpui_windows/src/window.rs:58–62`, `events.rs:1406–1435`: pending UTF-16
+  high surrogate, separate from IME; later input can complete a pair across a
+  capture boundary;
+- `gpui_windows/src/events.rs:694–767`: native IME/composition and the text input
+  handler; disabling IME may COMPLETE composition, not silently cancel it.
 
-`Window::modifiers()` / pending-key counters are observations, not a repair API.
-`Window::set_modifiers` is test-support gated; app-level pending-key clearing is
-crate-private. An interceptor may suppress a synthesized action, but by itself
-repairs neither backend caches, keymap replay nor native defaults/composition.
+`Window::modifiers()` / pending-key counters are observations, not a complete
+repair API. The low-level pending-key clear is crate-private, but public `blur`
+clears pending input, and public `focus` clears it **when focus changes**; focusing
+the already-focused handle does nothing (`gpui/src/window.rs:2620–2645`). Public
+`set_pending_input_timeout_paused` pauses/resumes rather than discards input;
+releasing the owner resumes it. Timeout replay can invoke actions/text without
+rerunning keystroke interceptors (`6476–6498,6640–6752`).
+
+Public modifier-event dispatch can enter GPUI lone-modifier synthesis. An exact-
+window interceptor can suppress a synthesized keystroke, but neither API repairs
+the backend modifier/caps-lock dedup caches or pending surrogate. Test-only
+`set_modifiers` sets only the public field. Live platform-window/backend storage
+is private; raw-HWND access to that storage is not a public repair API. Focus/
+input-handler changes do not prove silent native composition cancellation.
+Thus public pending cancellation exists, but no complete coordinated backend/
+GPUI state-reconciliation seam has been demonstrated.
 This spike does not call synthetic modifier events, ToUnicodeEx, dead-key
 flushing, or blanket-keyup swallowing and pretend they solve this problem.
 There is no text input handler in S9, so zero text cannot establish editor/IME
@@ -188,13 +212,17 @@ policy, not Windows itself. PostMessage probes are not hardware-state evidence.
 
 If native/state reconciliation cannot be made complete through narrow public
 app-owned seams, compare a **reviewed pinned pretranslation callback shared by
-both GPUI pumps**, plus explicit backend modifier/pending-key/composition repair
-and lifetime ownership. Such a patch would still require the release/character
-policy, decoder and native acceptance. A keydown-only patch is not sufficient.
-No fork, dependency change or relaxation of the mandatory recorder is authorized
-or made by this experiment.
+both GPUI pumps**, plus explicit backend cache/GPUI pending-key/lone-modifier/
+UTF-16 surrogate/composition repair and lifetime ownership. Such a patch would
+still require the release/character policy, decoder and native acceptance. A
+keydown-only patch is not sufficient.
+Keeping WH_GETMESSAGE plus a separately reviewed backend-owned reconciliation
+API is also a comparison option. Private fields do not prove every app-owned
+mechanism impossible or mandate moving interception into GPUI. No fork,
+dependency change, broad reconciliation implementation or relaxation of the
+mandatory recorder is authorized or made by this correction.
 
-## Executed gates (Linux host, 2026-11-11)
+## Original spike gates (Linux host, 2026-11-11; historical a25f2aee)
 
 A fresh, **unseeded** scratch CARGO_TARGET_DIR was created for this task. Builds
 used the existing host GPUI/llvm-rc shim and CARGO_BUILD_JOBS=2; no config or shared
@@ -247,8 +275,8 @@ are diagnostic probes, not self-certifying green checks.
    bounded foreground work exceeding GPUI's 10 ms task budget; only a captured
    stack attests which pump actually ran. For both, inspect returned WM_NULL and
    no keymap/key callback/TranslateMessage keyboard path for selected downs.
-   The hook cannot infer the caller route; the synthetic retrieval button is not
-   evidence for either GPUI pump.
+   The hook cannot infer the caller route. There is no manual retrieval button
+   in this revision; only the ordinary GPUI pumps retrieve queued messages.
 3. **Default paths:** while armed test bare Escape, Tab, Enter, Space, Alt, F10,
    Alt+Space, Alt+F4, and release/repeat variants. No canary action, system menu,
    focus navigation or close should arise from selected queued input. Repeat with
@@ -267,14 +295,16 @@ are diagnostic probes, not self-certifying green checks.
    around the 32-message cap with a native harness; fresh stopped keydown/focus
    loss must end the tail. Prequeue characters from an earlier TranslateMessage
    too, not only PostMessage. Do not drain another HWND or unrelated messages.
-6. **PM_NOREMOVE/FIFO:** Start, then **Peek + FIFO probe**, without typing during
-   the bounded synthetic exercise. Both peeks should report present and unchanged
-   consumed count. The 70 down removals should emerge WM_NULL; with no interfering
-   traffic, the 64-record queue plus final up produces a loss report. Check actual
-   displayed values, do not substitute expected values. This posts/removes only
-   own-window key messages outside App/entity borrows. It never dispatches an
-   unexpected non-null result, so WM_NULL count itself must be checked. Hardware
-   queue state and GPUI pump coverage are expressly not proven by this helper.
+6. **PM_NOREMOVE/FIFO — native gate unavailable in S9:** the unsafe manual
+   retrieval diagnostic and UI control were removed (R1). The former claim that
+   it removed only exact-own-HWND key messages is retracted: PeekMessage can also
+   retrieve child-HWND messages and WM_QUIT bypasses numeric message filters.
+   The helper discarded successful removals, including those unexpected classes.
+   No replacement retrieval/replay/dispatch loop was added. Pure policy tests
+   still cover no-remove callbacks, FIFO/overflow and unrelated/quit policy; they
+   do not establish native queue preservation. Native no-remove/overflow, child-
+   window isolation and quit exit-code delivery remain pending a separately
+   reviewed harness; do not recreate the removed control for this script.
 7. **Decode failure:** toggle snapshot failure, type own-window keys, verify
    SnapshotFailed growth while consumption and recording continue. Disable it;
    valid raw downs still report UnsupportedTranslation, never successful chords.
@@ -285,13 +315,27 @@ are diagnostic probes, not self-certifying green checks.
    sequences/arm IDs in the debugger and validate old batch before new core row.
    Source successful-recording callbacks and actual global dispatch/registration
    remain pending a real decoder/integration harness; these buttons are not that.
-9. **Focus, keymap, composition:** start with a held modifier and with a pending
-   Ctrl+K prefix; record during the keymap timeout, then Stop/release/focus loss.
-   Compare backend cache, pending_modifier, pending_input and public modifiers
-   before/during/after. Switch focus away and back; no stale key cycle should be
-   consumed. IME start/composition/end may bypass quarantine: observe the IME
-   counter and inspect backend state. A real text-handler test is **not present**;
-   editor/preedit reconciliation is blocked, not silently accepted.
+9. **Real pending-timeout canary (R2), then focus/composition diagnostics:**
+   - While inactive, press Ctrl+K and observe `pending_timeout=true`, then wait:
+     SHORT should increment and LONG should not. Repeat Ctrl+K then Ctrl+C before
+     expiry: LONG should increment without a later SHORT. F10/Alt retain their
+     separate ordinary canary counter. A pending-key count alone is insufficient.
+   - Stop, press Ctrl+K, then mouse-click **Begin with live Ctrl+K timeout** before
+     expiry. The handler checks actual `pending_input().timeout()` is Some, for
+     exactly Ctrl+K, running and with time remaining, synchronously before Begin.
+     A refusal (already armed/no live timer) is **not** a timeout run: retry. Only
+     successful native/core Begin increments `verified_timeout_begins`. No focus
+     change, pause/resume or pending cancellation is performed by this control.
+   - Observe the SHORT counter and pending state during recording, then after
+     Stop/release/focus loss; existing pending actions can replay despite queued
+     key interception. Record actual deltas, not expected success. The gate and
+     counters are diagnostics, not a fix for replay or proof of reconciliation.
+   - Separately start with a held modifier and compare backend dedup caches,
+     GPUI pending_modifier/pending_input and public modifiers before/during/after.
+     Switch focus away/back; inspect stale key cycles. Inspect pending UTF-16
+     surrogate state separately from IME start/composition/end bypass counters.
+     A real text-handler test is **not present**; editor/preedit/surrogate
+     reconciliation is blocked, not silently accepted.
 10. **DOM/layout corpus:** compare the locked Electron DOM key/modifier outputs for
     Ctrl letters, shifted digits/OEM, pre-focus modifiers, physical Ctrl+Alt vs
     AltGr/dead keys, pending/successive dead keys, layout switching, numpad/NumLock,
@@ -325,18 +369,73 @@ are diagnostic probes, not self-certifying green checks.
     Linux executable separately: exit 2 is the expected unsupported result, not
     native acceptance.
 
-## Final verification
+## R1/R2 correction verification
 
-All listed host gates completed: **54 platform all-target tests**, including the
-30 S9 tests; separate example-only verification ran 31 tests. Both host and Windows
-all-target clippy passed with warnings denied, Windows all-target check passed,
-format check passed, and the Linux executable returned the expected unsupported
-exit 2. These gates do not link or run a Windows executable.
+R1 is resolved by removal, not message preservation/replay. An architectural
+source guard rejects direct GetMessage/PeekMessage calls in the native adapter
+and the removed UI route. It failed against the old helper. This guard is not a
+Windows child-HWND/WM_QUIT runtime test. All existing policy/chain/decoder tests
+remain, including ordinary interception isolation and no-remove controls.
 
-The gate logs are retained in the task's fresh scratch target (reported with the
-handoff), not checked into the repository. No Windows runtime was available.
-**Every native row above remains pending; integration remains NO-GO** due to
-unimplemented DOM decoding and unresolved backend/keymap/composition
-reconciliation, independently of the passing host gates. The parent owns
-independent safety review and any later Windows artifact delivery. This document
-does not authorize production wiring.
+R2 adds distinct shorter Ctrl+K and longer Ctrl+K Ctrl+C bindings, shared between
+the native probe and headless GPUI tests. Keymap tests failed against the old
+bindings. The optional real-GPUI tests establish the negative control (long-only
+prefix is pending without a timer), assert an actual timeout exists for the
+ambiguous prefix, advance GPUI's test clock and observe SHORT replay, then prove
+LONG completion cancels SHORT replay. The native timeout-Begin handler uses the
+same tested live-timeout guard. A compiling false guard failed both positive
+GPUI tests before implementation; restoring the original binding set also made
+both positive probes fail, including the actual `timeout().is_some()` assertion.
+These tests do not install WH_GETMESSAGE,
+exercise native Begin or establish native timer-versus-hook ordering.
+
+Repeatable Linux commands (use a fresh dedicated scratch target and the host
+build environment; no manifest/lockfile or dependency-source edits):
+
+```bash
+export CARGO_BUILD_JOBS=2
+# Set CARGO_TARGET_DIR to a fresh dedicated scratch directory first.
+cargo test --locked -p echosight-platform --example s9_recorder_hook
+python3 crates/echosight-platform/examples/recorder_hook_support/run_gpui_timeout_tests.py
+```
+
+The Python runner enables the existing `gpui/test-support` feature only on its
+Cargo invocation, and passes `--test --cfg s9_gpui_timeout_tests` only to the S9
+example via `cargo rustc`. It reads the exact executable from Cargo JSON, asserts
+the three expected test names exist, executes them and requires all three to
+pass. This builds a **test harness in the example executable slot**, not a native
+artifact for delivery. Normal Cargo example tests exclude this opt-in module
+and do not need test-support. The test module uses GPUI's headless test platform
+(no text handler); it is not Windows runtime evidence.
+
+Correction gates used a new unseeded scratch target, the existing host build shim
+and two build jobs. No dependency-source/cache edits or artifact copying seeded
+the build. Final logs were checked for warnings/errors and expected test names
+and nonzero counts, rather than relying on Cargo exit status alone.
+
+| Correction gate | Actual result |
+|---|---|
+| Removal/binding RED | 3 named tests executed and failed against the old helper/bindings |
+| Live-timeout guard RED | 3 real-GPUI tests executed: 2 positive cases failed, negative control passed |
+| Original-binding mutation control | 2 positive real-GPUI tests failed, negative control passed; corrected bindings restored |
+| `cargo test --locked -p echosight-platform --example s9_recorder_hook` | **33 passed**, none ignored/filtered: original 30 plus 2 keymap and 1 source-removal guard |
+| `run_gpui_timeout_tests.py` | **3 named headless GPUI tests passed**, 33 ordinary tests filtered; actual pending timer/replay, not Win32 |
+| `cargo test --locked -p echosight-platform --all-targets` | **57 passed**: 23 library + 1 S8 + 33 S9; six other example targets contain zero tests |
+| `cargo fmt --all --check`; explicit `rustfmt --edition 2024 --check` on the opt-in included test file | passed |
+| `cargo check --locked -p echosight-platform --all-targets` | passed on Linux |
+| Same check with `--target x86_64-pc-windows-msvc` | passed; type-check/cross-compilation only |
+| `cargo clippy --locked -p echosight-platform --all-targets -- -D warnings` | passed on Linux |
+| Same Clippy with `--target x86_64-pc-windows-msvc` before `--` | passed |
+| Opt-in harness lint through `RUSTC_WORKSPACE_WRAPPER` set to `clippy-driver`, using the runner's `cargo rustc` arguments plus `-D warnings` | passed; test-harness flags scoped only to the example |
+| `cargo run --locked -p echosight-platform --example s9_recorder_hook` on Linux | unsupported stub linked/executed; expected exit **2** |
+| Native Windows link/run, native timeout-Begin control, both-pump stacks | **NOT RUN / PENDING** |
+
+The headless tests are additional to, not included in, the default 33 S9 tests.
+Scratch evidence paths and the checkpoint SHA are returned in the handoff; no
+logs, binaries or host-specific build configuration are committed.
+
+No Windows runtime is available. **Every native row above remains pending;
+integration remains NO-GO** due to unimplemented DOM decoding and unresolved
+backend caches, GPUI pending/lone modifiers, UTF-16 surrogate and IME/composition
+reconciliation. This isolated checkpoint requires safety re-review before any
+exact-SHA native link/run or artifact delivery; no production wiring is authorized.
